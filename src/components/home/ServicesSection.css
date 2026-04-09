@@ -1,0 +1,307 @@
+/* ═══════════════════════════════════════════════════
+   SERVICES SECTION (Antimatter Style)
+   ═══════════════════════════════════════════════════ */
+
+.services__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 48px;
+  gap: 40px;
+}
+
+.services__heading {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.services__word--serif {
+  font-family: 'Instrument Serif', 'Playfair Display', Georgia, serif !important;
+  font-style: italic;
+  font-weight: 400 !important;
+}
+
+.services__subheading {
+  max-width: 420px;
+  opacity: 0.7;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+/* ── Dynamic Layout Configurations ── */
+.services__accordion {
+  width: 100%;
+  gap: 16px;
+}
+
+/* Vertical / Grid Mode */
+.services__accordion--vertical {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), 1fr);
+  height: auto;
+}
+.services__accordion--vertical .service-card {
+  height: 520px;
+}
+
+/* Horizontal / Flex Scroll Mode */
+.services__accordion--horizontal {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: 24px;
+}
+.services__accordion--horizontal::-webkit-scrollbar {
+  display: none;
+}
+.services__accordion--horizontal .service-card {
+  min-width: 360px;
+  max-width: 420px;
+  height: 520px;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+
+.service-card {
+  position: relative;
+  border-radius: 16px;
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  cursor: pointer;
+}
+
+/* Inactive Card Background Image */
+.service-card__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  opacity: 0.6;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  filter: saturate(0.8) contrast(1.1);
+  will-change: opacity, transform;
+}
+
+/* Gradient overlay to ensure text legibility on cover photo */
+.service-card__bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, #000000 100%);
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  will-change: opacity;
+}
+
+/* Hover state on NON-active card subtly zooms photo */
+.service-card:not(.service-card--active):hover .service-card__bg {
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+.service-card:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+/* Active State: Deep Purple bg, image COMPLETELY hidden */
+.service-card--active {
+  background: #25104a;
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+/* CRITICAL: Force image + overlay to opacity:0 when active — prevents overlap */
+.service-card--active .service-card__bg {
+  opacity: 0 !important;
+  transform: scale(1) !important;
+  pointer-events: none;
+}
+.service-card--active .service-card__bg-overlay {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* ── Top Bar ── */
+.service-card__top {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: #fff;
+  height: 40px;
+}
+
+.service-card__num {
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+
+.service-card__arrow {
+  transition: transform 0.3s;
+}
+.service-card:hover .service-card__arrow {
+  transform: translate(4px, -4px);
+}
+
+/* ── Center Description ── */
+.service-card__middle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+.service-card__desc {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #fff;
+  max-width: 90%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.service-card--active .service-card__desc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Bottom Section ── */
+.service-card__bottom {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 120px;
+}
+
+/* Title Positioning & Animations via Framer Motion */
+.service-card__title {
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  line-height: 1.2;
+}
+.service-card--active .service-card__title {
+  font-size: 2rem;
+}
+
+/* Active Extra Details (Services & Tools) */
+.service-card__extras {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  width: 100%;
+}
+
+.extras-col h4 {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 12px;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.features-list li {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.tools-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.tool-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #fff;
+}
+.tool-icon svg, .tool-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  fill: currentColor;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .services__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  .services__accordion--vertical {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .services__accordion--vertical {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .services__accordion--horizontal .service-card {
+    min-width: 320px;
+  }
+
+  .service-card {
+    min-height: 250px;
+  }
+  
+  .service-card--active {
+    min-height: 400px;
+  }
+  
+  .service-card__extras {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

@@ -1,0 +1,67 @@
+EXIT:1
+
+STDOUT:
+▲ Next.js 16.2.2 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+
+
+STDERR:
+
+> Build error occurred
+Error: Turbopack build failed with 2 errors:
+./src/app/(admin)/admin/(dashboard)/brand/page.tsx:8:1
+Module not found: Can't resolve '@/lib/validators/brand'
+  [90m 6 |[0m [36mimport[0m { [33mTypographyPanel[0m } [36mfrom[0m [32m'@/components/admin/ui/TypographyPanel'[0m
+  [90m 7 |[0m [36mimport[0m { useToast } [36mfrom[0m [32m'@/components/admin/ui/ToastProvider'[0m
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m { brandSchema } [36mfrom[0m [32m'@/lib/validators/brand'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m
+  [90m10 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mBrandPage[0m() {
+  [90m11 |[0m   [36mconst[0m [didLoad, setDidLoad] = useState([36mfalse[0m)
+
+Import map: aliased to relative './src/lib/validators/brand' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(admin)/admin/(dashboard)/brand/page.tsx [Client Component Browser]
+    ./src/app/(admin)/admin/(dashboard)/brand/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(admin)/admin/(dashboard)/brand/page.tsx [Client Component SSR]
+    ./src/app/(admin)/admin/(dashboard)/brand/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/(admin)/admin/(dashboard)/hero/page.tsx:10:1
+Module not found: Can't resolve '@/lib/validators/hero'
+  [90m 8 |[0m [36mimport[0m { [33mTypographyPanel[0m } [36mfrom[0m [32m'@/components/admin/ui/TypographyPanel'[0m
+  [90m 9 |[0m [36mimport[0m { [33mFileUploadZone[0m } [36mfrom[0m [32m'@/components/admin/ui/FileUploadZone'[0m
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { heroSchema } [36mfrom[0m [32m'@/lib/validators/hero'[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m
+  [90m12 |[0m [36mconst[0m [33mDEFAULT_HERO[0m = {
+  [90m13 |[0m   id: [32m''[0m,
+
+Import map: aliased to relative './src/lib/validators/hero' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(admin)/admin/(dashboard)/hero/page.tsx [Client Component Browser]
+    ./src/app/(admin)/admin/(dashboard)/hero/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/(admin)/admin/(dashboard)/hero/page.tsx [Client Component SSR]
+    ./src/app/(admin)/admin/(dashboard)/hero/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./src/app/(admin)/admin/(dashboard)/brand/page.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/(admin)/admin/(dashboard)/hero/page.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)

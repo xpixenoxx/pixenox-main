@@ -1,0 +1,143 @@
+/* ═══════════════════════════════════════════════════
+   CALL TO ACTION — The Singularity
+   Deep Purple / Rich Black
+   ═══════════════════════════════════════════════════ */
+
+.cta-singularity {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #030008;
+  overflow: hidden;
+  padding: 120px 0;
+  text-align: center;
+}
+
+/* ─── The Gravitational Core ─── */
+.cta-singularity__blackhole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vw;
+  max-width: 1200px;
+  max-height: 1200px;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-singularity__accretion-disk {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent, rgba(161, 120, 255, 0.4), transparent 50%, rgba(74, 14, 143, 0.6), transparent);
+  animation: spinDisk 20s linear infinite;
+  filter: blur(40px);
+}
+
+.cta-singularity__event-horizon {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: #030008;
+  box-shadow: 0 0 100px 30px rgba(0, 0, 0, 1), inset 0 0 50px rgba(161, 120, 255, 0.2);
+}
+
+@keyframes spinDisk {
+  0% { transform: rotate(0deg) scale(1) rotateX(60deg); }
+  50% { transform: rotate(180deg) scale(1.1) rotateX(60deg); }
+  100% { transform: rotate(360deg) scale(1) rotateX(60deg); }
+}
+
+/* ─── Foreground Content ─── */
+.cta-singularity__heading {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 0 0 24px 0;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.cta-singularity__heading span {
+  display: inline-block;
+  background: linear-gradient(180deg, #fff 0%, rgba(161, 120, 255, 0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-singularity__sub {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+
+/* ─── The Button ─── */
+.cta-singularity__actions {
+  display: flex;
+  justify-content: center;
+}
+
+.cta-singularity__btn-primary {
+  position: relative;
+  background: #030008;
+  border: 1px solid rgba(161, 120, 255, 0.4);
+  padding: 24px 60px;
+  border-radius: 100px;
+  text-decoration: none;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.cta-singularity__btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(161, 120, 255, 0.6), inset 0 0 20px rgba(161, 120, 255, 0.2);
+  border-color: rgba(161, 120, 255, 0.8);
+}
+
+.btn-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  background: #a178ff;
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.4s ease, width 0.4s ease, height 0.4s ease;
+}
+
+.cta-singularity__btn-primary:hover .btn-glow {
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-text {
+  position: relative;
+  z-index: 2;
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}

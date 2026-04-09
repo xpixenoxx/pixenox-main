@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════════════════
+   CTA BANNER — Mid-page conversion strip
+   ═══════════════════════════════════════════════════ */
+
+.cta-banner {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  background: #030303;
+}
+
+.cta-banner__noise {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(124, 58, 237, 0.02) 2px,
+    rgba(124, 58, 237, 0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cta-banner__inner {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 64px 56px;
+  background: linear-gradient(135deg, rgba(74, 14, 143, 0.25), rgba(124, 58, 237, 0.1));
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  border-radius: 20px;
+  margin: 20px 0;
+}
+
+.cta-banner__text {
+  flex: 1;
+}
+
+.cta-banner__heading {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.cta-banner__sub {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+.cta-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-banner__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px -8px rgba(124, 58, 237, 0.5);
+}
+
+@media (max-width: 768px) {
+  .cta-banner__inner {
+    flex-direction: column;
+    text-align: center;
+    padding: 48px 32px;
+  }
+  .cta-banner__sub {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

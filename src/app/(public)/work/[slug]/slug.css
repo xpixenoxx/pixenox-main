@@ -1,0 +1,288 @@
+/* ═══════════════════════════════════════════════════
+   CASE STUDY DETAIL — CINEMATIC EDITORIAL
+   Inspired by antimatterai.com/case-study
+   ═══════════════════════════════════════════════════ */
+
+/* ── BASE LAYER ── */
+.cs-page {
+  background: #0a0a0f;
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Ambient background glow */
+.cs-page::before {
+  content: '';
+  position: fixed;
+  top: -30%;
+  left: -15%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(161, 120, 255, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 1. HERO ── */
+.cs-hero-section {
+  position: relative;
+  z-index: 1;
+  padding: 200px 0 80px;
+}
+
+.cs-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.cs-title {
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0 0 24px;
+}
+
+.cs-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 700px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ── 2. COVER IMAGE ── */
+.cs-cover-section {
+  position: relative;
+  z-index: 1;
+  padding: 0 clamp(24px, 5vw, 80px);
+  margin-bottom: 120px;
+}
+
+.cs-cover-frame {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  aspect-ratio: 16 / 8;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 40px 80px -20px rgba(0, 0, 0, 0.8),
+    0 0 120px -40px rgba(161, 120, 255, 0.08);
+}
+
+/* ── 3. ANTIMATTER INFO SECTION (Summary + Tech + Length) ── */
+.cs-info-section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 120px;
+}
+
+.cs-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 64px;
+}
+
+@media (min-width: 768px) {
+  .cs-info-grid {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+  }
+}
+
+.cs-info-left,
+.cs-info-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cs-info-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.02em;
+}
+
+.cs-summary-text {
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 300;
+}
+
+.cs-summary-text p {
+  margin-bottom: 1em;
+}
+
+.cs-summary-text strong {
+  color: #fff;
+  font-weight: 500;
+}
+
+.cs-summary-text a {
+  color: #a178ff;
+  text-decoration: none;
+}
+
+.cs-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-info-right .cs-info-block + .cs-info-block {
+  margin-top: 24px;
+}
+
+/* Tech Stack Pill Badges */
+.cs-tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cs-tech-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  background: transparent;
+  line-height: 1.3;
+}
+
+/* Length of Project */
+.cs-length-value {
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+/* ── 5. GALLERY ── */
+.cs-gallery-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto 120px;
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.cs-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .cs-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.cs-gallery-item {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s;
+}
+
+.cs-gallery-item:hover {
+  transform: scale(1.015);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+}
+
+.cs-gallery-item img {
+  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-gallery-item:hover img {
+  transform: scale(1.04);
+}
+
+/* ── 6. PITCH DECK AUTO-SCROLL ── */
+.cs-deck-section {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 120px;
+}
+
+.cs-deck-header {
+  max-width: 1440px;
+  margin: 0 auto 48px;
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.cs-deck-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.cs-deck-subtitle {
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(161, 120, 255, 0.7);
+}
+
+/* Swiper overrides for infinite marquee */
+.cs-deck-swiper {
+  overflow: visible !important;
+}
+
+.cs-deck-swiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+.cs-deck-swiper .swiper-slide {
+  height: auto;
+}
+
+.cs-deck-slide {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0d0d12;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.7);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+}
+
+.cs-deck-slide:hover {
+  transform: scale(1.02);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .cs-hero-section {
+    padding-top: 140px;
+    padding-bottom: 48px;
+  }
+
+  .cs-cover-frame {
+    aspect-ratio: 16 / 10;
+    border-radius: 16px;
+  }
+
+  .cs-gallery-item {
+    border-radius: 16px;
+  }
+}

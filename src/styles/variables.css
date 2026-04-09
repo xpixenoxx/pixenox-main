@@ -1,0 +1,71 @@
+/* ═══════════════════════════════════════════════════
+   PIXENOX — CSS Custom Properties (Design Tokens)
+   All values are defaults; overridden at runtime
+   by ThemeProvider from Supabase theme_settings.
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  /* ── Colors ── */
+  --color-bg-primary: #0a0a0f;
+  --color-bg-secondary: #0f0a1a;
+  --color-accent-primary: #4a0e8f;
+  --color-accent-secondary: #6b21d4;
+  --color-accent-glow: #7c3aed;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-border: rgba(107, 33, 212, 0.3);
+  --color-glass: rgba(74, 14, 143, 0.15);
+
+  /* ── Button Tokens ── */
+  --btn-bg: #4a0e8f;
+  --btn-hover-bg: #6b21d4;
+  --btn-text-color: #ffffff;
+  --btn-border-radius: 8px;
+  --btn-font-family: 'Inter', sans-serif;
+  --btn-font-size: 1rem;
+  --btn-font-weight: 600;
+  --btn-letter-spacing: 0.02em;
+
+  /* ── Typography Tokens ── */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-size-base: 1rem;
+  --font-weight-heading: 700;
+  --letter-spacing-heading: -0.02em;
+  --line-height-body: 1.7;
+
+  /* ── Spacing ── */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  /* ── Layout ── */
+  --max-width: 1440px;
+  --header-height: 72px;
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Shadows ── */
+  --shadow-glow-sm: 0 0 20px rgba(124, 58, 237, 0.15);
+  --shadow-glow-md: 0 0 40px rgba(124, 58, 237, 0.2);
+  --shadow-glow-lg: 0 0 80px rgba(124, 58, 237, 0.3);
+
+  /* ── Glass ── */
+  --glass-blur: 20px;
+  --glass-bg: rgba(10, 10, 15, 0.6);
+  --glass-bg-solid: rgba(10, 10, 15, 0.95);
+
+  /* ── Border Radius ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}

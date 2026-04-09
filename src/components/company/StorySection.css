@@ -1,0 +1,68 @@
+/* ═══════════════════════════════════════════════════
+   STORY SECTION — Cinematic text painting & noise
+   ═══════════════════════════════════════════════════ */
+
+.story-premium-section {
+  position: relative;
+  min-height: 150vh; /* Allow plenty of scroll room for the scrub timeline */
+  padding: 200px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #030008; /* Very deep dark violet-black */
+  overflow: hidden;
+}
+
+/* Simulated starfield / neon grid background */
+.story-premium-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    radial-gradient(ellipse at center, rgba(160, 80, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 10% 20%, rgba(80, 40, 255, 0.05) 0%, transparent 30%);
+  background-size: cover;
+  z-index: 1;
+}
+
+.story-premium-bg::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+  background-size: 24px 24px;
+  background-position: center;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+}
+
+.story-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: #a178ff;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.story-massive-text {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.1);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.story-word {
+  display: inline-block;
+  margin-right: 0.28em;
+  transition: text-shadow 0.3s ease;
+}
+
+/* When a word lights up, it gets a subtle glow */
+.story-word[style*="color: rgba(255, 255, 255, 1)"] {
+  text-shadow: 0 0 20px rgba(160, 80, 255, 0.4);
+}

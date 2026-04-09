@@ -1,0 +1,162 @@
+/* ═══════════════════════════════════════════════════
+   CORE BELIEFS — Numbered list with horizontal rules
+   Deep Purple / Rich Black Anthem Layout
+   ═══════════════════════════════════════════════════ */
+
+.core-beliefs {
+  padding: 120px 0;
+  background-color: #030008;
+  position: relative;
+}
+
+/* Base Void Ambient */
+.core-beliefs::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 50%;
+  height: 80%;
+  transform: translateY(-50%);
+  background: radial-gradient(ellipse at center, rgba(74, 14, 143, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.core-beliefs__header {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 60px;
+  align-items: start;
+  margin-bottom: 64px;
+}
+
+.core-beliefs__header h2 {
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #a178ff;
+  margin: 0;
+}
+
+.core-beliefs__header p {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.core-beliefs__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: none;
+  margin: 0;
+}
+
+.core-beliefs__card {
+  padding: 0;
+  background: transparent !important;
+  border: none !important;
+  border-top: 1px solid rgba(161, 120, 255, 0.15) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: all 0.4s ease !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.core-beliefs__card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(161, 120, 255, 0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.core-beliefs__card:hover {
+  background: rgba(161, 120, 255, 0.02) !important;
+  padding-left: 20px;
+}
+
+.core-beliefs__card:hover::before {
+  opacity: 1;
+}
+
+.core-beliefs__card:last-child {
+  border-bottom: 1px solid rgba(161, 120, 255, 0.15) !important;
+}
+
+.core-beliefs__card-inner {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 40px;
+  align-items: center;
+  padding: 48px 0;
+}
+
+.core-beliefs__icon {
+  width: auto;
+  height: auto;
+  color: rgba(161, 120, 255, 0.4);
+  font-size: 2.5rem;
+  font-weight: 300;
+  font-family: monospace;
+  transition: color 0.4s ease;
+}
+
+.core-beliefs__card:hover .core-beliefs__icon {
+  color: #a178ff;
+  text-shadow: 0 0 20px rgba(161, 120, 255, 0.8);
+}
+
+.core-beliefs__icon svg {
+  display: none;
+}
+
+.core-beliefs__content {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.core-beliefs__content h3 {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+}
+
+.core-beliefs__content p {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .core-beliefs__header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .core-beliefs__card-inner {
+    grid-template-columns: 50px 1fr;
+    gap: 20px;
+  }
+
+  .core-beliefs__content {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

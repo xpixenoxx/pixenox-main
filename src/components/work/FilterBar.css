@@ -1,0 +1,36 @@
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 60px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.filter-item {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.filter-item:hover {
+  color: #c091ff; /* Soft purple hover */
+}
+
+.filter-item.active {
+  color: #8c30f5; /* Rich, deep electric purple */
+}
+
+.filter-separator {
+  color: rgba(255, 255, 255, 0.2); /* Very subtle gray pip */
+  font-size: 1.5rem;
+  font-weight: 300;
+  user-select: none;
+  line-height: 1;
+}

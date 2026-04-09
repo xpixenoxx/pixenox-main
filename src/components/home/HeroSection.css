@@ -1,0 +1,334 @@
+/* ═══════════════════════════════════════════════════
+   AAA-GRADE HERO SECTION (Hyper-Premium Agency Aesthetic)
+   ═══════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background-color: #030303;
+  color: #fff;
+}
+
+/* 1. Cinematic Noise Film Grain Overlay */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  z-index: 100;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* 2. Abstract Fluid Aurora Orbs */
+.hero__aurora-1 {
+  position: absolute;
+  top: -10%; left: -10%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+.hero__aurora-2 {
+  position: absolute;
+  bottom: -20%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0) 70%);
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  pointer-events: none;
+  animation: drift 25s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(5%, 5%) scale(1.1); }
+  100% { transform: translate(-5%, -5%) scale(0.95); }
+}
+
+/* 3. Interactive WebGL Particle Canvas */
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 3.5 Precision 3D Noise Sphere (Quantum Anomaly Orbit) */
+.hero__noise-sphere {
+  position: absolute;
+  top: 15%; 
+  right: 12%;
+  width: 160px; 
+  height: 160px;
+  border-radius: 50%;
+  background-color: #0b0711;
+  box-shadow: 
+    inset -15px -15px 30px rgba(0, 0, 0, 0.9),
+    inset 10px 10px 20px rgba(255, 255, 255, 0.15),
+    inset -5px -5px 10px rgba(139, 92, 246, 0.5),
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(139, 92, 246, 0.25);
+  overflow: hidden;
+  z-index: 2;
+  animation: floatOrb 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.hero__noise-sphere-texture {
+  position: absolute;
+  top: 0; left: 0;
+  width: 400%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") repeat;
+  background-blend-mode: overlay;
+  mix-blend-mode: color-dodge;
+}
+
+.hero__noise-sphere-texture--front {
+  opacity: 0.35;
+  animation: panNoiseSphere 20s linear infinite;
+}
+
+.hero__noise-sphere-texture--back {
+  opacity: 0.15;
+  transform: scale(1.15);
+  filter: blur(1.5px);
+  animation: panNoiseSphere 35s linear infinite reverse;
+}
+
+@keyframes panNoiseSphere {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
+}
+
+@keyframes floatOrb {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-25px) scale(1.02); }
+}
+
+/* 4. Structural Background Master-Typo */
+.hero__watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(10rem, 25vw, 36rem);
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  
+  /* The "Hollow Text" effect - purely structural */
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
+  
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 5. Core Layout Grid */
+.hero__layout {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--header-height, 80px) + 40px) 0 60px;
+}
+
+/* 6. Typography Engine */
+.hero__center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.hero__headline {
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  line-height: 1.05;
+  font-weight: 600;
+  color: #fff;
+  max-width: 1300px;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+.hero__word--wrapper {
+  display: inline-flex;
+  overflow: hidden;
+  margin-right: 0.2em;
+  padding-bottom: 0.1em; /* clip safety */
+}
+
+/* The Premium Serif Injection */
+.hero__word--serif {
+  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 300 !important;
+  background: linear-gradient(to right, #cfd9ff, #9ba9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 7. Bottom Split-Level Architectures */
+.hero__bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: flex-end;
+  gap: 64px;
+}
+
+.hero__info {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 460px;
+}
+
+.hero__subheadline {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 300;
+}
+
+/* Custom Magnetic Glass Button */
+.hero__cta-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Sweep Glow */
+.hero__cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  transition: 0.5s;
+}
+
+.hero__cta:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px -10px rgba(124, 58, 237, 0.3);
+}
+
+.hero__cta:hover::before {
+  transform: translateX(100%);
+}
+
+.hero__cta svg {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero__cta:hover svg {
+  transform: translateX(4px) scale(1.1);
+}
+
+/* 8. Stats Metrics Bar */
+.hero__stats {
+  display: flex;
+  gap: 56px;
+  position: relative;
+}
+
+.hero__stats::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 10px;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 100%);
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero__stat-val {
+  font-size: 3rem;
+  font-weight: 400;
+  font-family: 'Instrument Serif', serif;
+  color: #fff;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.hero__stat-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+/* Responsive Scaling */
+@media (max-width: 1024px) {
+  .hero__bottom {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__headline {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    text-align: left;
+  }
+  
+  .hero__center {
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .hero__stats {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  
+  .hero__stats::before {
+    display: none;
+  }
+}

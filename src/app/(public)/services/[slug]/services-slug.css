@@ -1,0 +1,312 @@
+/* ═══════════════════════════════════════════════════
+   PREMIUM ANTIMATTER-STYLE SERVICE SLUG LAYOUT
+   ═══════════════════════════════════════════════════ */
+
+/* Page body padding readjustment */
+.all-srv-page {
+  background-color: #030303;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.all-srv-header-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 160px 8vw 100px;
+  background-color: #030303;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.all-srv-header-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  z-index: 100;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* Deep Purple Hero Aurora Gradient */
+.all-srv-header-aurora {
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 40vw; height: 40vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%);
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(5%, 5%) scale(1.1); }
+  100% { transform: translate(-5%, -5%) scale(0.95); }
+}
+
+/* 3. Interactive WebGL Particle Canvas */
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 3.5 Precision 3D Noise Sphere (Quantum Anomaly Orbit) */
+.hero__noise-sphere {
+  position: absolute;
+  top: 15%; 
+  right: 12%;
+  width: 160px; 
+  height: 160px;
+  border-radius: 50%;
+  background-color: #0b0711;
+  box-shadow: 
+    inset -15px -15px 30px rgba(0, 0, 0, 0.9),
+    inset 10px 10px 20px rgba(255, 255, 255, 0.15),
+    inset -5px -5px 10px rgba(139, 92, 246, 0.5),
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(139, 92, 246, 0.25);
+  overflow: hidden;
+  z-index: 2;
+  animation: floatOrb 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.hero__noise-sphere-texture {
+  position: absolute;
+  top: 0; left: 0;
+  width: 400%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") repeat;
+  background-blend-mode: overlay;
+  mix-blend-mode: color-dodge;
+}
+
+.hero__noise-sphere-texture--front {
+  opacity: 0.35;
+  animation: panNoiseSphere 20s linear infinite;
+}
+
+.hero__noise-sphere-texture--back {
+  opacity: 0.15;
+  transform: scale(1.15);
+  filter: blur(1.5px);
+  animation: panNoiseSphere 35s linear infinite reverse;
+}
+
+@keyframes panNoiseSphere {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
+}
+
+@keyframes floatOrb {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-25px) scale(1.02); }
+}
+
+/* 4. Structural Background Master-Typo */
+.hero__watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(8rem, 20vw, 28rem);
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  
+  /* Hollow Text effect */
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
+  
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.all-srv-content-wrapper {
+  padding: 80px 8vw 120px;
+}
+
+/* Tactical Back Link */
+.all-srv-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+  color: #52525b;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 80px;
+  transition: color 0.3s ease;
+}
+.all-srv-back:hover {
+  color: #a855f7; /* Matches platform accent */
+}
+
+/* ═══════════════════════════════════════════════════
+   PREMIUM ANTIMATTER EXACT GRID
+   ═══════════════════════════════════════════════════ */
+
+.all-srv-header {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 60px;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+.all-srv-header-topleft {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 36px;
+  max-width: 1000px;
+}
+
+.all-srv-header-bottomright {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: end;
+  justify-self: end;
+  max-width: 650px;
+}
+
+.all-srv-title {
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0;
+  max-width: 1000px;
+}
+
+.all-srv-desc {
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+.all-srv-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 0px; /* Zero margin because the rows supply their own padding */
+}
+
+/* The Matrix Focus List */
+.all-srv-stack-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-srv-stack-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a855f7;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.all-srv-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-srv-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 40px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: default;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1; /* Match the bright image state */
+}
+
+/* Add the top line to the first item exactly like the reference image */
+.all-srv-row:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Subtle hover interaction, since image state is purely white */
+.all-srv-row:hover {
+  transform: translateX(12px);
+}
+
+.all-srv-number {
+  font-family: var(--font-body, system-ui, sans-serif); /* Match sans-serif font */
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: inherit;
+  margin-right: 16px;
+  margin-top: 6px; /* align with optical cap-height of the title */
+  opacity: 0.8;
+}
+
+.all-srv-icon {
+  margin-right: 24px;
+  margin-top: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.all-srv-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: currentColor;
+}
+
+.all-srv-name {
+  font-size: clamp(1.5rem, 3vw, 3rem); /* Closer to the 30-45px range of the image */
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Responsive Mapping */
+@media (max-width: 1000px) {
+  .all-srv-header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .all-srv-row {
+    padding: 30px 0;
+  }
+  .all-srv-row:hover {
+    transform: translateX(8px);
+  }
+  .all-srv-number {
+    margin-right: 12px;
+    margin-top: 4px;
+  }
+}
