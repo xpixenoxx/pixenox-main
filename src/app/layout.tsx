@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pixenox — Unified Intelligent Systems",
-    template: "%s | Pixenox",
+    default: "Pixenox Solutions Pvt Ltd — Unified Intelligent Systems",
+    template: "%s | Pixenox Solutions Pvt Ltd",
   },
   description:
     "We architect converged platforms where AI, data infrastructure, and growth systems operate as a single intelligent layer. Enterprise engineering for companies that refuse fragmented toolchains.",
@@ -35,7 +35,19 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Pixenox",
+    siteName: "Pixenox Solutions Pvt Ltd",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 1200,
+        alt: "Pixenox — Unified Intelligent Systems",
+      },
+    ],
+  },
+  icons: {
+    icon: "/icon.jpg",
+    apple: "/apple-icon.jpg",
   },
   robots: {
     index: true,
