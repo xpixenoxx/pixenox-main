@@ -79,28 +79,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   margin-bottom: 80px;
-  /* Left HUD targeting rail */
-  border-left: 2px solid rgba(255, 255, 255, 0.1);
-  padding-left: 32px;
-}
-
-/* Moving HUD Energy on the rail */
-.m-cmd-header-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -2px;
-  width: 2px;
-  height: 30px;
-  background: var(--hud-accent, #00e5ff);
-  box-shadow: 0 0 15px var(--hud-accent, #00e5ff);
-  animation: hud-rail-slide 3s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
-}
-
-@keyframes hud-rail-slide {
-  0% { top: 0; }
-  100% { top: calc(100% - 30px); }
 }
 
 .m-cmd-tag {

@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
               <li>Request deletion of your personal data</li>
               <li>Withdraw consent at any time</li>
             </ul>
-            <p>To exercise these rights, contact us at <a href="mailto:contact@pixenox.com" className="legal-link">contact@pixenox.com</a>.</p>
+            <p>To exercise these rights, contact us at <a href="mailto:connect@pixenox.com" className="legal-link">connect@pixenox.com</a>.</p>
           </section>
 
           <section className="legal-section">
@@ -104,7 +104,7 @@ export default function PrivacyPolicyPage() {
             <h2>9. Contact</h2>
             <p>
               For any questions about this Privacy Policy, please contact us at{' '}
-              <a href="mailto:contact@pixenox.com" className="legal-link">contact@pixenox.com</a>.
+              <a href="mailto:connect@pixenox.com" className="legal-link">connect@pixenox.com</a>.
             </p>
           </section>
         </div>

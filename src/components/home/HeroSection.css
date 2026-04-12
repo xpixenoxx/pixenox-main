@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   AAA-GRADE HERO SECTION (Hyper-Premium Agency Aesthetic)
+   AAA HERO — CINEMATIC DEEP SPACE COMMAND CENTER
    ═══════════════════════════════════════════════════ */
 
 .hero {
@@ -7,11 +7,12 @@
   min-height: 100vh;
   display: flex;
   overflow: hidden;
-  background-color: #030303;
+  background-color: #020104;
   color: #fff;
+  contain: layout style;
 }
 
-/* 1. Cinematic Noise Film Grain Overlay */
+/* ── Film Grain Overlay ── */
 .hero::before {
   content: '';
   position: absolute;
@@ -23,29 +24,95 @@
   mix-blend-mode: overlay;
 }
 
-/* 2. Abstract Fluid Aurora Orbs */
+/* ── Cinematic Scanning Line ── */
+.hero__scanline {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.6), rgba(124, 58, 237, 0.8), rgba(167, 139, 250, 0.6), transparent);
+  z-index: 50;
+  animation: scanDown 4s ease-in-out infinite;
+  box-shadow: 0 0 30px 10px rgba(124, 58, 237, 0.15);
+}
+
+@keyframes scanDown {
+  0% { top: -2px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ── Cinematic Vignette ── */
+.hero__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(2, 1, 4, 0.7) 100%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ── Perspective Grid Floor ── */
+.hero__grid-floor {
+  position: absolute;
+  bottom: -20%;
+  left: -50%;
+  width: 200%;
+  height: 60%;
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.15) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(500px) rotateX(65deg);
+  opacity: 0.25;
+  z-index: 1;
+  pointer-events: none;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
+  animation: gridPush 8s linear infinite;
+  will-change: background-position;
+}
+
+@keyframes gridPush {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 60px; }
+}
+
+/* ── Deep Aurora Orbs (3 layers) ── */
 .hero__aurora-1 {
   position: absolute;
-  top: -10%; left: -10%;
-  width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+  top: -15%; left: -15%;
+  width: 55vw; height: 55vw;
+  background: radial-gradient(circle, rgba(76, 29, 149, 0.25) 0%, transparent 65%);
   border-radius: 50%;
-  filter: blur(100px);
+  filter: blur(80px);
   z-index: 0;
   pointer-events: none;
   animation: drift 20s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 .hero__aurora-2 {
   position: absolute;
-  bottom: -20%; right: -10%;
-  width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0) 70%);
+  bottom: -25%; right: -15%;
+  width: 65vw; height: 65vw;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.2) 0%, transparent 65%);
   border-radius: 50%;
-  filter: blur(120px);
+  filter: blur(100px);
   z-index: 0;
   pointer-events: none;
-  animation: drift 25s ease-in-out infinite alternate-reverse;
+  animation: drift 28s ease-in-out infinite alternate-reverse;
+}
+
+.hero__aurora-3 {
+  position: absolute;
+  top: 30%; left: 40%;
+  width: 40vw; height: 40vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  animation: drift 35s ease-in-out infinite alternate;
 }
 
 @keyframes drift {
@@ -54,7 +121,7 @@
   100% { transform: translate(-5%, -5%) scale(0.95); }
 }
 
-/* 3. Interactive WebGL Particle Canvas */
+/* ── Canvas ── */
 .hero__canvas {
   position: absolute;
   inset: 0;
@@ -62,27 +129,83 @@
   height: 100%;
   z-index: 1;
   pointer-events: none;
+  will-change: contents;
 }
 
-/* 3.5 Precision 3D Noise Sphere (Quantum Anomaly Orbit) */
+/* ═══ SPHERE SYSTEM ═══ */
+.hero__sphere-system {
+  position: absolute;
+  top: 10%;
+  right: clamp(2%, 8vw, 15%);
+  width: clamp(250px, 28vw, 450px);
+  height: clamp(250px, 28vw, 450px);
+  z-index: 2;
+  pointer-events: none;
+  animation: floatOrb 8s ease-in-out infinite alternate;
+  will-change: transform;
+  contain: layout style;
+}
+
+/* Orbit Rings */
+.hero__orbit-ring {
+  position: absolute;
+  inset: -15%;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 50%;
+  animation: orbitSpin 20s linear infinite;
+}
+
+.hero__orbit-ring::after {
+  content: '';
+  position: absolute;
+  top: 5%; right: 10%;
+  width: 6px; height: 6px;
+  background: #a78bfa;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #a78bfa, 0 0 20px #7c3aed;
+}
+
+.hero__orbit-ring--2 {
+  inset: -25%;
+  border-color: rgba(124, 58, 237, 0.1);
+  animation-duration: 35s;
+  animation-direction: reverse;
+}
+
+.hero__orbit-ring--2::after {
+  width: 4px; height: 4px;
+  background: #c084fc;
+  box-shadow: 0 0 8px #c084fc;
+  top: 15%; left: 5%;
+}
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* The Planet */
 .hero__noise-sphere {
   position: absolute;
-  top: 15%; 
-  right: 12%;
-  width: 160px; 
-  height: 160px;
+  inset: 0;
   border-radius: 50%;
-  background-color: #0b0711;
+  background: radial-gradient(circle at 35% 35%, #1a0e2e, #0b0711 50%, #050308);
   box-shadow: 
-    inset -15px -15px 30px rgba(0, 0, 0, 0.9),
-    inset 10px 10px 20px rgba(255, 255, 255, 0.15),
-    inset -5px -5px 10px rgba(139, 92, 246, 0.5),
-    0 20px 50px rgba(0, 0, 0, 0.8),
-    0 0 80px rgba(139, 92, 246, 0.25);
+    inset -30px -30px 60px rgba(0, 0, 0, 0.95),
+    inset 25px 25px 50px rgba(139, 92, 246, 0.15),
+    inset -8px -8px 15px rgba(139, 92, 246, 0.4),
+    0 0 80px rgba(124, 58, 237, 0.2),
+    0 0 160px rgba(76, 29, 149, 0.15);
   overflow: hidden;
-  z-index: 2;
-  animation: floatOrb 8s ease-in-out infinite alternate;
-  pointer-events: none;
+}
+
+.hero__sphere-highlight {
+  position: absolute;
+  top: 12%; left: 18%;
+  width: 35%; height: 35%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(8px);
 }
 
 .hero__noise-sphere-texture {
@@ -96,12 +219,12 @@
 }
 
 .hero__noise-sphere-texture--front {
-  opacity: 0.35;
+  opacity: 0.4;
   animation: panNoiseSphere 20s linear infinite;
 }
 
 .hero__noise-sphere-texture--back {
-  opacity: 0.15;
+  opacity: 0.2;
   transform: scale(1.15);
   filter: blur(1.5px);
   animation: panNoiseSphere 35s linear infinite reverse;
@@ -114,31 +237,31 @@
 
 @keyframes floatOrb {
   0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-25px) scale(1.02); }
+  100% { transform: translateY(-30px) scale(1.02); }
 }
 
-/* 4. Structural Background Master-Typo */
+/* ── PIXENOX Watermark ── */
 .hero__watermark {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: clamp(10rem, 25vw, 36rem);
-  font-weight: 800;
+  width: 100vw;
+  text-align: center;
+  font-size: 16vw;
+  line-height: 1;
+  font-weight: 900;
   font-family: 'Inter', sans-serif;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
-  
-  /* The "Hollow Text" effect - purely structural */
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
-  
-  z-index: 0;
+  -webkit-text-stroke: 2px rgba(124, 58, 237, 0.35);
+  z-index: 3;
   pointer-events: none;
   user-select: none;
 }
 
-/* 5. Core Layout Grid */
+/* ── Layout ── */
 .hero__layout {
   position: relative;
   z-index: 5;
@@ -150,7 +273,38 @@
   padding: calc(var(--header-height, 80px) + 40px) 0 60px;
 }
 
-/* 6. Typography Engine */
+/* ── Status Tag ── */
+.hero__tag-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 100px;
+  padding: 8px 20px 8px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  margin-bottom: 32px;
+  backdrop-filter: blur(10px);
+}
+
+.hero__tag-dot {
+  width: 8px; height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── Typography Engine ── */
 .hero__center {
   flex: 1;
   display: flex;
@@ -162,9 +316,9 @@
 }
 
 .hero__headline {
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-size: clamp(2.5rem, 7vw, 6rem);
   line-height: 1.05;
-  font-weight: 600;
+  font-weight: 400;
   color: #fff;
   max-width: 1300px;
   position: relative;
@@ -175,20 +329,20 @@
   display: inline-flex;
   overflow: hidden;
   margin-right: 0.2em;
-  padding-bottom: 0.1em; /* clip safety */
+  padding-bottom: 0.1em;
 }
 
-/* The Premium Serif Injection */
+/* The Serif Injection */
 .hero__word--serif {
   font-family: 'Instrument Serif', 'Times New Roman', serif;
   font-style: italic;
   font-weight: 300 !important;
-  background: linear-gradient(to right, #cfd9ff, #9ba9ff);
+  background: linear-gradient(to right, #e0e7ff, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* 7. Bottom Split-Level Architectures */
+/* ── Bottom ── */
 .hero__bottom {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -206,11 +360,11 @@
 .hero__subheadline {
   font-size: 1.15rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 300;
 }
 
-/* Custom Magnetic Glass Button */
+/* ── CTA Button ── */
 .hero__cta-wrapper {
   position: relative;
   display: inline-flex;
@@ -219,10 +373,10 @@
 .hero__cta {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 32px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 16px;
+  padding: 18px 24px 18px 32px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(76, 29, 149, 0.1));
+  border: 1px solid rgba(124, 58, 237, 0.3);
   border-radius: 100px;
   color: #fff;
   font-size: 1rem;
@@ -230,54 +384,62 @@
   text-decoration: none;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
   position: relative;
   overflow: hidden;
 }
 
-/* Hover Sweep Glow */
 .hero__cta::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(167, 139, 250, 0.15), transparent);
   transform: translateX(-100%);
-  transition: 0.5s;
+  transition: transform 0.6s ease;
 }
 
 .hero__cta:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 40px -10px rgba(124, 58, 237, 0.3);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(109, 40, 217, 0.2));
+  border-color: #a78bfa;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px -10px rgba(124, 58, 237, 0.4);
 }
 
 .hero__cta:hover::before {
   transform: translateX(100%);
 }
 
-.hero__cta svg {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hero__cta:hover svg {
-  transform: translateX(4px) scale(1.1);
+.hero__cta-icon {
+  width: 36px; height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(124, 58, 237, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s;
 }
 
-/* 8. Stats Metrics Bar */
+.hero__cta:hover .hero__cta-icon {
+  background: #7c3aed;
+  transform: translateX(4px);
+}
+
+/* ── Stats ── */
 .hero__stats {
   display: flex;
-  gap: 56px;
+  gap: 48px;
   position: relative;
 }
 
 .hero__stats::before {
   content: '';
   position: absolute;
-  left: -28px;
+  left: -24px;
   top: 10px;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(124, 58, 237, 0.4) 0%, transparent 100%);
 }
 
 .hero__stat {
@@ -290,25 +452,35 @@
   font-size: 3rem;
   font-weight: 400;
   font-family: 'Instrument Serif', serif;
-  color: #fff;
+  font-style: italic;
+  background: linear-gradient(180deg, #fff 20%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
   line-height: 1;
 }
 
 .hero__stat-label {
-  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.4);
 }
 
-/* Responsive Scaling */
+/* ═══ RESPONSIVE ═══ */
 @media (max-width: 1024px) {
   .hero__bottom {
     grid-template-columns: 1fr;
     gap: 48px;
     align-items: flex-start;
+  }
+
+  .hero__sphere-system {
+    width: clamp(180px, 30vw, 300px);
+    height: clamp(180px, 30vw, 300px);
+    top: 8%;
+    right: 3%;
   }
 }
 
@@ -330,5 +502,20 @@
   
   .hero__stats::before {
     display: none;
+  }
+
+  .hero__sphere-system {
+    width: clamp(140px, 40vw, 200px);
+    height: clamp(140px, 40vw, 200px);
+    top: 12%;
+    right: -3%;
+    opacity: 0.6;
+  }
+
+  .hero__orbit-ring { inset: -10%; }
+  .hero__orbit-ring--2 { inset: -20%; }
+
+  .hero__grid-floor {
+    opacity: 0.15;
   }
 }

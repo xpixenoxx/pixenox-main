@@ -1,91 +1,161 @@
 /* ═══════════════════════════════════════════════════
-   CTA BANNER — Mid-page conversion strip
+   CTA BANNER — WebGL Shader Aurora
    ═══════════════════════════════════════════════════ */
 
-.cta-banner {
+.cta-neb {
   position: relative;
-  padding: 0;
-  overflow: hidden;
-  background: #030303;
+  padding: 60px 0;
+  background: #020104;
+  z-index: 10;
 }
 
-.cta-banner__noise {
+/* Override standard container to allow edge-to-edge max width */
+.cta-neb > .container {
+  max-width: 1540px; 
+  padding: 0 clamp(20px, 4vw, 40px);
+}
+
+.cta-neb__card {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  height: 408px; /* Strict height as requested */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  box-shadow:
+    0 0 0 1px rgba(124, 58, 237, 0.25),
+    0 40px 100px -20px rgba(2, 1, 4, 0.9);
+}
+
+/* WebGL canvas fills entire card */
+.cta-neb__canvas {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(124, 58, 237, 0.02) 2px,
-    rgba(124, 58, 237, 0.02) 4px
-  );
-  pointer-events: none;
+  z-index: 0;
+  border-radius: 28px;
+}
+
+/* ═══ CONTENT ═══ */
+.cta-neb__content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1219.2px;
+  height: 172px; /* Strict height requested */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.cta-neb__heading {
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.cta-neb__heading strong {
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ═══ PREMIUM BUTTON ═══ */
+.cta-neb__btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 12px 12px 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-decoration: none;
+  width: fit-content;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+/* Button glowing backplate */
+.cta-neb__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(76, 29, 149, 0.6));
+  opacity: 0;
+  transition: opacity 0.5s ease;
   z-index: 0;
 }
 
-.cta-banner__inner {
+.cta-neb__btn:hover {
+  transform: translateY(-4px);
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 
+    0 15px 40px -10px rgba(124, 58, 237, 0.5),
+    0 0 20px rgba(139, 92, 246, 0.3) inset;
+}
+
+.cta-neb__btn:hover::before {
+  opacity: 1;
+}
+
+.cta-neb__btn > span {
   position: relative;
-  z-index: 5;
+  z-index: 2;
+}
+
+.cta-neb__arrow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 64px 56px;
-  background: linear-gradient(135deg, rgba(74, 14, 143, 0.25), rgba(124, 58, 237, 0.1));
-  border: 1px solid rgba(124, 58, 237, 0.15);
-  border-radius: 20px;
-  margin: 20px 0;
-}
-
-.cta-banner__text {
-  flex: 1;
-}
-
-.cta-banner__heading {
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-  line-height: 1.2;
-}
-
-.cta-banner__sub {
-  font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.55);
-  line-height: 1.6;
-  max-width: 500px;
-}
-
-.cta-banner__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 36px;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: #7c3aed; /* Deep purple indicator */
+  border-radius: 50%;
   color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  white-space: nowrap;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cta-banner__btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px -8px rgba(124, 58, 237, 0.5);
+.cta-neb__btn:hover .cta-neb__arrow {
+  background: #fff;
+  color: #7c3aed;
+  transform: scale(1.05) rotate(-15deg);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1024px) {
+  .cta-neb__content {
+    padding: 64px 48px;
+  }
+  .cta-neb__card {
+    min-height: 360px;
+  }
 }
 
 @media (max-width: 768px) {
-  .cta-banner__inner {
-    flex-direction: column;
-    text-align: center;
+  .cta-neb__content {
     padding: 48px 32px;
   }
-  .cta-banner__sub {
-    margin-left: auto;
-    margin-right: auto;
+  .cta-neb__card {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-neb__content {
+    padding: 40px 24px;
+  }
+  .cta-neb__heading {
+    font-size: 1.75rem;
   }
 }

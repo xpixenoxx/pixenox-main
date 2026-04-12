@@ -109,7 +109,7 @@ export default function TermsOfServicePage() {
             <h2>12. Contact</h2>
             <p>
               For questions about these Terms of Service, contact us at{' '}
-              <a href="mailto:contact@pixenox.com" className="legal-link">contact@pixenox.com</a>.
+              <a href="mailto:connect@pixenox.com" className="legal-link">connect@pixenox.com</a>.
             </p>
           </section>
         </div>

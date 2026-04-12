@@ -37,16 +37,16 @@ const SafeNetworkBg = ({ activeIndex }: { activeIndex: number }) => {
       canvas.width = width;
       canvas.height = height;
   
-      let R = Math.min(width, height) * 0.45;
+      let R = Math.min(width, height) * (width < 768 ? 0.25 : 0.45);
     const isMobile = width < 768;
-    const NODE_COUNT = isMobile ? 80 : 150;
+    const NODE_COUNT = isMobile ? 35 : 90;
   
       const resize = () => {
         width = window.innerWidth;
         height = window.innerHeight;
         canvas.width = width;
         canvas.height = height;
-        R = Math.min(width, height) * 0.45;
+        R = Math.min(width, height) * (width < 768 ? 0.25 : 0.45);
       };
       window.addEventListener('resize', resize);
   
@@ -71,8 +71,25 @@ const SafeNetworkBg = ({ activeIndex }: { activeIndex: number }) => {
       let currentB = THEME_COLORS[0].b;
       
       const focalLength = 1200; // Z-space perspective mapping
+
+      let isVisible = true;
+      let isIntersecting = true;
+      const observer = new IntersectionObserver((entries) => {
+        isIntersecting = entries[0].isIntersecting;
+        if (isIntersecting && isVisible) {
+          animationId = requestAnimationFrame(render);
+        }
+      }, { threshold: 0 });
+      observer.observe(canvas);
+
+      const handleVisibility = () => {
+        isVisible = !document.hidden;
+        if (isVisible && isIntersecting) animationId = requestAnimationFrame(render);
+      };
+      document.addEventListener('visibilitychange', handleVisibility);
   
       const render = () => {
+        if (!isVisible || !isIntersecting) return;
         const targetColor = THEME_COLORS[targetRef.current % THEME_COLORS.length];
         currentR += (targetColor.r - currentR) * 0.05;
         currentG += (targetColor.g - currentG) * 0.05;
@@ -162,6 +179,8 @@ const SafeNetworkBg = ({ activeIndex }: { activeIndex: number }) => {
       return () => {
         cancelAnimationFrame(animationId);
         window.removeEventListener('resize', resize);
+        observer.disconnect();
+        document.removeEventListener('visibilitychange', handleVisibility);
       };
     }, []); // Empty dependency array ensures it NEVER remounts.
   

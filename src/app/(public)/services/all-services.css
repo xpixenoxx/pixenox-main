@@ -1,0 +1,350 @@
+/* ═══════════════════════════════════════════════════
+   ALL SERVICES HUB — GOLDMAN SACHS / INSTITUTIONAL GRADE
+   Premium dark mode, high velocity interactions, cinematic
+   ═══════════════════════════════════════════════════ */
+
+.hub-page {
+  background-color: #030303;
+  color: #fff;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ─────────────────────────────────────────────────
+   GLOBAL BACKGROUND & CANVAS
+   ───────────────────────────────────────────────── */
+.hub-canvas-wrap {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hub-canvas {
+  width: 100%;
+  height: 100%;
+  pointer-events: auto; /* Let particles react to mouse */
+}
+
+/* Ambient glows */
+.hub-glow-1 {
+  position: absolute;
+  top: -10%; right: -5%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  pointer-events: none;
+  animation: hubDrift 20s ease-in-out infinite alternate;
+}
+
+.hub-glow-2 {
+  position: absolute;
+  bottom: -20%; left: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(82, 38, 166, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  animation: hubDrift 25s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes hubDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(3%, 3%) scale(1.05); }
+}
+
+/* Scan-line sweep */
+.hub-page::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(168, 85, 247, 0.2) 50%, transparent 100%);
+  animation: hubScanLine 8s linear infinite;
+  z-index: 1; /* Move under content */
+  pointer-events: none;
+}
+
+@keyframes hubScanLine {
+  0% { top: -10%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; text-shadow: 0 0 10px rgba(168,85,247,0.5); }
+  100% { top: 110%; opacity: 0; }
+}
+
+/* Typography Base */
+.gs-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #a855f7;
+  padding: 8px 16px;
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.gs-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: #a855f7;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #a855f7;
+  animation: pulseGS 2s infinite;
+}
+
+@keyframes pulseGS {
+  0% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ─────────────────────────────────────────────────
+   HERO / INTRO SECTION
+   ───────────────────────────────────────────────── */
+.hub-intro {
+  position: relative;
+  z-index: 10;
+  min-height: 50vh;
+  padding: 180px 8vw 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.hub-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+  max-width: 1100px;
+}
+
+.hub-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: lowercase;
+  color: #a855f7;
+}
+
+.hub-desc {
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 650px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────
+   SERVICES MANIFOLD GRID
+   Institutional-grade data-driven layout
+   ───────────────────────────────────────────────── */
+.hub-grid-wrapper {
+  position: relative;
+  z-index: 10;
+  padding: 0 8vw 160px;
+}
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px; /* For the borders effect */
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .hub-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.hub-card {
+  position: relative;
+  background: rgba(5, 5, 5, 0.85); /* Slightly transparent to let background glow through subtly */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 60px 48px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background 0.4s ease;
+  height: 100%;
+}
+
+.hub-card:hover {
+  background: rgba(168, 85, 247, 0.03);
+}
+
+/* Data-Driven Trust Metrics overlay line */
+.hub-card-metric-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.1));
+}
+
+.hub-card:hover .hub-card-metric-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 40%;
+  background: #a855f7;
+  box-shadow: 0 0 10px #a855f7;
+  animation: metricLoad 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes metricLoad {
+  from { width: 0; opacity: 0; }
+  to { width: 60%; opacity: 1; }
+}
+
+/* Hover dynamic gradient orb */
+.hub-card-glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.hub-card:hover .hub-card-glow {
+  opacity: 1;
+}
+
+/* Content */
+.hub-card-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hub-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.hub-card-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #fff;
+  transition: all 0.4s ease;
+}
+
+.hub-card:hover .hub-card-icon {
+  border-color: rgba(168, 85, 247, 0.4);
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  transform: scale(1.05);
+}
+
+.hub-card-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+.hub-card-arrow {
+  color: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+}
+
+.hub-card:hover .hub-card-arrow {
+  color: #a855f7;
+  transform: translate(4px, -4px);
+}
+
+.hub-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2rem, 2.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.hub-card-desc {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  margin: 0 0 40px;
+  flex: 1;
+}
+
+/* Institutional Data Stats / Stack */
+.hub-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hub-stack-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.hub-card:hover .hub-stack-item {
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ─────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hub-intro {
+    padding: 140px 6vw 40px;
+  }
+  .hub-grid-wrapper {
+    padding: 0 6vw 100px;
+  }
+  .hub-card {
+    padding: 40px 24px;
+  }
+}

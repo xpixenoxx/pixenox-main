@@ -44,29 +44,34 @@ export default function WorkPageClient({ studies, tags, heroConfig }: WorkPageCl
       <section className="work-hero-massive">
         <div className="container">
           <h1
-            className="work-massive-title"
+            className="work-massive-title overflow-hidden py-3"
+            aria-hidden="true"
             style={{
               fontFamily: heroConfig?.heading_font_family || undefined,
               fontSize: heroConfig?.heading_font_size || undefined,
               fontWeight: heroConfig?.heading_font_weight || undefined,
               letterSpacing: heroConfig?.heading_letter_spacing || undefined,
               color: heroConfig?.heading_color || undefined,
-              overflow: 'hidden', 
-              display: 'flex', 
-              flexWrap: 'nowrap'
+              position: 'relative',
+              display: 'block',
+              textAlign: 'start',
             }}
           >
             {word.split('').map((char, index) => (
-              <motion.span
+              <motion.div
                 key={index}
                 custom={index}
                 variants={textRevealVariants}
                 initial="hidden"
                 animate="visible"
-                style={{ display: 'inline-block', lineHeight: 0.85 }}
+                aria-hidden="true"
+                style={{
+                  position: 'relative',
+                  display: 'inline-block',
+                }}
               >
                 {char === ' ' ? '\u00A0' : char}
-              </motion.span>
+              </motion.div>
             ))}
           </h1>
         </div>

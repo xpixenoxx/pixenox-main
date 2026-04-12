@@ -1,48 +1,65 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, MouseEvent } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Loader2, ChevronDown } from 'lucide-react';
-import { getBrowserClient } from '@/lib/supabase/client';
+import { ArrowRight, Loader2 } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import './LeadCaptureSection.css';
 
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
-
 const SERVICE_OPTIONS = [
-  'Autonomous AI Systems',
-  'Web Architecture',
-  'Unified Optimization (SEO/AEO/GEO)',
-  'Insight Engine & Analytics',
-  'Bio Intelligence',
-  'Growth Intelligence',
-  'Custom Software Engineering',
-];
-
-const BUDGET_OPTIONS = [
-  'Under $5,000',
-  '$5,000 – $15,000',
-  '$15,000 – $50,000',
-  '$50,000 – $100,000',
-  '$100,000+',
-  'Not sure yet',
+  'Unified Data Architecture',
+  'AI Convergence System',
+  'Optimization Engine',
+  'Bespoke Software',
+  'Other',
 ];
 
 export default function LeadCaptureSection() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [website, setWebsite] = useState('');
-  const [services, setServices] = useState<string[]>([]);
-  const [budget, setBudget] = useState('');
-  const [message, setMessage] = useState('');
-  const [showServices, setShowServices] = useState(false);
-  const [status, setStatus] = useState<FormStatus>('idle');
+  const [formData, setFormData] = useState({
+    name: '', email: '', phone: '', company: '', message: ''
+  });
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [customService, setCustomService] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const toggleService = (s: string) => {
-    setServices((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
-    );
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: globalThis.MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const selectService = (s: string) => {
+    setSelectedServices([s]);
+    setDropdownOpen(false);
+    if (s !== 'Other') {
+      setCustomService('');
+    }
+  };
+
+  const activeService = selectedServices[0] || '';
+  const displayService = activeService === 'Other' ? (customService || 'enter service...') : (activeService || 'Select Module...');
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Smooth spotlight positioning
+    e.currentTarget.style.setProperty('--x', `${x}px`);
+    e.currentTarget.style.setProperty('--y', `${y}px`);
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,237 +67,202 @@ export default function LeadCaptureSection() {
     setStatus('loading');
     setErrorMsg('');
 
-    if (!name.trim() || !email.trim()) {
-      setErrorMsg('Name and email are required.');
+    if (!formData.name.trim() || !formData.email.trim()) {
+      setErrorMsg('Name and email are required to proceed.');
       setStatus('error');
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(formData.email)) {
       setErrorMsg('Please enter a valid email address.');
       setStatus('error');
       return;
     }
 
-    try {
-      const supabase = getBrowserClient();
-      const fullMessage = [
-        company.trim() ? `Company: ${company.trim()}` : '',
-        website.trim() ? `Website: ${website.trim()}` : '',
-        services.length ? `Services: ${services.join(', ')}` : '',
-        budget ? `Budget: ${budget}` : '',
-        message.trim() || '',
-        '[Source: Growth Strategy CTA]',
-      ]
-        .filter(Boolean)
-        .join('\n\n');
+    if (!turnstileToken) {
+      setErrorMsg('Please complete the security verification.');
+      setStatus('error');
+      return;
+    }
 
-      const { error } = await (supabase.from('contact_submissions') as any).insert({
-        name: name.trim(),
-        email: email.trim(),
-        services_interested: services,
-        message: fullMessage || 'Growth Strategy Request',
+    try {
+      const resolvedService = activeService === 'Other' ? customService.trim() : activeService;
+      const fullMessage = [
+        formData.company.trim() ? `Company: ${formData.company.trim()}` : '',
+        formData.phone.trim() ? `Phone: ${formData.phone.trim()}` : '',
+        resolvedService ? `Service: ${resolvedService}` : '',
+        formData.message.trim() || '',
+        '[Source: AAA Architecture Uplink]',
+      ].filter(Boolean).join('\n\n');
+
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          services_interested: activeService === 'Other' ? [customService.trim()] : selectedServices,
+          message: fullMessage || 'Architecture Uplink Request',
+          turnstileToken
+        }),
       });
 
-      if (error) {
-        setErrorMsg('Something went wrong. Please try again.');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.error || 'System error. Please try your request again.');
         setStatus('error');
         return;
       }
 
       setStatus('success');
-      setName('');
-      setEmail('');
-      setCompany('');
-      setWebsite('');
-      setServices([]);
-      setBudget('');
-      setMessage('');
+      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+      setSelectedServices([]);
+      setCustomService('');
     } catch {
-      setErrorMsg('Network error. Please try again.');
+      setErrorMsg('Network issue detected. Please check your connection.');
       setStatus('error');
     }
   };
 
   return (
-    <section className="lead-capture" id="free-audit" aria-label="Get Your Growth Strategy">
-      <div className="lead-capture__grid-floor" aria-hidden="true" />
-      <div className="lead-capture__glow" aria-hidden="true" />
+    <section className="lc-master" id="free-audit" onMouseMove={handleMouseMove}>
+      <div className="lc-spotlight" />
 
-      <div className="container">
-        <div className="lead-capture__layout">
-          {/* Left: Value Proposition */}
-          <motion.div
-            className="lead-capture__info"
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-15%' }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      <div className="lc-container">
+
+        {/* Massive Center Block replacing the two-column grid */}
+        <div className="lc-hero-header">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20%' }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="lc-nli-title"
           >
-            <span className="lead-capture__tag">// SYSTEM CONSULTATION</span>
-            <h2 className="lead-capture__heading">
-              Request a<br />
-              <span className="lead-capture__heading--accent">System Architecture Brief</span>
-            </h2>
-            <p className="lead-capture__desc">
-              Share your operational challenges. Our engineering team will assess your current stack, identify convergence opportunities, and deliver a technical architecture brief — within 48 hours.
-            </p>
-
-            <div className="lead-capture__checklist">
-              <div className="lead-capture__check-item">
-                <CheckCircle size={18} />
-                <span>Infrastructure & Stack Assessment</span>
-              </div>
-              <div className="lead-capture__check-item">
-                <CheckCircle size={18} />
-                <span>AI Readiness Evaluation</span>
-              </div>
-              <div className="lead-capture__check-item">
-                <CheckCircle size={18} />
-                <span>Discovery Optimization Audit (SEO/AEO/GEO)</span>
-              </div>
-              <div className="lead-capture__check-item">
-                <CheckCircle size={18} />
-                <span>System Convergence Roadmap</span>
-              </div>
-              <div className="lead-capture__check-item">
-                <CheckCircle size={18} />
-                <span>Scoped Technical Architecture Brief</span>
-              </div>
-            </div>
-
-            <div className="lead-capture__trust">
-              <div className="lead-capture__trust-item">
-                <span className="lead-capture__trust-val">50+</span>
-                <span className="lead-capture__trust-label">Systems Deployed</span>
-              </div>
-              <div className="lead-capture__trust-divider" />
-              <div className="lead-capture__trust-item">
-                <span className="lead-capture__trust-val">12+</span>
-                <span className="lead-capture__trust-label">Countries Served</span>
-              </div>
-              <div className="lead-capture__trust-divider" />
-              <div className="lead-capture__trust-item">
-                <span className="lead-capture__trust-val">99.9%</span>
-                <span className="lead-capture__trust-label">System Uptime</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right: Form */}
-          <motion.div
-            className="lead-capture__form-wrapper"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-15%' }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            Initiate Protocol.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="lc-nli-subtitle"
           >
-            {status === 'success' ? (
-              <div className="lead-capture__success">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                  className="lead-capture__success-icon"
-                >
-                  <CheckCircle size={48} />
-                </motion.div>
-                <h3>Strategy Request Received!</h3>
-                <p>Our team will analyze your needs and send a personalized growth roadmap within 48 hours.</p>
-                <button className="lead-capture__reset-btn" onClick={() => setStatus('idle')}>
-                  Submit Another Request
-                </button>
+            Transmit your telemetry. Our engineering architects will map a blueprint for pure operational autonomy.
+          </motion.p>
+        </div>
+
+        <div className="lc-nli-wrapper">
+          {status === 'success' ? (
+            <div className="lc-success-box">
+              <div className="lc-unique-brand-tag">
+                PIXENOX
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="lead-capture__form" noValidate>
-                <h3 className="lead-capture__form-title">Tell Us About Your Challenge</h3>
+              <h3>Signal Received</h3>
+              <p>Your coordinates are logged. Pixenox architects will decrypt and respond with a payload brief within 48 hours.</p>
+              <button className="lc-reset-btn" onClick={() => setStatus('idle')}>Initiate Another Uplink</button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="lc-nli-form" noValidate>
 
-                {errorMsg && <div className="lead-capture__error">{errorMsg}</div>}
-
-                <div className="lead-capture__form-row">
-                  <div className="lead-capture__field">
-                    <label htmlFor="lead-name">Full Name *</label>
-                    <input id="lead-name" type="text" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" />
-                  </div>
-                  <div className="lead-capture__field">
-                    <label htmlFor="lead-email">Work Email *</label>
-                    <input id="lead-email" type="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
-                  </div>
+              <div className="lc-nli-sentence">
+                Hi, my name is
+                <div className="lc-input-wrap">
+                  <input type="text" name="name" value={formData.name} onChange={handleInput} placeholder="Name" required className="lc-nli-input" style={{ width: formData.name ? `${Math.max(formData.name.length, 5)}ch` : '8ch' }} />
                 </div>
-
-                <div className="lead-capture__form-row">
-                  <div className="lead-capture__field">
-                    <label htmlFor="lead-company">Company</label>
-                    <input id="lead-company" type="text" placeholder="Your company" value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" />
-                  </div>
-                  <div className="lead-capture__field">
-                    <label htmlFor="lead-website">Website URL</label>
-                    <input id="lead-website" type="url" placeholder="https://yoursite.com" value={website} onChange={(e) => setWebsite(e.target.value)} autoComplete="url" />
-                  </div>
-                </div>
-
-                {/* Multi-select Services */}
-                <div className="lead-capture__field">
-                  <label>Services You&apos;re Interested In</label>
+                and I lead technical strategy at
+                <div className="lc-input-wrap">
+                  <input type="text" name="company" value={formData.company} onChange={handleInput} placeholder="Enterprise Limitless" className="lc-nli-input" style={{ width: formData.company ? `${Math.max(formData.company.length, 12)}ch` : '20ch' }} />
+                </div>.
+                <br /><br />
+                We are experiencing limits with our infrastructure and require Pixenox to engineer a custom
+                <div className="lc-input-wrap lc-dropdown-wrap" ref={dropdownRef}>
                   <button
                     type="button"
-                    className="lead-capture__multi-trigger"
-                    onClick={() => setShowServices(!showServices)}
+                    className={`lc-dropdown-trigger ${activeService ? 'lc-dropdown-trigger--active' : ''}`}
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
-                    <span>{services.length ? `${services.length} selected` : 'Select services...'}</span>
-                    <ChevronDown size={16} className={showServices ? 'lead-capture__chevron--open' : ''} />
+                    <span>{displayService}</span>
+                    <svg className={`lc-dropdown-chevron ${dropdownOpen ? 'lc-dropdown-chevron--open' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
                   </button>
-                  {showServices && (
-                    <div className="lead-capture__multi-dropdown">
-                      {SERVICE_OPTIONS.map((s) => (
-                        <label key={s} className="lead-capture__multi-option">
-                          <input type="checkbox" checked={services.includes(s)} onChange={() => toggleService(s)} />
-                          <span className="lead-capture__multi-check" />
-                          <span>{s}</span>
-                        </label>
+                  {dropdownOpen && (
+                    <div className="lc-dropdown-menu">
+                      {SERVICE_OPTIONS.map((opt) => (
+                        <button
+                          type="button"
+                          key={opt}
+                          className={`lc-dropdown-item ${activeService === opt ? 'lc-dropdown-item--selected' : ''}`}
+                          onClick={() => selectService(opt)}
+                        >
+                          <span>{opt}</span>
+                          {activeService === opt && (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
+                          )}
+                        </button>
                       ))}
                     </div>
                   )}
-                  {services.length > 0 && (
-                    <div className="lead-capture__selected-tags">
-                      {services.map((s) => (
-                        <span key={s} className="lead-capture__service-tag" onClick={() => toggleService(s)}>
-                          {s} ×
-                        </span>
-                      ))}
+                </div>
+                {activeService === 'Other' && (
+                  <>
+                    {' — '}
+                    <div className="lc-input-wrap">
+                      <input
+                        type="text"
+                        value={customService}
+                        onChange={(e) => setCustomService(e.target.value)}
+                        placeholder="enter your service"
+                        className="lc-nli-input"
+                        style={{ width: customService ? `${Math.max(customService.length, 12)}ch` : '18ch' }}
+                        autoFocus
+                      />
                     </div>
-                  )}
+                  </>
+                )}
+                .
+                <br /><br />
+                Our primary technical challenge relates to
+                <div className="lc-input-wrap">
+                  <input type="text" name="message" value={formData.message} onChange={handleInput} placeholder="briefly describe the bottleneck" className="lc-nli-input lc-nli-long" />
+                </div>.
+                <br /><br />
+                You can reach my team at
+                <div className="lc-input-wrap">
+                  <input type="email" name="email" value={formData.email} onChange={handleInput} placeholder="name@company.com" required className="lc-nli-input" style={{ width: formData.email ? `${Math.max(formData.email.length, 8)}ch` : '18ch' }} />
                 </div>
-
-                {/* Budget */}
-                <div className="lead-capture__field">
-                  <label htmlFor="lead-budget">Estimated Budget</label>
-                  <select id="lead-budget" value={budget} onChange={(e) => setBudget(e.target.value)} className="lead-capture__select">
-                    <option value="">Select budget range...</option>
-                    {BUDGET_OPTIONS.map((b) => (
-                      <option key={b} value={b}>{b}</option>
-                    ))}
-                  </select>
+                or call us on
+                <div className="lc-input-wrap">
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleInput} placeholder="+91 98765 43210" className="lc-nli-input" style={{ width: formData.phone ? `${Math.max(formData.phone.length, 10)}ch` : '16ch' }} />
                 </div>
+                to coordinate deployment.
+              </div>
 
-                <div className="lead-capture__field">
-                  <label htmlFor="lead-message">Tell us about your project</label>
-                  <textarea id="lead-message" placeholder="Describe your goals, challenges, or what you'd like to build..." value={message} onChange={(e) => setMessage(e.target.value)} rows={3} />
-                </div>
+              {errorMsg && <div className="lc-form-error">{errorMsg}</div>}
 
-                <button type="submit" className="lead-capture__submit" disabled={status === 'loading'}>
+              <div className="lc-turnstile-wrapper">
+                <Turnstile 
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
+                  onSuccess={(token) => setTurnstileToken(token)} 
+                  options={{ theme: 'dark' }} 
+                />
+              </div>
+
+              <div className="lc-nli-action">
+                <button type="submit" className="lc-nli-submit" disabled={status === 'loading'}>
                   {status === 'loading' ? (
-                    <><Loader2 size={18} className="lead-capture__spinner" /> Submitting...</>
+                    <Loader2 size={24} className="lc-spinner" />
                   ) : (
-                    <>Request Architecture Brief <ArrowRight size={18} /></>
+                    <>
+                      <span>Transmit Request</span>
+                      <ArrowRight size={20} />
+                    </>
                   )}
                 </button>
+              </div>
 
-                <p className="lead-capture__disclaimer">No spam. No sales decks. Scoped technical brief delivered in 48 hours.</p>
-              </form>
-            )}
-          </motion.div>
+            </form>
+          )}
         </div>
       </div>
     </section>

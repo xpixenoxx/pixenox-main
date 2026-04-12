@@ -153,42 +153,40 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
 
   return (
     <footer className="footer" role="contentinfo">
-      {/* MASSIVE BACKGROUND WATERMARK */}
-      <div className="footer__watermark">PIXENOX</div>
+      {/* Ambient background artifact */}
+      <div className="footer__glow-orb" />
 
       <div className="footer__container">
-        <div className="footer__top">
+        <div className="footer__grid">
 
-          {/* Left: Brand & Tagline */}
-          <div className="footer__brand-col">
-            <div className="footer__brand-logo">
+          {/* Left: Brand Identity & Glass Clock Card */}
+          <div className="footer__brand-section">
+            <div className="footer__brand-header">
               {brand?.logo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={brand.logo_url} alt="Logo" className="footer__logo-img" />
               ) : (
                 <div className="footer__logo-fallback">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="8" x2="12" y2="16" />
                     <line x1="8" y1="12" x2="16" y2="12" />
                   </svg>
                 </div>
               )}
-              <span className="footer__brand-name">{brand?.company_name || 'PIXENOX'}</span>
+              <span className="footer__brand-title">{brand?.company_name || 'PIXENOX'}</span>
             </div>
-            <p className="footer__tagline">
-              {brand?.tagline || 'Unified intelligent systems — where AI, data, and growth converge.'}
-            </p>
-            <a href="mailto:contact@pixenox.com" className="footer__email-link">
-              contact@pixenox.com
+
+
+
+            <a href="mailto:connect@pixenox.com" className="footer__email-contact">
+              connect@pixenox.com
             </a>
 
-            <div className="footer__clock-widget">
-              <div className="footer__clock-location">
-                <span className="location-main">Based in India, IST</span>
-                <span className="location-sub">Engineering globally</span>
-              </div>
-              <div className="footer__clock-time">
+            {/* Typographical Time Display */}
+            <div className="footer__time-widget">
+              <div className="footer__location-badge">India, IST</div>
+              <div className="footer__time-display">
                 {timeStr ? (
                   <>
                     <span className="time-nums">{timeStr}</span>
@@ -204,10 +202,10 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
             </div>
           </div>
 
-          {/* Right: Link Columns */}
-          <div className="footer__links-wrapper">
-            <div className="footer__links-col">
-              <h4>Services</h4>
+          {/* Right: Navigational Architecture */}
+          <div className="footer__nav-groups">
+            <div className="footer__nav-col">
+              <h4>Platform</h4>
               <ul>
                 {serviceCards.length > 0 ? (
                   serviceCards.map((card) => (
@@ -226,8 +224,8 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
               </ul>
             </div>
 
-            <div className="footer__links-col">
-              <h4>Work</h4>
+            <div className="footer__nav-col">
+              <h4>Case Studies</h4>
               <ul>
                 {workItems.length > 0 ? (
                   workItems.map((study) => (
@@ -241,13 +239,16 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
               </ul>
             </div>
 
-            <div className="footer__links-col">
+            <div className="footer__nav-col">
               <h4>Social</h4>
               <ul>
                 {fallbackSocials.map((link) => (
                   <li key={link.id}>
                     {link.href.startsWith('http') ? (
-                      <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
+                      <a href={link.href} target="_blank" rel="noopener noreferrer">
+                        {link.label}
+                        <svg className="external-icon" viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17l9.2-9.2M17 16.8V7H7.2" /></svg>
+                      </a>
                     ) : (
                       <Link href={link.href}>{link.label}</Link>
                     )}
@@ -258,27 +259,19 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
           </div>
         </div>
 
-        {/* Footer CTA */}
-        <div className="footer__cta-strip">
-          <div className="footer__cta-text">
-            <h3>Ready to converge your systems?</h3>
-            <p>Get a scoped architecture brief — 48 hours, no obligations.</p>
-          </div>
-          <a href="/#free-audit" className="footer__cta-btn">Request Brief</a>
-        </div>
-
-        {/* Bottom Bar */}
+        {/* Bottom Utility Bar */}
         <div className="footer__bottom">
-          <p className="footer__copyright">{copyrightText}</p>
+          <div className="footer__copyright">{copyrightText}</div>
           <div className="footer__bottom-links">
-            <a href="/careers">Careers</a>
-            <span>·</span>
-            <a href="/privacy">Privacy</a>
-            <span>·</span>
             <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/careers">Careers</a>
           </div>
         </div>
       </div>
+
+      {/* Massive Vector Graphic Anchor (Vercel Style) */}
+      <h1 className="footer__massive-anchor" aria-hidden="true">PIXENOX</h1>
     </footer>
   );
 }

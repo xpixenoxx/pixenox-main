@@ -73,11 +73,12 @@ export default function CaseStudyCard({ study, tags, index }: CaseStudyCardProps
           <Image
             src={study.cover_image_url}
             alt={study.title}
-            width={1200}
-            height={800}
-            quality={100} // Prioritize image quality, no blur
+            width={1920}
+            height={1080}
+            quality={75}
             className="case-study-card__image"
-            priority={index < 4} // fast load for above-fold items
+            loading={index < 4 ? 'eager' : 'lazy'}
+            priority={index < 2}
           />
         )}
       </div>

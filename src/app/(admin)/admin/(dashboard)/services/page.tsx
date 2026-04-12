@@ -438,7 +438,7 @@ export default function ServicesPage() {
                                       value={name}
                                       onChange={e => {
                                          const newStack = [...(cardToEdit.technology_stack || [])];
-                                         newStack[i] = { name: e.target.value, svg };
+                                         newStack[i] = { ...(tech || {}), name: e.target.value, svg };
                                          setCardToEdit({...cardToEdit, technology_stack: newStack});
                                       }}
                                     />
@@ -449,7 +449,7 @@ export default function ServicesPage() {
                                           value={svg} 
                                           onChange={e => {
                                              const newStack = [...(cardToEdit.technology_stack || [])];
-                                             newStack[i] = { name, svg: e.target.value };
+                                             newStack[i] = { ...(tech || {}), name, svg: e.target.value };
                                              setCardToEdit({...cardToEdit, technology_stack: newStack});
                                           }} 
                                        />
@@ -457,6 +457,19 @@ export default function ServicesPage() {
                                           <div className="w-12 h-12 flex items-center justify-center bg-white/10 rounded-lg border border-white/10 text-white shrink-0" dangerouslySetInnerHTML={{ __html: svg }} />
                                        )}
                                     </div>
+                                    <label className="flex items-center gap-2 cursor-pointer mt-1">
+                                       <input 
+                                          type="checkbox"
+                                          className="accent-deep-purple"
+                                          checked={tech?.is_special || false}
+                                          onChange={e => {
+                                             const newStack = [...(cardToEdit.technology_stack || [])];
+                                             newStack[i] = { ...(tech || {}), name, svg, is_special: e.target.checked };
+                                             setCardToEdit({...cardToEdit, technology_stack: newStack});
+                                          }}
+                                       />
+                                       <span className="text-xs font-medium text-white/70">Special (Feature on Homepage)</span>
+                                    </label>
                                  </div>
                                  <button type="button" onClick={() => {
                                     const newStack = [...(cardToEdit.technology_stack || [])];

@@ -21,11 +21,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
   const [navItems, setNavItems] = useState<NavConfig[]>(initialNav ?? []);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
-  const [servicesMegaOpen, setServicesMegaOpen] = useState(false);
-  const [serviceCards, setServiceCards] = useState<any[]>([]);
   const pathname = usePathname();
-  const megaRef = useRef<HTMLDivElement>(null);
-  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Smart Scroll state
   const { scrollY } = useScroll();
@@ -53,38 +49,12 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
         if (data) setNavItems(data as NavConfig[]);
       }
 
-      // Load services for mega menu
-      const { data: svcData } = await supabase
-        .from('services_cards')
-        .select('*')
-        .eq('is_visible', true)
-        .order('priority', { ascending: true });
-      if (svcData) setServiceCards(svcData);
     }
     load();
   }, [initialBrand, initialNav]);
 
-  // Close mega menu on route change
-  useEffect(() => {
-    setServicesMegaOpen(false);
-  }, [pathname]);
-
-  // Hover-intent: open on enter, close with delay on leave
-  const handleMegaEnter = () => {
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    setServicesMegaOpen(true);
-  };
-
-  const handleMegaLeave = () => {
-    closeTimerRef.current = setTimeout(() => {
-      setServicesMegaOpen(false);
-    }, 200); // small delay to prevent flicker
-  };
-
   const coreNavItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() !== 'start your project');
   const ctaItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() === 'start your project');
-
-  const isServicesLink = (label: string) => label.toLowerCase() === 'services';
 
   return (
     <>
@@ -115,30 +85,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
             {coreNavItems.map((item) => {
               const isActive = pathname === item.href;
               const isHovered = hoveredNode === item.id;
-              const isSvc = isServicesLink(item.label);
-
-              if (isSvc) {
-                return (
-                  <div
-                    key={item.id}
-                    className="am-nav-link am-nav-link--btn"
-                    onMouseEnter={() => { setHoveredNode(item.id); handleMegaEnter(); }}
-                    onMouseLeave={handleMegaLeave}
-                  >
-                    <span className={`am-nav-text ${servicesMegaOpen || isActive ? 'is-active' : ''}`}>
-                      {item.label}
-                    </span>
-                    {(servicesMegaOpen || isActive) && (
-                      <motion.div
-                        layoutId="am-nav-active-underline"
-                        className="am-nav-active-underline"
-                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                      />
-                    )}
-                  </div>
-                );
-              }
-
+              // Default to standard Link mapping
               return (
                 <Link
                   key={item.id}
@@ -175,45 +122,6 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
           </div>
 
         </div>
-
-        {/* ═══ SERVICES MEGA MENU ═══ */}
-        <AnimatePresence>
-          {servicesMegaOpen && (
-            <motion.div
-              ref={megaRef}
-              className="mega-menu"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              onMouseEnter={handleMegaEnter}
-              onMouseLeave={handleMegaLeave}
-            >
-              <div className="mega-menu__inner">
-                <div className="mega-menu__grid">
-                  {serviceCards.map((card) => (
-                    <div key={card.id} className="mega-service">
-                      <div className="mega-service__header">
-                        {card.icon_svg && (
-                          <span className="mega-service__icon" dangerouslySetInnerHTML={{ __html: sanitizeSvg(card.icon_svg) }} />
-                        )}
-                        <h4 className="mega-service__title">{card.title}</h4>
-                      </div>
-                      <ul className="mega-service__list">
-                        {(card.technology_stack || []).map((item: any, i: number) => {
-                          const name = typeof item === 'string' ? item : (item?.name || '');
-                          return (
-                            <li key={i} className="mega-service__item">{name}</li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
       </motion.header>
 

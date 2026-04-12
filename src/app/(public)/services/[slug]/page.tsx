@@ -1,10 +1,11 @@
 import { createClient as createServerClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import type { ServiceCard } from '@/lib/types/database';
-import { sanitizeSvg } from '@/lib/sanitize';
+import type { ServiceCard, CaseStudy } from '@/lib/types/database';
 import ServiceAnimatedHeader from './ServiceAnimatedHeader';
+import ServiceDetailSections from './ServiceDetailSections';
 import './services-slug.css';
+import './service-detail-sections.css';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -36,11 +37,31 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const supabase = await createServerClient();
 
-  const [{ data: serviceData }] = await Promise.all([
-    supabase.from('services_cards').select('*').eq('page_slug', slug).limit(1).single(),
-  ]);
+  // Fetch the service details first
+  const { data: serviceData } = await supabase
+    .from('services_cards')
+    .select('*')
+    .eq('page_slug', slug)
+    .limit(1)
+    .single();
 
   const service = serviceData as ServiceCard | null;
+
+  // Then fetch strictly matching related projects that contain the exact service title as a tag
+  let relatedStudies: CaseStudy[] = [];
+  if (service) {
+    const { data: caseStudiesData } = await supabase
+      .from('case_studies')
+      .select('title, slug, cover_image_url, short_description, tags')
+      .eq('status', 'published')
+      .contains('tags', [service.title])
+      .order('priority', { ascending: true })
+      .limit(3);
+    
+    if (caseStudiesData) {
+      relatedStudies = caseStudiesData as CaseStudy[];
+    }
+  }
 
   if (!service) {
     return (
@@ -63,8 +84,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
       'BACKEND APIS & MICROSERVICES (NODE)',
       'MOBILE & CROSS-PLATFORM (FLUTTER)',
       'CI/CD & CLOUD OPS (DOCKER)'
-    ];
+    ] as any;
   }
+
+  // Normalize tech items
+  const normalizedTech = (techStack as any[]).map((item) =>
+    typeof item === 'string' ? { name: item } : { name: item?.name || '', svg: item?.svg || undefined }
+  );
 
   return (
     <article className="all-srv-page">
@@ -82,30 +108,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         />
       </div>
 
-      <div className="all-srv-content-wrapper">
-        <div className="all-srv-divider" />
-
-        {techStack.length > 0 && (
-          <div className="all-srv-stack-section">
-            <div className="all-srv-list">
-              {techStack.map((techItem: any, idx: number) => {
-                const name = typeof techItem === 'string' ? techItem : (techItem?.name || '');
-                const svg = typeof techItem === 'string' ? null : (techItem?.svg || null);
-                return (
-                  <div key={idx} className="all-srv-row" style={{ animationDelay: `${idx * 0.1 + 0.3}s` }}>
-                    {svg ? (
-                       <span className="all-srv-icon" dangerouslySetInnerHTML={{ __html: sanitizeSvg(svg) }} />
-                    ) : (
-                       <span className="all-srv-number">{(idx + 1).toString().padStart(2, '0')}</span>
-                    )}
-                    <h2 className="all-srv-name">{name}</h2>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
+      {/* Premium Content Sections */}
+      <ServiceDetailSections
+        serviceTitle={service.title}
+        serviceDescription={service.description}
+        techStack={normalizedTech}
+        relatedStudies={relatedStudies}
+      />
     </article>
   );
 }

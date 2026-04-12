@@ -45,7 +45,7 @@ const CipherText = ({ target, trigger }: { target: string; trigger: boolean }) =
   return <>{text}</>;
 };
 
-// ── Flowing Wave Assembly Typography ──
+// ── Flowing Wave Assembly Typography (Lightweight CSS-based) ──
 const FlowingBackwardsText = ({ text, trigger }: { text: string; trigger: boolean }) => {
   const chars = text.split('');
   const total = chars.length;
@@ -53,11 +53,7 @@ const FlowingBackwardsText = ({ text, trigger }: { text: string; trigger: boolea
   return (
     <span style={{ display: 'inline-block' }}>
       {chars.map((char, i) => {
-        // Reverse calculation: the last character loads first
         const backwardDelay = 0.5 + ((total - 1 - i) * 0.015);
-        
-        // Continuous offset phase for the wave
-        const waveOffset = backwardDelay + (i * 0.04);
 
         return (
           <motion.span
@@ -66,20 +62,10 @@ const FlowingBackwardsText = ({ text, trigger }: { text: string; trigger: boolea
             animate={trigger ? { 
               opacity: 1, 
               x: 0,
-              y: [0, -4, 0], // Smooth sine wave motion
             } : {}}
             transition={{
-              // Core entry transition physics
               opacity: { duration: 0.4, delay: backwardDelay },
               x: { type: 'spring', damping: 10, delay: backwardDelay },
-              
-              // Infinite loop "waterflowing" wave physics
-              y: { 
-                repeat: Infinity, 
-                duration: 2.5, 
-                ease: "easeInOut", 
-                delay: waveOffset 
-              }
             }}
             style={{ 
               display: 'inline-block', 
@@ -105,23 +91,24 @@ const ParticleHeading = ({ text, trigger, fontFamily, color }: { text: string; t
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
 
-    const width = 900; 
-    const height = 120;
+    const width = 1200; 
+    const height = 160;
     canvas.width = width;
     canvas.height = height;
 
-    const fontSize = text.length > 20 ? 45 : 65;
+    const fontSize = text.length > 20 ? 60 : 90;
     ctx.font = `900 ${fontSize}px ${fontFamily || 'Inter'}, sans-serif`;
     ctx.fillStyle = 'white';
     ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
     
     // Draw text bounds invisible payload
     ctx.clearRect(0, 0, width, height);
-    ctx.fillText(text, 0, height / 2);
+    ctx.fillText(text, width / 2, height / 2);
 
     const imgData = ctx.getImageData(0, 0, width, height).data;
     const particles: {x: number, y: number, baseX: number, baseY: number, vx: number, vy: number, size: number}[] = [];
-    const gap = 3; // Matrix mapping density
+    const gap = 5; // Matrix mapping density (larger = fewer particles = better perf)
     
     for (let y = 0; y < height; y += gap) {
       for (let x = 0; x < width; x += gap) {
@@ -155,7 +142,22 @@ const ParticleHeading = ({ text, trigger, fontFamily, color }: { text: string; t
     canvas.addEventListener('mousemove', handleMouse);
     canvas.addEventListener('mouseleave', handleLeave);
 
+    let isIntersecting = true;
+    let isDocVisible = true;
+    const observer = new IntersectionObserver((entries) => {
+      isIntersecting = entries[0].isIntersecting;
+      if (isIntersecting && isDocVisible) animationFrameId = requestAnimationFrame(render);
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    const handleVisibility = () => {
+      isDocVisible = !document.hidden;
+      if (isDocVisible && isIntersecting) animationFrameId = requestAnimationFrame(render);
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     const render = () => {
+      if (!isIntersecting || !isDocVisible) return;
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = color || '#ffffff';
 
@@ -195,13 +197,15 @@ const ParticleHeading = ({ text, trigger, fontFamily, color }: { text: string; t
       cancelAnimationFrame(animationFrameId);
       canvas.removeEventListener('mousemove', handleMouse);
       canvas.removeEventListener('mouseleave', handleLeave);
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
   }, [text, trigger, fontFamily, color]);
 
   return (
     <canvas 
       ref={canvasRef} 
-      style={{ display: 'block', width: '100%', maxWidth: '900px', height: '100%', cursor: 'crosshair', marginLeft: '-5px' }} 
+      style={{ display: 'block', width: '100%', maxWidth: '1200px', height: '100%', cursor: 'crosshair', margin: '0 auto' }} 
       aria-label={text}
     />
   );
@@ -274,10 +278,10 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
 
   // Pre-compiled HUD Telemetry aesthetics mapping to the specific array indexes 
   const telemetryData = [
-    { s1: 'INTEL', s2: 'SPEED', v1: 0.95, v2: 0.88, color: '#b026ff', glow: 'rgba(176,38,255,0.6)' },
-    { s1: 'POWER', s2: 'ARMOR', v1: 1.0, v2: 0.92, color: '#00e5ff', glow: 'rgba(0,229,255,0.6)' },
-    { s1: 'LOGIC', s2: 'AGILE', v1: 0.94, v2: 0.99, color: '#ff0055', glow: 'rgba(255,0,85,0.6)' },
-    { s1: 'THRT', s2: 'SYNC', v1: 0.82, v2: 0.97, color: '#00e5ff', glow: 'rgba(0,229,255,0.6)' },
+    { s1: 'INTEL', s2: 'SPEED', v1: 0.95, v2: 0.88, color: '#9333ea', glow: 'rgba(147, 51, 234, 0.6)' }, // Purple
+    { s1: 'POWER', s2: 'ARMOR', v1: 1.0, v2: 0.92, color: '#a855f7', glow: 'rgba(168, 85, 247, 0.6)' }, // Violet
+    { s1: 'LOGIC', s2: 'AGILE', v1: 0.94, v2: 0.99, color: '#6d28d9', glow: 'rgba(109, 40, 217, 0.6)' }, // Deep Purple
+    { s1: 'THRT', s2: 'SYNC', v1: 0.82, v2: 0.97, color: '#c084fc', glow: 'rgba(192, 132, 252, 0.6)' }, // Bright Purple
   ];
 
   return (
@@ -304,19 +308,10 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
               visible: { transition: { staggerChildren: 0.15 } }
             }}
           >
-            {/* Cyberpunk Objective Tag */}
-            <motion.div 
-              className="m-cmd-tag"
-              variants={{
-                hidden: { opacity: 0, x: -50 },
-                visible: { opacity: 1, x: 0, transition: { type: 'spring' } }
-              }}
-            >
-              <CipherText target="// PRIMARY_DIRECTIVE" trigger={inView} />
-            </motion.div>
+
 
             {/* Intense Particle Dots Assembling Title */}
-            <div style={{ width: '100%', height: '120px', position: 'relative' }}>
+            <div style={{ width: '100%', height: '160px', position: 'relative' }}>
               <ParticleHeading 
                 text={config.section_heading} 
                 trigger={inView}
@@ -338,7 +333,8 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
                   fontSize: '1.05rem',
                   lineHeight: '1.7',
                   maxWidth: '700px',
-                  marginTop: '16px'
+                  marginTop: '16px',
+                  textAlign: 'center'
                 }}
               >
                 <FlowingBackwardsText text={config.section_subheading} trigger={inView} />

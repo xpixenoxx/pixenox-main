@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Clock, ArrowRight, Briefcase, X, Loader2, CheckCircle, Search } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { getBrowserClient } from '@/lib/supabase/client';
 import './careers.css';
 
@@ -92,6 +93,7 @@ export default function CareersPageClient() {
   const [appCover, setAppCover] = useState('');
   const [appStatus, setAppStatus] = useState<AppStatus>('idle');
   const [appError, setAppError] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -125,8 +127,13 @@ export default function CareersPageClient() {
       return;
     }
 
+    if (!turnstileToken) {
+      setAppError('Please complete the security check.');
+      setAppStatus('error');
+      return;
+    }
+
     try {
-      const supabase = getBrowserClient();
       const msg = [
         `[Career Application]`,
         `Role: ${selectedRole?.title}`,
@@ -135,11 +142,21 @@ export default function CareersPageClient() {
         appCover.trim() ? `Cover Note: ${appCover.trim()}` : '',
       ].filter(Boolean).join('\n\n');
 
-      await (supabase.from('contact_submissions') as any).insert({
-        name: appName.trim(),
-        email: appEmail.trim(),
-        message: msg,
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: appName.trim(),
+          email: appEmail.trim(),
+          message: msg,
+          turnstileToken
+        }),
       });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed');
+      }
 
       setAppStatus('success');
     } catch {
@@ -258,6 +275,15 @@ export default function CareersPageClient() {
                     <input type="email" placeholder="Email *" value={appEmail} onChange={(e) => setAppEmail(e.target.value)} required />
                     <input type="url" placeholder="LinkedIn Profile (optional)" value={appLinkedin} onChange={(e) => setAppLinkedin(e.target.value)} />
                     <textarea placeholder="Why are you a great fit? (optional)" value={appCover} onChange={(e) => setAppCover(e.target.value)} rows={4} />
+                    
+                    <div className="mt-4 mb-2">
+                      <Turnstile 
+                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
+                        onSuccess={(token) => setTurnstileToken(token)} 
+                        options={{ theme: 'dark' }} 
+                      />
+                    </div>
+
                     <button type="submit" className="lead-capture__submit" disabled={appStatus === 'loading'}>
                       {appStatus === 'loading' ? <><Loader2 size={18} className="lead-capture__spinner" /> Submitting...</> : <>Submit Application <ArrowRight size={18} /></>}
                     </button>

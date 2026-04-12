@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pixenox Solutions Pvt Ltd — Unified Intelligent Systems",
-    template: "%s | Pixenox Solutions Pvt Ltd",
+    default: "Pixenox",
+    template: "Pixenox",
   },
   description:
     "We architect converged platforms where AI, data infrastructure, and growth systems operate as a single intelligent layer. Enterprise engineering for companies that refuse fragmented toolchains.",
@@ -80,6 +80,18 @@ export default function RootLayout({
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
+        />
+        {/* Preconnect to Supabase for faster data fetching */}
+        <link rel="preconnect" href="https://hylycwrnfqghmewamqzu.supabase.co" />
+        {/* Non-render-blocking font loading with preload + swap */}
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet"
         />
         {/* JSON-LD Structured Data: Organization */}
         <script

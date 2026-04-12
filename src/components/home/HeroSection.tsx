@@ -57,13 +57,13 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
     let animId: number;
     let isVisible = true;
-    let particles: Array<{x:number;y:number;vx:number;vy:number;size:number;baseX:number;baseY:number}> = [];
+    let particles: Array<{x:number;y:number;vx:number;vy:number;size:number;baseX:number;baseY:number;opacity:number}> = [];
 
     // Performance: reduce particles on mobile
     const isMobile = window.innerWidth < 768;
-    const PARTICLE_COUNT = isMobile ? 60 : 150;
-    const CONNECTION_DISTANCE = isMobile ? 80 : 120;
-    const MOUSE_RADIUS = 200;
+    const PARTICLE_COUNT = isMobile ? 40 : 120;
+    const CONNECTION_DISTANCE = isMobile ? 80 : 110;
+    const MOUSE_RADIUS = 250;
 
     const mouse = { x: -1000, y: -1000 };
 
@@ -83,9 +83,10 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
         particles.push({
           x, y,
           baseX: x, baseY: y,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          size: Math.random() * 1.5 + 0.5,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          size: Math.random() * 2 + 0.5,
+          opacity: Math.random() * 0.6 + 0.2,
         });
       }
     }
@@ -105,19 +106,31 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
       mouse.y = -1000;
     };
 
-    // Pause canvas when tab is hidden (performance)
+    // Pause canvas when tab is hidden or element is off-screen (performance)
+    let isIntersecting = true;
+    const observer = new IntersectionObserver((entries) => {
+      isIntersecting = entries[0].isIntersecting;
+      if (isIntersecting && isVisible) {
+        animId = requestAnimationFrame(animate);
+      }
+    }, { threshold: 0 });
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
     const handleVisibility = () => {
       isVisible = !document.hidden;
-      if (isVisible) animId = requestAnimationFrame(animate);
+      if (isVisible && isIntersecting) animId = requestAnimationFrame(animate);
     };
     document.addEventListener('visibilitychange', handleVisibility);
 
     window.addEventListener('mousemove', handleMouseMove);
     sectionRef.current?.addEventListener('mouseleave', handleMouseLeave);
 
+    let time = 0;
+
     function animate() {
-      if (!ctx || !canvas || !isVisible) return;
+      if (!ctx || !canvas || !isVisible || !isIntersecting) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      time += 0.005;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
@@ -137,14 +150,24 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
           const forceDirectionX = dx / dist;
           const forceDirectionY = dy / dist;
           const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
-          p.x -= forceDirectionX * force * 2;
-          p.y -= forceDirectionY * force * 2;
+          p.x -= forceDirectionX * force * 3;
+          p.y -= forceDirectionY * force * 3;
         }
 
-        // Draw particle
+        // Pulsating opacity
+        const pulse = Math.sin(time * 2 + i * 0.1) * 0.15;
+        const alpha = Math.min(1, p.opacity + pulse);
+
+        // Simplified particle rendering (avoids expensive radial gradient per frame)
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(139, 92, 246, ${Math.random() * 0.5 + 0.2})`;
+        ctx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(167, 139, 250, ${alpha * 0.5})`;
+        ctx.fill();
+
+        // Core dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(216, 180, 254, ${alpha})`;
         ctx.fill();
 
         // Constellation Lines
@@ -159,7 +182,8 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             const alpha = 1 - (dist2 / CONNECTION_DISTANCE);
-            ctx.strokeStyle = `rgba(139, 92, 246, ${alpha * 0.15})`;
+            ctx.strokeStyle = `rgba(139, 92, 246, ${alpha * 0.12})`;
+            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
@@ -175,6 +199,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('visibilitychange', handleVisibility);
+      observer.disconnect();
     };
   }, []);
 
@@ -182,7 +207,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
   // 4. Typography Stagger
   const headlineWords = hero.headline.split(' ');
-  const italicKeywords = ['digital', 'solutions', 'future', 'ai', 'architect', 'ranking', 'growth', 'seo', 'geo'];
+  const italicKeywords = ['digital', 'solutions', 'future', 'ai', 'architect', 'architecting', 'intelligent', 'ranking', 'growth', 'seo', 'geo'];
 
   const containerVariants = {
     hidden: {},
@@ -203,24 +228,41 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
   return (
     <section ref={sectionRef} className="hero">
+
+      
       {/* Structural Background Watermark — decorative, not heading */}
       <div className="hero__watermark" aria-hidden="true">PIXENOX</div>
+      
+      {/* Ambient Aurora Breathing */}
       <div className="hero__aurora-1" />
       <div className="hero__aurora-2" />
+      <div className="hero__aurora-3" />
 
-      {/* 3D Noise Sphere */}
-      <div className="hero__noise-sphere" aria-hidden="true">
-        <div className="hero__noise-sphere-texture hero__noise-sphere-texture--back" />
-        <div className="hero__noise-sphere-texture hero__noise-sphere-texture--front" />
+      {/* 3D Noise Sphere with Orbit Ring */}
+      <div className="hero__sphere-system" aria-hidden="true">
+        <div className="hero__orbit-ring" />
+        <div className="hero__orbit-ring hero__orbit-ring--2" />
+        <div className="hero__noise-sphere">
+          <div className="hero__noise-sphere-texture hero__noise-sphere-texture--back" />
+          <div className="hero__noise-sphere-texture hero__noise-sphere-texture--front" />
+          <div className="hero__sphere-highlight" />
+        </div>
       </div>
 
       <canvas ref={canvasRef} className="hero__canvas" />
+      
+      {/* Perspective Grid Floor */}
+      <div className="hero__grid-floor" aria-hidden="true" />
+
+      {/* Vignette for cinematic depth */}
+      <div className="hero__vignette" aria-hidden="true" />
 
       {/* Main Structural Layout */}
       <div className="hero__layout container">
 
-        {/* CENTER: Headline — uses h1 for SEO (was h2 originally) */}
+        {/* CENTER: Headline — uses h1 for SEO */}
         <div className="hero__center">
+
           <motion.h1
             className="hero__headline"
             variants={containerVariants}
@@ -270,8 +312,10 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
             <div className="hero__cta-wrapper">
               <a href={hero.cta_url} className="hero__cta">
-                {hero.cta_text || 'Get Started'}
-                <ArrowRight size={18} strokeWidth={2.5} />
+                <span>{hero.cta_text || 'Get Started'}</span>
+                <span className="hero__cta-icon">
+                  <ArrowRight size={18} strokeWidth={2.5} />
+                </span>
               </a>
             </div>
           </motion.div>

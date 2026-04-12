@@ -18,8 +18,10 @@
   padding: 160px 8vw 100px;
   background-color: #030303;
   overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
+
+
 
 .all-srv-header-wrapper::before {
   content: '';
@@ -32,17 +34,29 @@
   mix-blend-mode: overlay;
 }
 
-/* Deep Purple Hero Aurora Gradient */
+/* Deep Purple Hero Aurora Gradients */
 .all-srv-header-aurora {
   position: absolute;
   top: -20%; right: -10%;
   width: 40vw; height: 40vw;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0) 70%);
   border-radius: 50%;
   filter: blur(100px);
   z-index: 0;
   pointer-events: none;
   animation: drift 20s ease-in-out infinite alternate;
+}
+
+/* Second aurora - bottom left for visual depth */
+.all-srv-header-aurora::after {
+  content: '';
+  position: absolute;
+  bottom: -60%; left: -40%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(88, 28, 135, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: drift 25s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes drift {
@@ -202,6 +216,59 @@
   color: #fff;
   margin: 0;
   max-width: 1000px;
+}
+
+/* CTA Button — Premium pill style */
+.all-srv-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 36px;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 100px;
+  background: rgba(168, 85, 247, 0.06);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.all-srv-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.all-srv-cta:hover {
+  border-color: #a855f7;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(168, 85, 247, 0.2);
+}
+
+.all-srv-cta:hover::before {
+  opacity: 1;
+}
+
+.all-srv-cta::after {
+  content: '↓';
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.all-srv-cta:hover::after {
+  transform: translateY(3px);
 }
 
 .all-srv-desc {

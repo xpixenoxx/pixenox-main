@@ -19,6 +19,7 @@
   justify-content: center;
   overflow: hidden;
   color: #fff;
+  contain: layout style;
 }
 
 /* Background canvas */
@@ -28,6 +29,7 @@
   width: 100%; height: 100%;
   z-index: 0;
   pointer-events: none;
+  will-change: contents;
 }
 
 .client-container {
@@ -63,15 +65,16 @@
 }
 
 .client-quote-text {
-  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.5rem);
   font-family: var(--font-heading, "Inter");
   font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -0.02em;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   position: relative;
   z-index: 2;
   margin: 0;
   text-align: left;
+  max-width: 800px;
 }
 
 .client-author-col {
@@ -193,6 +196,9 @@
 
 /* Responsive Overrides */
 @media (max-width: 900px) {
+  .client-container {
+    padding-bottom: 80px; /* Guarantee blank space at the bottom */
+  }
   .client-slide-wrapper {
     flex-direction: column;
     align-items: flex-start;
@@ -207,11 +213,20 @@
     padding-top: 40px;
   }
   .client-tracker {
-    bottom: 30px;
-    left: 30px;
+    /* Anchored safely into the new guaranteed bottom padding zone */
+    bottom: 24px;
+    top: auto;
+    left: 24px;
+    align-items: center;
+  }
+  .client-tracker-current {
+    font-size: 2rem; /* Scaled to fit modern mobile UI */
+  }
+  .client-tracker-total {
+    font-size: 1rem;
   }
   .client-dots-vert {
-    right: 30px;
+    right: 20px;
   }
   .client-watermark {
     display: none;

@@ -83,12 +83,12 @@
 .hl-panel-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.8) 100%);
+  background: linear-gradient(0deg, rgba(2,1,4,0.98) 0%, rgba(2,1,4,0.4) 40%, rgba(2,1,4,0.85) 100%);
   transition: background 0.7s, opacity 0.7s;
 }
 
 .hl-panel:hover .hl-panel-overlay {
-  background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.6) 100%);
+  background: linear-gradient(0deg, rgba(20,10,40,0.95) 0%, rgba(2,1,4,0) 50%, rgba(76,29,149,0.3) 100%);
 }
 
 /* Content Container (Hidden until active) */
@@ -162,7 +162,7 @@
 }
 
 .hl-status-red {
-  color: #ff3366;
+  color: #a78bfa;
 }
 
 /* Bottom Information */

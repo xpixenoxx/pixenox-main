@@ -291,7 +291,7 @@ export default function ContactPageClient({ services: initialServices }: Contact
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
               >
-                <a href="mailto:contact@pixenox.com" className="cx-bottom-strip__item">contact@pixenox.com</a>
+                <a href="mailto:connect@pixenox.com" className="cx-bottom-strip__item">connect@pixenox.com</a>
                 <span className="cx-bottom-strip__dot" />
                 <span className="cx-bottom-strip__item">Mon — Sat</span>
                 <span className="cx-bottom-strip__dot" />

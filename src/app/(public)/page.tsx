@@ -1,11 +1,14 @@
 import { createClient as createServerClient } from '@/lib/supabase/server';
 import HeroSection from '@/components/home/HeroSection';
-import ServicesSection from '@/components/home/ServicesSection';
-import CaseStudiesSection from '@/components/home/CaseStudiesSection';
-import WhyChooseUs from '@/components/home/WhyChooseUs';
-import LeadCaptureSection from '@/components/home/LeadCaptureSection';
-import CtaBanner from '@/components/home/CtaBanner';
-import FeedbackSection from '@/components/home/FeedbackSection';
+import dynamic from 'next/dynamic';
+
+const ServicesSection = dynamic(() => import('@/components/home/ServicesSection'));
+const CaseStudiesSection = dynamic(() => import('@/components/home/CaseStudiesSection'));
+const WhyChooseUs = dynamic(() => import('@/components/home/WhyChooseUs'));
+const LeadCaptureSection = dynamic(() => import('@/components/home/LeadCaptureSection'));
+const CtaBanner = dynamic(() => import('@/components/home/CtaBanner'));
+const FeedbackSection = dynamic(() => import('@/components/home/FeedbackSection'));
+
 import type { Metadata } from 'next';
 import type {
   HeroSettings,

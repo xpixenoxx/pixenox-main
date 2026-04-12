@@ -106,7 +106,7 @@ export default function ServicesSection({
     if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
   };
 
-  const visibleCards = cards.filter((c) => c.is_visible); // Shows ALL visible cards now
+  const visibleCards = cards.filter((c) => c.is_visible);
   const getCardTools = (cardId: string) => tools.filter((t) => t.card_id === cardId).slice(0, 4);
 
   if (!cards.length) {
@@ -135,7 +135,13 @@ export default function ServicesSection({
       <div className="container">
         
         {/* Section Heading */}
-        <div className="services__header">
+        <motion.div 
+          className="services__header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-10%' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           <h2
             className="services__heading"
             style={{
@@ -157,7 +163,7 @@ export default function ServicesSection({
               {config.subheading}
             </p>
           )}
-        </div>
+        </motion.div>
 
         {/* Dynamic DB-Controlled Layout Container */}
         <div 
@@ -190,6 +196,10 @@ export default function ServicesSection({
                        setActiveId(card.id);
                     }
                   }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-5%' }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
                 >
                   {/* Background Image (Inactive State) */}
                   <div 
@@ -219,7 +229,9 @@ export default function ServicesSection({
                         {String(idx + 1).padStart(2, '0')}
                       </motion.span>
                     )}
-                    <ArrowUpRight className="service-card__arrow" size={28} />
+                    <span className="service-card__arrow">
+                      <ArrowUpRight size={18} />
+                    </span>
                   </div>
 
                   {/* Middle Description (Only visible when active, handled by CSS) */}
