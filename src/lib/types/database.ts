@@ -358,6 +358,7 @@ export interface Database {
           gallery_images: string[] | null
           pitch_deck_images: string[] | null
           project_length: string | null
+          metrics: { label: string; value: string; suffix?: string; prefix?: string }[] | null
         }
         Insert: {
           id?: string
@@ -377,6 +378,7 @@ export interface Database {
           gallery_images?: string[] | null
           pitch_deck_images?: string[] | null
           project_length?: string | null
+          metrics?: { label: string; value: string; suffix?: string; prefix?: string }[] | null
         }
         Update: {
           id?: string
@@ -396,6 +398,7 @@ export interface Database {
           gallery_images?: string[] | null
           pitch_deck_images?: string[] | null
           project_length?: string | null
+          metrics?: { label: string; value: string; suffix?: string; prefix?: string }[] | null
         }
       }
       work_tags: {

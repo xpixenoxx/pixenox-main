@@ -21,14 +21,14 @@
   --btn-hover-bg: #6b21d4;
   --btn-text-color: #ffffff;
   --btn-border-radius: 8px;
-  --btn-font-family: 'Inter', sans-serif;
+  --btn-font-family: var(--font-inter, 'Inter'), sans-serif;
   --btn-font-size: 1rem;
   --btn-font-weight: 600;
   --btn-letter-spacing: 0.02em;
 
   /* ── Typography Tokens ── */
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: var(--font-outfit, 'Outfit'), sans-serif;
+  --font-body: var(--font-inter, 'Inter'), sans-serif;
   --font-size-base: 1rem;
   --font-weight-heading: 700;
   --letter-spacing-heading: -0.02em;
@@ -68,4 +68,11 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
+}
+
+/* ── Mobile Contrast Boost ── */
+@media (max-width: 768px) {
+  :root {
+    --color-text-secondary: rgba(255, 255, 255, 0.85);
+  }
 }

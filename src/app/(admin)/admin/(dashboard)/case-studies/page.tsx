@@ -176,7 +176,8 @@ export default function CaseStudiesPage() {
        status: 'draft',
        gallery_images: [],
        pitch_deck_images: [],
-       priority: items.length
+       priority: items.length,
+       metrics: [],
     })
     setModalMode('create')
     setIsModalOpen(true)
@@ -375,6 +376,26 @@ export default function CaseStudiesPage() {
                      <p className="text-xs text-white/40">These images will be displayed sequentially as a presentation deck at the bottom of the case study.</p>
                   </div>
                   
+                  <hr className="border-white/10 my-2" />
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-medium text-white/80">KPI Metrics</label>
+                      <button type="button" onClick={() => setItemToEdit({...itemToEdit, metrics: [...(itemToEdit.metrics || []), { label: '', value: '', suffix: '' }]})}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-deep-purple/20 text-purple-400 hover:bg-deep-purple/30 transition-colors flex items-center gap-1">
+                        <Plus className="w-3 h-3" /> Add Metric
+                      </button>
+                    </div>
+                    <p className="text-xs text-white/40">Add key performance indicators that will animate on the case study page.</p>
+                    {(itemToEdit.metrics || []).map((m: any, mIdx: number) => (
+                      <div key={mIdx} className="grid grid-cols-[1fr_1fr_0.7fr_auto] gap-2 items-center">
+                        <input className="admin-input text-sm" placeholder="Label" value={m.label} onChange={e => { const u=[...(itemToEdit.metrics||[])]; u[mIdx]={...u[mIdx],label:e.target.value}; setItemToEdit({...itemToEdit,metrics:u}) }} />
+                        <input className="admin-input text-sm" placeholder="Value" value={m.value} onChange={e => { const u=[...(itemToEdit.metrics||[])]; u[mIdx]={...u[mIdx],value:e.target.value}; setItemToEdit({...itemToEdit,metrics:u}) }} />
+                        <input className="admin-input text-sm" placeholder="Suffix" value={m.suffix||''} onChange={e => { const u=[...(itemToEdit.metrics||[])]; u[mIdx]={...u[mIdx],suffix:e.target.value}; setItemToEdit({...itemToEdit,metrics:u}) }} />
+                        <button type="button" onClick={() => { const u=(itemToEdit.metrics||[]).filter((_:any,i:number)=>i!==mIdx); setItemToEdit({...itemToEdit,metrics:u}) }}
+                          className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"><X className="w-4 h-4" /></button>
+                      </div>
+                    ))}
+                  </div>
 
                   <div className="sticky bottom-[-24px] bg-[#0f0f13] py-4 border-t border-white/10 flex justify-end gap-4 z-10 mt-4">
                      <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-2 rounded-lg text-white font-medium hover:bg-white/10 transition">Cancel</button>

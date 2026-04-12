@@ -485,37 +485,143 @@
 }
 
 @media (max-width: 768px) {
+  .hero__layout {
+    padding-top: calc(var(--header-height, 80px) + 20px);
+    justify-content: center;
+    gap: 48px;
+  }
+
   .hero__headline {
-    font-size: clamp(2.5rem, 10vw, 4rem);
-    text-align: left;
+    /* Scaled down to prevent "Architecting/Intelligent" from horizontally overflowing */
+    font-size: clamp(2.2rem, 10.5vw, 3.5rem);
+    text-align: center;
+    padding: 0 8px; /* Safe padding */
+    line-height: 1.1;
+    text-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
+    letter-spacing: -0.01em;
   }
   
   .hero__center {
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
   }
   
+  .hero__bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* Extract elements from info container so they can be reordered globally */
+  .hero__info {
+    display: contents;
+  }
+
+  .hero__subheadline {
+    order: 1;
+    font-size: 1rem;
+    max-width: 95%;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Move Stats to visually appear above the CTA Button */
   .hero__stats {
-    flex-wrap: wrap;
-    gap: 32px;
+    order: 2;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    width: 100vw;
+    margin-left: calc(-1 * var(--space-md));
+    padding: 0 var(--space-md) 32px var(--space-md);
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    scrollbar-width: none; 
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .hero__cta-wrapper {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    margin-bottom: 32px; /* padding from bottom edge */
+    z-index: 10;
+  }
+
+  .hero__cta {
+    width: 90%;
+    max-width: 380px; /* Slightly wider native look */
+    justify-content: center;
+    font-size: 1.1rem;
+    padding: 18px 24px;
+    border-radius: 100px;
+    background: rgba(124, 58, 237, 0.2); /* Make base bolder on mobile */
   }
   
+
+  .hero__stats::-webkit-scrollbar {
+    display: none; 
+  }
+  
+  .hero__stat {
+    scroll-snap-align: center;
+    min-width: 140px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 16px;
+    padding: 20px 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .hero__stat-val {
+    font-size: 2.4rem;
+    background: linear-gradient(180deg, #fff 20%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero__stat-label {
+    margin-top: 8px;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
   .hero__stats::before {
     display: none;
   }
 
+  /* ── Centered Halo Background ── */
   .hero__sphere-system {
-    width: clamp(140px, 40vw, 200px);
-    height: clamp(140px, 40vw, 200px);
-    top: 12%;
-    right: -3%;
-    opacity: 0.6;
+    width: 140vw;
+    height: 140vw;
+    top: -10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.4;
+    z-index: 0;
+    filter: blur(10px);
   }
 
-  .hero__orbit-ring { inset: -10%; }
-  .hero__orbit-ring--2 { inset: -20%; }
+  .hero__orbit-ring { inset: -5%; }
+  .hero__orbit-ring--2 { display: none; }
 
   .hero__grid-floor {
-    opacity: 0.15;
+    opacity: 0.1;
+    bottom: -10%;
   }
 }

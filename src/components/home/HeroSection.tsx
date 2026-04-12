@@ -192,9 +192,13 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
       animId = requestAnimationFrame(animate);
     }
 
-    animate();
+    // Defer canvas animation to avoid blocking LCP paint
+    const startTimer = setTimeout(() => {
+      animate();
+    }, 800);
 
     return () => {
+      clearTimeout(startTimer);
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
@@ -203,7 +207,16 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
     };
   }, []);
 
-  if (!hero) return null;
+  // Show skeleton instead of null — ensures LCP paint happens immediately
+  if (!hero) return (
+    <section className="hero" style={{ minHeight: '100vh' }}>
+      <div className="hero__layout container">
+        <div className="hero__center">
+          <div style={{ height: '120px' }} />
+        </div>
+      </div>
+    </section>
+  );
 
   // 4. Typography Stagger
   const headlineWords = hero.headline.split(' ');

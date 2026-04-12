@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
+import '@/components/home/HeroSection.css';
 
 interface ServiceAnimatedHeaderProps {
   title: string;
@@ -161,18 +162,24 @@ export default function ServiceAnimatedHeader({
   };
 
   const titleWords = title.split(' ');
+  const accentKeywords = ['systems', 'count', 'on', 'developers', 'intelligence'];
 
   return (
     <>
       <h1 className="hero__watermark">{title}</h1>
       
       {/* Precision 3D Noise Sphere (Quantum Anomaly Orbit) */}
-      <div className="hero__noise-sphere" style={{ top: '25%', right: '8%', transform: 'scale(1)' }} aria-hidden="true">
-        <div className="hero__noise-sphere-texture hero__noise-sphere-texture--back" />
-        <div className="hero__noise-sphere-texture hero__noise-sphere-texture--front" />
+      <div className="hero__sphere-system" style={{ top: '5%', right: '-5%', opacity: 0.8 }} aria-hidden="true">
+        <div className="hero__orbit-ring" />
+        <div className="hero__orbit-ring hero__orbit-ring--2" />
+        <div className="hero__noise-sphere">
+          <div className="hero__noise-sphere-texture hero__noise-sphere-texture--back" />
+          <div className="hero__noise-sphere-texture hero__noise-sphere-texture--front" />
+          <div className="hero__sphere-highlight" />
+        </div>
       </div>
 
-      <canvas ref={canvasRef} className="hero__canvas" />
+      <canvas ref={canvasRef} className="hero__canvas" aria-hidden="true" />
 
       <div className="all-srv-header" ref={containerRef}>
         
@@ -182,13 +189,23 @@ export default function ServiceAnimatedHeader({
             variants={containerVariants}
             initial="hidden"
             animate={controls}
-            style={{ fontFamily: titleFont || undefined, color: titleColor || undefined }}
+            style={{ marginBottom: '20px' }}
           >
-            {titleWords.map((word, i) => (
-              <span key={i} style={{ display: 'inline-flex', overflow: 'hidden', paddingBottom: '0.12em', marginRight: '0.2em' }}>
-                <motion.span variants={wordWrapVariants}>{word}</motion.span>
-              </span>
-            ))}
+            {titleWords.map((word, i) => {
+              const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
+              const isAccent = accentKeywords.includes(cleanWord);
+
+              return (
+                <span key={i} style={{ display: 'inline-flex', overflow: 'hidden', paddingBottom: '0.12em', marginRight: '0.2em' }}>
+                  <motion.span 
+                    variants={wordWrapVariants}
+                    className={isAccent ? 'all-srv-title-accent' : ''}
+                  >
+                    {word}
+                  </motion.span>
+                </span>
+              );
+            })}
           </motion.h1>
 
           <motion.a 

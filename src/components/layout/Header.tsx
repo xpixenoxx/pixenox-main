@@ -38,6 +38,24 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
     setAtTop(latest < 50);
   });
 
+  // WCAG: Close mobile drawer on Escape, lock body scroll
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false);
+    };
+
+    // Lock body scroll when drawer is open
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [mobileOpen]);
+
   useEffect(() => {
     async function load() {
       if (!initialBrand) {
@@ -73,7 +91,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
           <Link href="/" className="am-brand">
             {brand?.logo_url && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={brand.logo_url} alt="Logo" className="am-logo" />
+              <img src={brand.logo_url} alt={`${brand.company_name || 'Pixenox'} logo`} className="am-logo" />
             )}
             {brand?.company_name && (
               <span className="am-company-name">{brand.company_name}</span>
@@ -81,7 +99,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
           </Link>
 
           {/* Center Navigation */}
-          <nav className="am-nav" onMouseLeave={() => setHoveredNode(null)}>
+          <nav className="am-nav" aria-label="Main navigation" onMouseLeave={() => setHoveredNode(null)}>
             {coreNavItems.map((item) => {
               const isActive = pathname === item.href;
               const isHovered = hoveredNode === item.id;
@@ -92,6 +110,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
                   href={item.href}
                   className="am-nav-link"
                   onMouseEnter={() => setHoveredNode(item.id)}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   <span className={`am-nav-text ${isActive ? 'is-active' : ''}`}>
                     {item.label}
@@ -116,8 +135,14 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
                 <span className="am-cta-icon-wrapper"><ArrowUpRight size={16} strokeWidth={2.5} /></span>
               </Link>
             ))}
-            <button className="am-hamburger" onClick={() => setMobileOpen(true)}>
-              <Menu size={24} />
+            <button 
+              className="am-hamburger" 
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav-drawer"
+            >
+              <Menu size={24} aria-hidden="true" />
             </button>
           </div>
 
@@ -130,14 +155,22 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
         {mobileOpen && (
           <motion.div
             className="mobile-drawer"
+            id="mobile-nav-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
             initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             transition={{ duration: 0.3 }}
           >
             <div className="mobile-drawer-inner">
-              <button onClick={() => setMobileOpen(false)} className="mobile-close">
-                <X size={32} />
+              <button 
+                onClick={() => setMobileOpen(false)} 
+                className="mobile-close"
+                aria-label="Close navigation menu"
+              >
+                <X size={32} aria-hidden="true" />
               </button>
               <nav className="mobile-nav-list">
                 {navItems.map((item, i) => (

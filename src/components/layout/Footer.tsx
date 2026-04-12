@@ -164,7 +164,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
             <div className="footer__brand-header">
               {brand?.logo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={brand.logo_url} alt="Logo" className="footer__logo-img" />
+                <img src={brand.logo_url} alt={`${brand.company_name || 'Pixenox'} logo`} className="footer__logo-img" />
               ) : (
                 <div className="footer__logo-fallback">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -184,7 +184,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
             </a>
 
             {/* Typographical Time Display */}
-            <div className="footer__time-widget">
+            <div className="footer__time-widget" aria-label="Current time in India">
               <div className="footer__location-badge">India, IST</div>
               <div className="footer__time-display">
                 {timeStr ? (
@@ -203,7 +203,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
           </div>
 
           {/* Right: Navigational Architecture */}
-          <div className="footer__nav-groups">
+          <div className="footer__nav-groups" role="navigation" aria-label="Footer navigation">
             <div className="footer__nav-col">
               <h4>Platform</h4>
               <ul>
@@ -245,7 +245,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
                 {fallbackSocials.map((link) => (
                   <li key={link.id}>
                     {link.href.startsWith('http') ? (
-                      <a href={link.href} target="_blank" rel="noopener noreferrer">
+                      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${link.label} (opens in new tab)`}>
                         {link.label}
                         <svg className="external-icon" viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17l9.2-9.2M17 16.8V7H7.2" /></svg>
                       </a>
@@ -271,7 +271,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
       </div>
 
       {/* Massive Vector Graphic Anchor (Vercel Style) */}
-      <h1 className="footer__massive-anchor" aria-hidden="true">PIXENOX</h1>
+      <div className="footer__massive-anchor" aria-hidden="true">PIXENOX</div>
     </footer>
   );
 }

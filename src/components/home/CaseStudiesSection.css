@@ -125,11 +125,14 @@
   writing-mode: vertical-rl;
   text-orientation: mixed;
   font-family: 'Inter', sans-serif;
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   color: #fff;
   white-space: nowrap;
+  max-height: calc(100% - 80px);
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: opacity 0.3s;
   z-index: 3;
 }
@@ -246,10 +249,11 @@
   
   .hl-panel-vert-title {
     writing-mode: horizontal-tb;
-    transform: none;
     bottom: 50%;
     left: 24px;
     transform: translateY(50%);
+    max-height: none;
+    max-width: calc(100% - 48px);
   }
   
   .hl-panel-content {

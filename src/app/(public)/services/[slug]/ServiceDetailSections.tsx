@@ -182,7 +182,7 @@ export default function ServiceDetailSections({
           </div>
 
           <div className="g-tech__grid">
-            {techStack.filter(t => !t.svg || t.image_url).map((tech, idx) => (
+            {techStack.map((tech, idx) => (
               <GlassCard key={idx} tech={tech} idx={idx} />
             ))}
           </div>
@@ -237,7 +237,8 @@ export default function ServiceDetailSections({
    ───────────────────────────────────────────────── */
 
 function TechMarquee({ techStack }: { techStack: TechItem[] }) {
-  const logos = techStack.filter(t => t.svg || t.image_url);
+  // Only show logos if they have a real image URL, or if they have an actual SVG snippet (must contain <svg)
+  const logos = techStack.filter(t => t.image_url || (t.svg && t.svg.includes('<svg')));
   if (logos.length === 0) return null;
 
   return (
@@ -309,7 +310,11 @@ function GlassCard({ tech, idx }: { tech: any, idx: number }) {
       />
       <div className="g-card__content">
         <div className="g-card__icon-wrap">
-          <span className="g-card__number">{(idx + 1).toString().padStart(2, '0')}</span>
+          {(tech as any).svg && (tech as any).svg.includes('<svg') ? (
+            <div className="g-card__svg" dangerouslySetInnerHTML={{ __html: sanitizeSvg((tech as any).svg) }} style={{ width: 24, height: 24, color: '#a855f7', opacity: 0.9 }} />
+          ) : (
+            <span className="g-card__number">{(idx + 1).toString().padStart(2, '0')}</span>
+          )}
         </div>
         <h3 className="g-card__name">{name}</h3>
       </div>

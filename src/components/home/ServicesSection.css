@@ -399,14 +399,34 @@
 
   .services__accordion--vertical {
     grid-template-columns: 1fr !important;
+    gap: 40px; /* Increase gap to accommodate stacking visual */
   }
   
   .services__accordion--horizontal .service-card {
     min-width: 320px;
   }
 
+  /* 🔥 Ultra-Premium Sticky Stacking Cards on Mobile 🔥 */
+  .services__accordion--vertical .service-card {
+    position: sticky;
+    top: 100px;
+    margin-bottom: 0px; 
+    box-shadow: 
+      0 -20px 40px -10px rgba(0,0,0,0.8), /* Shadow on top of previous card */
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    z-index: auto; /* Let DOM order handle z-indexing */
+  }
+  
+  /* Add progressive scaling or top offsets so they cascade beautifully */
+  .services__accordion--vertical .service-card:nth-child(2) { top: 120px; z-index: 2; }
+  .services__accordion--vertical .service-card:nth-child(3) { top: 140px; z-index: 3; }
+  .services__accordion--vertical .service-card:nth-child(4) { top: 160px; z-index: 4; }
+  .services__accordion--vertical .service-card:nth-child(5) { top: 180px; z-index: 5; }
+  .services__accordion--vertical .service-card:nth-child(6) { top: 200px; z-index: 6; }
+  .services__accordion--vertical .service-card:nth-child(7) { top: 220px; z-index: 7; }
+
   .service-card {
-    min-height: 250px;
+    min-height: 300px;
   }
   
   .service-card--active {

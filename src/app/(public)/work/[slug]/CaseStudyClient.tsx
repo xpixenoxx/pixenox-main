@@ -133,6 +133,29 @@ export default function CaseStudyClient({ caseStudy, workTags }: { caseStudy: an
         </section>
       )}
 
+      {/* 2.5 METRICS / KPI SECTION */}
+      {caseStudy.metrics && caseStudy.metrics.length > 0 && (
+        <motion.section 
+          className="cs-metrics-section"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={stagger}
+        >
+          <div className="cs-container">
+            <motion.div className="cs-metrics-header" variants={fadeUp}>
+              <span className="cs-metrics-label">KEY METRICS</span>
+              <h2 className="cs-metrics-heading">Measured <em>Impact</em></h2>
+            </motion.div>
+            <div className="cs-metrics-grid">
+              {caseStudy.metrics.map((metric: any, idx: number) => (
+                <MetricCard key={idx} metric={metric} idx={idx} />
+              ))}
+            </div>
+          </div>
+        </motion.section>
+      )}
+
       {/* 3. ANTIMATTER-STYLE: SUMMARY LEFT, TECH STACK + LENGTH RIGHT */}
       <motion.section 
         className="cs-info-section"
@@ -232,5 +255,105 @@ export default function CaseStudyClient({ caseStudy, workTags }: { caseStudy: an
       )}
 
     </div>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════
+   METRIC CARD — Animated Count-Up + Glassmorphism
+   ═══════════════════════════════════════════════════ */
+interface MetricData {
+  label: string;
+  value: string;
+  suffix?: string;
+  prefix?: string;
+}
+
+function MetricCard({ metric, idx }: { metric: MetricData; idx: number }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [display, setDisplay] = React.useState('0');
+  const [hasAnimated, setHasAnimated] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!ref.current) return;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          animateValue(metric.value);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [hasAnimated, metric.value]);
+
+  const animateValue = (targetStr: string) => {
+    // Extract numeric part for animation
+    const numericMatch = targetStr.replace(/,/g, '').match(/[\d.]+/);
+    if (!numericMatch) {
+      setDisplay(targetStr);
+      return;
+    }
+
+    const target = parseFloat(numericMatch[0]);
+    const isDecimal = targetStr.includes('.');
+    const hasCommas = targetStr.includes(',');
+    const prefix = targetStr.substring(0, targetStr.indexOf(numericMatch[0]));
+    const suffixPart = targetStr.substring(targetStr.indexOf(numericMatch[0]) + numericMatch[0].length);
+    const duration = 1800;
+    const startTime = performance.now();
+
+    const step = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = target * eased;
+
+      let formatted: string;
+      if (isDecimal) {
+        const decimals = (numericMatch[0].split('.')[1] || '').length;
+        formatted = current.toFixed(decimals);
+      } else {
+        formatted = Math.round(current).toString();
+      }
+
+      if (hasCommas) {
+        formatted = Number(formatted).toLocaleString();
+      }
+
+      setDisplay(prefix + formatted + suffixPart);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        setDisplay(targetStr);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      className="cs-metric-card"
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: idx * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className="cs-metric-value">
+        {metric.prefix && <span className="cs-metric-prefix">{metric.prefix}</span>}
+        <span>{display}</span>
+        {metric.suffix && <span className="cs-metric-suffix">{metric.suffix}</span>}
+      </div>
+      <div className="cs-metric-label">{metric.label}</div>
+      <div className="cs-metric-glow" />
+    </motion.div>
   );
 }

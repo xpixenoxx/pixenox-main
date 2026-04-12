@@ -97,10 +97,93 @@ input, textarea, select {
   outline: none;
 }
 
-/* ── Focus Ring (Accessibility) ── */
+/* ── Focus Ring (WCAG 2.1 AA — Enhanced) ── */
 :focus-visible {
-  outline: 2px solid var(--color-accent-glow);
-  outline-offset: 2px;
+  outline: 2px solid #a855f7;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Buttons and links get a glow ring on focus */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #a855f7;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2);
+}
+
+/* Form inputs get an inner ring */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #a855f7;
+  outline-offset: 0;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+}
+
+/* ── Reduced Motion (WCAG 2.3.3) ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero__noise-sphere,
+  .hero__orbit-ring,
+  .hero__canvas,
+  .notfound-aurora,
+  .notfound-dot,
+  .page-wipe {
+    animation: none !important;
+  }
+}
+
+/* ── High Contrast Mode (WCAG 1.4.11) ── */
+@media (prefers-contrast: more) {
+  :root {
+    --color-text-secondary: rgba(255, 255, 255, 0.85);
+    --color-border: rgba(255, 255, 255, 0.3);
+  }
+
+  .am-nav-text {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .cs-metric-label,
+  .cs-info-label {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+}
+
+/* ── Screen Reader Only (Utility) ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Make sr-only focusable when needed */
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }
 
 /* ── Scrollbar ── */
@@ -146,6 +229,12 @@ input, textarea, select {
 .section {
   padding: var(--space-3xl) 0;
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: calc(var(--space-3xl) + 24px) 0;
+  }
 }
 
 /* ── Glass Card ── */

@@ -33,15 +33,18 @@
 }
 
 .am-header.is-scrolled {
-  background: transparent; /* Changed to clear because the pseudo-element takes over */
+  background: transparent;
+  /* Changed to clear because the pseudo-element takes over */
 }
 
 /* Scrolled state alters the pseudo-element for a solid blur */
 .am-header.is-scrolled::before {
-  background: rgba(2, 1, 4, 0.85); /* Rich Black Void */
+  background: rgba(2, 1, 4, 0.85);
+  /* Rich Black Void */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(124, 58, 237, 0.15); /* Deep Purple border */
+  border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+  /* Deep Purple border */
 }
 
 .am-header__container {
@@ -63,15 +66,15 @@
 }
 
 .am-logo {
-  width: 28px;
-  height: 28px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   background: transparent;
 }
 
 .am-company-name {
   font-family: var(--font-heading), sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.45rem;
   font-weight: 800;
   letter-spacing: 0.15em;
   color: #fff;
@@ -104,7 +107,8 @@
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
-  color: rgba(255, 255, 255, 0.5); /* Muted gray */
+  color: rgba(255, 255, 255, 0.5);
+  /* Muted gray */
   transition: color 0.3s ease;
 }
 
@@ -124,7 +128,8 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: #a855f7; /* Purple underline */
+  background: #a855f7;
+  /* Purple underline */
   z-index: 1;
 }
 
@@ -139,10 +144,13 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #09090b; /* Pitch dark filled background */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle outline */
+  background: #09090b;
+  /* Pitch dark filled background */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Subtle outline */
   color: #fff;
-  padding: 8px 8px 8px 24px; /* Right padding smaller to tightly hug the circle icon */
+  padding: 8px 8px 8px 24px;
+  /* Right padding smaller to tightly hug the circle icon */
   border-radius: 100px;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -166,7 +174,8 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: #a855f7; /* Purple circle */
+  background: #a855f7;
+  /* Purple circle */
   border-radius: 50%;
   color: #fff;
   transition: transform 0.3s ease;
@@ -187,8 +196,13 @@
 /* ─── Mobile Drawer ─── */
 .mobile-drawer {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(3, 0, 8, 0.9);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(3, 0, 8, 0.7); /* Slightly more transparent */
+  backdrop-filter: blur(40px); /* Massive blur for premium frosted effect */
+  -webkit-backdrop-filter: blur(40px);
   z-index: 3000;
   display: flex;
   align-items: center;
@@ -238,9 +252,12 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
-  .am-nav, .am-cta-btn {
+
+  .am-nav,
+  .am-cta-btn {
     display: none;
   }
+
   .am-hamburger {
     display: flex;
   }

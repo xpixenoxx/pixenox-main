@@ -75,58 +75,7 @@
   pointer-events: none;
 }
 
-/* 3.5 Precision 3D Noise Sphere (Quantum Anomaly Orbit) */
-.hero__noise-sphere {
-  position: absolute;
-  top: 15%; 
-  right: 12%;
-  width: 160px; 
-  height: 160px;
-  border-radius: 50%;
-  background-color: #0b0711;
-  box-shadow: 
-    inset -15px -15px 30px rgba(0, 0, 0, 0.9),
-    inset 10px 10px 20px rgba(255, 255, 255, 0.15),
-    inset -5px -5px 10px rgba(139, 92, 246, 0.5),
-    0 20px 50px rgba(0, 0, 0, 0.8),
-    0 0 80px rgba(139, 92, 246, 0.25);
-  overflow: hidden;
-  z-index: 2;
-  animation: floatOrb 8s ease-in-out infinite alternate;
-  pointer-events: none;
-}
 
-.hero__noise-sphere-texture {
-  position: absolute;
-  top: 0; left: 0;
-  width: 400%;
-  height: 100%;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") repeat;
-  background-blend-mode: overlay;
-  mix-blend-mode: color-dodge;
-}
-
-.hero__noise-sphere-texture--front {
-  opacity: 0.35;
-  animation: panNoiseSphere 20s linear infinite;
-}
-
-.hero__noise-sphere-texture--back {
-  opacity: 0.15;
-  transform: scale(1.15);
-  filter: blur(1.5px);
-  animation: panNoiseSphere 35s linear infinite reverse;
-}
-
-@keyframes panNoiseSphere {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-25%); }
-}
-
-@keyframes floatOrb {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-25px) scale(1.02); }
-}
 
 /* 4. Structural Background Master-Typo */
 .hero__watermark {
@@ -179,19 +128,17 @@
 .all-srv-header {
   position: relative;
   z-index: 10;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  row-gap: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   height: 100%;
   flex: 1;
+  gap: 4vh; /* Dynamic spacing between title block and description */
 }
 
 .all-srv-header-topleft {
-  grid-column: 1 / span 2;
-  grid-row: 1;
-  align-self: center;
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -200,22 +147,29 @@
 }
 
 .all-srv-header-bottomright {
-  grid-column: 2;
-  grid-row: 2;
-  align-self: end;
-  justify-self: end;
+  align-self: flex-end;
   max-width: 650px;
 }
 
 .all-srv-title {
-  font-size: clamp(3rem, 6vw, 6rem);
+  font-family: var(--font-plus-jakarta), 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 72px; /* Constant size to prevent automatic resizing */
   font-weight: 800;
   text-transform: uppercase;
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: #F6F6FD;
   margin: 0;
   max-width: 1000px;
+}
+
+.all-srv-title-accent {
+  font-style: italic;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #a78bfa; /* fallback */
 }
 
 /* CTA Button — Premium pill style */
@@ -375,5 +329,11 @@
   .all-srv-number {
     margin-right: 12px;
     margin-top: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .all-srv-title {
+    font-size: 40px; /* Constant size for mobile */
   }
 }

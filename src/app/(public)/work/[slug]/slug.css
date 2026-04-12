@@ -270,6 +270,121 @@
   border-color: rgba(255, 255, 255, 0.15);
 }
 
+/* ── 2.5 METRICS / KPI SECTION ── */
+.cs-metrics-section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 120px;
+}
+
+.cs-metrics-header {
+  margin-bottom: 48px;
+}
+
+.cs-metrics-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(168, 85, 247, 0.8);
+  margin-bottom: 16px;
+}
+
+.cs-metrics-heading {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.cs-metrics-heading em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: #a78bfa;
+}
+
+.cs-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.cs-metric-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 32px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.cs-metric-card:hover {
+  border-color: rgba(168, 85, 247, 0.25);
+  transform: translateY(-4px);
+  background: rgba(168, 85, 247, 0.04);
+  box-shadow: 
+    0 20px 60px -15px rgba(168, 85, 247, 0.15),
+    0 0 0 1px rgba(168, 85, 247, 0.08);
+}
+
+.cs-metric-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.cs-metric-card:hover .cs-metric-glow {
+  opacity: 1;
+}
+
+.cs-metric-value {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.cs-metric-prefix {
+  font-size: 0.6em;
+  color: rgba(168, 85, 247, 0.8);
+  font-weight: 600;
+}
+
+.cs-metric-suffix {
+  font-size: 0.45em;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.cs-metric-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .cs-hero-section {
@@ -284,5 +399,18 @@
 
   .cs-gallery-item {
     border-radius: 16px;
+  }
+
+  .cs-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .cs-metric-card {
+    padding: 28px 20px;
+  }
+
+  .cs-metric-value {
+    font-size: 2rem;
   }
 }

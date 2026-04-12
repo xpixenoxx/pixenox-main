@@ -140,6 +140,7 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
             animate="show"
             exit="exit"
             onSubmit={handleSubmit}
+            aria-label="Contact form"
           >
             <motion.h2 variants={itemVariants} className="contact-form__title">Get In Touch</motion.h2>
 
@@ -149,8 +150,11 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
                 id="contact-name" type="text" placeholder="Your name"
                 value={formData.name} onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
                 className={errors.name ? 'contact-form__input--error' : ''}
+                aria-required="true"
+                aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? 'name-error' : undefined}
               />
-              {errors.name && <span className="contact-form__error">{errors.name}</span>}
+              {errors.name && <span id="name-error" className="contact-form__error" role="alert">{errors.name}</span>}
             </motion.div>
 
             <motion.div variants={itemVariants} className="contact-form__field">
@@ -159,8 +163,11 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
                 id="contact-email" type="email" placeholder="you@company.com"
                 value={formData.email} onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))}
                 className={errors.email ? 'contact-form__input--error' : ''}
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
               />
-              {errors.email && <span className="contact-form__error">{errors.email}</span>}
+              {errors.email && <span id="email-error" className="contact-form__error" role="alert">{errors.email}</span>}
             </motion.div>
 
             <motion.div variants={itemVariants} className="contact-form__field">
@@ -174,8 +181,8 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
             </motion.div>
 
             <motion.div variants={itemVariants} className="contact-form__field">
-              <label>Services Interested In</label>
-              <div className="contact-form__checkboxes">
+              <label id="services-label">Services Interested In</label>
+              <div className="contact-form__checkboxes" role="group" aria-labelledby="services-label">
                 {services.map((service) => {
                   const isSelected = formData.services_interested.includes(service.title);
                   return (
@@ -201,8 +208,11 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
                 id="contact-message" placeholder="Tell us about your project..." rows={5}
                 value={formData.message} onChange={(e) => setFormData(p => ({ ...p, message: e.target.value }))}
                 className={errors.message ? 'contact-form__input--error' : ''}
+                aria-required="true"
+                aria-invalid={!!errors.message}
+                aria-describedby={errors.message ? 'message-error' : undefined}
               />
-              {errors.message && <span className="contact-form__error">{errors.message}</span>}
+              {errors.message && <span id="message-error" className="contact-form__error" role="alert">{errors.message}</span>}
             </motion.div>
 
             <motion.div variants={itemVariants} className="contact-form__field" style={{ minHeight: '65px' }}>
@@ -230,6 +240,8 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
+            role="status"
+            aria-live="polite"
           >
             <div className="success-glitch">
               <motion.div 
