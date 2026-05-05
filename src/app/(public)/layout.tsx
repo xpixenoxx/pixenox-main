@@ -4,7 +4,6 @@ import FontProvider from '@/providers/FontProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PageTransition from '@/components/layout/PageTransition';
-import ScrollProgress from '@/components/layout/ScrollProgress';
 import { createClient } from '@/lib/supabase/server';
 import type { 
   BrandSettings, 
@@ -70,7 +69,6 @@ export default async function PublicLayout({
             Skip to main content
           </a>
           <Header initialBrand={brandSettings} initialNav={navConfig} />
-          <ScrollProgress />
           <main id="main-content">
             <PageTransition>
               {children}
