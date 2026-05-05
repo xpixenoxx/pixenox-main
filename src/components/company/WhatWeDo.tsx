@@ -29,10 +29,10 @@ function StackCard({ card, index }: { card: WhatWeDoCard, index: number }) {
       
       <div className="wwd-card__content">
         <span className="wwd-card__meta">DISCIPLINE // {numStr}</span>
-        <h3 className="wwd-card__title" style={{ fontFamily: card.title_font_family || undefined }}>
+        <h3 className="wwd-card__title">
           {card.title}
         </h3>
-        <p className="wwd-card__desc" style={{ fontFamily: card.desc_font_family || undefined }}>
+        <p className="wwd-card__desc">
           {card.description}
         </p>
       </div>

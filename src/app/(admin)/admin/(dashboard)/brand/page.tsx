@@ -17,10 +17,6 @@ export default function BrandPage() {
     id: '',
     logo_url: '',
     company_name: 'Pixenox',
-    company_name_font_family: 'Inter',
-    company_name_font_size: '1.5rem',
-    company_name_font_weight: '700',
-    company_name_letter_spacing: '-0.01em',
     company_name_color: '#ffffff',
     favicon_url: ''
   })
@@ -104,10 +100,6 @@ export default function BrandPage() {
           <TypographyPanel 
             label="Company Name"
             values={{
-              fontFamily: formData.company_name_font_family,
-              fontSize: formData.company_name_font_size,
-              fontWeight: formData.company_name_font_weight,
-              letterSpacing: formData.company_name_letter_spacing,
               color: formData.company_name_color,
             }}
             onChange={(k, v) => setFormData({...formData, [`company_name_${k.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)}`]: v})}
@@ -132,10 +124,6 @@ export default function BrandPage() {
               )}
               <span 
                 style={{
-                  fontFamily: formData.company_name_font_family || 'inherit',
-                  fontSize: formData.company_name_font_size || 'inherit',
-                  fontWeight: formData.company_name_font_weight || 'inherit',
-                  letterSpacing: formData.company_name_letter_spacing || 'inherit',
                   color: formData.company_name_color || 'inherit'
                 }}
               >

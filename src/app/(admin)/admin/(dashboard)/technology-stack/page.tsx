@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/admin/ui/ToastProvider'
 import { ConfirmModal } from '@/components/admin/ui/ConfirmModal'
-import { FontSelector } from '@/components/admin/ui/FontSelector'
 import { ColorPicker } from '@/components/admin/ui/ColorPicker'
 import { Edit, Trash2, GripVertical, Plus, X, ChevronDown, ChevronUp } from 'lucide-react'
 
@@ -64,9 +63,6 @@ export default function TechnologyStackPage() {
   const [config, setConfig] = useState<any>({
      id: '', 
      section_heading: 'TECHNOLOGY STACK',
-     heading_font_family: 'Outfit',
-     heading_font_size: '2.5rem',
-     heading_font_weight: '800',
      heading_color: '#ffffff'
   })
   
@@ -160,9 +156,6 @@ export default function TechnologyStackPage() {
   const openCreate = () => {
     setItemToEdit({
        category_name: '',
-       category_font_family: 'Inter',
-       category_font_size: '1.5rem',
-       category_font_weight: '700',
        category_color: '#ffffff',
        priority: stackItems.length,
        is_visible: true
@@ -223,14 +216,11 @@ export default function TechnologyStackPage() {
                {showAdvancedConfig && (
                   <div className="p-4 bg-black/20 flex flex-col gap-6">
                       <div className="grid grid-cols-2 gap-4">
-                         <FontSelector label="Heading Font" value={config.heading_font_family} onChange={v => setConfig({...config, heading_font_family: v})} />
                          <div className="flex flex-col gap-1.5">
                             <label className="text-sm font-medium text-white/80">Heading Weight</label>
-                            <input className="admin-input" value={config.heading_font_weight} onChange={e => setConfig({...config, heading_font_weight: e.target.value})} />
                          </div>
                          <div className="flex flex-col gap-1.5">
                             <label className="text-sm font-medium text-white/80">Heading Size</label>
-                            <input className="admin-input" value={config.heading_font_size} onChange={e => setConfig({...config, heading_font_size: e.target.value})} />
                          </div>
                          <div className="flex flex-col gap-1.5 pt-7">
                             <ColorPicker color={config.heading_color} onChange={v => setConfig({...config, heading_color: v})} />
@@ -316,14 +306,11 @@ export default function TechnologyStackPage() {
                   <div className="p-5 border border-white/10 bg-white/5 rounded-xl flex flex-col gap-5">
                     <h4 className="font-semibold text-sm text-white/60 uppercase tracking-wider">Typography Override</h4>
                     <div className="grid grid-cols-2 gap-5">
-                       <FontSelector label="Font Family" value={itemToEdit.category_font_family} onChange={v => setItemToEdit({...itemToEdit, category_font_family: v})} />
                        <div className="flex flex-col gap-1.5">
                           <label className="text-sm font-medium text-white/80">Font Weight</label>
-                          <input className="admin-input" value={itemToEdit.category_font_weight} onChange={e => setItemToEdit({...itemToEdit, category_font_weight: e.target.value})} />
                        </div>
                        <div className="flex flex-col gap-1.5">
                           <label className="text-sm font-medium text-white/80">Font Size</label>
-                          <input className="admin-input" value={itemToEdit.category_font_size} onChange={e => setItemToEdit({...itemToEdit, category_font_size: e.target.value})} />
                        </div>
                        <div className="flex flex-col gap-1.5 pt-7">
                           <ColorPicker color={itemToEdit.category_color} onChange={v => setItemToEdit({...itemToEdit, category_color: v})} />

@@ -38,67 +38,6 @@ export function TypographyPanel({ label, values, onChange, disabled, hideColor }
       
       {isExpanded && (
         <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-black/20">
-          <div className="sm:col-span-2">
-            <FontSelector 
-              label="Font Family" 
-              value={values.fontFamily || ''} 
-              onChange={(v) => onChange('fontFamily', v)} 
-            />
-          </div>
-          
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-white/80">Font Size</label>
-            <input 
-              type="text" 
-              className="admin-input" 
-              placeholder="e.g. 1.25rem"
-              value={values.fontSize || ''}
-              onChange={(e) => onChange('fontSize', e.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-white/80">Font Weight</label>
-            <select 
-              className="admin-input appearance-none"
-              value={values.fontWeight || ''}
-              onChange={(e) => onChange('fontWeight', e.target.value)}
-            >
-              <option value="">Default</option>
-              <option value="100">100 - Thin</option>
-              <option value="200">200 - Extra Light</option>
-              <option value="300">300 - Light</option>
-              <option value="400">400 - Normal</option>
-              <option value="500">500 - Medium</option>
-              <option value="600">600 - Semi Bold</option>
-              <option value="700">700 - Bold</option>
-              <option value="800">800 - Extra Bold</option>
-              <option value="900">900 - Black</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-white/80">Letter Spacing</label>
-            <input 
-              type="text" 
-              className="admin-input" 
-              placeholder="e.g. -0.02em"
-              value={values.letterSpacing || ''}
-              onChange={(e) => onChange('letterSpacing', e.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-white/80">Line Height</label>
-            <input 
-              type="text" 
-              className="admin-input" 
-              placeholder="e.g. 1.5"
-              value={values.lineHeight || ''}
-              onChange={(e) => onChange('lineHeight', e.target.value)}
-            />
-          </div>
-
           {!hideColor && (
             <div className="sm:col-span-2">
               <ColorPicker 

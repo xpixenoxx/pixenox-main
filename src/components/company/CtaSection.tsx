@@ -44,9 +44,6 @@ export default function CtaSection({ data }: CtaSectionProps) {
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="cta-singularity__heading"
-            style={{
-              fontFamily: data.heading_font_family || undefined,
-            }}
           >
             {/* Split text to enforce exact styling */}
             {data.heading.split(' ').map((word, i) => (

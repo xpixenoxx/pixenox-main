@@ -99,7 +99,7 @@ export default function CompanyPageClient({
         <div className="fluid-bg"></div>
 
         {/* The Kinetic Sliced Text Engine */}
-        <div className="fluid-container" style={{ fontFamily: heroConfig?.heading_font_family || undefined }}>
+        <div className="fluid-container">
           
           {/* Base Ghost Text (Static, outline only) */}
           <h1 className="fluid-base-text">

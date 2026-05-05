@@ -101,9 +101,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         <ServiceAnimatedHeader 
           title={service.title}
           description={service.description}
-          titleFont={service.title_font_family}
           titleColor={service.title_color}
-          descFont={service.desc_font_family}
           descColor={service.desc_color}
         />
       </div>

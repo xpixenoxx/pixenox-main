@@ -227,7 +227,6 @@ function ServiceCardItem({ service, idx }: { service: ServiceCard, idx: number }
           <h2 
             className="hub-card-title"
             style={{ 
-              fontFamily: service.title_font_family || undefined,
               color: service.title_color || undefined
             }}
           >
@@ -237,7 +236,6 @@ function ServiceCardItem({ service, idx }: { service: ServiceCard, idx: number }
           <p 
             className="hub-card-desc"
             style={{ 
-              fontFamily: service.desc_font_family || undefined,
               color: service.desc_color || undefined
             }}
           >

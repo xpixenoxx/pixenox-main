@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/admin/ui/ToastProvider'
 import { ConfirmModal } from '@/components/admin/ui/ConfirmModal'
-import { FontSelector } from '@/components/admin/ui/FontSelector'
 import { ColorPicker } from '@/components/admin/ui/ColorPicker'
 import { TypographyPanel } from '@/components/admin/ui/TypographyPanel'
 import { FileUploadZone } from '@/components/admin/ui/FileUploadZone'
@@ -375,9 +374,6 @@ export default function ServicesPage() {
                      <TypographyPanel 
                         label="Title"
                         values={{
-                          fontFamily: cardToEdit.title_font_family,
-                          fontSize: cardToEdit.title_font_size,
-                          fontWeight: cardToEdit.title_font_weight,
                           color: cardToEdit.title_color,
                         }}
                         onChange={(k, v) => handleExtChange('title', k, v)}
@@ -393,8 +389,6 @@ export default function ServicesPage() {
                      <TypographyPanel 
                         label="Subheading"
                         values={{
-                          fontFamily: cardToEdit.subheading_font_family,
-                          fontSize: cardToEdit.subheading_font_size,
                           color: cardToEdit.subheading_color,
                         }}
                         onChange={(k, v) => handleExtChange('subheading', k, v)}
@@ -410,9 +404,6 @@ export default function ServicesPage() {
                      <TypographyPanel 
                         label="Description"
                         values={{
-                          fontFamily: cardToEdit.desc_font_family,
-                          fontSize: cardToEdit.desc_font_size,
-                          lineHeight: cardToEdit.desc_line_height,
                           color: cardToEdit.desc_color,
                         }}
                         onChange={(k, v) => handleExtChange('desc', k, v)}

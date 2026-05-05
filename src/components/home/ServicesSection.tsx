@@ -145,7 +145,6 @@ export default function ServicesSection({
           <h2
             className="services__heading"
             style={{
-              fontFamily: config?.heading_font_family,
               color: config?.heading_color,
             }}
           >
@@ -156,7 +155,6 @@ export default function ServicesSection({
             <p
               className="services__subheading"
               style={{
-                fontFamily: config.subheading_font_family,
                 color: config.subheading_color,
               }}
             >
@@ -214,7 +212,6 @@ export default function ServicesSection({
                       <motion.h3 
                         layoutId={`title-${card.id}`}
                         className="service-card__title"
-                        style={{ fontFamily: card.title_font_family }}
                       >
                         {card.title}
                       </motion.h3>
@@ -239,7 +236,6 @@ export default function ServicesSection({
                      {isActive && (
                        <p
                          className="service-card__desc"
-                         style={{ fontFamily: card.desc_font_family }}
                        >
                          {card.description}
                        </p>
@@ -282,7 +278,6 @@ export default function ServicesSection({
                       <motion.h3 
                         layoutId={`title-${card.id}`}
                         className="service-card__title"
-                        style={{ fontFamily: card.title_font_family }}
                       >
                         {card.title}
                       </motion.h3>

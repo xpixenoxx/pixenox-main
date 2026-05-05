@@ -34,10 +34,6 @@ export interface Database {
           id: string
           logo_url: string | null
           company_name: string
-          company_name_font_family: string | null
-          company_name_font_size: string | null
-          company_name_font_weight: string | null
-          company_name_letter_spacing: string | null
           company_name_color: string | null
           favicon_url: string | null
           updated_at: string | null
@@ -46,10 +42,6 @@ export interface Database {
           id?: string
           logo_url?: string | null
           company_name: string
-          company_name_font_family?: string | null
-          company_name_font_size?: string | null
-          company_name_font_weight?: string | null
-          company_name_letter_spacing?: string | null
           company_name_color?: string | null
           favicon_url?: string | null
           updated_at?: string | null
@@ -58,10 +50,6 @@ export interface Database {
           id?: string
           logo_url?: string | null
           company_name?: string
-          company_name_font_family?: string | null
-          company_name_font_size?: string | null
-          company_name_font_weight?: string | null
-          company_name_letter_spacing?: string | null
           company_name_color?: string | null
           favicon_url?: string | null
           updated_at?: string | null
@@ -123,24 +111,11 @@ export interface Database {
         Row: {
           id: string
           headline: string
-          headline_font_family: string | null
-          headline_font_size: string | null
-          headline_font_weight: string | null
-          headline_letter_spacing: string | null
-          headline_line_height: string | null
           headline_color: string | null
           subheadline: string | null
-          subheadline_font_family: string | null
-          subheadline_font_size: string | null
-          subheadline_font_weight: string | null
-          subheadline_line_height: string | null
           subheadline_color: string | null
           cta_text: string | null
           cta_url: string | null
-          cta_font_family: string | null
-          cta_font_size: string | null
-          cta_font_weight: string | null
-          cta_letter_spacing: string | null
           cta_bg_color: string | null
           cta_hover_bg_color: string | null
           cta_text_color: string | null
@@ -155,24 +130,11 @@ export interface Database {
         Insert: {
           id?: string
           headline: string
-          headline_font_family?: string | null
-          headline_font_size?: string | null
-          headline_font_weight?: string | null
-          headline_letter_spacing?: string | null
-          headline_line_height?: string | null
           headline_color?: string | null
           subheadline?: string | null
-          subheadline_font_family?: string | null
-          subheadline_font_size?: string | null
-          subheadline_font_weight?: string | null
-          subheadline_line_height?: string | null
           subheadline_color?: string | null
           cta_text?: string | null
           cta_url?: string | null
-          cta_font_family?: string | null
-          cta_font_size?: string | null
-          cta_font_weight?: string | null
-          cta_letter_spacing?: string | null
           cta_bg_color?: string | null
           cta_hover_bg_color?: string | null
           cta_text_color?: string | null
@@ -187,24 +149,11 @@ export interface Database {
         Update: {
           id?: string
           headline?: string
-          headline_font_family?: string | null
-          headline_font_size?: string | null
-          headline_font_weight?: string | null
-          headline_letter_spacing?: string | null
-          headline_line_height?: string | null
           headline_color?: string | null
           subheadline?: string | null
-          subheadline_font_family?: string | null
-          subheadline_font_size?: string | null
-          subheadline_font_weight?: string | null
-          subheadline_line_height?: string | null
           subheadline_color?: string | null
           cta_text?: string | null
           cta_url?: string | null
-          cta_font_family?: string | null
-          cta_font_size?: string | null
-          cta_font_weight?: string | null
-          cta_letter_spacing?: string | null
           cta_bg_color?: string | null
           cta_hover_bg_color?: string | null
           cta_text_color?: string | null
@@ -241,18 +190,10 @@ export interface Database {
         Row: {
           id: string
           title: string
-          title_font_family: string | null
-          title_font_size: string | null
-          title_font_weight: string | null
           title_color: string | null
           subheading: string | null
-          subheading_font_family: string | null
-          subheading_font_size: string | null
           subheading_color: string | null
           description: string | null
-          desc_font_family: string | null
-          desc_font_size: string | null
-          desc_line_height: string | null
           desc_color: string | null
           image_url: string | null
           page_slug: string
@@ -266,18 +207,10 @@ export interface Database {
         Insert: {
           id?: string
           title: string
-          title_font_family?: string | null
-          title_font_size?: string | null
-          title_font_weight?: string | null
           title_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
           subheading_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
-          desc_line_height?: string | null
           desc_color?: string | null
           image_url?: string | null
           page_slug: string
@@ -291,18 +224,10 @@ export interface Database {
         Update: {
           id?: string
           title?: string
-          title_font_family?: string | null
-          title_font_size?: string | null
-          title_font_weight?: string | null
           title_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
           subheading_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
-          desc_line_height?: string | null
           desc_color?: string | null
           image_url?: string | null
           page_slug?: string
@@ -432,17 +357,10 @@ export interface Database {
           id: string
           icon_svg: string | null
           stat: string | null
-          stat_font_family: string | null
-          stat_font_size: string | null
-          stat_font_weight: string | null
           stat_color: string | null
           label: string
-          label_font_family: string | null
-          label_font_size: string | null
           label_color: string | null
           description: string | null
-          desc_font_family: string | null
-          desc_font_size: string | null
           desc_color: string | null
           priority: number | null
         }
@@ -450,17 +368,10 @@ export interface Database {
           id?: string
           icon_svg?: string | null
           stat?: string | null
-          stat_font_family?: string | null
-          stat_font_size?: string | null
-          stat_font_weight?: string | null
           stat_color?: string | null
           label: string
-          label_font_family?: string | null
-          label_font_size?: string | null
           label_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
           desc_color?: string | null
           priority?: number | null
         }
@@ -468,17 +379,10 @@ export interface Database {
           id?: string
           icon_svg?: string | null
           stat?: string | null
-          stat_font_family?: string | null
-          stat_font_size?: string | null
-          stat_font_weight?: string | null
           stat_color?: string | null
           label?: string
-          label_font_family?: string | null
-          label_font_size?: string | null
           label_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
           desc_color?: string | null
           priority?: number | null
         }
@@ -487,19 +391,10 @@ export interface Database {
         Row: {
           id: string
           section_heading: string | null
-          heading_font_family: string | null
-          heading_font_size: string | null
-          heading_font_weight: string | null
-          heading_letter_spacing: string | null
           heading_color: string | null
           section_subheading: string | null
-          sub_font_family: string | null
-          sub_font_size: string | null
           sub_color: string | null
           cta_text: string | null
-          cta_font_family: string | null
-          cta_font_size: string | null
-          cta_font_weight: string | null
           cta_url: string | null
           cta_bg_color: string | null
           cta_hover_bg_color: string | null
@@ -509,19 +404,10 @@ export interface Database {
         Insert: {
           id?: string
           section_heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
-          heading_letter_spacing?: string | null
           heading_color?: string | null
           section_subheading?: string | null
-          sub_font_family?: string | null
-          sub_font_size?: string | null
           sub_color?: string | null
           cta_text?: string | null
-          cta_font_family?: string | null
-          cta_font_size?: string | null
-          cta_font_weight?: string | null
           cta_url?: string | null
           cta_bg_color?: string | null
           cta_hover_bg_color?: string | null
@@ -531,19 +417,10 @@ export interface Database {
         Update: {
           id?: string
           section_heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
-          heading_letter_spacing?: string | null
           heading_color?: string | null
           section_subheading?: string | null
-          sub_font_family?: string | null
-          sub_font_size?: string | null
           sub_color?: string | null
           cta_text?: string | null
-          cta_font_family?: string | null
-          cta_font_size?: string | null
-          cta_font_weight?: string | null
           cta_url?: string | null
           cta_bg_color?: string | null
           cta_hover_bg_color?: string | null
@@ -665,13 +542,8 @@ export interface Database {
         Row: {
           id: string
           title: string
-          title_font_family: string | null
-          title_font_size: string | null
-          title_font_weight: string | null
           title_color: string | null
           description: string | null
-          desc_font_family: string | null
-          desc_font_size: string | null
           desc_color: string | null
           icon_svg: string | null
           priority: number | null
@@ -680,13 +552,8 @@ export interface Database {
         Insert: {
           id?: string
           title: string
-          title_font_family?: string | null
-          title_font_size?: string | null
-          title_font_weight?: string | null
           title_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
           desc_color?: string | null
           icon_svg?: string | null
           priority?: number | null
@@ -695,13 +562,8 @@ export interface Database {
         Update: {
           id?: string
           title?: string
-          title_font_family?: string | null
-          title_font_size?: string | null
-          title_font_weight?: string | null
           title_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
           desc_color?: string | null
           icon_svg?: string | null
           priority?: number | null
@@ -712,13 +574,8 @@ export interface Database {
         Row: {
           id: string
           title: string
-          title_font_family: string | null
-          title_font_size: string | null
-          title_font_weight: string | null
           title_color: string | null
           description: string | null
-          desc_font_family: string | null
-          desc_font_size: string | null
           desc_color: string | null
           icon_svg: string | null
           priority: number | null
@@ -727,13 +584,8 @@ export interface Database {
         Insert: {
           id?: string
           title: string
-          title_font_family?: string | null
-          title_font_size?: string | null
-          title_font_weight?: string | null
           title_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
           desc_color?: string | null
           icon_svg?: string | null
           priority?: number | null
@@ -742,13 +594,8 @@ export interface Database {
         Update: {
           id?: string
           title?: string
-          title_font_family?: string | null
-          title_font_size?: string | null
-          title_font_weight?: string | null
           title_color?: string | null
           description?: string | null
-          desc_font_family?: string | null
-          desc_font_size?: string | null
           desc_color?: string | null
           icon_svg?: string | null
           priority?: number | null
@@ -759,39 +606,24 @@ export interface Database {
         Row: {
           id: string
           section_heading: string | null
-          heading_font_family: string | null
-          heading_font_size: string | null
-          heading_font_weight: string | null
           heading_color: string | null
           section_subheading: string | null
-          sub_font_family: string | null
-          sub_font_size: string | null
           sub_color: string | null
           updated_at: string | null
         }
         Insert: {
           id?: string
           section_heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
           heading_color?: string | null
           section_subheading?: string | null
-          sub_font_family?: string | null
-          sub_font_size?: string | null
           sub_color?: string | null
           updated_at?: string | null
         }
         Update: {
           id?: string
           section_heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
           heading_color?: string | null
           section_subheading?: string | null
-          sub_font_family?: string | null
-          sub_font_size?: string | null
           sub_color?: string | null
           updated_at?: string | null
         }
@@ -801,21 +633,11 @@ export interface Database {
           id: string
           section_key: string
           heading: string | null
-          heading_font_family: string | null
-          heading_font_size: string | null
-          heading_font_weight: string | null
-          heading_letter_spacing: string | null
           heading_color: string | null
           subheading: string | null
-          subheading_font_family: string | null
-          subheading_font_size: string | null
           subheading_color: string | null
           description_json: Json | null
           btn_text: string | null
-          btn_font_family: string | null
-          btn_font_size: string | null
-          btn_font_weight: string | null
-          btn_letter_spacing: string | null
           btn_color: string | null
           btn_hover_color: string | null
           btn_text_color: string | null
@@ -826,21 +648,11 @@ export interface Database {
           id?: string
           section_key: string
           heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
-          heading_letter_spacing?: string | null
           heading_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
           subheading_color?: string | null
           description_json?: Json | null
           btn_text?: string | null
-          btn_font_family?: string | null
-          btn_font_size?: string | null
-          btn_font_weight?: string | null
-          btn_letter_spacing?: string | null
           btn_color?: string | null
           btn_hover_color?: string | null
           btn_text_color?: string | null
@@ -851,21 +663,11 @@ export interface Database {
           id?: string
           section_key?: string
           heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
-          heading_letter_spacing?: string | null
           heading_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
           subheading_color?: string | null
           description_json?: Json | null
           btn_text?: string | null
-          btn_font_family?: string | null
-          btn_font_size?: string | null
-          btn_font_weight?: string | null
-          btn_letter_spacing?: string | null
           btn_color?: string | null
           btn_hover_color?: string | null
           btn_text_color?: string | null
@@ -878,15 +680,8 @@ export interface Database {
           id: string
           page: string
           heading: string | null
-          heading_font_family: string | null
-          heading_font_size: string | null
-          heading_font_weight: string | null
-          heading_letter_spacing: string | null
           heading_color: string | null
           subheading: string | null
-          subheading_font_family: string | null
-          subheading_font_size: string | null
-          subheading_font_weight: string | null
           subheading_color: string | null
           bg_gradient_start: string | null
           bg_gradient_end: string | null
@@ -896,15 +691,8 @@ export interface Database {
           id?: string
           page: string
           heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
-          heading_letter_spacing?: string | null
           heading_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
-          subheading_font_weight?: string | null
           subheading_color?: string | null
           bg_gradient_start?: string | null
           bg_gradient_end?: string | null
@@ -914,15 +702,8 @@ export interface Database {
           id?: string
           page?: string
           heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
-          heading_letter_spacing?: string | null
           heading_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
-          subheading_font_weight?: string | null
           subheading_color?: string | null
           bg_gradient_start?: string | null
           bg_gradient_end?: string | null
@@ -934,13 +715,8 @@ export interface Database {
           id: string
           section_key: string
           heading: string | null
-          heading_font_family: string | null
-          heading_font_size: string | null
-          heading_font_weight: string | null
           heading_color: string | null
           subheading: string | null
-          subheading_font_family: string | null
-          subheading_font_size: string | null
           subheading_color: string | null
           is_visible: boolean | null
           updated_at: string | null
@@ -949,13 +725,8 @@ export interface Database {
           id?: string
           section_key: string
           heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
           heading_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
           subheading_color?: string | null
           is_visible?: boolean | null
           updated_at?: string | null
@@ -964,13 +735,8 @@ export interface Database {
           id?: string
           section_key?: string
           heading?: string | null
-          heading_font_family?: string | null
-          heading_font_size?: string | null
-          heading_font_weight?: string | null
           heading_color?: string | null
           subheading?: string | null
-          subheading_font_family?: string | null
-          subheading_font_size?: string | null
           subheading_color?: string | null
           is_visible?: boolean | null
           updated_at?: string | null
@@ -1079,17 +845,10 @@ export type AuditLog = Database['public']['Tables']['audit_log']['Row']
 export interface WordStyle {
   word: string
   color: string
-  font_family: string
-  font_size: string
-  font_weight: string
 }
 
 export interface ContentBlock {
   text: string
-  block_font_family: string
-  block_font_size: string
-  block_font_weight: string
-  block_line_height: string
   block_color: string
   words: WordStyle[]
 }

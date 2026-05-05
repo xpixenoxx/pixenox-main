@@ -7,18 +7,14 @@ import '@/components/home/HeroSection.css';
 interface ServiceAnimatedHeaderProps {
   title: string;
   description: string | null;
-  titleFont: string | null;
   titleColor: string | null;
-  descFont: string | null;
   descColor: string | null;
 }
 
 export default function ServiceAnimatedHeader({
   title,
   description,
-  titleFont,
   titleColor,
-  descFont,
   descColor,
 }: ServiceAnimatedHeaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -225,7 +221,7 @@ export default function ServiceAnimatedHeader({
             variants={descVariants}
             initial="hidden"
             animate={controls}
-            style={{ fontFamily: descFont || undefined, color: descColor || undefined }}
+            style={{ color: descColor || undefined }}
           >
             {description}
           </motion.p>

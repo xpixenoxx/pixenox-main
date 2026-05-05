@@ -282,7 +282,6 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
             initial="hidden"
             animate={controls}
             style={{
-              fontFamily: hero.headline_font_family,
               color: hero.headline_color
             }}
           >
@@ -319,7 +318,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
               }
             }}
           >
-            <p className="hero__subheadline" style={{ fontFamily: hero.subheadline_font_family }}>
+            <p className="hero__subheadline">
               {hero.subheadline}
             </p>
 

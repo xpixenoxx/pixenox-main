@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/admin/ui/ToastProvider'
 import { ColorPicker } from '@/components/admin/ui/ColorPicker'
-import { FontSelector } from '@/components/admin/ui/FontSelector'
 import { TypographyPanel } from '@/components/admin/ui/TypographyPanel'
 import { FileUploadZone } from '@/components/admin/ui/FileUploadZone'
 import { heroSchema } from '@/lib/validators/hero'
@@ -12,24 +11,11 @@ import { heroSchema } from '@/lib/validators/hero'
 const DEFAULT_HERO = {
   id: '',
   headline: 'Building the Future of Digital',
-  headline_font_family: 'Outfit',
-  headline_font_size: '4.5rem',
-  headline_font_weight: '800',
-  headline_letter_spacing: '-0.03em',
-  headline_line_height: '1.1',
   headline_color: '#ffffff',
   subheadline: 'We engineer AAA-grade platforms that perform globally.',
-  subheadline_font_family: 'Inter',
-  subheadline_font_size: '1.25rem',
-  subheadline_font_weight: '400',
-  subheadline_line_height: '1.7',
   subheadline_color: 'rgba(255,255,255,0.75)',
   cta_text: 'Let\'s Discuss Content',
   cta_url: '/contact',
-  cta_font_family: 'Inter',
-  cta_font_size: '1rem',
-  cta_font_weight: '600',
-  cta_letter_spacing: '0.02em',
   cta_bg_color: '#4a0e8f',
   cta_hover_bg_color: '#6b21d4',
   cta_text_color: '#ffffff',
@@ -121,11 +107,6 @@ export default function HeroPage() {
              <TypographyPanel 
                label="Headline"
                values={{
-                 fontFamily: formData.headline_font_family,
-                 fontSize: formData.headline_font_size,
-                 fontWeight: formData.headline_font_weight,
-                 letterSpacing: formData.headline_letter_spacing,
-                 lineHeight: formData.headline_line_height,
                  color: formData.headline_color,
                }}
                onChange={(k, v) => handleExtChange('headline', k, v)}
@@ -148,10 +129,6 @@ export default function HeroPage() {
              <TypographyPanel 
                label="Subheadline"
                values={{
-                 fontFamily: formData.subheadline_font_family,
-                 fontSize: formData.subheadline_font_size,
-                 fontWeight: formData.subheadline_font_weight,
-                 lineHeight: formData.subheadline_line_height,
                  color: formData.subheadline_color,
                }}
                onChange={(k, v) => handleExtChange('subheadline', k, v)}
@@ -177,18 +154,9 @@ export default function HeroPage() {
                <ColorPicker label="Background Color" value={formData.cta_bg_color} onChange={(v) => handleChange('cta_bg_color', v)} />
                <ColorPicker label="Hover BG Color" value={formData.cta_hover_bg_color} onChange={(v) => handleChange('cta_hover_bg_color', v)} />
                <ColorPicker label="Text Color" value={formData.cta_text_color} onChange={(v) => handleChange('cta_text_color', v)} />
-               <FontSelector label="Font Family" value={formData.cta_font_family} onChange={(v) => handleChange('cta_font_family', v)} />
              </div>
 
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-               <div className="flex flex-col gap-1.5">
-                 <label className="text-sm font-medium text-white/80">Font Size</label>
-                 <input className="admin-input" value={formData.cta_font_size} onChange={(e) => handleChange('cta_font_size', e.target.value)} />
-               </div>
-               <div className="flex flex-col gap-1.5">
-                 <label className="text-sm font-medium text-white/80">Font Weight</label>
-                 <input className="admin-input" value={formData.cta_font_weight} onChange={(e) => handleChange('cta_font_weight', e.target.value)} />
-               </div>
+             <div className="grid grid-cols-1 gap-4">
                <div className="flex flex-col gap-1.5">
                  <label className="text-sm font-medium text-white/80">Border Radius</label>
                  <select className="admin-input appearance-none" value={formData.cta_border_radius} onChange={(e) => handleChange('cta_border_radius', e.target.value)}>
@@ -272,11 +240,6 @@ export default function HeroPage() {
            <div className="relative z-10 max-w-4xl text-center flex flex-col items-center">
               <h1 
                  style={{
-                   fontFamily: formData.headline_font_family,
-                   fontSize: formData.headline_font_size,
-                   fontWeight: formData.headline_font_weight,
-                   letterSpacing: formData.headline_letter_spacing,
-                   lineHeight: formData.headline_line_height,
                    color: formData.headline_color,
                  }}
                  className="mb-6 whitespace-pre-wrap"
@@ -286,10 +249,6 @@ export default function HeroPage() {
 
               <p 
                  style={{
-                   fontFamily: formData.subheadline_font_family,
-                   fontSize: formData.subheadline_font_size,
-                   fontWeight: formData.subheadline_font_weight,
-                   lineHeight: formData.subheadline_line_height,
                    color: formData.subheadline_color,
                  }}
                  className="mb-10 max-w-2xl whitespace-pre-wrap"
@@ -302,10 +261,6 @@ export default function HeroPage() {
                     style={{
                       backgroundColor: formData.cta_bg_color,
                       color: formData.cta_text_color,
-                      fontFamily: formData.cta_font_family,
-                      fontSize: formData.cta_font_size,
-                      fontWeight: formData.cta_font_weight,
-                      letterSpacing: formData.cta_letter_spacing,
                       borderRadius: formData.cta_border_radius,
                     }}
                     className="px-8 py-4 transition-colors"

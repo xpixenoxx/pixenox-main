@@ -47,10 +47,6 @@ export default function WorkPageClient({ studies, tags, heroConfig }: WorkPageCl
             className="work-massive-title overflow-hidden py-3"
             aria-hidden="true"
             style={{
-              fontFamily: heroConfig?.heading_font_family || undefined,
-              fontSize: heroConfig?.heading_font_size || undefined,
-              fontWeight: heroConfig?.heading_font_weight || undefined,
-              letterSpacing: heroConfig?.heading_letter_spacing || undefined,
               color: heroConfig?.heading_color || undefined,
               position: 'relative',
               display: 'block',

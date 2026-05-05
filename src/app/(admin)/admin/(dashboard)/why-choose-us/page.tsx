@@ -6,7 +6,6 @@ import { useToast } from '@/components/admin/ui/ToastProvider'
 import { ConfirmModal } from '@/components/admin/ui/ConfirmModal'
 import { TypographyPanel } from '@/components/admin/ui/TypographyPanel'
 import { ColorPicker } from '@/components/admin/ui/ColorPicker'
-import { FontSelector } from '@/components/admin/ui/FontSelector'
 import { Edit, Trash2, GripVertical, Plus, X } from 'lucide-react'
 
 import {
@@ -62,9 +61,6 @@ function SortableFeatureItem({ id, item, onEdit, onDelete }: any) {
 
 export default function WhyChooseUsPage() {
   const [config, setConfig] = useState<any>({
-     id: '', section_heading: '', heading_font_family: '', heading_font_size: '', heading_font_weight: '', heading_letter_spacing: '', heading_color: '',
-     section_subheading: '', sub_font_family: '', sub_font_size: '', sub_color: '',
-     cta_text: '', cta_url: '', cta_font_family: '', cta_font_size: '', cta_font_weight: '', cta_bg_color: '', cta_hover_bg_color: '', cta_border_radius: ''
   })
   const [items, setItems] = useState<any[]>([])
   
@@ -225,10 +221,6 @@ export default function WhyChooseUsPage() {
                <TypographyPanel 
                   label="Heading"
                   values={{
-                    fontFamily: config.heading_font_family,
-                    fontSize: config.heading_font_size,
-                    fontWeight: config.heading_font_weight,
-                    letterSpacing: config.heading_letter_spacing,
                     color: config.heading_color,
                   }}
                   onChange={(k, v) => handleConfigExtChange('heading', k, v)}
@@ -243,8 +235,6 @@ export default function WhyChooseUsPage() {
                <TypographyPanel 
                   label="Subheading"
                   values={{
-                    fontFamily: config.sub_font_family,
-                    fontSize: config.sub_font_size,
                     color: config.sub_color,
                   }}
                   onChange={(k, v) => handleConfigExtChange('sub', k, v)}
@@ -271,12 +261,7 @@ export default function WhyChooseUsPage() {
                  <ColorPicker label="Hover BG Color" value={config.cta_hover_bg_color || ''} onChange={(v) => handleConfigChange('cta_hover_bg_color', v)} />
                </div>
 
-               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                 <FontSelector label="Font Family" value={config.cta_font_family || ''} onChange={(v) => handleConfigChange('cta_font_family', v)} />
-                 <div className="flex flex-col gap-1.5">
-                   <label className="text-sm font-medium text-white/80">Font Size</label>
-                   <input className="admin-input" value={config.cta_font_size || ''} onChange={(e) => handleConfigChange('cta_font_size', e.target.value)} />
-                 </div>
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <div className="flex flex-col gap-1.5">
                    <label className="text-sm font-medium text-white/80">Border Radius</label>
                    <input className="admin-input" placeholder="e.g. 8px" value={config.cta_border_radius || ''} onChange={(e) => handleConfigChange('cta_border_radius', e.target.value)} />
@@ -351,9 +336,6 @@ export default function WhyChooseUsPage() {
                      <TypographyPanel 
                         label="Stat"
                         values={{
-                          fontFamily: itemToEdit.stat_font_family,
-                          fontSize: itemToEdit.stat_font_size,
-                          fontWeight: itemToEdit.stat_font_weight,
                           color: itemToEdit.stat_color,
                         }}
                         onChange={(k, v) => handleItemExtChange('stat', k, v)}
@@ -368,8 +350,6 @@ export default function WhyChooseUsPage() {
                      <TypographyPanel 
                         label="Label"
                         values={{
-                          fontFamily: itemToEdit.label_font_family,
-                          fontSize: itemToEdit.label_font_size,
                           color: itemToEdit.label_color,
                         }}
                         onChange={(k, v) => handleItemExtChange('label', k, v)}
@@ -384,8 +364,6 @@ export default function WhyChooseUsPage() {
                      <TypographyPanel 
                         label="Description"
                         values={{
-                          fontFamily: itemToEdit.desc_font_family,
-                          fontSize: itemToEdit.desc_font_size,
                           color: itemToEdit.desc_color,
                         }}
                         onChange={(k, v) => handleItemExtChange('desc', k, v)}

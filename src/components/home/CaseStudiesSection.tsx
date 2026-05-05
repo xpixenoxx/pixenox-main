@@ -83,7 +83,7 @@ export default function CaseStudiesSection({
       <div className="hl-header">
         <h2 
           className="hl-title"
-          style={{ fontFamily: config?.heading_font_family, color: config?.heading_color }}
+          style={{ color: config?.heading_color }}
         >
           {title}
         </h2>
@@ -129,7 +129,6 @@ export default function CaseStudiesSection({
                     <h3 
                       className="hl-panel-title"
                       style={{ 
-                        fontFamily: study.title_font_family, 
                         color: study.title_color 
                       }}
                     >

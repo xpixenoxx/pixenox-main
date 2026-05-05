@@ -81,7 +81,7 @@ const FlowingBackwardsText = ({ text, trigger }: { text: string; trigger: boolea
 };
 
 // ── Strict Canvas Particle Engine (Dot Assesmbler) ──
-const ParticleHeading = ({ text, trigger, fontFamily, color }: { text: string; trigger: boolean; fontFamily: string; color: string }) => {
+const ParticleHeading = ({ text, trigger, color }: { text: string; trigger: boolean; color: string }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const ParticleHeading = ({ text, trigger, fontFamily, color }: { text: string; t
     canvas.height = height;
 
     const fontSize = text.length > 20 ? 60 : 90;
-    ctx.font = `900 ${fontSize}px ${fontFamily || 'Inter'}, sans-serif`;
+    ctx.font = `900 ${fontSize}px Inter, sans-serif`;
     ctx.fillStyle = 'white';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
@@ -200,7 +200,7 @@ const ParticleHeading = ({ text, trigger, fontFamily, color }: { text: string; t
       observer.disconnect();
       document.removeEventListener('visibilitychange', handleVisibility);
     };
-  }, [text, trigger, fontFamily, color]);
+  }, [text, trigger, color]);
 
   return (
     <canvas 
@@ -315,7 +315,6 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
               <ParticleHeading 
                 text={config.section_heading} 
                 trigger={inView}
-                fontFamily={config.heading_font_family}
                 color={config.heading_color}
               />
             </div>
@@ -328,7 +327,6 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
                   visible: { opacity: 1, transition: { duration: 0.6, delay: 0.8 } }
                 }}
                 style={{
-                  fontFamily: config.sub_font_family,
                   color: config.sub_color,
                   fontSize: '1.05rem',
                   lineHeight: '1.7',
