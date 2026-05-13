@@ -360,3 +360,37 @@ select:focus-visible {
     padding: var(--space-xl) 0;
   }
 }
+
+/* ── Performance-Safe Lite Mode (mobile/coarse pointer) ── */
+@media (max-width: 768px), (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .page-wipe::before,
+  .page-wipe::after,
+  .scanline-overlay::after,
+  .hub-page::after,
+  .all-srv-header-wrapper::before,
+  .fluid-bg::after {
+    display: none !important;
+  }
+
+  .hub-glow-1,
+  .hub-glow-2,
+  .all-srv-header-aurora,
+  .all-srv-header-aurora::after,
+  .cx-particles {
+    animation: none !important;
+    filter: none !important;
+    opacity: 0.35 !important;
+  }
+
+  .glass-card,
+  .hub-card,
+  .all-srv-cta,
+  .fluid-subtext {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}

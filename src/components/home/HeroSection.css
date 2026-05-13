@@ -17,7 +17,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.03;
   z-index: 100;
   pointer-events: none;
@@ -84,7 +84,6 @@
   width: 55vw; height: 55vw;
   background: radial-gradient(circle, rgba(76, 29, 149, 0.25) 0%, transparent 65%);
   border-radius: 50%;
-  filter: blur(80px);
   z-index: 0;
   pointer-events: none;
   animation: drift 20s ease-in-out infinite alternate;
@@ -97,7 +96,6 @@
   width: 65vw; height: 65vw;
   background: radial-gradient(circle, rgba(109, 40, 217, 0.2) 0%, transparent 65%);
   border-radius: 50%;
-  filter: blur(100px);
   z-index: 0;
   pointer-events: none;
   animation: drift 28s ease-in-out infinite alternate-reverse;
@@ -109,7 +107,6 @@
   width: 40vw; height: 40vw;
   background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
   border-radius: 50%;
-  filter: blur(100px);
   z-index: 0;
   pointer-events: none;
   animation: drift 35s ease-in-out infinite alternate;
@@ -213,7 +210,7 @@
   top: 0; left: 0;
   width: 400%;
   height: 100%;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") repeat;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") repeat;
   background-blend-mode: overlay;
   mix-blend-mode: color-dodge;
 }
@@ -251,7 +248,7 @@
   font-size: 16vw;
   line-height: 1;
   font-weight: 900;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter, 'Inter'), sans-serif;
   letter-spacing: -0.02em;
   white-space: nowrap;
   color: transparent;
@@ -282,7 +279,7 @@
   border: 1px solid rgba(124, 58, 237, 0.2);
   border-radius: 100px;
   padding: 8px 20px 8px 12px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), monospace;
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -334,11 +331,12 @@
 
 /* The Serif Injection */
 .hero__word--serif {
-  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-family: var(--font-instrument-serif, 'Instrument Serif'), 'Times New Roman', serif;
   font-style: italic;
   font-weight: 300 !important;
   background: linear-gradient(to right, #e0e7ff, #a5b4fc);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -451,17 +449,18 @@
 .hero__stat-val {
   font-size: 3rem;
   font-weight: 400;
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--font-instrument-serif, 'Instrument Serif'), serif;
   font-style: italic;
   background: linear-gradient(180deg, #fff 20%, #a78bfa 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
   line-height: 1;
 }
 
 .hero__stat-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), monospace;
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -591,6 +590,7 @@
     font-size: 2.4rem;
     background: linear-gradient(180deg, #fff 20%, #c084fc 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
@@ -612,9 +612,8 @@
     top: -10vh;
     left: 50%;
     transform: translateX(-50%);
-    opacity: 0.4;
+    opacity: 0.25;
     z-index: 0;
-    filter: blur(10px);
   }
 
   .hero__orbit-ring { inset: -5%; }

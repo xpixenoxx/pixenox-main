@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import './PageTransition.css';
 
 interface PageTransitionProps {
@@ -11,10 +11,21 @@ interface PageTransitionProps {
 
 export default function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname();
+  const prefersReducedMotion = useReducedMotion();
   const [displayChildren, setDisplayChildren] = useState(children);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const prevPathname = useRef(pathname);
   const isFirstRender = useRef(true);
+  const transitionMs = prefersReducedMotion || isCoarsePointer ? 220 : 400;
+
+  useEffect(() => {
+    const coarseQuery = window.matchMedia('(pointer: coarse)');
+    const updatePointerMode = () => setIsCoarsePointer(coarseQuery.matches);
+    updatePointerMode();
+    coarseQuery.addEventListener('change', updatePointerMode);
+    return () => coarseQuery.removeEventListener('change', updatePointerMode);
+  }, []);
 
   useEffect(() => {
     // Skip animation on first render — critical for LCP
@@ -31,19 +42,19 @@ export default function PageTransition({ children }: PageTransitionProps) {
       const timer = setTimeout(() => {
         setDisplayChildren(children);
         setIsTransitioning(false);
-      }, 400);
+      }, transitionMs);
 
       return () => clearTimeout(timer);
     } else {
       setDisplayChildren(children);
     }
-  }, [pathname, children]);
+  }, [pathname, children, transitionMs]);
 
   return (
     <>
       {/* Cinematic Wipe Overlay — only on navigation, never on first load */}
       <AnimatePresence>
-        {isTransitioning && (
+        {isTransitioning && !prefersReducedMotion && !isCoarsePointer && (
           <motion.div
             className="page-wipe"
             initial={{ scaleY: 0 }}
@@ -76,7 +87,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{
-            duration: 0.4,
+            duration: prefersReducedMotion || isCoarsePointer ? 0.2 : 0.4,
             ease: [0.16, 1, 0.3, 1],
           }}
         >

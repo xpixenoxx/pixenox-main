@@ -15,7 +15,7 @@ const redis =
 const upstashRatelimit = redis
   ? new Ratelimit({
       redis,
-      limiter: Ratelimit.slidingWindow(5, '60 s'),
+      limiter: Ratelimit.slidingWindow(3, '24 h'),
       analytics: true,
       prefix: 'pixenox:ratelimit',
     })
@@ -45,8 +45,8 @@ export interface RateLimitConfig {
 }
 
 const DEFAULT_CONFIG: RateLimitConfig = {
-  limit: 5,
-  windowSeconds: 60,
+  limit: 3,
+  windowSeconds: 86400, // 24 hours in seconds
 };
 
 /**

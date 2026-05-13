@@ -228,7 +228,7 @@
   color: rgba(255, 255, 255, 0.45);
   font-size: 0.85rem;
   font-family: inherit;
-  cursor: none;
+  cursor: pointer;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -268,7 +268,7 @@
   font-size: 1.1rem;
   font-weight: 500;
   font-family: inherit;
-  cursor: none;
+  cursor: pointer;
   padding: 0;
   transition: all 0.3s ease;
 }
@@ -445,6 +445,17 @@
   .cx-field__error,
   .cx-bottom-strip {
     padding-left: 0;
+  }
+
+  .cx-particle,
+  .cx-submit__arrow::after,
+  .cx-success__ring::before {
+    animation: none;
+  }
+
+  .cx-submit:hover .cx-submit__arrow {
+    transform: none;
+    box-shadow: 0 0 30px rgba(161, 120, 255, 0.35);
   }
 }
 

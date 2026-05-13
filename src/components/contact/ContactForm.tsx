@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Check, Terminal } from 'lucide-react';
 import { getBrowserClient } from '@/lib/supabase/client';
 const supabase = getBrowserClient();
-import { Turnstile } from '@marsidev/react-turnstile';
 import type { ServiceCard } from '@/lib/types/database';
 import './ContactForm.css';
 
@@ -55,7 +54,6 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -87,11 +85,6 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
     e.preventDefault();
     if (!validate()) return;
     
-    if (!turnstileToken) {
-      setErrors((prev) => ({ ...prev, message: 'Please complete the security check.' }));
-      return;
-    }
-    
     setIsSubmitting(true);
 
     try {
@@ -100,8 +93,7 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name, email: formData.email, mobile: formData.mobile,
-          services_interested: formData.services_interested, message: formData.message,
-          turnstileToken
+          services_interested: formData.services_interested, message: formData.message
         }),
       });
 
@@ -213,14 +205,6 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
                 aria-describedby={errors.message ? 'message-error' : undefined}
               />
               {errors.message && <span id="message-error" className="contact-form__error" role="alert">{errors.message}</span>}
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="contact-form__field" style={{ minHeight: '65px' }}>
-              <Turnstile 
-                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
-                onSuccess={(token) => setTurnstileToken(token)} 
-                options={{ theme: 'dark' }} 
-              />
             </motion.div>
 
             <motion.button 

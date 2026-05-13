@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { motion, useAnimation, useInView, useReducedMotion } from 'framer-motion';
 import '@/components/home/HeroSection.css';
 
 interface ServiceAnimatedHeaderProps {
@@ -21,6 +21,7 @@ export default function ServiceAnimatedHeader({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controls = useAnimation();
   const inView = useInView(containerRef, { once: true });
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (inView) {
@@ -33,13 +34,14 @@ export default function ServiceAnimatedHeader({
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
+    if (prefersReducedMotion || window.matchMedia('(pointer: coarse)').matches) return;
 
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     let animId: number;
-    let particles: Array<{ x: number, y: number, vx: number, vy: number, size: number }> = [];
-    const PARTICLE_COUNT = 100; // slightly lower for half-screen
+    let particles: Array<{ x: number, y: number, vx: number, vy: number, size: number, alpha: number }> = [];
+    const PARTICLE_COUNT = window.matchMedia('(max-width: 1024px)').matches ? 48 : 84;
     const CONNECTION_DISTANCE = 120;
     const MOUSE_RADIUS = 200;
 
@@ -62,6 +64,7 @@ export default function ServiceAnimatedHeader({
           vx: (Math.random() - 0.5) * 0.5,
           vy: (Math.random() - 0.5) * 0.5,
           size: Math.random() * 1.5 + 0.5,
+          alpha: Math.random() * 0.5 + 0.2,
         });
       }
     }
@@ -101,7 +104,7 @@ export default function ServiceAnimatedHeader({
         const dy = mouse.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < MOUSE_RADIUS) {
+        if (dist > 0 && dist < MOUSE_RADIUS) {
           const forceDirectionX = dx / dist;
           const forceDirectionY = dy / dist;
           const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
@@ -111,7 +114,7 @@ export default function ServiceAnimatedHeader({
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(139, 92, 246, ${Math.random() * 0.5 + 0.2})`;
+        ctx.fillStyle = `rgba(139, 92, 246, ${p.alpha})`;
         ctx.fill();
 
         for (let j = i; j < particles.length; j++) {
@@ -140,7 +143,7 @@ export default function ServiceAnimatedHeader({
       window.removeEventListener('mousemove', handleMouseMove);
       container?.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   const containerVariants = {
     hidden: {},

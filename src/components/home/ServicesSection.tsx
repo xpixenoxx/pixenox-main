@@ -7,6 +7,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { getBrowserClient } from '@/lib/supabase/client';
 const supabase = getBrowserClient();
 import Skeleton from '@/components/ui/Skeleton';
+import Image from 'next/image';
 import type { ServiceCard, CardTool, SectionConfig, ServicesLayout } from '@/lib/types/database';
 import { sanitizeSvg } from '@/lib/sanitize';
 import './ServicesSection.css';
@@ -56,26 +57,7 @@ export default function ServicesSection({
       }
     }
     load();
-
-    const ch = supabase
-      .channel('services_realtime')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'services_cards' }, async () => {
-        const { data } = await supabase.from('services_cards').select('*').order('priority', { ascending: true });
-        if (data) setCards(data as ServiceCard[]);
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'services_layout' }, async () => {
-        const { data } = await supabase.from('services_layout').select('*').limit(1).single();
-        if (data) setLayout(data as ServicesLayout);
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'card_tools' }, async () => {
-        const { data } = await supabase.from('card_tools').select('*');
-        if (data) setTools(data as CardTool[]);
-      })
-      .subscribe();
-
-    return () => { supabase.removeChannel(ch); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initialCards, initialConfig, initialLayout, initialTools]);
 
   // Auto-activate first card
   useEffect(() => {
@@ -200,10 +182,17 @@ export default function ServicesSection({
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
                 >
                   {/* Background Image (Inactive State) */}
-                  <div 
-                    className="service-card__bg" 
-                    style={{ backgroundImage: `url(${card.image_url || ''})` }} 
-                  />
+                  <div className="service-card__bg">
+                    {card.image_url && (
+                      <Image 
+                        src={card.image_url} 
+                        alt={card.title || "Service Background"} 
+                        fill 
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    )}
+                  </div>
                   <div className="service-card__bg-overlay" />
 
                   {/* Top Bar */}

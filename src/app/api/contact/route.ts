@@ -10,13 +10,13 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
  *
  * Body: { name, email, mobile?, services_interested?, message }
  *
- * Rate limit: 5 submissions per 60 seconds per IP.
+ * Rate limit: 3 submissions per 24 hours per IP.
  */
 export async function POST(req: NextRequest) {
   // ── Rate Limiting ──
   const { success, retryAfterSeconds } = await rateLimit(req, {
-    limit: 5,
-    windowSeconds: 60,
+    limit: 3,
+    windowSeconds: 86400, // 24 hours
   });
 
   if (!success) {
@@ -32,23 +32,7 @@ export async function POST(req: NextRequest) {
   // ── Validation ──
   try {
     const body = await req.json();
-    const { name, email, mobile, services_interested, message, turnstileToken } = body;
-
-    // ── Turnstile Cloudflare Verification ──
-    if (!turnstileToken) {
-      return NextResponse.json({ error: 'Turnstile verification token missing. Are you a robot?' }, { status: 400 });
-    }
-
-    const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `secret=${process.env.TURNSTILE_SECRET_KEY}&response=${turnstileToken}`
-    });
-    
-    const turnstileData = await verifyRes.json();
-    if (!turnstileData.success) {
-      return NextResponse.json({ error: 'Failed Turnstile validation. Security breach prevented.' }, { status: 403 });
-    }
+    const { name, email, mobile, services_interested, message } = body;
 
     if (!name || typeof name !== 'string' || !name.trim()) {
       return NextResponse.json({ error: 'Name is required.' }, { status: 400 });

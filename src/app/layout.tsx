@@ -1,22 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans, Inter, Outfit } from "next/font/google";
+import { Inter, Outfit, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,6 +10,20 @@ const inter = Inter({
 
 const outfit = Outfit({
   variable: "--font-outfit",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -88,7 +86,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${plusJakarta.variable} ${inter.variable} ${outfit.variable}`}
+      className={`${inter.variable} ${outfit.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
@@ -104,11 +102,7 @@ export default function RootLayout({
         {/* Preconnect to Supabase for faster data + image fetching */}
         <link rel="preconnect" href="https://hylycwrnfqghmewamqzu.supabase.co" />
         <link rel="dns-prefetch" href="https://hylycwrnfqghmewamqzu.supabase.co" />
-        {/* Only load Instrument Serif externally — other fonts handled by next/font */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
-          rel="stylesheet"
-        />
+
         {/* JSON-LD Structured Data: Organization */}
         <script
           type="application/ld+json"

@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Clock, ArrowRight, Briefcase, X, Loader2, CheckCircle, Search } from 'lucide-react';
-import { Turnstile } from '@marsidev/react-turnstile';
 import { getBrowserClient } from '@/lib/supabase/client';
 import './careers.css';
 
@@ -93,7 +92,6 @@ export default function CareersPageClient() {
   const [appCover, setAppCover] = useState('');
   const [appStatus, setAppStatus] = useState<AppStatus>('idle');
   const [appError, setAppError] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -127,11 +125,7 @@ export default function CareersPageClient() {
       return;
     }
 
-    if (!turnstileToken) {
-      setAppError('Please complete the security check.');
-      setAppStatus('error');
-      return;
-    }
+
 
     try {
       const msg = [
@@ -148,8 +142,7 @@ export default function CareersPageClient() {
         body: JSON.stringify({
           name: appName.trim(),
           email: appEmail.trim(),
-          message: msg,
-          turnstileToken
+          message: msg
         }),
       });
 
@@ -270,22 +263,16 @@ export default function CareersPageClient() {
                   )}
 
                   <form onSubmit={handleApply} className="careers-modal__form">
-                    {appError && <div className="lead-capture__error">{appError}</div>}
+                    {appError && <div className="careers-modal__error">{appError}</div>}
                     <input type="text" placeholder="Full Name *" value={appName} onChange={(e) => setAppName(e.target.value)} required />
                     <input type="email" placeholder="Email *" value={appEmail} onChange={(e) => setAppEmail(e.target.value)} required />
                     <input type="url" placeholder="LinkedIn Profile (optional)" value={appLinkedin} onChange={(e) => setAppLinkedin(e.target.value)} />
                     <textarea placeholder="Why are you a great fit? (optional)" value={appCover} onChange={(e) => setAppCover(e.target.value)} rows={4} />
                     
-                    <div className="mt-4 mb-2">
-                      <Turnstile 
-                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
-                        onSuccess={(token) => setTurnstileToken(token)} 
-                        options={{ theme: 'dark' }} 
-                      />
-                    </div>
 
-                    <button type="submit" className="lead-capture__submit" disabled={appStatus === 'loading'}>
-                      {appStatus === 'loading' ? <><Loader2 size={18} className="lead-capture__spinner" /> Submitting...</> : <>Submit Application <ArrowRight size={18} /></>}
+
+                    <button type="submit" className="careers-modal__submit" disabled={appStatus === 'loading'}>
+                      {appStatus === 'loading' ? <><Loader2 size={18} className="careers-modal__spinner" /> Submitting...</> : <>Submit Application <ArrowRight size={18} /></>}
                     </button>
                   </form>
                 </>

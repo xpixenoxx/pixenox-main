@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { motion, useAnimation, useInView, useReducedMotion } from 'framer-motion';
 import { getBrowserClient } from '@/lib/supabase/client';
 const supabase = getBrowserClient();
 import { ArrowRight } from 'lucide-react';
@@ -17,6 +17,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const controls = useAnimation();
+  const prefersReducedMotion = useReducedMotion();
   const inView = useInView(sectionRef, { once: true, margin: '-20%' });
 
   // 1. Data Fetching
@@ -28,40 +29,31 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
       }
     }
     load();
-
-    const ch = supabase
-      .channel('hero_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'hero_settings' }, (payload) => {
-        if (payload.new) setHero(payload.new as HeroSettings);
-      })
-      .subscribe();
-
-    return () => { supabase.removeChannel(ch); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initialData]);
 
   // 2. Trigger Main Animations
   useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    }
+    // If we want to restart animations when scrolling back into view, we could do it here.
+    // For now, since initial="visible" is set, it will just stay visible.
   }, [controls, inView]);
 
   // 3. Premium Interactive WebGL-style Canvas (Magnetic Swarm)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    if (prefersReducedMotion || isCoarsePointer) return;
 
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     let animId: number;
     let isVisible = true;
-    let particles: Array<{x:number;y:number;vx:number;vy:number;size:number;baseX:number;baseY:number;opacity:number}> = [];
+    let particles: Array<{ x: number; y: number; vx: number; vy: number; size: number; baseX: number; baseY: number; opacity: number }> = [];
 
     // Performance: reduce particles on mobile
     const isMobile = window.innerWidth < 768;
-    const PARTICLE_COUNT = isMobile ? 40 : 120;
+    const PARTICLE_COUNT = isMobile ? 28 : 72;
     const CONNECTION_DISTANCE = isMobile ? 80 : 110;
     const MOUSE_RADIUS = 250;
 
@@ -92,7 +84,6 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
     }
 
     window.addEventListener('resize', resize);
-    resize();
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!sectionRef.current) return;
@@ -146,7 +137,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
         const dy = mouse.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < MOUSE_RADIUS) {
+        if (dist > 0 && dist < MOUSE_RADIUS) {
           const forceDirectionX = dx / dist;
           const forceDirectionY = dy / dist;
           const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
@@ -192,20 +183,35 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
       animId = requestAnimationFrame(animate);
     }
 
-    // Defer canvas animation to avoid blocking LCP paint
-    const startTimer = setTimeout(() => {
+    // Defer canvas animation until browser is idle to protect LCP/TBT.
+    const runWhenIdle = (cb: () => void) => {
+      if ('requestIdleCallback' in window) {
+        const id = (window as Window & { requestIdleCallback: (fn: () => void, opts?: { timeout: number }) => number })
+          .requestIdleCallback(cb, { timeout: 1200 });
+        return () => {
+          if ('cancelIdleCallback' in window) {
+            (window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(id);
+          }
+        };
+      }
+      const t = setTimeout(cb, 1200);
+      return () => clearTimeout(t);
+    };
+
+    const cancelIdleStart = runWhenIdle(() => {
+      resize(); // This calls initParticles() inside the idle callback instead of synchronously
       animate();
-    }, 800);
+    });
 
     return () => {
-      clearTimeout(startTimer);
+      cancelIdleStart();
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('visibilitychange', handleVisibility);
       observer.disconnect();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   // Show skeleton instead of null — ensures LCP paint happens immediately
   if (!hero) return (
@@ -235,17 +241,17 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
       y: '0%',
       rotateZ: 0,
       opacity: 1,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+      transition: { duration: 0, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
     },
   };
 
   return (
     <section ref={sectionRef} className="hero">
 
-      
+
       {/* Structural Background Watermark — decorative, not heading */}
       <div className="hero__watermark" aria-hidden="true">PIXENOX</div>
-      
+
       {/* Ambient Aurora Breathing */}
       <div className="hero__aurora-1" />
       <div className="hero__aurora-2" />
@@ -263,7 +269,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
       </div>
 
       <canvas ref={canvasRef} className="hero__canvas" />
-      
+
       {/* Perspective Grid Floor */}
       <div className="hero__grid-floor" aria-hidden="true" />
 
@@ -279,10 +285,10 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
           <motion.h1
             className="hero__headline"
             variants={containerVariants}
-            initial="hidden"
-            animate={controls}
+            initial="visible"
+            animate="visible"
             style={{
-              color: hero.headline_color
+              color: hero.headline_color || undefined
             }}
           >
             {headlineWords.map((word, i) => {
@@ -308,13 +314,13 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
           <motion.div
             className="hero__info"
-            initial={{ opacity: 0, y: 30 }}
-            animate={controls}
+            initial="visible"
+            animate="visible"
             variants={{
               visible: {
                 opacity: 1,
                 y: 0,
-                transition: { duration: 1, ease: "easeOut", delay: 0.8 }
+                transition: { duration: 0, ease: "easeOut", delay: 0 }
               }
             }}
           >
@@ -323,7 +329,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
             </p>
 
             <div className="hero__cta-wrapper">
-              <a href={hero.cta_url} className="hero__cta">
+              <a href={hero.cta_url || '#'} className="hero__cta">
                 <span>{hero.cta_text || 'Get Started'}</span>
                 <span className="hero__cta-icon">
                   <ArrowRight size={18} strokeWidth={2.5} />
@@ -334,13 +340,13 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
           <motion.div
             className="hero__stats"
-            initial={{ opacity: 0, x: 30 }}
-            animate={controls}
+            initial="visible"
+            animate="visible"
             variants={{
               visible: {
                 opacity: 1,
                 x: 0,
-                transition: { duration: 1, ease: "easeOut", delay: 1.1 }
+                transition: { duration: 0, ease: "easeOut", delay: 0 }
               }
             }}
           >

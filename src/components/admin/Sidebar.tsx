@@ -17,7 +17,8 @@ import {
   Search, 
   Mail,
   LogOut,
-  Cpu
+  Cpu,
+  BookOpen
 } from 'lucide-react'
 
 const navLinks = [
@@ -31,6 +32,7 @@ const navLinks = [
   { href: '/admin/why-choose-us', label: 'Why Choose Us', icon: ThumbsUp },
   { href: '/admin/technology-stack', label: 'Tech Stack', icon: Cpu },
   { href: '/admin/testimonials', label: 'Testimonials', icon: MessageSquare },
+  { href: '/admin/blog', label: 'Blog', icon: BookOpen },
   { href: '/admin/company', label: 'Company', icon: Building2 },
   { href: '/admin/footer', label: 'Footer', icon: Footprints },
   { href: '/admin/seo', label: 'SEO Config', icon: Search },

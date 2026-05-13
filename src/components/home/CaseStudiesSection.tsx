@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getBrowserClient } from '@/lib/supabase/client';
 const supabase = getBrowserClient();
 import Skeleton from '@/components/ui/Skeleton';
+import Image from 'next/image';
 import type { CaseStudy, SectionConfig } from '@/lib/types/database';
 import './CaseStudiesSection.css';
 
@@ -110,9 +111,19 @@ export default function CaseStudiesSection({
               key={study.id} 
               href={`/work/${study.slug}`}
               className="hl-panel" 
-              style={{ backgroundImage: `url('${bgUrl}')` }}
               aria-label={`View case study: ${study.title}`}
             >
+              <div className="hl-panel-bg">
+                {bgUrl && (
+                  <Image 
+                    src={bgUrl} 
+                    alt={study.title || "Case Study Background"} 
+                    fill 
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                    style={{ objectFit: 'cover' }}
+                  />
+                )}
+              </div>
               {/* CSS gradient mask applied over image */}
               <div className="hl-panel-overlay"></div>
               

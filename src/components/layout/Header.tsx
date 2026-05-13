@@ -27,15 +27,22 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [atTop, setAtTop] = useState(true);
+  const hiddenRef = useRef(false);
+  const atTopRef = useRef(true);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() || 0;
-    if (latest > previous && latest > 150) {
-      setHidden(true);
-    } else {
-      setHidden(false);
+    const nextHidden = latest > previous && latest > 150;
+    const nextAtTop = latest < 50;
+
+    if (hiddenRef.current !== nextHidden) {
+      hiddenRef.current = nextHidden;
+      setHidden(nextHidden);
     }
-    setAtTop(latest < 50);
+    if (atTopRef.current !== nextAtTop) {
+      atTopRef.current = nextAtTop;
+      setAtTop(nextAtTop);
+    }
   });
 
   // WCAG: Close mobile drawer on Escape, lock body scroll

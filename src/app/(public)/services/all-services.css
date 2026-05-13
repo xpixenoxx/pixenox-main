@@ -346,5 +346,17 @@
   }
   .hub-card {
     padding: 40px 24px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .hub-glow-1,
+  .hub-glow-2 {
+    animation: none;
+    filter: blur(60px);
+    opacity: 0.5;
+  }
+  .hub-page::after,
+  .gs-label::before {
+    animation: none;
   }
 }

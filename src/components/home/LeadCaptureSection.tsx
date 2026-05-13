@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect, MouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Loader2 } from 'lucide-react';
-import { Turnstile } from '@marsidev/react-turnstile';
 import './LeadCaptureSection.css';
 
 const SERVICE_OPTIONS = [
@@ -23,7 +22,6 @@ export default function LeadCaptureSection() {
   const [errorMsg, setErrorMsg] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [customService, setCustomService] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -80,11 +78,7 @@ export default function LeadCaptureSection() {
       return;
     }
 
-    if (!turnstileToken) {
-      setErrorMsg('Please complete the security verification.');
-      setStatus('error');
-      return;
-    }
+
 
     try {
       const resolvedService = activeService === 'Other' ? customService.trim() : activeService;
@@ -103,8 +97,7 @@ export default function LeadCaptureSection() {
           name: formData.name.trim(),
           email: formData.email.trim(),
           services_interested: activeService === 'Other' ? [customService.trim()] : selectedServices,
-          message: fullMessage || 'Architecture Uplink Request',
-          turnstileToken
+          message: fullMessage || 'Architecture Uplink Request'
         }),
       });
 
@@ -240,13 +233,7 @@ export default function LeadCaptureSection() {
 
               {errorMsg && <div className="lc-form-error">{errorMsg}</div>}
 
-              <div className="lc-turnstile-wrapper">
-                <Turnstile 
-                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
-                  onSuccess={(token) => setTurnstileToken(token)} 
-                  options={{ theme: 'dark' }} 
-                />
-              </div>
+
 
               <div className="lc-nli-action">
                 <button type="submit" className="lc-nli-submit" disabled={status === 'loading'}>

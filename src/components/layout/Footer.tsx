@@ -1,8 +1,10 @@
 'use client';
+// HMR trigger
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
+import { ArrowUpRight } from 'lucide-react';
 
 // Brand icons removed from lucide-react v1.x — using inline SVGs
 function LinkedinIcon({ size = 20 }: { size?: number }) {
@@ -144,7 +146,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
   ) ?? `© ${new Date().getFullYear()} Pixenox Solutions Pvt Ltd. All rights reserved.`;
 
   return (
-    <footer className="footer" role="contentinfo">
+    <footer className="footer" role="contentinfo" suppressHydrationWarning>
       {/* Ambient background artifact */}
       <div className="footer__glow-orb" />
 
@@ -239,7 +241,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
                     {link.href.startsWith('http') ? (
                       <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${link.label} (opens in new tab)`}>
                         {link.label}
-                        <svg className="external-icon" viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17l9.2-9.2M17 16.8V7H7.2" /></svg>
+                        <ArrowUpRight className="external-icon" size={12} strokeWidth={2} />
                       </a>
                     ) : (
                       <Link href={link.href}>{link.label}</Link>
@@ -255,9 +257,10 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
         <div className="footer__bottom">
           <div className="footer__copyright">{copyrightText}</div>
           <div className="footer__bottom-links">
-            <a href="/terms">Terms</a>
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/careers">Careers</a>
+            <Link href="/blog">Blog</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/careers">Careers</Link>
           </div>
         </div>
       </div>

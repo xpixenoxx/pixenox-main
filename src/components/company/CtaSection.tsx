@@ -46,7 +46,7 @@ export default function CtaSection({ data }: CtaSectionProps) {
             className="cta-singularity__heading"
           >
             {/* Split text to enforce exact styling */}
-            {data.heading.split(' ').map((word, i) => (
+            {(data.heading || '').split(' ').map((word, i) => (
               <span key={i}>{word} </span>
             ))}
           </motion.h2>

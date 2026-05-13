@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, FormEvent } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 import { Send, Check, ArrowRight } from 'lucide-react';
 import { getBrowserClient } from '@/lib/supabase/client';
 const supabase = getBrowserClient();
@@ -53,6 +53,8 @@ export default function ContactPageClient({ services: initialServices }: Contact
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
 
   // Mouse-tracking spotlight
   const mouseX = useMotionValue(0);
@@ -61,13 +63,42 @@ export default function ContactPageClient({ services: initialServices }: Contact
   const spotY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+    const coarseQuery = window.matchMedia('(pointer: coarse)');
+    const updatePointerMode = () => setIsCoarsePointer(coarseQuery.matches);
+    updatePointerMode();
+    coarseQuery.addEventListener('change', updatePointerMode);
+    return () => coarseQuery.removeEventListener('change', updatePointerMode);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion || isCoarsePointer) return;
+
+    let rafId = 0;
+    let nextX = 0;
+    let nextY = 0;
+    let ticking = false;
+
+    const flushMouse = () => {
+      mouseX.set(nextX);
+      mouseY.set(nextY);
+      ticking = false;
     };
-    window.addEventListener('mousemove', handleMouse);
-    return () => window.removeEventListener('mousemove', handleMouse);
-  }, [mouseX, mouseY]);
+
+    const handleMouse = (e: MouseEvent) => {
+      nextX = e.clientX;
+      nextY = e.clientY;
+      if (!ticking) {
+        ticking = true;
+        rafId = window.requestAnimationFrame(flushMouse);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouse, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouse);
+      window.cancelAnimationFrame(rafId);
+    };
+  }, [isCoarsePointer, mouseX, mouseY, prefersReducedMotion]);
 
   useEffect(() => {
     async function load() {
@@ -117,10 +148,12 @@ export default function ContactPageClient({ services: initialServices }: Contact
   return (
     <section className="cx-page">
       {/* Mouse-following spotlight */}
-      <motion.div
-        className="cx-spotlight"
-        style={{ x: spotX, y: spotY }}
-      />
+      {!prefersReducedMotion && !isCoarsePointer && (
+        <motion.div
+          className="cx-spotlight"
+          style={{ x: spotX, y: spotY }}
+        />
+      )}
 
       {/* Giant bleeding background text */}
       <div className="cx-bg-text" aria-hidden="true">
