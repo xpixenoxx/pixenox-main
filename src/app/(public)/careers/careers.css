@@ -230,7 +230,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 28px;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  background: #743089;
   border: none;
   border-radius: 10px;
   color: #fff;
@@ -244,7 +244,8 @@
 
 .careers-role-card__btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px -6px rgba(124, 58, 237, 0.4);
+  background: #000000;
+  box-shadow: 0 8px 32px -6px rgba(116, 48, 137, 0.4);
 }
 
 .careers-roles__empty {
@@ -387,7 +388,7 @@
   width: 100%;
   padding: 16px;
   margin-top: 8px;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  background: #743089;
   border: none;
   border-radius: 12px;
   color: #fff;
@@ -399,7 +400,8 @@
 
 .careers-modal__submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px -6px rgba(124, 58, 237, 0.4);
+  background: #000000;
+  box-shadow: 0 8px 32px -6px rgba(116, 48, 137, 0.4);
 }
 
 .careers-modal__submit:disabled {
@@ -422,8 +424,13 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .careers-modal__success {
@@ -459,6 +466,7 @@
     flex-direction: column;
     align-items: flex-start;
   }
+
   .careers-modal {
     padding: 32px 24px;
   }
@@ -468,6 +476,7 @@
   .careers-why__grid {
     grid-template-columns: 1fr;
   }
+
   .careers-roles__filters {
     flex-direction: column;
     align-items: flex-start;

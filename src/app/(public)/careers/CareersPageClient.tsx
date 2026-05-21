@@ -165,32 +165,12 @@ export default function CareersPageClient() {
         <div className="careers-hero__bg" aria-hidden="true" />
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
-            <span className="careers-tag">// JOIN THE TEAM</span>
             <h1 className="careers-title">Build the Future<br /><span className="careers-title--accent">With Us</span></h1>
             <p className="careers-subtitle">We&apos;re a global team of engineers, designers, and strategists building next-generation digital products. Remote-first, impact-driven, no bureaucracy.</p>
           </motion.div>
         </div>
       </section>
 
-      {/* Why join */}
-      <section className="careers-why">
-        <div className="container">
-          <div className="careers-why__grid">
-            {[
-              { icon: '🌍', title: 'Fully Remote', desc: 'Work from anywhere in the world. We operate across 12+ countries.' },
-              { icon: '🚀', title: 'High Impact', desc: 'Work on products used by enterprises globally. No busywork.' },
-              { icon: '📈', title: 'Growth Path', desc: 'Continuous learning budget, conferences, and skill development.' },
-              { icon: '🤝', title: 'Great Culture', desc: 'Async-first, transparent, and engineered for deep work.' },
-            ].map((item, i) => (
-              <motion.div key={i} className="careers-why__card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.6 }}>
-                <span className="careers-why__icon">{item.icon}</span>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Open Roles */}
       <section className="careers-roles">
@@ -268,7 +248,7 @@ export default function CareersPageClient() {
                     <input type="email" placeholder="Email *" value={appEmail} onChange={(e) => setAppEmail(e.target.value)} required />
                     <input type="url" placeholder="LinkedIn Profile (optional)" value={appLinkedin} onChange={(e) => setAppLinkedin(e.target.value)} />
                     <textarea placeholder="Why are you a great fit? (optional)" value={appCover} onChange={(e) => setAppCover(e.target.value)} rows={4} />
-                    
+
 
 
                     <button type="submit" className="careers-modal__submit" disabled={appStatus === 'loading'}>

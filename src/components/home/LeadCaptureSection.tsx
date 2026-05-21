@@ -157,16 +157,16 @@ export default function LeadCaptureSection() {
               <button className="lc-reset-btn" onClick={() => setStatus('idle')}>Initiate Another Uplink</button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="lc-nli-form" noValidate>
+            <form onSubmit={handleSubmit} className="lc-nli-form" noValidate suppressHydrationWarning>
 
               <div className="lc-nli-sentence">
                 Hi, my name is
                 <div className="lc-input-wrap">
-                  <input type="text" name="name" value={formData.name} onChange={handleInput} placeholder="Name" required className="lc-nli-input" style={{ width: formData.name ? `${Math.max(formData.name.length, 5)}ch` : '8ch' }} />
+                  <input type="text" name="name" value={formData.name} onChange={handleInput} placeholder="Name" required className="lc-nli-input" style={{ width: formData.name ? `${Math.max(formData.name.length, 5)}ch` : '8ch' }} suppressHydrationWarning />
                 </div>
                 and I lead technical strategy at
                 <div className="lc-input-wrap">
-                  <input type="text" name="company" value={formData.company} onChange={handleInput} placeholder="Enterprise Limitless" className="lc-nli-input" style={{ width: formData.company ? `${Math.max(formData.company.length, 12)}ch` : '20ch' }} />
+                  <input type="text" name="company" value={formData.company} onChange={handleInput} placeholder="Enterprise Limitless" className="lc-nli-input" style={{ width: formData.company ? `${Math.max(formData.company.length, 12)}ch` : '20ch' }} suppressHydrationWarning />
                 </div>.
                 <br /><br />
                 We are experiencing limits with our infrastructure and require Pixenox to engineer a custom
@@ -175,6 +175,7 @@ export default function LeadCaptureSection() {
                     type="button"
                     className={`lc-dropdown-trigger ${activeService ? 'lc-dropdown-trigger--active' : ''}`}
                     onClick={() => setDropdownOpen(!dropdownOpen)}
+                    suppressHydrationWarning
                   >
                     <span>{displayService}</span>
                     <svg className={`lc-dropdown-chevron ${dropdownOpen ? 'lc-dropdown-chevron--open' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
@@ -217,16 +218,16 @@ export default function LeadCaptureSection() {
                 <br /><br />
                 Our primary technical challenge relates to
                 <div className="lc-input-wrap">
-                  <input type="text" name="message" value={formData.message} onChange={handleInput} placeholder="briefly describe the bottleneck" className="lc-nli-input lc-nli-long" />
+                  <input type="text" name="message" value={formData.message} onChange={handleInput} placeholder="briefly describe the bottleneck" className="lc-nli-input lc-nli-long" suppressHydrationWarning />
                 </div>.
                 <br /><br />
                 You can reach my team at
                 <div className="lc-input-wrap">
-                  <input type="email" name="email" value={formData.email} onChange={handleInput} placeholder="name@company.com" required className="lc-nli-input" style={{ width: formData.email ? `${Math.max(formData.email.length, 8)}ch` : '18ch' }} />
+                  <input type="email" name="email" value={formData.email} onChange={handleInput} placeholder="name@company.com" required className="lc-nli-input" style={{ width: formData.email ? `${Math.max(formData.email.length, 8)}ch` : '18ch' }} suppressHydrationWarning />
                 </div>
                 or call us on
                 <div className="lc-input-wrap">
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleInput} placeholder="+91 98765 43210" className="lc-nli-input" style={{ width: formData.phone ? `${Math.max(formData.phone.length, 10)}ch` : '16ch' }} />
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleInput} placeholder="+91 98765 43210" className="lc-nli-input" style={{ width: formData.phone ? `${Math.max(formData.phone.length, 10)}ch` : '16ch' }} suppressHydrationWarning />
                 </div>
                 to coordinate deployment.
               </div>
@@ -236,7 +237,7 @@ export default function LeadCaptureSection() {
 
 
               <div className="lc-nli-action">
-                <button type="submit" className="lc-nli-submit" disabled={status === 'loading'}>
+                <button type="submit" className="lc-nli-submit" disabled={status === 'loading'} suppressHydrationWarning>
                   {status === 'loading' ? (
                     <Loader2 size={24} className="lc-spinner" />
                   ) : (
