@@ -138,10 +138,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
+  // ── Static: Hardcoded blog posts ──────────────────────────────
+  const staticBlogSlugs = [
+    'why-modern-businesses-need-more-than-just-a-website',
+    'how-ai-systems-are-changing-the-way-businesses-work',
+    'how-scalable-web-architecture-helps-businesses-grow-faster',
+    'why-seo-aeo-and-geo-matter-for-modern-business-growth',
+    'how-digital-transformation-is-changing-every-industry',
+    'why-cloud-infrastructure-is-the-backbone-of-modern-digital-business',
+    'how-web-architecture-shapes-your-brands-digital-presence-in-2026',
+    'the-rise-of-autonomous-ai-systems-what-enterprises-need-to-know',
+    'seo-in-the-age-of-generative-ai-why-geo-is-the-new-frontier',
+    'building-a-data-infrastructure-that-doesnt-break-at-scale',
+    'from-fragmented-tools-to-unified-platforms-the-case-for-convergence',
+    'growth-intelligence-the-framework-behind-10x-campaigns',
+    'what-indian-startups-get-wrong-about-custom-software-development',
+    'understanding-bio-intelligence-the-next-layer-of-human-performance-data',
+    'nextjs-16-vs-remix-which-framework-wins-for-enterprise-in-2026',
+    'how-pixenox-reduced-client-churn-by-60-with-a-single-platform-decision',
+    'the-founders-guide-to-hiring-your-first-ai-engineer'
+  ];
+
+  const staticBlogPages: MetadataRoute.Sitemap = staticBlogSlugs.map((slug): SitemapEntry => ({
+    url: `${baseUrl}/blog/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
   return removeDuplicateUrls([
     ...staticPages,
     ...servicePages,
     ...studyPages,
     ...blogPages,
+    ...staticBlogPages,
   ]);
 }
