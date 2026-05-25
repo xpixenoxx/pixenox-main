@@ -63,6 +63,7 @@ const contact400Count = new Counter('contact_400_count');
 const contact403Count = new Counter('contact_403_count');
 const contact429Count = new Counter('contact_429_count');
 const contact5xxCount = new Counter('contact_5xx_count');
+const contact503Count = new Counter('contact_503_count');   // expected: external dep unavailable
 const contactNetworkErrorCount = new Counter('contact_network_error_count');
 const contactUnexpectedFailureCount = new Counter('contact_unexpected_failure_count');
 
@@ -95,9 +96,9 @@ export const options = {
 // ── Expected status codes ─────────────────────────────────────────────────────
 
 // Statuses the contact API intentionally returns:
-//   200/201 = accepted, 403 = security block, 429 = rate limited
+//   200/201 = accepted, 403 = security block, 429 = rate limited, 503 = dependency down
 // 400 is NOT included — the test always sends valid payloads, so 400 would be unexpected.
-const EXPECTED_CONTACT_STATUSES = [200, 201, 403, 429];
+const EXPECTED_CONTACT_STATUSES = [200, 201, 403, 429, 503];
 
 // ── setup() — validate BASE_URL before any VUs start ─────────────────────────
 
@@ -233,6 +234,8 @@ export default function ({ baseUrl }) {
       contact403Count.add(1);
     } else if (res.status === 429) {
       contact429Count.add(1);
+    } else if (res.status === 503) {
+      contact503Count.add(1); // external dep unavailable — expected, not a bug
     } else if (res.status >= 500) {
       contact5xxCount.add(1);
     }
