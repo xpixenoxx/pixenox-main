@@ -4,7 +4,9 @@ import FontProvider from '@/providers/FontProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PageTransition from '@/components/layout/PageTransition';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@supabase/supabase-js';
+import { unstable_cache } from 'next/cache';
+import type { Database } from '@/lib/types/database';
 import type { 
   BrandSettings, 
   NavConfig, 
@@ -13,8 +15,6 @@ import type {
   ThemeSetting 
 } from '@/lib/types/database';
 
-export const revalidate = 3600; // ISR: revalidate every hour
-
 /* ── Convenience row types extracted from Database ── */
 type BrandRow = BrandSettings;
 type NavRow = NavConfig;
@@ -22,31 +22,62 @@ type FooterConfigRow = FooterConfig;
 type FooterLinkRow = FooterLink;
 type ThemeRow = ThemeSetting;
 
-async function getLayoutData() {
-  const supabase = await createClient();
+const getPublicClient = () =>
+  createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
-  const [
-    { data: themeSettings },
-    { data: brandSettings },
-    { data: navConfig },
-    { data: footerConfig },
-    { data: footerLinks },
-  ] = await Promise.all([
-    supabase.from('theme_settings').select('*'),
-    supabase.from('brand_settings').select('*').limit(1).single(),
-    supabase.from('nav_config').select('*').order('priority', { ascending: true }),
-    supabase.from('footer_config').select('*').limit(1).single(),
-    supabase.from('footer_links').select('*').order('priority', { ascending: true }),
-  ]);
+const getCachedLayoutData = unstable_cache(
+  async () => {
+    const supabase = getPublicClient();
 
-  return {
-    themeSettings: (themeSettings ?? []) as ThemeRow[],
-    brandSettings: (brandSettings ?? null) as BrandRow | null,
-    navConfig: (navConfig ?? []) as NavRow[],
-    footerConfig: (footerConfig ?? null) as FooterConfigRow | null,
-    footerLinks: (footerLinks ?? []) as FooterLinkRow[],
-  };
-}
+    const [
+      themeRes,
+      brandRes,
+      navRes,
+      footerRes,
+      linksRes,
+    ] = await Promise.all([
+      supabase.from('theme_settings').select('*'),
+      supabase.from('brand_settings').select('*').limit(1).single(),
+      supabase.from('nav_config').select('*').order('priority', { ascending: true }),
+      supabase.from('footer_config').select('*').limit(1).single(),
+      supabase.from('footer_links').select('*').order('priority', { ascending: true }),
+    ]);
+
+    const results = [
+      { name: 'theme_settings', res: themeRes },
+      { name: 'brand_settings', res: brandRes },
+      { name: 'nav_config', res: navRes },
+      { name: 'footer_config', res: footerRes },
+      { name: 'footer_links', res: linksRes },
+    ];
+
+    for (const { name, res } of results) {
+      if (res.error && res.error.code !== 'PGRST116') {
+        console.error("Supabase query failed:", {
+          table: name,
+          message: res.error.message,
+          details: res.error.details,
+          hint: res.error.hint,
+          code: res.error.code,
+        });
+        throw new Error(`Failed to fetch ${name}`);
+      }
+    }
+
+    return {
+      themeSettings: (themeRes.data ?? []) as ThemeRow[],
+      brandSettings: (brandRes.data ?? null) as BrandRow | null,
+      navConfig: (navRes.data ?? []) as NavRow[],
+      footerConfig: (footerRes.data ?? null) as FooterConfigRow | null,
+      footerLinks: (linksRes.data ?? []) as FooterLinkRow[],
+    };
+  },
+  ['layout-data'],
+  { revalidate: 3600, tags: ['layout'] }
+);
 
 export default async function PublicLayout({
   children,
@@ -59,7 +90,7 @@ export default async function PublicLayout({
     navConfig,
     footerConfig,
     footerLinks,
-  } = await getLayoutData();
+  } = await getCachedLayoutData();
 
   return (
     <SupabaseProvider>

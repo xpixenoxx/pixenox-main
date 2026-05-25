@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimit } from '@/lib/rate-limit';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { isVpnIp } from '@/lib/vpn-check';
 
 /**
  * POST /api/contact
@@ -27,6 +28,20 @@ export async function POST(req: NextRequest) {
         headers: { 'Retry-After': String(retryAfterSeconds) },
       }
     );
+  }
+
+  // ── VPN Check ──
+  const forwarded = req.headers.get('x-forwarded-for');
+  const ip = forwarded?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
+
+  if (ip !== 'unknown') {
+    const isVpn = await isVpnIp(ip);
+    if (isVpn) {
+      return NextResponse.json(
+        { error: 'VPN or Proxy usage detected. Please disable your VPN to submit this form.' },
+        { status: 403 }
+      );
+    }
   }
 
   // ── Validation ──

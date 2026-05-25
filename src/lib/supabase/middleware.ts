@@ -31,13 +31,20 @@ export async function updateSession(request: NextRequest) {
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with cross-request state pollution.
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
   // Protect all /admin routes except /admin/login
   const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
   const isLoginPage = request.nextUrl.pathname === '/admin/login'
+
+  // HUGE PERFORMANCE FIX:
+  // Do not call the Supabase Auth server on public routes. 
+  // It takes ~50-200ms per request and chokes under high concurrent load.
+  if (!isAdminRoute) {
+    return supabaseResponse
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (isAdminRoute && !isLoginPage) {
     if (!user) {
