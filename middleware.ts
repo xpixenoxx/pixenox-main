@@ -26,9 +26,11 @@ export async function middleware(request: NextRequest) {
         { status: 403 }
       );
     }
+
+    return await updateSession(request)
   }
 
-  return await updateSession(request)
+  return NextResponse.next()
 }
 
 export const config = {
@@ -40,6 +42,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public assets (svg, png, jpg, etc.)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|woff|woff2|ttf|css)$).*)',
   ],
 }

@@ -1,54 +1,112 @@
-import http from 'k6/http';
-import { check, sleep } from 'k6';
+import http from "k6/http";
+import { check, group, sleep, fail } from "k6";
 
-// Read target URL from environment variable, default to localhost for local testing
-const BASE_URL = __ENV.TARGET_URL || 'http://localhost:3000';
+// BASE_URL is required. Defaults to localhost if not set.
+// The URL must be reachable BEFORE running. See README-k6.md for usage.
+const BASE_URL = (__ENV.BASE_URL || "http://localhost:3000").replace(/\/$/, "");
 
 export const options = {
   scenarios: {
     realistic_load: {
-      executor: 'ramping-vus',
-      startVUs: 0,
+      executor: "ramping-vus",
       stages: [
-        { duration: '30s', target: 100 },  // Ramp up to 100 users
-        { duration: '1m', target: 100 },   // Warm up
-        { duration: '1m', target: 500 },   // Spike to 500 users
-        { duration: '5m', target: 500 },   // 5-minute sustained load stage
-        { duration: '1m', target: 0 },     // Ramp down to 0
+        { duration: "1m", target: 100 },
+        { duration: "2m", target: 100 },
+        { duration: "2m", target: 500 },
+        { duration: "3m", target: 500 },
+        { duration: "30s", target: 0 },
       ],
     },
   },
   thresholds: {
-    http_req_failed: ['rate<0.01'], // Less than 1% of requests can fail
-    http_req_duration: ['p(95)<1000', 'p(99)<2500'], // p95 under 1s, p99 under 2.5s
+    http_req_failed: ["rate<0.01"],
+    "http_req_duration{route:home}": ["p(95)<1000", "p(99)<2500"],
+    "http_req_duration{route:services}": ["p(95)<1000", "p(99)<2500"],
+    "http_req_duration{route:contact}": ["p(95)<1000", "p(99)<2500"],
   },
 };
 
-export default function () {
-  // 1. User visits homepage
-  const homeRes = http.get(`${BASE_URL}/`);
-  check(homeRes, {
-    'homepage loaded': (r) => r.status === 200,
+/**
+ * setup() runs once before all VUs start.
+ * Validates BASE_URL is reachable and fails fast with a clear error if not.
+ */
+export function setup() {
+  console.log(`\n${'='.repeat(60)}`);
+  console.log(`  k6 Public Route Test — Pixenox`);
+  console.log(`  Target BASE_URL: ${BASE_URL}`);
+  console.log(`${'='.repeat(60)}\n`);
+
+  const res = http.get(`${BASE_URL}/`, { timeout: '10s', tags: { route: 'setup_check' } });
+
+  if (res.error_code !== 0) {
+    let reason = '';
+    if (res.error && res.error.includes('no such host')) {
+      reason =
+        `  → DNS resolution failed: "${BASE_URL}" does not exist or is not deployed.\n` +
+        `  → If using a Vercel URL, confirm the deployment has completed.\n` +
+        `  → If local, confirm "npm run start" is running on port 3000.`;
+    } else if (res.error && res.error.includes('connection refused')) {
+      reason =
+        `  → Connection refused: The server is not listening at this address.\n` +
+        `  → Confirm "npm run start" is running and the port matches BASE_URL.`;
+    } else {
+      reason = `  → Error: ${res.error}`;
+    }
+
+    fail(
+      `\n\n${'!'.repeat(60)}\n` +
+      `  SETUP FAILED — Cannot reach BASE_URL\n` +
+      `  URL tried: ${BASE_URL}\n` +
+      `${reason}\n` +
+      `${'!'.repeat(60)}\n` +
+      `  FIX: Set BASE_URL to a reachable URL before running:\n` +
+      `    k6 run -e BASE_URL=http://localhost:3000 k6-test.js\n` +
+      `    k6 run -e BASE_URL=https://your-preview.vercel.app k6-test.js\n` +
+      `${'!'.repeat(60)}\n`
+    );
+  }
+
+  console.log(`  ✓ BASE_URL is reachable (HTTP ${res.status}). Starting test...\n`);
+  return { baseUrl: BASE_URL };
+}
+
+export default function ({ baseUrl }) {
+  group("homepage", function () {
+    const res = http.get(`${baseUrl}/`, {
+      tags: { route: "home" },
+      timeout: "60s",
+    });
+
+    check(res, {
+      "homepage loaded": (r) => r.status === 200,
+    });
   });
 
-  // User reads the homepage for 2-5 seconds
-  sleep(Math.random() * 3 + 2);
+  sleep(1);
 
-  // 2. User navigates to services
-  const servicesRes = http.get(`${BASE_URL}/services`);
-  check(servicesRes, {
-    'services loaded': (r) => r.status === 200,
+  group("services", function () {
+    const res = http.get(`${baseUrl}/services`, {
+      tags: { route: "services" },
+      timeout: "60s",
+    });
+
+    check(res, {
+      "services loaded": (r) => r.status === 200,
+    });
   });
 
-  // User browses services for 1-3 seconds
-  sleep(Math.random() * 2 + 1);
+  sleep(1);
 
-  // 3. User navigates to contact page
-  const contactRes = http.get(`${BASE_URL}/contact`);
-  check(contactRes, {
-    'contact loaded': (r) => r.status === 200,
+  group("contact", function () {
+    const res = http.get(`${baseUrl}/contact`, {
+      tags: { route: "contact" },
+      timeout: "60s",
+    });
+
+    check(res, {
+      "contact loaded": (r) => r.status === 200,
+    });
   });
 
-  // User fills out contact form (simulation pause)
-  sleep(Math.random() * 5 + 3);
+  sleep(Math.random() * 3 + 1);
 }

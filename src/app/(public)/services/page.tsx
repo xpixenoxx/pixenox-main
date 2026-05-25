@@ -42,7 +42,13 @@ const getCachedServices = unstable_cache(
   { revalidate: 3600, tags: ['services'] }
 );
 
+export const revalidate = 3600;
+
 export default async function ServicesHubPage() {
+  const start = Date.now();
   const services = await getCachedServices();
+  const dataTime = Date.now() - start;
+  console.log(`[Timing] /services - Data fetch: ${dataTime}ms`);
+
   return <AllServicesInteractive services={services} />;
 }

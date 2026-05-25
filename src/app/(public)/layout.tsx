@@ -84,6 +84,7 @@ export default async function PublicLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const start = Date.now();
   const {
     themeSettings,
     brandSettings,
@@ -91,6 +92,9 @@ export default async function PublicLayout({
     footerConfig,
     footerLinks,
   } = await getCachedLayoutData();
+  const dataTime = Date.now() - start;
+  console.log(`[Timing] Layout - Data fetch: ${dataTime}ms`);
+
 
   return (
     <SupabaseProvider>

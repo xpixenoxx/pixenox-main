@@ -87,8 +87,14 @@ const getCachedContactData = unstable_cache(
   { revalidate: 3600, tags: ['contact'] }
 );
 
+export const revalidate = 3600;
+
 export default async function ContactPage() {
+  const start = Date.now();
   const data = await getCachedContactData();
+  const dataTime = Date.now() - start;
+  console.log(`[Timing] /contact - Data fetch: ${dataTime}ms`);
+
 
   return (
     <ContactPageClient

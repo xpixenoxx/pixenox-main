@@ -152,8 +152,14 @@ const getCachedHomeData = unstable_cache(
   { revalidate: 60, tags: ['home'] }
 );
 
+export const revalidate = 60;
+
 export default async function HomePage() {
+  const start = Date.now();
   const data = await getCachedHomeData();
+  const dataTime = Date.now() - start;
+  console.log(`[Timing] / (Home) - Data fetch: ${dataTime}ms`);
+
 
   return (
     <>
