@@ -24,7 +24,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
   useEffect(() => {
     async function load() {
       if (!initialData) {
-        const { data } = await supabase.from('hero_settings').select('*').limit(1).single();
+        const { data } = await supabase.from('hero_settings').select('*').limit(1).maybeSingle();
         if (data) setHero(data as HeroSettings);
       }
     }

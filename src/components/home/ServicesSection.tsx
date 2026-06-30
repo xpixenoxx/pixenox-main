@@ -48,11 +48,11 @@ export default function ServicesSection({
         if (data) setTools(data as CardTool[]);
       }
       if (!initialConfig) {
-        const { data } = await supabase.from('section_config').select('*').eq('section_key', 'services').limit(1).single();
+        const { data } = await supabase.from('section_config').select('*').eq('section_key', 'services').limit(1).maybeSingle();
         if (data) setConfig(data as SectionConfig);
       }
       if (!initialLayout) {
-        const { data } = await supabase.from('services_layout').select('*').limit(1).single();
+        const { data } = await supabase.from('services_layout').select('*').limit(1).maybeSingle();
         if (data) setLayout(data as ServicesLayout);
       }
     }

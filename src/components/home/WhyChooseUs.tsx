@@ -222,7 +222,7 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
   useEffect(() => {
     async function load() {
       if (!initialConfig) {
-        const { data } = await supabase.from('why_choose_us_config').select('*').limit(1).single();
+        const { data } = await supabase.from('why_choose_us_config').select('*').limit(1).maybeSingle();
         if (data) setConfig(data as WhyChooseUsConfig);
       }
       if (!initialItems?.length) {

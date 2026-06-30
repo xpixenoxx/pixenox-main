@@ -38,7 +38,7 @@ export default function CaseStudiesSection({
           .select('*')
           .eq('section_key', 'case_studies')
           .limit(1)
-          .single();
+          .maybeSingle();
         if (data) setConfig(data as SectionConfig);
       }
     }

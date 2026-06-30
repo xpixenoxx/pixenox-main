@@ -40,9 +40,9 @@ const getCachedLayoutData = unstable_cache(
       linksRes,
     ] = await Promise.all([
       supabase.from('theme_settings').select('*'),
-      supabase.from('brand_settings').select('*').limit(1).single(),
+      supabase.from('brand_settings').select('*').limit(1).maybeSingle(),
       supabase.from('nav_config').select('*').order('priority', { ascending: true }),
-      supabase.from('footer_config').select('*').limit(1).single(),
+      supabase.from('footer_config').select('*').limit(1).maybeSingle(),
       supabase.from('footer_links').select('*').order('priority', { ascending: true }),
     ]);
 

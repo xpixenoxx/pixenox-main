@@ -40,7 +40,7 @@ const getCachedSeo = unstable_cache(
       .select('*')
       .eq('page', 'home')
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (res.error && res.error.code !== 'PGRST116') {
       console.error("Supabase query failed:", {
@@ -94,15 +94,15 @@ const getCachedHomeData = unstable_cache(
       whyItemsRes,
       testimonialsRes,
     ] = await Promise.all([
-      supabase.from('hero_settings').select('*').limit(1).single(),
+      supabase.from('hero_settings').select('*').limit(1).maybeSingle(),
       supabase.from('services_cards').select('*').order('priority', { ascending: true }),
-      supabase.from('services_layout').select('*').limit(1).single(),
+      supabase.from('services_layout').select('*').limit(1).maybeSingle(),
       supabase.from('card_tools').select('*'),
-      supabase.from('section_config').select('*').eq('section_key', 'services').limit(1).single(),
-      supabase.from('section_config').select('*').eq('section_key', 'case_studies').limit(1).single(),
+      supabase.from('section_config').select('*').eq('section_key', 'services').limit(1).maybeSingle(),
+      supabase.from('section_config').select('*').eq('section_key', 'case_studies').limit(1).maybeSingle(),
       supabase.from('case_studies').select('*').eq('is_featured', true).order('priority', { ascending: true }),
       supabase.from('work_tags').select('*').order('priority', { ascending: true }),
-      supabase.from('why_choose_us_config').select('*').limit(1).single(),
+      supabase.from('why_choose_us_config').select('*').limit(1).maybeSingle(),
       supabase.from('why_choose_us').select('*').order('priority', { ascending: true }),
       supabase.from('testimonials').select('*').eq('is_visible', true).order('priority', { ascending: true }),
     ]);
