@@ -59,12 +59,6 @@ export default function ServicesSection({
     load();
   }, [initialCards, initialConfig, initialLayout, initialTools]);
 
-  // Auto-activate first card
-  useEffect(() => {
-    if (cards.length > 0 && !activeId) {
-      setActiveId(cards[0].id);
-    }
-  }, [cards, activeId]);
 
   // Pointer Drag-to-Scroll for Horizontal Mode
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -153,7 +147,10 @@ export default function ServicesSection({
           onPointerDown={isHorizontal ? handlePointerDown : undefined}
           onPointerMove={isHorizontal ? handlePointerMove : undefined}
           onPointerUp={isHorizontal ? handlePointerUp : undefined}
-          onPointerLeave={isHorizontal ? handlePointerUp : undefined}
+          onPointerLeave={(e) => {
+            if (isHorizontal) handlePointerUp();
+            setActiveId(null);
+          }}
           role="list"
         >
           <AnimatePresence mode="popLayout">

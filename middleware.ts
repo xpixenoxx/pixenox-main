@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
 
     // Read allowed IPs from environment variable (comma-separated list of your corporate VPN IPs)
     // e.g. ALLOWED_VPN_IPS="203.0.113.50,198.51.100.10"
-    const allowedIpsStr = process.env.ALLOWED_VPN_IPS || '';
+    const allowedIpsStr = process.env.ALLOWED_VPN_IPS || process.env.CORPORATE_VPN_IP || '';
     const validIps = allowedIpsStr.split(',').map((i) => i.trim()).filter(Boolean);
 
     // If not local and not in the allowed VPN IP list, deny access.

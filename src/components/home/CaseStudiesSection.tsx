@@ -88,10 +88,6 @@ export default function CaseStudiesSection({
         >
           {title}
         </h2>
-        <div className="hl-stats">
-          <span>ALL_DOMAINS <span className="hl-count">0{studies.length}</span></span>
-          <span>DEPLOYED <span className="hl-count">0{Math.max(studies.length - 1, 1)}</span></span>
-        </div>
       </div>
 
       <div className="hl-accordion">

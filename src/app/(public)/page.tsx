@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 const ServicesSection = dynamic(() => import('@/components/home/ServicesSection'));
 const CaseStudiesSection = dynamic(() => import('@/components/home/CaseStudiesSection'));
 const WhyChooseUs = dynamic(() => import('@/components/home/WhyChooseUs'));
-const LeadCaptureSection = dynamic(() => import('@/components/home/LeadCaptureSection'));
 const CtaBanner = dynamic(() => import('@/components/home/CtaBanner'));
 const FeedbackSection = dynamic(() => import('@/components/home/FeedbackSection'));
 
@@ -185,7 +184,6 @@ export default async function HomePage() {
         initialConfig={data.whyConfig}
         initialItems={data.whyItems}
       />
-      <LeadCaptureSection />
       <FeedbackSection initialTestimonials={data.testimonials} />
     </>
   );
