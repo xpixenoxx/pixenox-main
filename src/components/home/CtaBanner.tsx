@@ -240,7 +240,7 @@ export default function CtaBanner() {
             </motion.h2>
 
             <motion.a
-              href="#free-audit"
+              href="/contact"
               className="cta-neb__btn"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

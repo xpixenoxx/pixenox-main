@@ -135,27 +135,31 @@
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 1024px) {
   .cta-neb__content {
-    padding: 64px 48px;
-  }
-  .cta-neb__card {
-    min-height: 360px;
+    padding: 0 48px;
   }
 }
 
 @media (max-width: 768px) {
   .cta-neb__content {
-    padding: 48px 32px;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0 32px;
+    height: auto; /* Remove strict height on mobile to prevent overlap */
+    gap: 32px;
   }
   .cta-neb__card {
-    min-height: 320px;
+    height: auto;
+    min-height: 400px;
+    padding: 40px 0;
   }
 }
 
 @media (max-width: 480px) {
   .cta-neb__content {
-    padding: 40px 24px;
+    padding: 0 24px;
   }
   .cta-neb__heading {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 }

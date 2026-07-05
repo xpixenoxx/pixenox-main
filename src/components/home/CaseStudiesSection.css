@@ -236,7 +236,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    padding: 0 20px;
+    padding: 0 24px;
   }
   
   .hl-accordion {
@@ -244,14 +244,22 @@
     height: auto;
     min-height: 600px;
     max-height: none;
+    border-left: none;
+    border-right: none;
   }
   
   .hl-panel {
-    height: 100px;
+    height: 120px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .hl-panel:last-child {
+    border-bottom: none;
   }
   
   .hl-panel:hover {
-    height: 300px;
+    height: 350px;
   }
   
   .hl-panel-vert-title {
