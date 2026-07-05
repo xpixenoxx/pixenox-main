@@ -338,32 +338,6 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
             </div>
           </motion.div>
 
-          <motion.div
-            className="hero__stats"
-            initial="visible"
-            animate="visible"
-            variants={{
-              visible: {
-                opacity: 1,
-                x: 0,
-                transition: { duration: 0, ease: "easeOut", delay: 0 }
-              }
-            }}
-          >
-            <div className="hero__stat">
-              <span className="hero__stat-val">50+</span>
-              <span className="hero__stat-label">Projects Deployed</span>
-            </div>
-            <div className="hero__stat">
-              <span className="hero__stat-val">100%</span>
-              <span className="hero__stat-label">Client Satisfaction</span>
-            </div>
-            <div className="hero__stat">
-              <span className="hero__stat-val">24/7</span>
-              <span className="hero__stat-label">Global Support</span>
-            </div>
-          </motion.div>
-
         </div>
       </div>
     </section>

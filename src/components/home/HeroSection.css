@@ -342,17 +342,20 @@
 
 /* ── Bottom ── */
 .hero__bottom {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: flex-end;
-  gap: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .hero__info {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 32px;
-  max-width: 460px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .hero__subheadline {
@@ -423,56 +426,11 @@
   transform: translateX(4px);
 }
 
-/* ── Stats ── */
-.hero__stats {
-  display: flex;
-  gap: 48px;
-  position: relative;
-}
-
-.hero__stats::before {
-  content: '';
-  position: absolute;
-  left: -24px;
-  top: 10px;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom, rgba(124, 58, 237, 0.4) 0%, transparent 100%);
-}
-
-.hero__stat {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.hero__stat-val {
-  font-size: 3rem;
-  font-weight: 400;
-  font-family: var(--font-instrument-serif, 'Instrument Serif'), serif;
-  font-style: italic;
-  background: linear-gradient(180deg, #fff 20%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -1px;
-  line-height: 1;
-}
-
-.hero__stat-label {
-  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), monospace;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.4);
-}
-
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 1024px) {
   .hero__bottom {
-    grid-template-columns: 1fr;
-    gap: 48px;
-    align-items: flex-start;
+    display: flex;
+    justify-content: center;
   }
 
   .hero__sphere-system {
@@ -491,10 +449,9 @@
   }
 
   .hero__headline {
-    /* Scaled down to prevent "Architecting/Intelligent" from horizontally overflowing */
     font-size: clamp(2.2rem, 10.5vw, 3.5rem);
     text-align: center;
-    padding: 0 8px; /* Safe padding */
+    padding: 0 8px;
     line-height: 1.1;
     text-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
     letter-spacing: -0.01em;
@@ -510,15 +467,15 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    align-items: center;
   }
 
-  /* Extract elements from info container so they can be reordered globally */
   .hero__info {
-    display: contents;
+    display: flex;
+    margin: 0 auto;
   }
 
   .hero__subheadline {
-    order: 1;
     font-size: 1rem;
     max-width: 95%;
     line-height: 1.6;
@@ -527,82 +484,23 @@
     margin-right: auto;
   }
 
-  /* Move Stats to visually appear above the CTA Button */
-  .hero__stats {
-    order: 2;
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    gap: 16px;
-    width: 100vw;
-    margin-left: calc(-1 * var(--space-md));
-    padding: 0 var(--space-md) 32px var(--space-md);
-    -webkit-overflow-scrolling: touch;
-    flex-wrap: nowrap;
-    scrollbar-width: none; 
-    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-  }
-
   .hero__cta-wrapper {
-    order: 3;
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 8px;
-    margin-bottom: 32px; /* padding from bottom edge */
+    margin-bottom: 32px;
     z-index: 10;
   }
 
   .hero__cta {
     width: 90%;
-    max-width: 380px; /* Slightly wider native look */
+    max-width: 380px;
     justify-content: center;
     font-size: 1.1rem;
     padding: 18px 24px;
     border-radius: 100px;
-    background: rgba(124, 58, 237, 0.2); /* Make base bolder on mobile */
-  }
-  
-
-  .hero__stats::-webkit-scrollbar {
-    display: none; 
-  }
-  
-  .hero__stat {
-    scroll-snap-align: center;
-    min-width: 140px;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(124, 58, 237, 0.25);
-    border-radius: 16px;
-    padding: 20px 16px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .hero__stat-val {
-    font-size: 2.4rem;
-    background: linear-gradient(180deg, #fff 20%, #c084fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero__stat-label {
-    margin-top: 8px;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .hero__stats::before {
-    display: none;
+    background: rgba(124, 58, 237, 0.2);
   }
 
   /* ── Centered Halo Background ── */
