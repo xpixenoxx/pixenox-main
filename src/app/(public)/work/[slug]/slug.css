@@ -29,8 +29,25 @@
 /* ── 1. HERO ── */
 .cs-hero-section {
   position: relative;
-  z-index: 1;
-  padding: 200px 0 80px;
+  z-index: 10;
+  padding: 120px 0 80px; /* Reduced top padding */
+  display: flex;
+  align-items: center;
+}
+
+/* Deep Space Ambient Glow */
+.cs-hero-section::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(161, 120, 255, 0.08) 0%, transparent 70%);
+  filter: blur(120px);
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .cs-container {
@@ -39,21 +56,52 @@
   padding: 0 clamp(24px, 5vw, 80px);
 }
 
+.cs-hero-section .cs-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+@media (min-width: 1024px) {
+  .cs-hero-section .cs-container {
+    grid-template-columns: repeat(12, 1fr);
+    align-items: start;
+    gap: 32px;
+  }
+}
+
 .cs-title {
-  font-size: clamp(3.5rem, 9vw, 8rem);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem); /* Reduced size */
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   color: #fff;
-  margin: 0 0 24px;
+  margin: 0;
+  grid-column: 1 / 8; /* Spans 7 columns perfectly */
 }
 
 .cs-subtitle {
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  color: rgba(255, 255, 255, 0.5);
-  max-width: 700px;
-  line-height: 1.6;
-  font-weight: 300;
+  grid-column: 9 / 13; /* Spans 4 columns, leaving 1 column empty as a gap */
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  font-weight: 400;
+  margin: 0;
+  padding-top: 16px;
+  text-align: left; /* Normal text alignment within the right-side grid column */
+}
+
+@media (max-width: 1024px) {
+  .cs-title { 
+    grid-column: 1 / -1;
+    font-size: clamp(2rem, 6vw, 3.5rem); /* Reduced mobile size */
+  }
+  .cs-subtitle {
+    grid-column: 1 / -1;
+    padding-top: 0;
+  }
 }
 
 /* ── 2. COVER IMAGE ── */
@@ -97,6 +145,47 @@
     grid-template-columns: 1.2fr 1fr;
     gap: 80px;
   }
+}
+
+/* Staggered Summaries Layout */
+.cs-summaries-extended {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.cs-summary-extended-block {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .cs-summary-extended-block {
+    width: 75%;
+  }
+  .cs-summary-left {
+    margin-right: auto;
+  }
+  .cs-summary-right {
+    margin-left: 25%; /* Left edge starts at the middle of the left side of the screen */
+  }
+  .cs-summary-row-first {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+  }
+}
+
+.cs-summary-row-first {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.cs-info-meta {
+  flex: 1;
+  min-width: 200px;
 }
 
 .cs-info-left,

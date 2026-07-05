@@ -1,0 +1,1 @@
+ALTER TABLE services_cards ADD COLUMN capabilities jsonb DEFAULT '[]'::jsonb;

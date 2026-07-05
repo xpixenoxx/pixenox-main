@@ -22,6 +22,8 @@ import { CSS } from '@dnd-kit/utilities'
 interface Section {
   question: string
   answer: string
+  image_url?: string
+  table?: string[][]
 }
 
 interface BlogPost {
@@ -33,6 +35,7 @@ interface BlogPost {
   image_url: string
   excerpt: string
   sections: Section[]
+  faqs?: { question: string; answer: string }[]
   is_visible: boolean
   priority: number
 }
@@ -102,6 +105,83 @@ function SortableRow({ post, onEdit, onDelete, onToggle }: {
   )
 }
 
+// ── Section Table Editor ───────────────────────────────────────
+function SectionTableEditor({ table, onChange }: { table?: string[][], onChange: (t: string[][] | undefined) => void }) {
+  if (!table) {
+    return (
+      <button 
+        type="button" 
+        onClick={() => onChange([['Heading 1', 'Heading 2'], ['', '']])}
+        className="admin-button px-3 py-1.5 text-sm flex items-center gap-2 w-fit bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border-purple-500/20"
+      >
+        <Plus className="w-4 h-4" /> Add Table to Section
+      </button>
+    )
+  }
+
+  const addRow = () => {
+    const newRow = Array(table[0].length).fill('');
+    onChange([...table, newRow]);
+  }
+
+  const addCol = () => {
+    onChange(table.map(row => [...row, '']));
+  }
+
+  const removeRow = (rIdx: number) => {
+    if (table.length <= 1) return;
+    onChange(table.filter((_, i) => i !== rIdx));
+  }
+
+  const removeCol = (cIdx: number) => {
+    if (table[0].length <= 1) return;
+    onChange(table.map(row => row.filter((_, i) => i !== cIdx)));
+  }
+
+  const updateCell = (rIdx: number, cIdx: number, val: string) => {
+    const next = table.map((row, i) => i === rIdx ? row.map((cell, j) => j === cIdx ? val : cell) : row);
+    onChange(next);
+  }
+
+  return (
+    <div className="flex flex-col gap-3 p-4 bg-black/20 rounded-xl border border-white/5 overflow-x-auto">
+      <div className="flex items-center justify-between mb-2">
+         <span className="text-xs font-semibold text-white/50 uppercase tracking-wider">Table Data (First row is heading)</span>
+         <button type="button" onClick={() => onChange(undefined)} className="text-xs text-red-400 hover:text-red-300">Remove Table</button>
+      </div>
+      
+      <div className="flex flex-col gap-2 min-w-max">
+        {table.map((row, rIdx) => (
+          <div key={rIdx} className="flex gap-2 items-center">
+             {row.map((cell, cIdx) => (
+                <div key={cIdx} className="relative flex flex-col">
+                  {rIdx === 0 && (
+                     <button type="button" onClick={() => removeCol(cIdx)} className="absolute -top-5 right-0 text-[10px] text-red-400 hover:text-red-300 bg-[#0f0f13] px-1 rounded" disabled={row.length <= 1}>Del Col</button>
+                  )}
+                  <input
+                    className={`admin-input text-sm ${rIdx === 0 ? 'font-bold bg-white/10' : ''}`}
+                    style={{ width: '180px' }}
+                    value={cell}
+                    onChange={(e) => updateCell(rIdx, cIdx, e.target.value)}
+                    placeholder={rIdx === 0 ? `Heading ${cIdx + 1}` : 'Value'}
+                  />
+                </div>
+             ))}
+             <button type="button" onClick={() => removeRow(rIdx)} className="p-1.5 text-red-400 hover:text-red-300 ml-2" disabled={table.length <= 1} title="Delete Row">
+               <Trash2 className="w-4 h-4" />
+             </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex gap-4 mt-3">
+         <button type="button" onClick={addRow} className="text-xs font-medium text-purple-400 hover:text-purple-300 flex items-center gap-1 bg-purple-500/10 px-3 py-1.5 rounded-lg transition-colors"><Plus className="w-3 h-3"/> Add Row</button>
+         <button type="button" onClick={addCol} className="text-xs font-medium text-purple-400 hover:text-purple-300 flex items-center gap-1 bg-purple-500/10 px-3 py-1.5 rounded-lg transition-colors"><Plus className="w-3 h-3"/> Add Column</button>
+      </div>
+    </div>
+  )
+}
+
 // ── Sections Editor ────────────────────────────────────────────
 function SectionsEditor({ sections, onChange }: {
   sections: Section[]
@@ -111,9 +191,15 @@ function SectionsEditor({ sections, onChange }: {
 
   const add = () => onChange([...sections, { question: '', answer: '' }])
   const remove = (i: number) => onChange(sections.filter((_, idx) => idx !== i))
-  const update = (i: number, field: 'question' | 'answer', val: string) => {
+  const update = (i: number, field: 'question' | 'answer' | 'image_url' | 'table', val: any) => {
     const next = [...sections]
-    next[i] = { ...next[i], [field]: val }
+    if (val === undefined) {
+      const copy = { ...next[i] }
+      delete copy[field as keyof Section]
+      next[i] = copy
+    } else {
+      next[i] = { ...next[i], [field]: val }
+    }
     onChange(next)
   }
 
@@ -173,6 +259,105 @@ function SectionsEditor({ sections, onChange }: {
                   onChange={e => update(i, 'answer', e.target.value)}
                 />
               </div>
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Section Image (Optional)</label>
+                  {sec.image_url && (
+                    <button
+                      type="button"
+                      onClick={() => update(i, 'image_url', '')}
+                      className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
+                    >
+                      <Trash2 className="w-3 h-3" /> Remove Image
+                    </button>
+                  )}
+                </div>
+                <FileUploadZone
+                  bucket="blog-images"
+                  value={sec.image_url}
+                  onUploadSuccess={(url: string) => update(i, 'image_url', url)}
+                />
+              </div>
+              
+              {/* Table Editor */}
+              <SectionTableEditor 
+                table={sec.table} 
+                onChange={(t) => update(i, 'table', t)} 
+              />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ── FAQs Editor ────────────────────────────────────────────────
+function FaqsEditor({ faqs = [], onChange }: {
+  faqs?: { question: string; answer: string }[]
+  onChange: (f: { question: string; answer: string }[]) => void
+}) {
+  const [collapsed, setCollapsed] = useState<Record<number, boolean>>({})
+
+  const add = () => onChange([...faqs, { question: '', answer: '' }])
+  const remove = (i: number) => onChange(faqs.filter((_, idx) => idx !== i))
+  const update = (i: number, field: 'question' | 'answer', val: string) => {
+    const next = [...faqs]
+    next[i] = { ...next[i], [field]: val }
+    onChange(next)
+  }
+
+  return (
+    <div className="flex flex-col gap-3 mt-6">
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-semibold text-white/80">
+          FAQs <span className="text-white/40 font-normal">(Optional Frequently Asked Questions)</span>
+        </label>
+        <button type="button" onClick={add} className="admin-button px-3 py-1.5 text-sm flex items-center gap-2">
+          <Plus className="w-4 h-4" /> Add FAQ
+        </button>
+      </div>
+
+      {faqs.length === 0 && (
+        <div className="p-6 text-center text-white/30 border border-dashed border-white/10 rounded-xl text-sm">
+          No FAQs yet. Click "Add FAQ" to add one.
+        </div>
+      )}
+
+      {faqs.map((faq, i) => (
+        <div key={i} className="border border-white/10 rounded-xl overflow-hidden bg-white/3">
+          <div className="flex items-center gap-3 px-4 py-3 bg-white/5 border-b border-white/10">
+            <span className="flex-1 text-sm font-medium text-white/70 truncate">
+              {faq.question || <span className="text-white/30 italic">Untitled FAQ</span>}
+            </span>
+            <button type="button" onClick={() => setCollapsed(c => ({ ...c, [i]: !c[i] }))} className="p-1 text-white/40 hover:text-white/70">
+              {collapsed[i] ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+            </button>
+            <button type="button" onClick={() => remove(i)} className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 transition-colors">
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+
+          {!collapsed[i] && (
+            <div className="p-4 flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Question</label>
+                <input
+                  className="admin-input font-semibold"
+                  placeholder="e.g. How does this work?"
+                  value={faq.question}
+                  onChange={e => update(i, 'question', e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Answer</label>
+                <textarea
+                  className="admin-input min-h-[80px] resize-y"
+                  placeholder="Provide the answer..."
+                  value={faq.answer}
+                  onChange={e => update(i, 'answer', e.target.value)}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -190,6 +375,7 @@ const emptyPost = (): Omit<BlogPost, 'id'> => ({
   image_url: '',
   excerpt: '',
   sections: [],
+  faqs: [],
   is_visible: true,
   priority: 0,
 })
@@ -448,6 +634,12 @@ export default function BlogAdminPage() {
                 <SectionsEditor
                   sections={draft.sections}
                   onChange={(s: Section[]) => setDraft({ ...draft, sections: s })}
+                />
+                
+                {/* FAQs Editor */}
+                <FaqsEditor
+                  faqs={draft.faqs}
+                  onChange={(f) => setDraft({ ...draft, faqs: f })}
                 />
               </div>
 

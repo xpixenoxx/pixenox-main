@@ -352,16 +352,58 @@ export default function CaseStudiesPage() {
                      <textarea className="admin-input min-h-[80px]" value={itemToEdit.short_description || ''} onChange={e => setItemToEdit({...itemToEdit, short_description: e.target.value})} />
                   </div>
 
-                  <div className="flex flex-col gap-1.5">
-                     <label className="text-sm font-medium text-white/80">Summary</label>
-                     <RichTextEditor 
-                       content={
-                         typeof itemToEdit.body_content === 'string' && itemToEdit.body_content.startsWith('{')
-                         ? JSON.parse(itemToEdit.body_content) 
-                         : itemToEdit.body_content
-                       }
-                       onChange={(json) => setItemToEdit({...itemToEdit, body_content: JSON.stringify(json)})}
-                     />
+                  <div className="flex flex-col gap-3">
+                     <div className="flex items-center justify-between">
+                        <label className="text-sm font-medium text-white/80">Summary Sections</label>
+                        <button type="button" onClick={() => {
+                          let current = [];
+                          try {
+                            if (itemToEdit.body_content) {
+                              const p = typeof itemToEdit.body_content === 'string' ? JSON.parse(itemToEdit.body_content) : itemToEdit.body_content;
+                              current = Array.isArray(p) ? p : [p];
+                            }
+                          } catch(e) { current = [itemToEdit.body_content]; }
+                          setItemToEdit({...itemToEdit, body_content: JSON.stringify([...current, null])})
+                        }}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-deep-purple/20 text-purple-400 hover:bg-deep-purple/30 transition-colors flex items-center gap-1">
+                          <Plus className="w-3 h-3" /> Add Summary
+                        </button>
+                     </div>
+                     
+                     {(() => {
+                        let summaries: any[] = [null];
+                        if (itemToEdit.body_content) {
+                          try {
+                            const p = typeof itemToEdit.body_content === 'string' ? JSON.parse(itemToEdit.body_content) : itemToEdit.body_content;
+                            summaries = Array.isArray(p) ? p : [p];
+                          } catch(e) { summaries = [itemToEdit.body_content]; }
+                        }
+                        if (summaries.length === 0) summaries = [null];
+
+                        return summaries.map((sum, idx) => (
+                          <div key={idx} className="relative flex flex-col gap-2 p-4 bg-white/5 border border-white/10 rounded-xl">
+                            <div className="flex justify-between items-center">
+                              <span className="text-xs text-white/40 uppercase tracking-widest font-bold">Summary Block {idx + 1}</span>
+                              {summaries.length > 1 && (
+                                <button type="button" onClick={() => {
+                                  const newSummaries = summaries.filter((_, i) => i !== idx);
+                                  setItemToEdit({...itemToEdit, body_content: JSON.stringify(newSummaries)});
+                                }} className="p-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors rounded-lg">
+                                  <X className="w-3 h-3" />
+                                </button>
+                              )}
+                            </div>
+                            <RichTextEditor 
+                              content={sum}
+                              onChange={(json) => {
+                                const newSummaries = [...summaries];
+                                newSummaries[idx] = json;
+                                setItemToEdit({...itemToEdit, body_content: JSON.stringify(newSummaries)});
+                              }}
+                            />
+                          </div>
+                        ));
+                     })()}
                   </div>
 
                   <hr className="border-white/10 my-4" />

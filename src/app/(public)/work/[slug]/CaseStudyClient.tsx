@@ -9,14 +9,24 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 
 /* ── TipTap JSON → HTML parser ── */
-function parseTipTapJSON(content: string): string {
+function parseTipTapJSONArray(content: string): string[] {
   try {
-    const doc = typeof content === 'string' ? JSON.parse(content) : content;
-    if (!doc || !doc.content) return content; // fallback: treat as raw HTML
-    return doc.content.map((node: any) => renderNode(node)).join('');
+    const parsed = typeof content === 'string' ? JSON.parse(content) : content;
+    
+    // Handle array of TipTap documents
+    if (Array.isArray(parsed)) {
+      return parsed.map((doc: any) => {
+        if (!doc || !doc.content) return '';
+        return doc.content.map((node: any) => renderNode(node)).join('');
+      });
+    }
+
+    const doc = parsed;
+    if (!doc || !doc.content) return [content]; // fallback: treat as raw HTML
+    return [doc.content.map((node: any) => renderNode(node)).join('')];
   } catch {
     // Not JSON — treat as raw HTML string
-    return content;
+    return [content];
   }
 }
 
@@ -89,7 +99,7 @@ const stagger = {
 export default function CaseStudyClient({ caseStudy, workTags }: { caseStudy: any, workTags: any[] }) {
   const coverImage = caseStudy.cover_image_url || (caseStudy.gallery_images?.length ? caseStudy.gallery_images[0] : null);
   const galleryImages = caseStudy.gallery_images?.slice(1) || [];
-  const bodyHTML = caseStudy.body_content ? parseTipTapJSON(caseStudy.body_content) : null;
+  const bodyHTMLArray = caseStudy.body_content ? parseTipTapJSONArray(caseStudy.body_content) : [];
 
   return (
     <div className="cs-page">
@@ -165,37 +175,52 @@ export default function CaseStudyClient({ caseStudy, workTags }: { caseStudy: an
         variants={stagger}
       >
         <div className="cs-container">
-          <div className="cs-info-grid">
-            {/* LEFT: Summary */}
-            <motion.div className="cs-info-left" variants={fadeUp}>
-              <span className="cs-info-label">Summary</span>
-              {bodyHTML ? (
-                <div className="cs-summary-text" dangerouslySetInnerHTML={{ __html: bodyHTML }} />
-              ) : (
-                <p className="cs-summary-text">{caseStudy.short_description}</p>
-              )}
-            </motion.div>
+          <div className="cs-summaries-extended">
+            {/* FIRST SUMMARY & TECH STACK (Row 1) */}
+            <div className="cs-summary-row-first">
+              <motion.div className="cs-summary-extended-block cs-summary-left" variants={fadeUp}>
+                <span className="cs-info-label">Summary</span>
+                {bodyHTMLArray.length > 0 ? (
+                  <div className="cs-summary-text" dangerouslySetInnerHTML={{ __html: bodyHTMLArray[0] }} />
+                ) : (
+                  <p className="cs-summary-text">{caseStudy.short_description}</p>
+                )}
+              </motion.div>
 
-            {/* RIGHT: Tech Stack + Length */}
-            <motion.div className="cs-info-right" variants={fadeUp}>
-              {caseStudy.tools_used && caseStudy.tools_used.length > 0 && (
-                <div className="cs-info-block">
-                  <span className="cs-info-label">Tech Stack</span>
-                  <div className="cs-tech-badges">
-                    {caseStudy.tools_used.map((t: string) => (
-                      <span key={t} className="cs-tech-badge">{t}</span>
-                    ))}
+              <motion.div className="cs-info-meta" variants={fadeUp}>
+                {caseStudy.tools_used && caseStudy.tools_used.length > 0 && (
+                  <div className="cs-info-block">
+                    <span className="cs-info-label">Tech Stack</span>
+                    <div className="cs-tech-badges">
+                      {caseStudy.tools_used.map((t: string) => (
+                        <span key={t} className="cs-tech-badge">{t}</span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {caseStudy.project_length && (
-                <div className="cs-info-block">
-                  <span className="cs-info-label">Length of Project</span>
-                  <span className="cs-length-value">{caseStudy.project_length}</span>
-                </div>
-              )}
-            </motion.div>
+                {caseStudy.project_length && (
+                  <div className="cs-info-block" style={{ marginTop: '24px' }}>
+                    <span className="cs-info-label">Length of Project</span>
+                    <span className="cs-length-value">{caseStudy.project_length}</span>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+
+            {/* ADDITIONAL SUMMARIES */}
+            {bodyHTMLArray.length > 1 && bodyHTMLArray.slice(1).map((html, idx) => {
+              const isRight = idx % 2 === 0; // Second summary (idx 0 here) goes to the right
+              return (
+                <motion.div 
+                  key={idx} 
+                  className={`cs-summary-extended-block ${isRight ? 'cs-summary-right' : 'cs-summary-left'}`} 
+                  variants={fadeUp}
+                >
+                  <div className="cs-summary-text" dangerouslySetInnerHTML={{ __html: html }} />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </motion.section>

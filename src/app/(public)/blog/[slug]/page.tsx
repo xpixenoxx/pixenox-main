@@ -16,7 +16,8 @@ interface BlogPost {
   category: string;
   image_url: string;
   excerpt: string;
-  sections: { question: string; answer: string }[];
+  sections: { question: string; answer: string; image_url?: string; table?: string[][] }[];
+  faqs?: { question: string; answer: string }[];
 }
 
 export const revalidate = 0; // Force dynamic to ensure new posts reflect instantly
@@ -79,34 +80,92 @@ export default async function BlogDetailPage({ params }: Props) {
           <div className="bd-content">
             <p className="bd-content__lead">{post.excerpt}</p>
             
-            {(post.sections as { question: string; answer: string }[]).map((sec, i) => (
-              <div key={i} className="bd-section">
-                <h2 className="bd-content__h2">{sec.question}</h2>
-                {sec.answer.split('\n\n').map((para, j) => {
-                  if (para.startsWith('- ')) {
-                    return (
-                      <ul key={j} className="bd-content__list">
-                        {para.split('\n').filter(l => l.startsWith('- ')).map((item, k) => (
-                          <li key={k} dangerouslySetInnerHTML={{ __html: item.replace('- ', '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-                        ))}
-                      </ul>
-                    );
-                  }
-                  if (para.startsWith('1. ')) {
-                    return (
-                      <ol key={j} className="bd-content__list bd-content__list--ordered">
-                        {para.split('\n').filter(l => /^\d+\./.test(l)).map((item, k) => (
-                          <li key={k} dangerouslySetInnerHTML={{ __html: item.replace(/^\d+\.\s/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-                        ))}
-                      </ol>
-                    );
-                  }
-                  const html = para.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                  return <p key={j} className="bd-content__p" dangerouslySetInnerHTML={{ __html: html }} />;
-                })}
+            {(post.sections as { question: string; answer: string; image_url?: string; table?: string[][] }[]).map((sec, i) => (
+              <div key={i} className={`bd-section ${sec.image_url ? 'bd-section--has-image' : ''} ${i % 2 === 0 ? 'bd-section--left' : 'bd-section--right'}`}>
+                
+                <div className="bd-section__content">
+                  <h2 className="bd-content__h2">{sec.question}</h2>
+                  {sec.answer.split('\n\n').map((para, j) => {
+                    if (para.startsWith('- ')) {
+                      return (
+                        <ul key={j} className="bd-content__list">
+                          {para.split('\n').filter(l => l.startsWith('- ')).map((item, k) => (
+                            <li key={k} dangerouslySetInnerHTML={{ __html: item.replace('- ', '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                          ))}
+                        </ul>
+                      );
+                    }
+                    if (para.startsWith('1. ')) {
+                      return (
+                        <ol key={j} className="bd-content__list bd-content__list--ordered">
+                          {para.split('\n').filter(l => /^\d+\./.test(l)).map((item, k) => (
+                            <li key={k} dangerouslySetInnerHTML={{ __html: item.replace(/^\d+\.\s/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                          ))}
+                        </ol>
+                      );
+                    }
+                    const html = para.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    return <p key={j} className="bd-content__p" dangerouslySetInnerHTML={{ __html: html }} />;
+                  })}
+
+                  {sec.table && sec.table.length > 0 && (
+                    <div className="bd-table-wrapper">
+                      <table className="bd-table">
+                        <thead>
+                          <tr>
+                            {sec.table[0].map((th, cIdx) => (
+                              <th key={cIdx}>{th}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        {sec.table.length > 1 && (
+                          <tbody>
+                            {sec.table.slice(1).map((row, rIdx) => (
+                              <tr key={rIdx}>
+                                {row.map((cell, cIdx) => (
+                                  <td key={cIdx}>{cell}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        )}
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+                {sec.image_url && (
+                  <div className="bd-section__media">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={sec.image_url} alt={sec.question} className="w-full h-auto object-cover rounded-xl shadow-2xl border border-white/10" />
+                  </div>
+                )}
+                
               </div>
             ))}
           </div>
+
+          {/* FAQs */}
+          {post.faqs && post.faqs.length > 0 && (
+            <div className="bd-faqs-container">
+              <h3 className="bd-faqs-title">Frequently Asked Questions</h3>
+              <div className="bd-faqs-list">
+                {post.faqs.map((faq, i) => (
+                  <details key={i} className="bd-faq-item">
+                    <summary className="bd-faq-question">
+                      {faq.question}
+                      <span className="bd-faq-icon">+</span>
+                    </summary>
+                    <div className="bd-faq-answer">
+                      {faq.answer.split('\n\n').map((para, j) => (
+                        <p key={j}>{para}</p>
+                      ))}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Tags */}
           <div className="bd-tags-row">

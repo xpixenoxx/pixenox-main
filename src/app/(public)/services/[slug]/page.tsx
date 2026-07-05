@@ -112,6 +112,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         serviceDescription={service.description}
         techStack={normalizedTech}
         relatedStudies={relatedStudies}
+        capabilities={service.capabilities}
       />
     </article>
   );

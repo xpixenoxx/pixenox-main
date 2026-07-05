@@ -479,6 +479,79 @@ export default function ServicesPage() {
                         </div>
                      </div>
                   </div>
+                  {/* Capabilities Group */}
+                  <div className="p-4 bg-white/5 rounded-xl border border-white/10 flex flex-col gap-4">
+                     <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium text-white/80">Capabilities / Engineered Excellence</label>
+                        <p className="text-xs text-white/40 mb-2">Each capability added here will appear in the horizontally scrolling section on the service detail page.</p>
+                        <div className="flex flex-col gap-4">
+                           {(cardToEdit.capabilities || []).map((cap: any, i: number) => {
+                              return (
+                              <div key={i} className="flex gap-4 items-start border border-white/10 p-4 rounded-xl bg-white/5">
+                                 <div className="w-8 h-10 flex items-center justify-center font-mono text-sm text-white/40">{(i+1).toString().padStart(2, '0')}</div>
+                                 <div className="flex flex-col flex-1 gap-3">
+                                    <div className="grid grid-cols-2 gap-3">
+                                      <input 
+                                        className="admin-input" 
+                                        placeholder="Title (e.g. Predictive Analytics)"
+                                        value={cap?.title || ''}
+                                        onChange={e => {
+                                           const newCaps = [...(cardToEdit.capabilities || [])];
+                                           newCaps[i] = { ...(cap || {}), title: e.target.value };
+                                           setCardToEdit({...cardToEdit, capabilities: newCaps});
+                                        }}
+                                      />
+                                      <div className="grid grid-cols-2 gap-2">
+                                        <input 
+                                          className="admin-input" 
+                                          placeholder="Metric (e.g. 340%)"
+                                          value={cap?.metric || ''}
+                                          onChange={e => {
+                                             const newCaps = [...(cardToEdit.capabilities || [])];
+                                             newCaps[i] = { ...(cap || {}), metric: e.target.value };
+                                             setCardToEdit({...cardToEdit, capabilities: newCaps});
+                                          }}
+                                        />
+                                        <input 
+                                          className="admin-input" 
+                                          placeholder="Label (e.g. AVG ROI)"
+                                          value={cap?.metricLabel || ''}
+                                          onChange={e => {
+                                             const newCaps = [...(cardToEdit.capabilities || [])];
+                                             newCaps[i] = { ...(cap || {}), metricLabel: e.target.value };
+                                             setCardToEdit({...cardToEdit, capabilities: newCaps});
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                    <textarea 
+                                      className="admin-input flex-1 min-h-[60px] text-sm" 
+                                      placeholder='Description (e.g. Deploy machine learning models...)' 
+                                      value={cap?.desc || ''}
+                                      onChange={e => {
+                                         const newCaps = [...(cardToEdit.capabilities || [])];
+                                         newCaps[i] = { ...(cap || {}), desc: e.target.value };
+                                         setCardToEdit({...cardToEdit, capabilities: newCaps});
+                                      }} 
+                                    />
+                                 </div>
+                                 <button type="button" onClick={() => {
+                                    const newCaps = [...(cardToEdit.capabilities || [])];
+                                    newCaps.splice(i, 1);
+                                    setCardToEdit({...cardToEdit, capabilities: newCaps});
+                                 }} className="p-2.5 rounded-lg bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 transition-colors mt-1">
+                                    <Trash2 className="w-5 h-5" />
+                                 </button>
+                              </div>
+                           )})}
+                           <button type="button" onClick={() => {
+                              setCardToEdit({...cardToEdit, capabilities: [...(cardToEdit.capabilities || []), {title: '', desc: '', metric: '', metricLabel: ''}]});
+                           }} className="admin-button self-start mt-2 px-3 py-1.5 text-sm flex items-center gap-2">
+                              <Plus className="w-4 h-4" /> Add Capability
+                           </button>
+                        </div>
+                     </div>
+                  </div>
 
 
                   <label className="flex items-center gap-3 cursor-pointer p-4 bg-white/5 rounded-xl border border-white/10">

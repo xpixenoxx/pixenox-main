@@ -201,6 +201,7 @@ export interface Database {
           is_visible: boolean | null
           technology_stack: { name: string; svg?: string; is_special?: boolean; image_url?: string }[] | null
           icon_svg: string | null
+          capabilities: { title: string; desc: string; metric: string; metricLabel: string }[] | null
           created_at: string | null
           updated_at: string | null
         }
@@ -218,6 +219,7 @@ export interface Database {
           is_visible?: boolean | null
           technology_stack?: { name: string; svg?: string; is_special?: boolean; image_url?: string }[] | null
           icon_svg?: string | null
+          capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null
           created_at?: string | null
           updated_at?: string | null
         }
@@ -235,6 +237,7 @@ export interface Database {
           is_visible?: boolean | null
           technology_stack?: { name: string; svg?: string; is_special?: boolean; image_url?: string }[] | null
           icon_svg?: string | null
+          capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null
           created_at?: string | null
           updated_at?: string | null
         }
