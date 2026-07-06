@@ -24,6 +24,7 @@ interface Section {
   answer: string
   image_url?: string
   table?: string[][]
+  table_explanation?: string
 }
 
 interface BlogPost {
@@ -191,7 +192,7 @@ function SectionsEditor({ sections, onChange }: {
 
   const add = () => onChange([...sections, { question: '', answer: '' }])
   const remove = (i: number) => onChange(sections.filter((_, idx) => idx !== i))
-  const update = (i: number, field: 'question' | 'answer' | 'image_url' | 'table', val: any) => {
+  const update = (i: number, field: 'question' | 'answer' | 'image_url' | 'table' | 'table_explanation', val: any) => {
     const next = [...sections]
     if (val === undefined) {
       const copy = { ...next[i] }
@@ -284,6 +285,17 @@ function SectionsEditor({ sections, onChange }: {
                 table={sec.table} 
                 onChange={(t) => update(i, 'table', t)} 
               />
+              {sec.table && (
+                <div className="flex flex-col gap-1.5 mt-2">
+                  <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Table Explanation / Conclusion (Optional)</label>
+                  <textarea
+                    className="admin-input min-h-[80px] resize-y"
+                    placeholder="Provide an explanation or conclusion that appears directly below the table..."
+                    value={sec.table_explanation || ''}
+                    onChange={e => update(i, 'table_explanation', e.target.value)}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>

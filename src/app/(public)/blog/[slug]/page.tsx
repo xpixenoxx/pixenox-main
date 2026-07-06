@@ -16,7 +16,7 @@ interface BlogPost {
   category: string;
   image_url: string;
   excerpt: string;
-  sections: { question: string; answer: string; image_url?: string; table?: string[][] }[];
+  sections: { question: string; answer: string; image_url?: string; table?: string[][]; table_explanation?: string }[];
   faqs?: { question: string; answer: string }[];
 }
 
@@ -80,7 +80,7 @@ export default async function BlogDetailPage({ params }: Props) {
           <div className="bd-content">
             <p className="bd-content__lead">{post.excerpt}</p>
             
-            {(post.sections as { question: string; answer: string; image_url?: string; table?: string[][] }[]).map((sec, i) => (
+            {(post.sections as { question: string; answer: string; image_url?: string; table?: string[][]; table_explanation?: string }[]).map((sec, i) => (
               <div key={i} className={`bd-section ${sec.image_url ? 'bd-section--has-image' : ''} ${i % 2 === 0 ? 'bd-section--left' : 'bd-section--right'}`}>
                 
                 <div className="bd-section__content">
@@ -130,6 +130,14 @@ export default async function BlogDetailPage({ params }: Props) {
                           </tbody>
                         )}
                       </table>
+                    </div>
+                  )}
+
+                  {sec.table_explanation && (
+                    <div className="bd-table-explanation" style={{ marginTop: '1rem' }}>
+                      {sec.table_explanation.split('\n\n').map((para, j) => (
+                        <p key={j} className="bd-content__p" dangerouslySetInnerHTML={{ __html: para.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                      ))}
                     </div>
                   )}
                 </div>
