@@ -78,8 +78,8 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
     load();
   }, [initialBrand, initialNav]);
 
-  const coreNavItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() !== 'start your project');
-  const ctaItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() === 'start your project');
+  const coreNavItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() !== 'explore the engineering model');
+  const ctaItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() === 'explore the engineering model');
 
   return (
     <>

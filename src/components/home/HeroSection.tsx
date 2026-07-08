@@ -224,9 +224,15 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
     </section>
   );
 
-  // 4. Typography Stagger
-  const headlineWords = hero.headline.split(' ');
-  const italicKeywords = ['digital', 'solutions', 'future', 'ai', 'architect', 'architecting', 'intelligent', 'ranking', 'growth', 'seo', 'geo'];
+  // 4. Typography Parser
+  const headlineLines = (hero.headline || '').split('\n').map(line => line.trim()).filter(Boolean);
+  const eyebrowText = headlineLines[0] && headlineLines.length > 1 ? headlineLines[0] : '';
+  const h1Text = headlineLines.length > 1 ? headlineLines.slice(1).join(' ') : hero.headline;
+
+  const headlineWords = h1Text.split(/\s+/).filter(Boolean);
+
+  const subheadlineLines = (hero.subheadline || '').split('\n').map(line => line.trim()).filter(Boolean);
+  const canonicalSubheadline = subheadlineLines[0] || '';
 
   const containerVariants = {
     hidden: {},
@@ -281,6 +287,11 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
         {/* CENTER: Headline — uses h1 for SEO */}
         <div className="hero__center">
+          {eyebrowText && (
+            <span className="hero__eyebrow">
+              {eyebrowText}
+            </span>
+          )}
 
           <motion.h1
             className="hero__headline"
@@ -292,14 +303,10 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
             }}
           >
             {headlineWords.map((word, i) => {
-              const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
-              const isSerif = italicKeywords.includes(cleanWord);
-
               return (
                 <span key={i} className="hero__word--wrapper">
                   <motion.span
                     variants={wordWrapVariants}
-                    className={isSerif ? 'hero__word--serif' : ''}
                   >
                     {word}
                   </motion.span>
@@ -325,7 +332,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
             }}
           >
             <p className="hero__subheadline">
-              {hero.subheadline}
+              {canonicalSubheadline}
             </p>
 
             <div className="hero__cta-wrapper">

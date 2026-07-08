@@ -17,7 +17,7 @@ async function run() {
     { label: 'Company', href: '/#company', priority: 2, is_visible: true },
     { label: 'Services', href: '/#services', priority: 3, is_visible: true },
     { label: 'Contact', href: '/#contact', priority: 4, is_visible: true },
-    { label: 'Start Your Project', href: '/#contact', priority: 5, is_visible: true },
+    { label: 'Explore the Engineering Model', href: '/#contact', priority: 5, is_visible: true },
   ];
 
   console.log('Inserting correct nav items...');
