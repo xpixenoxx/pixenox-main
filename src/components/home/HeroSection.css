@@ -325,13 +325,18 @@
 }
 
 .hero__headline {
+  font-family: var(--font-instrument-serif, 'Instrument Serif'), serif;
   font-size: clamp(2.5rem, 7vw, 80px);
-  line-height: 1.1;
-  font-weight: 500;
+  line-height: 1.05;
+  font-weight: 400;
   color: #fff;
   max-width: 950px;
   position: relative;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+}
+
+.hero__line {
+  display: block;
 }
 
 .hero__word--wrapper {

@@ -227,9 +227,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
   // 4. Typography Parser
   const headlineLines = (hero.headline || '').split('\n').map(line => line.trim()).filter(Boolean);
   const eyebrowText = headlineLines[0] && headlineLines.length > 1 ? headlineLines[0] : '';
-  const h1Text = headlineLines.length > 1 ? headlineLines.slice(1).join(' ') : hero.headline;
-
-  const headlineWords = h1Text.split(/\s+/).filter(Boolean);
+  const h1Lines = headlineLines.length > 1 ? headlineLines.slice(1) : [hero.headline];
 
   const subheadlineLines = (hero.subheadline || '').split('\n').map(line => line.trim()).filter(Boolean);
   const canonicalSubheadline = subheadlineLines[0] || '';
@@ -302,15 +300,20 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
               color: hero.headline_color || undefined
             }}
           >
-            {headlineWords.map((word, i) => {
+            {h1Lines.map((line, lineIdx) => {
+              const words = line.split(/\s+/).filter(Boolean);
               return (
-                <span key={i} className="hero__word--wrapper">
-                  <motion.span
-                    variants={wordWrapVariants}
-                  >
-                    {word}
-                  </motion.span>
-                </span>
+                <div key={lineIdx} className="hero__line">
+                  {words.map((word, wordIdx) => (
+                    <span key={wordIdx} className="hero__word--wrapper">
+                      <motion.span
+                        variants={wordWrapVariants}
+                      >
+                        {word}
+                      </motion.span>
+                    </span>
+                  ))}
+                </div>
               );
             })}
           </motion.h1>
