@@ -192,10 +192,10 @@
   gap: 12px;
   position: relative;
   z-index: 10;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
+  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #fff;
   text-decoration: none;
@@ -239,9 +239,11 @@
 }
 
 .all-srv-desc {
-  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.6;
+  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
 }
 
 .all-srv-divider {

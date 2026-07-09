@@ -139,136 +139,35 @@ export default function ServicesSection({
           )}
         </motion.div>
 
-        {/* Dynamic DB-Controlled Layout Container */}
-        <div 
-          ref={scrollRef}
-          className={`services__accordion ${isHorizontal ? 'services__accordion--horizontal' : 'services__accordion--vertical'}`} 
-          style={!isHorizontal ? { '--cols': layout?.cards_per_row || 3 } as React.CSSProperties : undefined}
-          onPointerDown={isHorizontal ? handlePointerDown : undefined}
-          onPointerMove={isHorizontal ? handlePointerMove : undefined}
-          onPointerUp={isHorizontal ? handlePointerUp : undefined}
-          onPointerLeave={(e) => {
-            if (isHorizontal) handlePointerUp();
-            setActiveId(null);
-          }}
-          role="list"
-        >
-          <AnimatePresence mode="popLayout">
+        {/* Dynamic DB-Controlled Grid Layout */}
+        <div className="services-grid-list">
+          <AnimatePresence>
             {visibleCards.map((card, idx) => {
-              const isActive = activeId === card.id;
-              const features = card.subheading 
-                  ? card.subheading.split(',').map(s => s.trim()).filter(Boolean) 
-                  : ['System Architecture', 'Performance Scaling', 'API Integration'];
-
               return (
-                <motion.div
-                  key={card.id}
-                  layout="position"
-                  className={`service-card ${isActive ? 'service-card--active' : ''}`}
-                  onMouseEnter={() => setActiveId(card.id)}
-                  onClick={() => {
-                    if (isActive) {
-                       router.push(`/services/${card.page_slug}`);
-                    } else {
-                       setActiveId(card.id);
-                    }
-                  }}
-                  initial={{ opacity: 0, y: 30 }}
+                <motion.div 
+                  key={card.id} 
+                  className="srv-grid-item"
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-5%' }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  onClick={() => router.push(`/services/${card.page_slug}`)}
+                  style={{ cursor: 'pointer' }}
                 >
-                  {/* Background Image (Inactive State) */}
-                  <div className="service-card__bg">
-                    {card.image_url && (
-                      <Image 
-                        src={card.image_url} 
-                        alt={card.title || "Service Background"} 
-                        fill 
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    )}
+                  <div className="srv-grid-num">
+                    0{/* */}{idx + 1}
                   </div>
-                  <div className="service-card__bg-overlay" />
-
-                  {/* Top Bar */}
-                  <div className="service-card__top">
-                    {isActive ? (
-                      <motion.h3 
-                        layoutId={`title-${card.id}`}
-                        className="service-card__title"
-                      >
-                        {card.title}
-                      </motion.h3>
+                  <div className="srv-grid-title-group">
+                    {card.icon_svg ? (
+                      <span className="srv-grid-icon" dangerouslySetInnerHTML={{ __html: sanitizeSvg(card.icon_svg) }} />
                     ) : (
-                      <motion.span 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="service-card__num"
-                      >
-                        {String(idx + 1).padStart(2, '0')}
-                      </motion.span>
+                      <span className="srv-grid-icon" style={{ visibility: 'hidden' }} />
                     )}
-                    <span className="service-card__arrow">
-                      <ArrowUpRight size={18} />
-                    </span>
+                    <h3 className="srv-grid-item-title">{card.title}</h3>
                   </div>
-
-                  {/* Middle Description (Only visible when active, handled by CSS) */}
-                  <div className="service-card__middle">
-                     {isActive && (
-                       <p
-                         className="service-card__desc"
-                       >
-                         {card.description}
-                       </p>
-                     )}
-                  </div>
-
-                  {/* Bottom Elements */}
-                  <div className="service-card__bottom">
-                    {isActive ? (
-                      <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="service-card__extras"
-                      >
-                        {/* Features */}
-                        <div className="extras-col">
-                          <h4>Services</h4>
-                          <ul className="features-list">
-                            {features.map((f, i) => <li key={i}>{f}</li>)}
-                          </ul>
-                        </div>
-
-                        {/* Tools Grid */}
-                        <div className="extras-col">
-                          <h4>Tools</h4>
-                          <div className="tools-grid">
-                            {(card.technology_stack || [])
-                              .filter((tool: any) => typeof tool !== 'string' && tool?.svg)
-                              .slice(0, 6)
-                              .map((tool: any, idx: number) => (
-                              <div key={idx} className="tool-icon" title={tool.name || `Tool ${idx + 1}`}>
-                                <div dangerouslySetInnerHTML={{ __html: sanitizeSvg(tool.svg) }} style={{ width: '100%', height: '100%', fill: 'currentColor', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <motion.h3 
-                        layoutId={`title-${card.id}`}
-                        className="service-card__title"
-                      >
-                        {card.title}
-                      </motion.h3>
-                    )}
-                  </div>
+                  <p className="srv-grid-desc">
+                    {card.description || card.subheading}
+                  </p>
                 </motion.div>
               );
             })}

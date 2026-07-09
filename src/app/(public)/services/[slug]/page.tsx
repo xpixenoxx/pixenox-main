@@ -114,6 +114,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         relatedStudies={relatedStudies}
         capabilities={service.capabilities}
         faqs={service.faqs}
+        whatYouGetHeading={service.what_you_get_heading}
+        whatYouGetDescription={service.what_you_get_description}
+        whatYouGetItems={service.what_you_get_items}
       />
     </article>
   );

@@ -203,6 +203,9 @@ export interface Database {
           icon_svg: string | null
           capabilities: { title: string; desc: string; metric: string; metricLabel: string }[] | null
           faqs: { question: string; answer: string }[] | null
+          what_you_get_heading: string | null
+          what_you_get_description: string | null
+          what_you_get_items: { title: string; desc: string; icon_svg?: string }[] | null
           created_at: string | null
           updated_at: string | null
         }
@@ -222,6 +225,9 @@ export interface Database {
           icon_svg?: string | null
           capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null
           faqs?: { question: string; answer: string }[] | null
+          what_you_get_heading?: string | null
+          what_you_get_description?: string | null
+          what_you_get_items?: { title: string; desc: string; icon_svg?: string }[] | null
           created_at?: string | null
           updated_at?: string | null
         }
@@ -241,6 +247,9 @@ export interface Database {
           icon_svg?: string | null
           capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null
           faqs?: { question: string; answer: string }[] | null
+          what_you_get_heading?: string | null
+          what_you_get_description?: string | null
+          what_you_get_items?: { title: string; desc: string; icon_svg?: string }[] | null
           created_at?: string | null
           updated_at?: string | null
         }

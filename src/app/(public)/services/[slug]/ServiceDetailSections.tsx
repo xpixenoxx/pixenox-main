@@ -28,6 +28,9 @@ interface ServiceDetailSectionsProps {
   relatedStudies: CaseStudyCard[];
   capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null;
   faqs?: { question: string; answer: string }[] | null;
+  whatYouGetHeading?: string | null;
+  whatYouGetDescription?: string | null;
+  whatYouGetItems?: { title: string; desc: string; icon_svg?: string }[] | null;
 }
 
 /* ─────────────────────────────────────────────────
@@ -77,6 +80,9 @@ export default function ServiceDetailSections({
   relatedStudies,
   capabilities,
   faqs,
+  whatYouGetHeading,
+  whatYouGetDescription,
+  whatYouGetItems,
 }: ServiceDetailSectionsProps) {
 
   // CTA Canvas
@@ -197,6 +203,15 @@ export default function ServiceDetailSections({
 
   return (
     <div className="premium-service-sections" id="details">
+      
+      {/* 1.5 WHAT YOU GET SECTION */}
+      {whatYouGetItems && whatYouGetItems.length > 0 && (
+        <WhatYouGetSection 
+          heading={whatYouGetHeading}
+          description={whatYouGetDescription}
+          items={whatYouGetItems}
+        />
+      )}
 
       {/* 2. THE EDITORIAL SHIFT: Cinematic Horizontal Scroll */}
       <HorizontalCapabilities serviceTitle={serviceTitle} dynamicCapabilities={capabilities || []} />
@@ -660,6 +675,75 @@ function ServiceFaqs({ faqs }: { faqs: { question: string; answer: string }[] })
               </motion.div>
             );
           })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────────
+   What You Get Section
+   ───────────────────────────────────────────────── */
+function WhatYouGetSection({
+  heading,
+  description,
+  items,
+}: {
+  heading?: string | null;
+  description?: string | null;
+  items: { title: string; desc: string; icon_svg?: string }[];
+}) {
+  return (
+    <section className="what-you-get-section">
+      <div className="container">
+        <div className="what-you-get-header">
+          <motion.h2 
+            className="wyg-title"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            {heading || "What you get"}
+          </motion.h2>
+          {description && (
+            <motion.p 
+              className="wyg-header-desc"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              {description}
+            </motion.p>
+          )}
+        </div>
+
+        <div className="what-you-get-list">
+          {items.map((item, idx) => (
+            <motion.div 
+              key={idx} 
+              className="wyg-item"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+            >
+              <div className="wyg-num">
+                0{/* */}{idx + 1}
+              </div>
+              <div className="wyg-title-group">
+                {item.icon_svg ? (
+                  <span className="wyg-icon" dangerouslySetInnerHTML={{ __html: sanitizeSvg(item.icon_svg) }} />
+                ) : (
+                  <span className="wyg-icon" style={{ visibility: 'hidden' }} />
+                )}
+                <h3 className="wyg-item-title">{item.title}</h3>
+              </div>
+              <p className="wyg-desc">
+                {item.desc}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
