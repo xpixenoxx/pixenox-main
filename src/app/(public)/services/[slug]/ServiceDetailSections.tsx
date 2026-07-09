@@ -3,7 +3,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 import { sanitizeSvg } from '@/lib/sanitize';
+import '@/components/home/HomeFaqsSection.css';
 
 interface TechItem {
   name: string;
@@ -25,6 +27,7 @@ interface ServiceDetailSectionsProps {
   techStack: TechItem[];
   relatedStudies: CaseStudyCard[];
   capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null;
+  faqs?: { question: string; answer: string }[] | null;
 }
 
 /* ─────────────────────────────────────────────────
@@ -73,6 +76,7 @@ export default function ServiceDetailSections({
   techStack,
   relatedStudies,
   capabilities,
+  faqs,
 }: ServiceDetailSectionsProps) {
 
   // CTA Canvas
@@ -199,6 +203,11 @@ export default function ServiceDetailSections({
 
       {/* 3. DARK THEME RETURN: The Spotlight Matrix */}
       <MatrixTechStack techStack={techStack} />
+
+      {/* FAQs Section */}
+      {faqs && faqs.length > 0 && (
+        <ServiceFaqs faqs={faqs} />
+      )}
 
       {/* 4. DARK THEME: Immersive CTA */}
       <section className="k-cta" ref={ctaSectionRef}>
@@ -576,4 +585,83 @@ function getCapabilities(serviceTitle: string) {
     { title: 'Rapid Deployment', desc: 'From concept to production in record time with our battle-tested deployment pipelines.', metric: '2x', metricLabel: 'FASTER' },
     { title: 'Continuous Monitoring', desc: 'Systems that learn, adapt, and improve through data-driven iteration and feedback loops.', metric: '24/7', metricLabel: 'MONITORING' },
   ];
+}
+
+/* ─────────────────────────────────────────────────
+   Service FAQs Section
+   ───────────────────────────────────────────────── */
+function ServiceFaqs({ faqs }: { faqs: { question: string; answer: string }[] }) {
+  const [openId, setOpenId] = useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenId(openId === index ? null : index);
+  };
+
+  return (
+    <section className="home-faqs-section">
+      <div className="home-faqs-glow" />
+
+      <div className="home-faqs-container">
+        <motion.div 
+          className="home-faqs-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <h2 className="home-faqs-title">
+            Common <span>Questions</span>
+          </h2>
+          <p className="home-faqs-subtitle">Everything you need to know about this service.</p>
+        </motion.div>
+
+        <div className="home-faqs-list">
+          {faqs.map((faq, index) => {
+            const isOpen = openId === index;
+            return (
+              <motion.div 
+                key={index} 
+                className={`home-faq-item ${isOpen ? 'is-open' : ''}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.1 * Math.min(index, 5) }}
+              >
+                <button 
+                  className="home-faq-question"
+                  onClick={() => toggleFaq(index)}
+                  aria-expanded={isOpen}
+                >
+                  <span>{faq.question}</span>
+                  <div className="home-faq-icon">
+                    <ChevronDown size={18} strokeWidth={2.5} />
+                  </div>
+                </button>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <div className="home-faq-answer-wrapper">
+                        <div className="home-faq-answer-content">
+                          {faq.answer.split('\n').map((paragraph, i) => (
+                            <p key={i} className="mb-4 last:mb-0">
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }

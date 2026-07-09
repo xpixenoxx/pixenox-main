@@ -32,8 +32,9 @@
 
 .home-faqs-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-family: var(--font-serif, 'Instrument Serif', serif);
+  font-family: var(--font-instrument-serif), 'Instrument Serif', serif;
   font-weight: 400;
+  font-style: normal;
   line-height: 1.1;
   margin-bottom: 20px;
   background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
@@ -46,6 +47,7 @@
   background: linear-gradient(to right, #5d3fd3, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-style: normal;
 }
 
 .home-faqs-subtitle {
@@ -68,12 +70,32 @@
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(10px);
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.home-faq-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--am-accent, #5d3fd3);
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
 }
 
 .home-faq-item:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(93, 63, 211, 0.8);
+  box-shadow: 0 0 30px rgba(93, 63, 211, 0.2);
+}
+
+.home-faq-item:hover::before {
+  transform: scaleY(1);
 }
 
 .home-faq-item.is-open {
@@ -93,10 +115,13 @@
   color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   text-align: left;
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-family: var(--font-instrument-serif), 'Instrument Serif', serif;
+  font-style: normal;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   line-height: 1.4;
-  transition: color 0.3s ease;
+  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .home-faq-item.is-open .home-faq-question {
@@ -115,7 +140,7 @@
   align-items: center;
   justify-content: center;
   color: rgba(255, 255, 255, 0.5);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .home-faq-item:hover .home-faq-icon {

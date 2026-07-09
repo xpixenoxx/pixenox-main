@@ -553,6 +553,56 @@ export default function ServicesPage() {
                      </div>
                   </div>
 
+                  {/* FAQs Group */}
+                  <div className="p-4 bg-white/5 rounded-xl border border-white/10 flex flex-col gap-4">
+                     <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium text-white/80">Service FAQs</label>
+                        <p className="text-xs text-white/40 mb-2">Frequently asked questions specific to this service.</p>
+                        <div className="flex flex-col gap-4">
+                           {(cardToEdit.faqs || []).map((faq: any, i: number) => {
+                              return (
+                              <div key={i} className="flex gap-4 items-start border border-white/10 p-4 rounded-xl bg-white/5">
+                                 <div className="w-8 h-10 flex items-center justify-center font-mono text-sm text-white/40">{(i+1).toString().padStart(2, '0')}</div>
+                                 <div className="flex flex-col flex-1 gap-3">
+                                    <input 
+                                      className="admin-input" 
+                                      placeholder="Question"
+                                      value={faq?.question || ''}
+                                      onChange={e => {
+                                         const newFaqs = [...(cardToEdit.faqs || [])];
+                                         newFaqs[i] = { ...(faq || {}), question: e.target.value };
+                                         setCardToEdit({...cardToEdit, faqs: newFaqs});
+                                      }}
+                                    />
+                                    <textarea 
+                                      className="admin-input flex-1 min-h-[60px] text-sm" 
+                                      placeholder='Answer' 
+                                      value={faq?.answer || ''}
+                                      onChange={e => {
+                                         const newFaqs = [...(cardToEdit.faqs || [])];
+                                         newFaqs[i] = { ...(faq || {}), answer: e.target.value };
+                                         setCardToEdit({...cardToEdit, faqs: newFaqs});
+                                      }} 
+                                    />
+                                 </div>
+                                 <button type="button" onClick={() => {
+                                    const newFaqs = [...(cardToEdit.faqs || [])];
+                                    newFaqs.splice(i, 1);
+                                    setCardToEdit({...cardToEdit, faqs: newFaqs});
+                                 }} className="p-2.5 rounded-lg bg-red-500/10 text-red-400 hover:text-red-300 hover:bg-red-500/20 transition-colors mt-1">
+                                    <Trash2 className="w-5 h-5" />
+                                 </button>
+                              </div>
+                           )})}
+                           <button type="button" onClick={() => {
+                              setCardToEdit({...cardToEdit, faqs: [...(cardToEdit.faqs || []), {question: '', answer: ''}]});
+                           }} className="admin-button self-start mt-2 px-3 py-1.5 text-sm flex items-center gap-2">
+                              <Plus className="w-4 h-4" /> Add FAQ
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+
 
                   <label className="flex items-center gap-3 cursor-pointer p-4 bg-white/5 rounded-xl border border-white/10">
                      <input 

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import FaqsClient from './FaqsClient';
-import './faqs.css';
+import '@/components/home/HomeFaqsSection.css';
 
 export const metadata: Metadata = {
   title: 'FAQs | Pixenox',
@@ -19,7 +19,7 @@ export default async function FaqsPage() {
     .order('priority', { ascending: true });
 
   return (
-    <main className="faqs-main">
+    <main className="home-faqs-section pt-[180px] min-h-screen">
       <FaqsClient initialFaqs={faqs || []} />
     </main>
   );

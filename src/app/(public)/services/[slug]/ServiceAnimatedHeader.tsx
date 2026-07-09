@@ -165,7 +165,7 @@ export default function ServiceAnimatedHeader({
 
   return (
     <>
-      <h1 className="hero__watermark">{title}</h1>
+      <div className="hero__watermark" aria-hidden="true">{title}</div>
       
       {/* Precision 3D Noise Sphere (Quantum Anomaly Orbit) */}
       <div className="hero__sphere-system" style={{ top: '5%', right: '-5%', opacity: 0.8 }} aria-hidden="true">
@@ -219,7 +219,7 @@ export default function ServiceAnimatedHeader({
         </div>
 
         <div className="all-srv-header-bottomright">
-          <motion.p 
+          <motion.h2 
             className="all-srv-desc"
             variants={descVariants}
             initial="hidden"
@@ -227,7 +227,7 @@ export default function ServiceAnimatedHeader({
             style={{ color: descColor || undefined }}
           >
             {description}
-          </motion.p>
+          </motion.h2>
         </div>
 
       </div>

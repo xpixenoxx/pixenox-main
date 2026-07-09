@@ -202,6 +202,7 @@ export interface Database {
           technology_stack: { name: string; svg?: string; is_special?: boolean; image_url?: string }[] | null
           icon_svg: string | null
           capabilities: { title: string; desc: string; metric: string; metricLabel: string }[] | null
+          faqs: { question: string; answer: string }[] | null
           created_at: string | null
           updated_at: string | null
         }
@@ -220,6 +221,7 @@ export interface Database {
           technology_stack?: { name: string; svg?: string; is_special?: boolean; image_url?: string }[] | null
           icon_svg?: string | null
           capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null
+          faqs?: { question: string; answer: string }[] | null
           created_at?: string | null
           updated_at?: string | null
         }
@@ -238,6 +240,7 @@ export interface Database {
           technology_stack?: { name: string; svg?: string; is_special?: boolean; image_url?: string }[] | null
           icon_svg?: string | null
           capabilities?: { title: string; desc: string; metric: string; metricLabel: string }[] | null
+          faqs?: { question: string; answer: string }[] | null
           created_at?: string | null
           updated_at?: string | null
         }

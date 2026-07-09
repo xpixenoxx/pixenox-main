@@ -14,23 +14,23 @@ export default function FaqsClient({ initialFaqs }: { initialFaqs: Faq[] }) {
 
   return (
     <>
-      <div className="faqs-glow" />
-      <div className="faqs-container">
+      <div className="home-faqs-glow" />
+      <div className="home-faqs-container">
         
         <motion.div 
-          className="faqs-header"
+          className="home-faqs-header"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h1 className="faqs-title">Frequently Asked Questions</h1>
-          <p className="faqs-subtitle">
+          <h1 className="home-faqs-title">Frequently Asked <span>Questions</span></h1>
+          <p className="home-faqs-subtitle">
             Find answers to common questions about our services, methodologies, and how we deliver platform excellence.
           </p>
         </motion.div>
 
         <motion.div 
-          className="faqs-list"
+          className="home-faqs-list"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -42,18 +42,18 @@ export default function FaqsClient({ initialFaqs }: { initialFaqs: Faq[] }) {
               return (
                 <motion.div 
                   key={faq.id} 
-                  className={`faq-item ${isOpen ? 'is-open' : ''}`}
+                  className={`home-faq-item ${isOpen ? 'is-open' : ''}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 * index }}
                 >
                   <button 
-                    className="faq-question" 
+                    className="home-faq-question" 
                     onClick={() => toggleFaq(faq.id)}
                     aria-expanded={isOpen}
                   >
                     <span>{faq.question}</span>
-                    <div className="faq-icon">
+                    <div className="home-faq-icon">
                       <ChevronDown size={20} strokeWidth={2.5} />
                     </div>
                   </button>
@@ -65,8 +65,8 @@ export default function FaqsClient({ initialFaqs }: { initialFaqs: Faq[] }) {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        <div className="faq-answer-wrapper">
-                          <div className="faq-answer-content">
+                        <div className="home-faq-answer-wrapper">
+                          <div className="home-faq-answer-content">
                             {faq.answer.split('\n').map((paragraph, i) => (
                               <p key={i} className="mb-4 last:mb-0">
                                 {paragraph}

@@ -509,19 +509,20 @@
     background: rgba(124, 58, 237, 0.2);
   }
 
-  /* ── Centered Halo Background ── */
+  /* ── Clearly Visible 3D Globe on Mobile ── */
   .hero__sphere-system {
-    width: 140vw;
-    height: 140vw;
-    top: -10vh;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.25;
+    width: clamp(220px, 60vw, 300px);
+    height: clamp(220px, 60vw, 300px);
+    top: 15%;
+    right: -15%;
+    left: auto;
+    transform: none;
+    opacity: 0.8;
     z-index: 0;
   }
 
-  .hero__orbit-ring { inset: -5%; }
-  .hero__orbit-ring--2 { display: none; }
+  .hero__orbit-ring { inset: -15%; }
+  .hero__orbit-ring--2 { display: block; inset: -25%; }
 
   .hero__grid-floor {
     opacity: 0.1;

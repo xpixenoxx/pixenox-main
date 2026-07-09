@@ -99,9 +99,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         <div className="all-srv-header-aurora" />
 
         <ServiceAnimatedHeader 
-          title={service.title}
+          title={service.subheading || service.title}
           description={service.description}
-          titleColor={service.title_color}
+          titleColor={service.subheading_color || service.title_color}
           descColor={service.desc_color}
         />
       </div>
@@ -113,6 +113,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         techStack={normalizedTech}
         relatedStudies={relatedStudies}
         capabilities={service.capabilities}
+        faqs={service.faqs}
       />
     </article>
   );

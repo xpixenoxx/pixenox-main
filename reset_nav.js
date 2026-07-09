@@ -1,7 +1,7 @@
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function run() {
@@ -12,12 +12,12 @@ async function run() {
   }
 
   const links = [
-    { label: 'Work', href: '/#work', priority: 1, is_visible: true },
-    { label: 'Company', href: '/#company', priority: 2, is_visible: true },
-    { label: 'Services', href: '/#services', priority: 3, is_visible: true },
+    { label: 'Work', href: '/work', priority: 1, is_visible: true },
+    { label: 'Company', href: '/company', priority: 2, is_visible: true },
+    { label: 'Services', href: '/services', priority: 3, is_visible: true },
     { label: 'FAQs', href: '/faqs', priority: 4, is_visible: true },
-    { label: 'Contact', href: '/#contact', priority: 5, is_visible: true },
-    { label: 'Explore the Engineering Model', href: '/#contact', priority: 6, is_visible: true },
+    { label: 'Contact', href: '/contact', priority: 5, is_visible: true },
+    { label: 'Explore the Engineering Model', href: '/contact', priority: 6, is_visible: true },
   ];
 
   console.log('Inserting correct nav items...');
