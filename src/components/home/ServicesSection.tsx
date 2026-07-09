@@ -59,6 +59,8 @@ export default function ServicesSection({
     load();
   }, [initialCards, initialConfig, initialLayout, initialTools]);
 
+  // No auto-activate on load - cards stay inactive until hovered.
+
 
   // Pointer Drag-to-Scroll for Horizontal Mode
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -108,10 +110,10 @@ export default function ServicesSection({
 
   return (
     <section className="services section" aria-label="Our Services" id="services">
-      <div className="container">
-        
+      <div className="container" style={{ maxWidth: '1600px', padding: '0 4vw' }}>
+
         {/* Section Heading */}
-        <motion.div 
+        <motion.div
           className="services__header"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -139,39 +141,188 @@ export default function ServicesSection({
           )}
         </motion.div>
 
-        {/* Dynamic DB-Controlled Grid Layout */}
-        <div className="services-grid-list">
-          <AnimatePresence>
-            {visibleCards.map((card, idx) => {
-              return (
-                <motion.div 
-                  key={card.id} 
-                  className="srv-grid-item"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  onClick={() => router.push(`/services/${card.page_slug}`)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <div className="srv-grid-num">
-                    0{/* */}{idx + 1}
-                  </div>
-                  <div className="srv-grid-title-group">
-                    {card.icon_svg ? (
-                      <span className="srv-grid-icon" dangerouslySetInnerHTML={{ __html: sanitizeSvg(card.icon_svg) }} />
-                    ) : (
-                      <span className="srv-grid-icon" style={{ visibility: 'hidden' }} />
-                    )}
-                    <h3 className="srv-grid-item-title">{card.title}</h3>
-                  </div>
-                  <p className="srv-grid-desc">
-                    {card.description || card.subheading}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+        {/* Interactive Cards Layout (Max 3 per row) */}
+        <div className="services__accordion-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {Array.from({ length: Math.ceil(visibleCards.length / 3) }).map((_, rowIdx) => {
+            const rowCards = visibleCards.slice(rowIdx * 3, rowIdx * 3 + 3);
+
+            return (
+              <div
+                key={`row-${rowIdx}`}
+                className={`services__accordion ${isHorizontal ? 'services__accordion--horizontal' : 'services__accordion--vertical'}`}
+                ref={rowIdx === 0 ? scrollRef : undefined}
+                style={{ "--cols": rowCards.length } as React.CSSProperties}
+                onPointerDown={isHorizontal ? handlePointerDown : undefined}
+                onPointerMove={isHorizontal ? handlePointerMove : undefined}
+                onPointerUp={isHorizontal ? handlePointerUp : undefined}
+                onPointerLeave={(e) => {
+                  if (isHorizontal) handlePointerUp();
+                  setActiveId(null);
+                }}
+                role="list"
+              >
+                <AnimatePresence mode="popLayout">
+                  {rowCards.map((card, idx) => {
+                    const globalIdx = rowIdx * 3 + idx;
+                    const isActive = activeId === card.id;
+
+                    let features: string[] = [];
+                    if (card.what_you_get_items && Array.isArray(card.what_you_get_items) && card.what_you_get_items.length > 0) {
+                      features = card.what_you_get_items.map((item: any) => item.title).filter(Boolean);
+                    } else if (card.subheading) {
+                      features = card.subheading.split(',').map(s => s.trim()).filter(Boolean);
+                    } else {
+                      features = ['System Architecture', 'Performance Scaling', 'API Integration'];
+                    }
+                    features = features.slice(0, 4); // Limit to top 4 services
+
+                    return (
+                      <motion.div
+                        key={card.id}
+                        layout="position"
+                        className={`service-card ${isActive ? 'service-card--active' : ''}`}
+                        onMouseEnter={() => setActiveId(card.id)}
+                        onMouseLeave={() => setActiveId(null)}
+                        onClick={() => router.push(`/services/${card.page_slug}`)}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-5%' }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
+                      >
+                        {/* Background Image (Inactive State) */}
+                        <div className="service-card__bg">
+                          {card.image_url && (
+                            <Image
+                              src={card.image_url}
+                              alt={card.title || "Service Background"}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 33vw"
+                              style={{ objectFit: 'cover' }}
+                            />
+                          )}
+                          
+                          {/* Reveal Overlays */}
+                          {idx === 0 && (
+                            <motion.div 
+                              style={{ position: 'absolute', inset: 0, backgroundColor: '#08080c', originX: 0 }}
+                              initial={{ scaleX: 1 }}
+                              whileInView={{ scaleX: 0 }}
+                              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 + (idx * 0.1) }}
+                              viewport={{ once: true, margin: '-10%' }}
+                            />
+                          )}
+                          {idx === 2 && (
+                            <motion.div 
+                              style={{ position: 'absolute', inset: 0, backgroundColor: '#08080c', originX: 1 }}
+                              initial={{ scaleX: 1 }}
+                              whileInView={{ scaleX: 0 }}
+                              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 + (idx * 0.1) }}
+                              viewport={{ once: true, margin: '-10%' }}
+                            />
+                          )}
+                          {idx === 1 && (
+                            <>
+                              <motion.div 
+                                style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: '50%', backgroundColor: '#08080c', originX: 1 }}
+                                initial={{ scaleX: 1 }}
+                                whileInView={{ scaleX: 0 }}
+                                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 + (idx * 0.1) }}
+                                viewport={{ once: true, margin: '-10%' }}
+                              />
+                              <motion.div 
+                                style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: '50%', backgroundColor: '#08080c', originX: 0 }}
+                                initial={{ scaleX: 1 }}
+                                whileInView={{ scaleX: 0 }}
+                                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 + (idx * 0.1) }}
+                                viewport={{ once: true, margin: '-10%' }}
+                              />
+                            </>
+                          )}
+                        </div>
+                        <div className="service-card__bg-overlay" />
+
+                        {/* Top Bar */}
+                        <div className="service-card__top">
+                          {isActive ? (
+                            <motion.h3
+                              layoutId={`title-${card.id}`}
+                              className="service-card__title"
+                            >
+                              {card.title}
+                            </motion.h3>
+                          ) : (
+                            <motion.span
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="service-card__num"
+                            >
+                              {String(globalIdx + 1).padStart(2, '0')}
+                            </motion.span>
+                          )}
+                          <span className="service-card__arrow">
+                            <ArrowUpRight size={32} strokeWidth={1.5} />
+                          </span>
+                        </div>
+
+                        {/* Middle Description */}
+                        <div className="service-card__middle">
+                          {isActive && (
+                            <p className="service-card__desc">
+                              {card.subheading}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Bottom Elements */}
+                        <div className="service-card__bottom">
+                          {isActive ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2 }}
+                              className="service-card__extras"
+                            >
+                              {/* Features */}
+                              <div className="extras-col">
+                                <h4>Services</h4>
+                                <ul className="features-list">
+                                  {features.map((f, i) => <li key={i}>{f}</li>)}
+                                </ul>
+                              </div>
+
+                              {/* Tools Grid */}
+                              <div className="extras-col">
+                                <h4>Tools</h4>
+                                <div className="tools-grid">
+                                  {(card.technology_stack || [])
+                                    .filter((tool: any) => typeof tool !== 'string' && tool?.svg)
+                                    .slice(0, 6)
+                                    .map((tool: any, idx: number) => (
+                                      <div key={idx} className="tool-icon" title={tool.name || `Tool ${idx + 1}`}>
+                                        <div dangerouslySetInnerHTML={{ __html: sanitizeSvg(tool.svg) }} style={{ width: '100%', height: '100%', fill: 'currentColor', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+                            </motion.div>
+                          ) : (
+                            <motion.h3
+                              layoutId={`title-${card.id}`}
+                              className="service-card__title"
+                            >
+                              {card.title}
+                            </motion.h3>
+                          )}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
