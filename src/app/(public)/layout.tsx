@@ -75,7 +75,7 @@ const getCachedLayoutData = unstable_cache(
       footerLinks: (linksRes.data ?? []) as FooterLinkRow[],
     };
   },
-  ['layout-data'],
+  ['layout-data-v3'],
   { revalidate: 3600, tags: ['layout'] }
 );
 

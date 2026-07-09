@@ -1,11 +1,12 @@
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
+import { createClient } from '@supabase/supabase-js';
+import { NextResponse } from 'next/server';
 
-process.loadEnvFile('.env.local');
+export async function GET() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-
-async function run() {
   await supabase.from('nav_config').delete().neq('label', 'dummy123');
 
   const links = [
@@ -21,6 +22,6 @@ async function run() {
     const { error } = await supabase.from('nav_config').insert(l);
     if (error) console.error('Error:', error);
   }
-  console.log('Nav configured!');
+
+  return NextResponse.json({ success: true, message: 'Nav configured!' });
 }
-run();

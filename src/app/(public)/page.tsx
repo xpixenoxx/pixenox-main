@@ -8,6 +8,7 @@ const CaseStudiesSection = dynamic(() => import('@/components/home/CaseStudiesSe
 const WhyChooseUs = dynamic(() => import('@/components/home/WhyChooseUs'));
 const CtaBanner = dynamic(() => import('@/components/home/CtaBanner'));
 const FeedbackSection = dynamic(() => import('@/components/home/FeedbackSection'));
+const HomeFaqsSection = dynamic(() => import('@/components/home/HomeFaqsSection'));
 
 import type { Metadata } from 'next';
 import type { Database } from '@/lib/types/database';
@@ -23,6 +24,7 @@ import type {
   WhyChooseUsItem,
   Testimonial,
   SeoConfig,
+  HomeFaq,
 } from '@/lib/types/database';
 
 const getPublicClient = () =>
@@ -92,6 +94,7 @@ const getCachedHomeData = unstable_cache(
       whyConfigRes,
       whyItemsRes,
       testimonialsRes,
+      homeFaqsRes,
     ] = await Promise.all([
       supabase.from('hero_settings').select('*').limit(1).maybeSingle(),
       supabase.from('services_cards').select('*').order('priority', { ascending: true }),
@@ -104,6 +107,7 @@ const getCachedHomeData = unstable_cache(
       supabase.from('why_choose_us_config').select('*').limit(1).maybeSingle(),
       supabase.from('why_choose_us').select('*').order('priority', { ascending: true }),
       supabase.from('testimonials').select('*').eq('is_visible', true).order('priority', { ascending: true }),
+      supabase.from('home_faqs').select('*').eq('is_visible', true).order('priority', { ascending: true }),
     ]);
 
     const results = [
@@ -118,6 +122,7 @@ const getCachedHomeData = unstable_cache(
       { name: 'why_choose_us_config', res: whyConfigRes },
       { name: 'why_choose_us', res: whyItemsRes },
       { name: 'testimonials', res: testimonialsRes },
+      { name: 'home_faqs', res: homeFaqsRes },
     ];
 
     for (const { name, res } of results) {
@@ -145,6 +150,7 @@ const getCachedHomeData = unstable_cache(
       whyConfig: (whyConfigRes.data ?? null) as WhyChooseUsConfig | null,
       whyItems: (whyItemsRes.data ?? []) as WhyChooseUsItem[],
       testimonials: (testimonialsRes.data ?? []) as Testimonial[],
+      homeFaqs: (homeFaqsRes.data ?? []) as HomeFaq[],
     };
   },
   ['home-data'],
@@ -185,6 +191,7 @@ export default async function HomePage() {
         initialItems={data.whyItems}
       />
       <FeedbackSection initialTestimonials={data.testimonials} />
+      <HomeFaqsSection initialFaqs={data.homeFaqs} />
     </>
   );
 }

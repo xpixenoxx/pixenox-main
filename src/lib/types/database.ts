@@ -777,6 +777,64 @@ export interface Database {
           submitted_at?: string | null
         }
       }
+      faqs: {
+        Row: {
+          id: string
+          question: string
+          answer: string
+          priority: number | null
+          is_visible: boolean | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          question: string
+          answer: string
+          priority?: number | null
+          is_visible?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          question?: string
+          answer?: string
+          priority?: number | null
+          is_visible?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      home_faqs: {
+        Row: {
+          id: string
+          question: string
+          answer: string
+          priority: number | null
+          is_visible: boolean | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          question: string
+          answer: string
+          priority?: number | null
+          is_visible?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          question?: string
+          answer?: string
+          priority?: number | null
+          is_visible?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
       audit_log: {
         Row: {
           id: string
@@ -842,6 +900,9 @@ export type CtaSection = Database['public']['Tables']['cta_sections']['Row']
 export type PageHeroConfig = Database['public']['Tables']['page_hero_config']['Row']
 export type ContactSubmission = Database['public']['Tables']['contact_submissions']['Row']
 export type SeoConfig = Database['public']['Tables']['seo_config']['Row']
+export type BlogCategory = Database['public']['Tables']['blog_categories']['Row']
+export type Faq = Database['public']['Tables']['faqs']['Row']
+export type HomeFaq = Database['public']['Tables']['home_faqs']['Row']
 export type AuditLog = Database['public']['Tables']['audit_log']['Row']
 
 /* Content block types used throughout the site */

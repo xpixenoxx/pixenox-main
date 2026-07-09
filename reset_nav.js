@@ -1,5 +1,4 @@
 const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config({ path: '.env.local' });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -16,8 +15,9 @@ async function run() {
     { label: 'Work', href: '/#work', priority: 1, is_visible: true },
     { label: 'Company', href: '/#company', priority: 2, is_visible: true },
     { label: 'Services', href: '/#services', priority: 3, is_visible: true },
-    { label: 'Contact', href: '/#contact', priority: 4, is_visible: true },
-    { label: 'Explore the Engineering Model', href: '/#contact', priority: 5, is_visible: true },
+    { label: 'FAQs', href: '/faqs', priority: 4, is_visible: true },
+    { label: 'Contact', href: '/#contact', priority: 5, is_visible: true },
+    { label: 'Explore the Engineering Model', href: '/#contact', priority: 6, is_visible: true },
   ];
 
   console.log('Inserting correct nav items...');
