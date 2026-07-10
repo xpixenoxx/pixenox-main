@@ -182,7 +182,7 @@
 }
 
 .am-cta-btn:hover .am-cta-icon-wrapper {
-  transform: scale(1.05) rotate(15deg);
+  transform: scale(1.05) rotate(45deg); /* Rotates ArrowUpRight clockwise to point perfectly horizontal (Right) */
 }
 
 .am-hamburger {

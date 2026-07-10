@@ -24,23 +24,7 @@
   mix-blend-mode: overlay;
 }
 
-/* ── Cinematic Scanning Line ── */
-.hero__scanline {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.6), rgba(124, 58, 237, 0.8), rgba(167, 139, 250, 0.6), transparent);
-  z-index: 50;
-  animation: scanDown 4s ease-in-out infinite;
-  box-shadow: 0 0 30px 10px rgba(124, 58, 237, 0.15);
-}
 
-@keyframes scanDown {
-  0% { top: -2px; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
 
 /* ── Cinematic Vignette ── */
 .hero__vignette {
@@ -51,65 +35,13 @@
   pointer-events: none;
 }
 
-/* ── Perspective Grid Floor ── */
-.hero__grid-floor {
-  position: absolute;
-  bottom: -20%;
-  left: -50%;
-  width: 200%;
-  height: 60%;
-  background-image:
-    linear-gradient(rgba(124, 58, 237, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 58, 237, 0.15) 1px, transparent 1px);
-  background-size: 60px 60px;
-  transform: perspective(500px) rotateX(65deg);
-  opacity: 0.25;
-  z-index: 1;
-  pointer-events: none;
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
-  animation: gridPush 8s linear infinite;
-  will-change: background-position;
-}
 
-@keyframes gridPush {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 60px; }
-}
 
-/* ── Deep Aurora Orbs (3 layers) ── */
-.hero__aurora-1 {
-  position: absolute;
-  top: -15%; left: -15%;
-  width: 55vw; height: 55vw;
-  background: radial-gradient(circle, rgba(76, 29, 149, 0.25) 0%, transparent 65%);
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-  animation: drift 20s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.hero__aurora-2 {
-  position: absolute;
-  bottom: -25%; right: -15%;
-  width: 65vw; height: 65vw;
-  background: radial-gradient(circle, rgba(109, 40, 217, 0.2) 0%, transparent 65%);
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-  animation: drift 28s ease-in-out infinite alternate-reverse;
-}
-
+/* ── Deep Aurora Orbs (Removed for clean aesthetic) ── */
+.hero__aurora-1,
+.hero__aurora-2,
 .hero__aurora-3 {
-  position: absolute;
-  top: 30%; left: 40%;
-  width: 40vw; height: 40vw;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-  animation: drift 35s ease-in-out infinite alternate;
+  display: none;
 }
 
 @keyframes drift {
@@ -147,32 +79,33 @@
 .hero__orbit-ring {
   position: absolute;
   inset: -15%;
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.03); /* Minimal architectural border */
   border-radius: 50%;
-  animation: orbitSpin 20s linear infinite;
+  animation: orbitSpin 30s linear infinite;
+  pointer-events: none;
 }
 
 .hero__orbit-ring::after {
   content: '';
   position: absolute;
   top: 5%; right: 10%;
-  width: 6px; height: 6px;
-  background: #a78bfa;
+  width: 4px; height: 4px;
+  background: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 10px #a78bfa, 0 0 20px #7c3aed;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Crisp white glow */
 }
 
 .hero__orbit-ring--2 {
   inset: -25%;
-  border-color: rgba(124, 58, 237, 0.1);
-  animation-duration: 35s;
+  border-color: rgba(255, 255, 255, 0.02);
+  animation-duration: 45s;
   animation-direction: reverse;
 }
 
 .hero__orbit-ring--2::after {
-  width: 4px; height: 4px;
-  background: #c084fc;
-  box-shadow: 0 0 8px #c084fc;
+  width: 3px; height: 3px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
   top: 15%; left: 5%;
 }
 
@@ -186,13 +119,11 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #1a0e2e, #0b0711 50%, #050308);
+  background: #2e1065; /* Pure color as requested by user */
   box-shadow: 
-    inset -30px -30px 60px rgba(0, 0, 0, 0.95),
-    inset 25px 25px 50px rgba(139, 92, 246, 0.15),
-    inset -8px -8px 15px rgba(139, 92, 246, 0.4),
-    0 0 80px rgba(124, 58, 237, 0.2),
-    0 0 160px rgba(76, 29, 149, 0.15);
+    inset -30px -30px 60px rgba(10, 10, 12, 0.95), /* Deep charcoal shadow */
+    inset 25px 25px 50px rgba(255, 255, 255, 0.15), /* Subtle light bounce */
+    0 0 80px rgba(46, 16, 101, 0.3); /* Refined outer glow */
   overflow: hidden;
 }
 
@@ -252,7 +183,7 @@
   letter-spacing: -0.02em;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(124, 58, 237, 0.35);
+  -webkit-text-stroke: 2px rgba(46, 16, 101, 0.6); /* Use #2e1065 for stroke */
   z-index: 3;
   pointer-events: none;
   user-select: none;
@@ -266,8 +197,9 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: calc(var(--header-height, 80px) + 40px) 0 60px;
+  justify-content: center; /* Aggressive vertical whitespace */
+  padding: calc(var(--header-height, 80px) + 80px) 0 100px;
+  gap: 60px; /* Massive spacing between headline and bottom */
 }
 
 /* ── Status Tag ── */
@@ -314,12 +246,12 @@
 
 .hero__eyebrow {
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   text-transform: uppercase;
   font-weight: 500;
-  letter-spacing: 0.12em;
-  color: #a78bfa;
-  margin-bottom: 24px;
+  letter-spacing: 0.25em; /* Extremely wide tracking for luxury feel */
+  color: rgba(255, 255, 255, 0.7); /* Muted warm white */
+  margin-bottom: 32px;
   font-family: var(--font-inter, 'Inter'), sans-serif;
   text-align: center;
 }
@@ -381,12 +313,12 @@
   display: inline-flex;
   align-items: center;
   gap: 16px;
-  padding: 18px 24px 18px 32px;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(76, 29, 149, 0.1));
-  border: 1px solid rgba(124, 58, 237, 0.3);
+  padding: 16px 32px;
+  background: rgba(255, 255, 255, 0.03); /* Frosted architectural glass */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
-  color: #fff;
-  font-size: 1rem;
+  color: #f7f7f5;
+  font-size: 1.05rem;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
@@ -394,27 +326,39 @@
   backdrop-filter: blur(15px);
   position: relative;
   overflow: hidden;
+  z-index: 1;
+}
+
+.hero__cta > span {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
 }
 
 .hero__cta::before {
   content: '';
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(167, 139, 250, 0.15), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
+  top: 50%;
+  right: 32px; /* Positioned precisely at the arrow icon */
+  width: 36px;
+  height: 36px;
+  background: #4c1d95; /* Lighter version of the globe's #2e1065 */
+  border-radius: 50%;
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  z-index: 0; /* Behind the text and icon (z-index: 2) */
+  opacity: 0;
 }
 
 .hero__cta:hover {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(109, 40, 217, 0.2));
-  border-color: #a78bfa;
-  transform: translateY(-3px);
-  box-shadow: 0 15px 40px -10px rgba(124, 58, 237, 0.4);
+  border-color: rgba(46, 16, 101, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px -10px rgba(46, 16, 101, 0.5);
 }
 
 .hero__cta:hover::before {
-  transform: translateX(100%);
+  transform: translateY(-50%) scale(30); /* Expands massively to cover the whole button */
+  opacity: 1;
 }
 
 .hero__cta-icon {
@@ -422,14 +366,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(124, 58, 237, 0.3);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 50%;
   transition: all 0.3s;
 }
 
 .hero__cta:hover .hero__cta-icon {
-  background: #7c3aed;
-  transform: translateX(4px);
+  background: transparent; /* Let the purple spread take over */
+  transform: translateX(4px) rotate(180deg);
 }
 
 /* ═══ RESPONSIVE ═══ */
@@ -451,16 +395,27 @@
   .hero__layout {
     padding-top: calc(var(--header-height, 80px) + 20px);
     justify-content: center;
-    gap: 48px;
+    gap: 32px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .hero__headline {
-    font-size: clamp(2.2rem, 10.5vw, 3.5rem);
+    font-size: clamp(2.5rem, 11vw, 4rem);
     text-align: center;
-    padding: 0 8px;
+    padding: 0;
     line-height: 1.1;
-    text-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
+    text-shadow: none;
     letter-spacing: -0.01em;
+  }
+
+  .hero__eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 24px;
+    text-align: center;
+    width: 100%;
   }
   
   .hero__center {
@@ -478,14 +433,16 @@
 
   .hero__info {
     display: flex;
+    align-items: center;
+    text-align: center;
     margin: 0 auto;
   }
 
   .hero__subheadline {
-    font-size: 1rem;
-    max-width: 95%;
+    font-size: 1.05rem;
+    max-width: 100%;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -494,38 +451,42 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 8px;
+    margin-top: 0;
     margin-bottom: 32px;
     z-index: 10;
   }
 
   .hero__cta {
+    justify-content: space-between;
+    font-size: 1.15rem;
+    padding: 18px 24px 18px 32px;
+    border-radius: 100px;
+    background: #110626; /* Deep dark purple/charcoal */
+    border: 1px solid rgba(46, 16, 101, 0.8);
+    box-shadow: 0 10px 40px -10px rgba(46, 16, 101, 0.6);
+    min-width: auto;
     width: 90%;
     max-width: 380px;
-    justify-content: center;
-    font-size: 1.1rem;
-    padding: 18px 24px;
-    border-radius: 100px;
-    background: rgba(124, 58, 237, 0.2);
   }
 
-  /* ── Clearly Visible 3D Globe on Mobile ── */
+  /* ── 3D Globe as Right Background ── */
   .hero__sphere-system {
-    width: clamp(220px, 60vw, 300px);
-    height: clamp(220px, 60vw, 300px);
+    width: clamp(250px, 80vw, 350px);
+    height: clamp(250px, 80vw, 350px);
     top: 15%;
-    right: -15%;
+    right: -25%;
     left: auto;
+    bottom: auto;
     transform: none;
     opacity: 0.8;
     z-index: 0;
+    filter: none;
   }
 
   .hero__orbit-ring { inset: -15%; }
   .hero__orbit-ring--2 { display: block; inset: -25%; }
 
   .hero__grid-floor {
-    opacity: 0.1;
-    bottom: -10%;
+    display: none;
   }
 }

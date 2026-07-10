@@ -252,10 +252,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
   return (
     <section ref={sectionRef} className="hero">
 
-
-      {/* Structural Background Watermark — decorative, not heading */}
-      <div className="hero__watermark" aria-hidden="true">PIXENOX</div>
-
+      {/* Removed Watermark per user request */}
       {/* Ambient Aurora Breathing */}
       <div className="hero__aurora-1" />
       <div className="hero__aurora-2" />
@@ -274,8 +271,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
       <canvas ref={canvasRef} className="hero__canvas" />
 
-      {/* Perspective Grid Floor */}
-      <div className="hero__grid-floor" aria-hidden="true" />
+      {/* Removed Grid Floor to reduce cognitive overload and let the dark space breathe */}
 
       {/* Vignette for cinematic depth */}
       <div className="hero__vignette" aria-hidden="true" />
