@@ -4,7 +4,7 @@
 
 .careers-page {
   background: #030303;
-  color: #fff;
+  color: var(--color-text-primary);
   min-height: 100vh;
 }
 
@@ -135,7 +135,7 @@
 .careers-search input {
   background: none;
   border: none;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 0.9rem;
   outline: none;
   width: 100%;
@@ -164,7 +164,7 @@
 
 .careers-dept-btn:hover {
   border-color: rgba(124, 58, 237, 0.3);
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .careers-dept-btn--active {
@@ -233,7 +233,7 @@
   background: #743089;
   border: none;
   border-radius: 10px;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -244,7 +244,7 @@
 
 .careers-role-card__btn:hover {
   transform: translateY(-2px);
-  background: #000000;
+  background: var(--color-bg-primary)000;
   box-shadow: 0 8px 32px -6px rgba(116, 48, 137, 0.4);
 }
 
@@ -296,7 +296,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -358,7 +358,7 @@
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 0.95rem;
   font-family: inherit;
   transition: border-color 0.3s;
@@ -391,7 +391,7 @@
   background: #743089;
   border: none;
   border-radius: 12px;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -400,7 +400,7 @@
 
 .careers-modal__submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: #000000;
+  background: var(--color-bg-primary)000;
   box-shadow: 0 8px 32px -6px rgba(116, 48, 137, 0.4);
 }
 
@@ -444,7 +444,7 @@
 }
 
 .careers-modal__success h3 {
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 1.5rem;
 }
 

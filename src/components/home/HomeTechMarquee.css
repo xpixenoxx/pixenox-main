@@ -7,7 +7,7 @@
   position: relative;
   z-index: 10;
   background: #030303; /* Deep space black */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(247, 247, 245, 0.05);
 }
 
 .tech-marquee-header {
@@ -20,7 +20,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(247, 247, 245, 0.3);
   font-weight: 500;
 }
 
@@ -74,7 +74,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(247, 247, 245, 0.4);
   transition: all 0.4s ease;
   height: 48px;
   width: auto;
@@ -88,9 +88,9 @@
 }
 
 .tm-logo:hover {
-  color: #fff;
+  color: var(--color-text-primary);
   transform: scale(1.05);
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2));
+  filter: drop-shadow(0 0 12px rgba(247, 247, 245, 0.2));
 }
 
 @keyframes marquee-scroll {

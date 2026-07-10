@@ -5,7 +5,7 @@
 
 .hub-page {
   background-color: #030303;
-  color: #fff;
+  color: var(--color-text-primary);
   min-height: 100vh;
   position: relative;
   overflow: hidden;
@@ -260,7 +260,7 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  color: #fff;
+  color: var(--color-text-primary);
   transition: all 0.4s ease;
 }
 
@@ -294,7 +294,7 @@
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin: 0 0 16px;
-  color: #fff;
+  color: var(--color-text-primary);
   text-transform: uppercase;
 }
 

@@ -5,7 +5,7 @@
 .footer {
   position: relative;
   background: #020104; /* Absolute pitch black */
-  color: #fff;
+  color: var(--color-text-primary);
   overflow: hidden;
   padding: 120px 0 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -76,7 +76,7 @@
 .footer__email-contact {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1rem;
-  color: #fff;
+  color: var(--color-text-primary);
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   padding-bottom: 2px;
@@ -115,7 +115,7 @@
   font-size: 5.5rem;
   font-weight: 400;
   line-height: 1;
-  color: #ffffff;
+  color: var(--color-text-primary)fff;
   letter-spacing: -0.04em;
 }
 
@@ -142,7 +142,7 @@
 .footer__nav-col h4 {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--color-text-primary);
   margin: 0;
   letter-spacing: 0.01em;
 }
@@ -167,7 +167,7 @@
 }
 
 .footer__nav-col a:hover {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .external-icon {
@@ -208,7 +208,7 @@
 }
 
 .footer__bottom-links a:hover {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 /* ── Massive Vector Anchor ── */

@@ -14,7 +14,7 @@
   font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   font-size: clamp(3.5rem, 6vw, 4.5rem);
   font-weight: 400;
-  color: #fff;
+  color: var(--color-text-primary);
   line-height: 1;
   letter-spacing: 0;
   margin: 0 0 16px 0;
@@ -62,7 +62,7 @@
   display: flex;
   flex-direction: column;
   padding: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(247, 247, 245, 0.05);
   /* Subtle border like the image */
   height: 520px;
   /* Fixed height so it never expands */
@@ -90,7 +90,7 @@
   opacity: 1;
   transition: opacity 0.4s ease;
   /* Radial dot pattern in bottom right */
-  background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(247, 247, 245, 0.3) 1px, transparent 1px);
   background-size: 16px 16px;
   background-position: calc(100% + 8px) calc(100% + 8px);
 }
@@ -130,7 +130,7 @@
 .service-card__num {
   font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   /* High contrast serif for numbers */
-  color: #fff;
+  color: var(--color-text-primary);
   /* Solid white for inactive number */
   font-size: 3rem;
   font-weight: 400;
@@ -138,7 +138,7 @@
 }
 
 .service-card__arrow {
-  color: #fff;
+  color: var(--color-text-primary);
   opacity: 0.8;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -152,7 +152,7 @@
   font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 400;
-  color: #fff;
+  color: var(--color-text-primary);
   margin: 0;
   letter-spacing: 0;
 }
@@ -167,7 +167,7 @@
   font-family: var(--font-body), sans-serif;
   font-size: 1.15rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(247, 247, 245, 0.95);
   margin: 0;
   max-width: 85%;
   /* Don't stretch full width */
@@ -192,7 +192,7 @@
 .extras-col h4 {
   font-family: var(--font-body), sans-serif;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(247, 247, 245, 0.5);
   margin: 0;
   font-weight: 400;
 }
@@ -209,7 +209,7 @@
 .features-list li {
   font-family: var(--font-body), sans-serif;
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--color-text-primary);
   opacity: 0.9;
 }
 
@@ -222,7 +222,7 @@
 .tool-icon {
   width: 32px;
   height: 32px;
-  color: #fff;
+  color: var(--color-text-primary);
   opacity: 0.8;
   display: flex;
   align-items: center;

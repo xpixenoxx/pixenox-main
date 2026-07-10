@@ -5,7 +5,7 @@
 .why-choose {
   position: relative;
   background-color: #030303;
-  color: #fff;
+  color: var(--color-text-primary);
   padding: 140px 0;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
@@ -59,7 +59,7 @@
   line-height: 0.8;
   color: transparent;
   /* Premium hollow stroke */
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
+  -webkit-text-stroke: 1px rgba(247, 247, 245, 0.03);
   opacity: 0.8;
   user-select: none;
   pointer-events: none;
@@ -112,7 +112,7 @@
   font-weight: 900;
   line-height: 1.1;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--color-text-primary);
   margin: 0;
   position: relative;
   /* Text tracking glitch effect */
@@ -123,11 +123,11 @@
   display: inline-block;
   width: 20px;
   height: clamp(2.5rem, 5vw, 4.5rem);
-  background: #fff;
+  background: var(--color-text-primary);
   vertical-align: bottom;
   margin-left: 12px;
   animation: m-blink 1s step-end infinite;
-  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  box-shadow: 0 0 20px rgba(247, 247, 245,0.4);
 }
 
 @keyframes m-blink { 50% { opacity: 0; } }
@@ -170,14 +170,14 @@
   );
 
   /* Inner Structural Border */
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(247, 247, 245, 0.05);
 
   transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(0);
 }
 
 .hud-panel:hover {
   box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(247, 247, 245, 0.15);
   /* Transform is handled by JS variables */
 }
 
@@ -206,7 +206,7 @@
   top: 0; left: 0; right: 0; bottom: 0;
   background: radial-gradient(
     600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(255, 255, 255, 0.08),
+    rgba(247, 247, 245, 0.08),
     transparent 40%
   );
   pointer-events: none;
@@ -231,7 +231,7 @@
 }
 
 .hud-lvl {
-  color: #fff;
+  color: var(--color-text-primary);
   opacity: 0.5;
 }
 
@@ -246,7 +246,7 @@
   font-size: clamp(2rem, 3vw, 2.8rem);
   font-weight: 800;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--color-text-primary);
   line-height: 1.1;
   letter-spacing: -0.04em;
   margin-bottom: 40px;
@@ -268,7 +268,7 @@
   margin-bottom: 40px;
   padding: 24px;
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(247, 247, 245, 0.05);
   border-radius: 4px;
 }
 
@@ -282,14 +282,14 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(247, 247, 245, 0.6);
   width: 50px;
 }
 
 .hud-bar-track {
   flex: 1;
   height: 2px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(247, 247, 245, 0.1);
   position: relative;
 }
 
@@ -317,7 +317,7 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(247, 247, 245, 0.6);
   flex-grow: 1;
 }
 
@@ -328,7 +328,7 @@
   gap: 16px;
   margin-top: 48px;
   background: var(--hud-accent);
-  color: #000;
+  color: var(--color-bg-primary);
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
   font-weight: 700;
@@ -342,9 +342,9 @@
 }
 
 .hud-execute-btn:hover {
-  background: #fff;
+  background: var(--color-text-primary);
   transform: translateX(8px);
-  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  box-shadow: 0 0 20px rgba(247, 247, 245,0.4);
 }
 
 /* Crosshairs Decorators */
@@ -357,7 +357,7 @@
 .crosshair::before, .crosshair::after {
   content: '';
   position: absolute;
-  background: rgba(255,255,255,0.4);
+  background: rgba(247, 247, 245,0.4);
 }
 .crosshair::before { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); }
 .crosshair::after { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); }

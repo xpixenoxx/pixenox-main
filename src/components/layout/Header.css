@@ -77,7 +77,7 @@
   font-size: 1.8rem;
   font-weight: 800;
   letter-spacing: 0.1em;
-  color: #fff;
+  color: var(--color-text-primary);
   text-transform: uppercase;
 }
 
@@ -113,12 +113,12 @@
 }
 
 .am-nav-text.is-active {
-  color: #fff;
+  color: var(--color-text-primary);
   font-weight: 600;
 }
 
 .am-nav-link:hover .am-nav-text {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 /* Active Underline */
@@ -148,7 +148,7 @@
   /* Pitch dark filled background */
   border: 1px solid rgba(255, 255, 255, 0.1);
   /* Subtle outline */
-  color: #fff;
+  color: var(--color-text-primary);
   padding: 8px 8px 8px 24px;
   /* Right padding smaller to tightly hug the circle icon */
   border-radius: 100px;
@@ -177,7 +177,7 @@
   background: #a855f7;
   /* Purple circle */
   border-radius: 50%;
-  color: #fff;
+  color: var(--color-text-primary);
   transition: transform 0.3s ease;
 }
 
@@ -189,7 +189,7 @@
   display: none;
   background: none;
   border: none;
-  color: #fff;
+  color: var(--color-text-primary);
   cursor: pointer;
 }
 
@@ -225,7 +225,7 @@
   right: 4vw;
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--color-text-primary);
   cursor: pointer;
 }
 
@@ -240,7 +240,7 @@
   font-family: var(--font-heading), sans-serif;
   font-size: clamp(3rem, 10vw, 5rem);
   font-weight: 900;
-  color: #fff;
+  color: var(--color-text-primary);
   text-decoration: none;
   text-transform: uppercase;
   transition: color 0.3s ease;
@@ -277,7 +277,7 @@
 }
 
 .am-nav-link--btn.is-mega-active .am-nav-text {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 /* Mega Menu Container */
@@ -336,7 +336,7 @@
 .mega-service__title {
   font-size: 15px;
   font-weight: 700;
-  color: #fff;
+  color: var(--color-text-primary);
   letter-spacing: -0.01em;
 }
 

@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════ */
 
 .legal-page {
-  background-color: #000000;
+  background-color: var(--color-bg-primary)000;
   color: #a1a1aa;
   /* Zinc 400 */
   min-height: 100vh;
@@ -67,7 +67,7 @@
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.1;
-  color: #ffffff;
+  color: var(--color-text-primary)fff;
   margin-bottom: 24px;
 }
 
@@ -169,5 +169,5 @@
 }
 
 .legal-nav-link:hover {
-  color: #ffffff;
+  color: var(--color-text-primary)fff;
 }

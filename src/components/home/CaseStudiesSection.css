@@ -5,7 +5,7 @@
 .highlights {
   padding: 80px 0;
   background-color: #030303;
-  color: #fff;
+  color: var(--color-text-primary);
   width: 100%;
 }
 
@@ -36,7 +36,7 @@
   gap: 32px;
   font-family: monospace;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(247, 247, 245, 0.6);
 }
 
 .hl-stats span {
@@ -46,7 +46,7 @@
 }
 
 .hl-count {
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -58,8 +58,8 @@
   height: 55vh;
   min-height: 400px;
   max-height: 550px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(247, 247, 245, 0.1);
+  border-bottom: 1px solid rgba(247, 247, 245, 0.1);
 }
 
 /* Individual Panel */
@@ -71,7 +71,7 @@
   background-position: center;
   background-repeat: no-repeat;
   transition: flex 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(247, 247, 245, 0.1);
   text-decoration: none;
   cursor: pointer;
   display: flex;
@@ -138,7 +138,7 @@
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.2em;
-  color: #fff;
+  color: var(--color-text-primary);
   white-space: nowrap;
   max-height: calc(100% - 80px);
   overflow: hidden;
@@ -162,16 +162,16 @@
 }
 
 .hl-panel-id {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(247, 247, 245, 0.1);
   padding: 6px 12px;
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  border: 1px solid rgba(247, 247, 245, 0.1);
+  color: var(--color-text-primary);
 }
 
 .hl-panel-status {
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(247, 247, 245, 0.7);
 }
 
 .hl-status-red {
@@ -181,7 +181,7 @@
 /* Bottom Information */
 .hl-panel-bottom {
   margin-top: auto;
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .hl-title-wrap {
@@ -201,7 +201,7 @@
   line-height: 1.6;
   max-width: 480px;
   margin-bottom: 32px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(247, 247, 245, 0.8);
 }
 
 .hl-panel-btn {
@@ -213,7 +213,7 @@
   font-size: 0.9rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .hl-panel-btn svg {
@@ -254,7 +254,7 @@
   .hl-panel {
     height: 120px;
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(247, 247, 245, 0.1);
   }
   
   .hl-panel:last-child {

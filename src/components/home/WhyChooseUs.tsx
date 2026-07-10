@@ -159,7 +159,7 @@ const ParticleHeading = ({ text, trigger, color }: { text: string; trigger: bool
     const render = () => {
       if (!isIntersecting || !isDocVisible) return;
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = color || '#ffffff';
+      ctx.fillStyle = color || 'var(--color-text-primary)fff';
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];

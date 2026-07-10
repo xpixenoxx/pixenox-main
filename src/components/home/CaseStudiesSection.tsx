@@ -68,7 +68,7 @@ export default function CaseStudiesSection({
           <Skeleton width="300px" height="40px" style={{ margin: '0 auto 48px' }} />
           <div className="hl-accordion">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="skeleton" style={{ flex: 1, borderRight: '1px solid rgba(255,255,255,0.1)' }} />
+              <div key={i} className="skeleton" style={{ flex: 1, borderRight: '1px solid rgba(247, 247, 245,0.1)' }} />
             ))}
           </div>
         </div>

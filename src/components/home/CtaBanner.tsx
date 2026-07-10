@@ -107,7 +107,7 @@ export default function CtaBanner() {
         float f = fbm(uv + 3.0 * r);
 
         // Color mapping — strictly rich black and deep purple palette
-        vec3 col = vec3(0.008, 0.004, 0.016); // Rich Black base (#020104)
+        vec3 col = vec3(0.008, 0.004, 0.016); // Rich Black base (var(--color-bg-primary))
 
         // Layer 1: dark purple void
         col = mix(col, vec3(0.15, 0.05, 0.3), clamp(f * f * 2.0, 0.0, 1.0));
