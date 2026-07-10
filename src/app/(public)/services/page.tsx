@@ -16,39 +16,39 @@ const getPublicClient = () =>
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-const getCachedServices = unstable_cache(
-  async () => {
+  async function getServicesData() {
     const supabase = getPublicClient();
-    const res = await supabase
-      .from('services_cards')
-      .select('*')
-      .eq('is_visible', true)
-      .order('priority', { ascending: true });
+    const [{ data: servicesData }, { data: heroData }] = await Promise.all([
+      supabase
+        .from('services_cards')
+        .select('*')
+        .eq('is_visible', true)
+        .order('priority', { ascending: true }),
+      supabase
+        .from('page_hero_config')
+        .select('*')
+        .eq('page', 'services')
+        .limit(1)
+        .single()
+    ]);
 
-    if (res.error) {
-      console.error("Supabase query failed:", {
-        table: "services_cards",
-        message: res.error.message,
-        details: res.error.details,
-        hint: res.error.hint,
-        code: res.error.code,
-      });
+    if (!servicesData) {
       throw new Error("Failed to fetch services_cards");
     }
 
-    return (res.data ?? []) as ServiceCard[];
-  },
-  ['services-page'],
-  { revalidate: 3600, tags: ['services'] }
-);
+    return {
+      services: servicesData as ServiceCard[],
+      heroConfig: heroData
+    };
+  }
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export default async function ServicesHubPage() {
   const start = Date.now();
-  const services = await getCachedServices();
+  const { services, heroConfig } = await getServicesData();
   const dataTime = Date.now() - start;
   console.log(`[Timing] /services - Data fetch: ${dataTime}ms`);
 
-  return <AllServicesInteractive services={services} />;
+  return <AllServicesInteractive services={services} heroConfig={heroConfig} />;
 }

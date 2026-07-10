@@ -88,6 +88,7 @@ function SortableItem({ id, card, onEdit, onDelete, onToggleVisibility }: any) {
 export default function ServicesPage() {
   const [layout, setLayout] = useState({ id: '', layout_type: 'horizontal', cards_per_row: 3 })
   const [cards, setCards] = useState<any[]>([])
+  const [heroConfig, setHeroConfig] = useState<any>({ heading: 'Engineering\nThe Future', subheading: 'Explore our ecosystem of high-velocity platforms, autonomous AI systems, and scalable enterprise architectures designed to outperform the market.' })
   const [didLoad, setDidLoad] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalMode, setModalMode] = useState<'create'|'edit'>('create')
@@ -118,7 +119,30 @@ export default function ServicesPage() {
     const { data: cardsData } = await supabase.from('services_cards').select('*').order('priority', { ascending: true })
     if (cardsData) setCards(cardsData)
     
+    // Hero Config
+    const { data: heroData } = await supabase.from('page_hero_config').select('*').eq('page', 'services').limit(1).single()
+    if (heroData) {
+      setHeroConfig(heroData)
+    }
+    
     setDidLoad(true)
+  }
+
+  // ==== Hero Saving ====
+  const saveHeroConfig = async () => {
+    try {
+      let res;
+      if (heroConfig.id) {
+         res = await supabase.from('page_hero_config').update({ heading: heroConfig.heading, subheading: heroConfig.subheading }).eq('id', heroConfig.id)
+      } else {
+         res = await supabase.from('page_hero_config').insert([{ page: 'services', heading: heroConfig.heading, subheading: heroConfig.subheading }])
+         fetchData()
+      }
+      if (res?.error) throw res.error
+      toast('Hero section saved', 'success')
+    } catch (e: any) {
+      toast(e.message, 'error')
+    }
   }
 
   // ==== Layout Saving ====
@@ -249,6 +273,33 @@ export default function ServicesPage() {
   return (
     <div className="flex flex-col gap-8 max-w-5xl mx-auto">
       
+      {/* Hero Section Config */}
+      <div className="glass-card">
+        <h3 className="text-xl font-bold mb-6">Hero Section</h3>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-white/80">Heading</label>
+            <textarea
+              className="admin-input min-h-[100px]"
+              value={heroConfig.heading}
+              onChange={e => setHeroConfig({...heroConfig, heading: e.target.value})}
+              placeholder="Engineering\nThe Future"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-white/80">Description</label>
+            <textarea
+              className="admin-input min-h-[100px]"
+              value={heroConfig.subheading}
+              onChange={e => setHeroConfig({...heroConfig, subheading: e.target.value})}
+            />
+          </div>
+          <div className="flex justify-end mt-2">
+            <button onClick={saveHeroConfig} className="admin-button">Save Hero Settings</button>
+          </div>
+        </div>
+      </div>
+
       {/* Top Layout Controls */}
       <div className="glass-card flex flex-col md:flex-row items-end gap-6 justify-between">
          <div className="flex gap-8">

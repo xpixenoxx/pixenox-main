@@ -10,9 +10,10 @@ import './all-services.css';
 
 interface AllServicesInteractiveProps {
   services: ServiceCard[];
+  heroConfig?: any;
 }
 
-export default function AllServicesInteractive({ services }: AllServicesInteractiveProps) {
+export default function AllServicesInteractive({ services, heroConfig }: AllServicesInteractiveProps) {
   // Canvas particle system
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -143,10 +144,24 @@ export default function AllServicesInteractive({ services }: AllServicesInteract
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           <h1 className="hub-title">
-            Engineering<br /><em>The Future</em>
+            {heroConfig?.heading ? (
+              <>
+                {heroConfig.heading.split('\n')[0]}
+                {heroConfig.heading.split('\n').length > 1 && (
+                  <>
+                    <br />
+                    <em>{heroConfig.heading.split('\n').slice(1).join('\n')}</em>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                Engineering<br /><em>The Future</em>
+              </>
+            )}
           </h1>
           <p className="hub-desc">
-            Explore our ecosystem of high-velocity platforms, autonomous AI systems, and scalable enterprise architectures designed to outperform the market.
+            {heroConfig?.subheading || "Explore our ecosystem of high-velocity platforms, autonomous AI systems, and scalable enterprise architectures designed to outperform the market."}
           </p>
         </motion.div>
       </section>
