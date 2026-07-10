@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════ */
 
 .what-we-do {
-  padding: 120px 0 240px;
+  padding: 120px 0 120px;
   background-color: var(--color-bg-primary); 
   position: relative;
   z-index: 10;

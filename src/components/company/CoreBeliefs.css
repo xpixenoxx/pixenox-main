@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════ */
 
 .core-beliefs {
-  padding: 120px 0;
+  padding: 60px 0 120px;
   background-color: var(--color-bg-primary);
   position: relative;
 }
@@ -24,31 +24,32 @@
 }
 
 .core-beliefs__header {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 60px;
-  align-items: start;
-  margin-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 80px;
 }
 
 .core-beliefs__header h2 {
-  font-family: monospace;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: #a178ff;
-  margin: 0;
+  font-family: 'Instrument Serif', var(--font-heading), serif;
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin: 0 0 0 -0.04em; /* Optical alignment to flush the serif left edge */
+  line-height: 1.1;
 }
 
 .core-beliefs__header p {
-  font-family: var(--font-heading), sans-serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  line-height: 1.2;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(247, 247, 245, 0.6);
+  line-height: 1.6;
   margin: 0;
-  letter-spacing: -0.02em;
+  max-width: 600px;
 }
 
 .core-beliefs__list {
@@ -96,67 +97,72 @@
 
 .core-beliefs__card-inner {
   display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 40px;
-  align-items: center;
-  padding: 48px 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  align-items: flex-start;
+  padding: 32px 0;
+}
+
+@media (min-width: 768px) {
+  .core-beliefs__card-inner {
+    gap: 32px;
+    align-items: center;
+    padding: 40px 0;
+  }
 }
 
 .core-beliefs__icon {
-  width: auto;
-  height: auto;
-  color: rgba(161, 120, 255, 0.4);
-  font-size: 2.5rem;
+  display: none;
+  grid-column: span 1;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1rem;
   font-weight: 300;
   font-family: monospace;
-  transition: color 0.4s ease;
 }
 
-.core-beliefs__card:hover .core-beliefs__icon {
-  color: #a178ff;
-  text-shadow: 0 0 20px rgba(161, 120, 255, 0.8);
-}
-
-.core-beliefs__icon svg {
-  display: none;
+@media (min-width: 1024px) {
+  .core-beliefs__icon {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .core-beliefs__content {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  align-items: baseline;
+  grid-column: span 12;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 1024px) {
+  .core-beliefs__content {
+    grid-column: span 11;
+    grid-template-columns: 5fr 6fr;
+    gap: 32px;
+    align-items: center;
+  }
 }
 
 .core-beliefs__content h3 {
-  font-family: var(--font-heading), sans-serif;
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-family: 'Instrument Serif', var(--font-heading), serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400;
   color: var(--color-text-primary);
-  white-space: nowrap;
-  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: normal;
 }
 
 .core-beliefs__content p {
-  font-size: 1.25rem;
-  color: rgba(247, 247, 245, 0.5);
+  font-size: 1.125rem;
+  color: rgba(247, 247, 245, 0.6);
   line-height: 1.5;
+  margin: 0;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
   .core-beliefs__header {
-    grid-template-columns: 1fr;
     gap: 16px;
-  }
-  
-  .core-beliefs__card-inner {
-    grid-template-columns: 50px 1fr;
-    gap: 20px;
-  }
-
-  .core-beliefs__content {
-    flex-direction: column;
-    gap: 8px;
+    margin-bottom: 48px;
   }
 }

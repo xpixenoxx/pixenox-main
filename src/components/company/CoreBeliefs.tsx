@@ -79,7 +79,7 @@ export default function CoreBeliefs({ config, beliefs }: CoreBeliefsProps) {
                 <div className="core-beliefs__content">
                   <h3>{belief.title}</h3>
                   {belief.description && (
-                    <p> — {belief.description}</p>
+                    <p>{belief.description}</p>
                   )}
                 </div>
               </div>
