@@ -258,7 +258,7 @@ async function populateSectionConfig() {
   for (const cfg of configs) {
     if (cfg.section_key === 'case_studies') {
       await query('section_config', 'PATCH', {
-        heading: 'RECENT_WORKS',
+        heading: 'RECENT WORKS',
         subheading: 'Selected projects demonstrating engineering excellence and measurable business impact.',
       }, `?id=eq.${cfg.id}`);
     }

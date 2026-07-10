@@ -77,12 +77,12 @@ export default function CaseStudiesSection({
   }
 
   // Fallback map for custom title handling
-  const title = config?.heading || 'RECENT_WORKS';
+  const title = config?.heading || 'RECENT WORKS';
 
   return (
     <section className="highlights" id="highlights">
       <div className="hl-header">
-        <h2 
+        <h2
           className="hl-title"
           style={{ color: config?.heading_color }}
         >
@@ -94,7 +94,7 @@ export default function CaseStudiesSection({
         {studies.map((study, idx) => {
           // Formatting dynamic data to match the UI spec
           const prjId = `#PRJ_0${idx + 1}`;
-          
+
           // Fallback logic to show IN_SYNC error state for demo if needed
           const isRed = idx === 1; // Exactly matching the HTML reference where Panel 2 is IN_SYNC
           const statusRaw = isRed ? 'IN_SYNC' : 'DEPLOYED';
@@ -103,18 +103,18 @@ export default function CaseStudiesSection({
           const bgUrl = study.cover_image_url || '';
 
           return (
-            <Link 
-              key={study.id} 
+            <Link
+              key={study.id}
               href={`/work/${study.slug}`}
-              className="hl-panel" 
+              className="hl-panel"
               aria-label={`View case study: ${study.title}`}
             >
               <div className="hl-panel-bg">
                 {bgUrl && (
-                  <Image 
-                    src={bgUrl} 
-                    alt={study.title || "Case Study Background"} 
-                    fill 
+                  <Image
+                    src={bgUrl}
+                    alt={study.title || "Case Study Background"}
+                    fill
                     sizes="(max-width: 768px) 100vw, 25vw"
                     style={{ objectFit: 'cover' }}
                   />
@@ -122,7 +122,7 @@ export default function CaseStudiesSection({
               </div>
               {/* CSS gradient mask applied over image */}
               <div className="hl-panel-overlay"></div>
-              
+
               <div className="hl-panel-content">
                 <div className="hl-panel-top">
                   <span className="hl-panel-id">{prjId}</span>
@@ -130,20 +130,20 @@ export default function CaseStudiesSection({
                     {statusRaw}
                   </span>
                 </div>
-                
+
                 <div className="hl-panel-bottom">
                   <div className="hl-title-wrap">
-                    <h3 
+                    <h3
                       className="hl-panel-title"
-                      style={{ 
-                        color: study.title_color 
+                      style={{
+                        color: study.title_color
                       }}
                     >
                       {study.title}
                     </h3>
                   </div>
                   <p className="hl-panel-desc">{study.short_description}</p>
-                  
+
                   <div className="hl-panel-btn">
                     <span>EXPLORE</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -152,7 +152,7 @@ export default function CaseStudiesSection({
                   </div>
                 </div>
               </div>
-              
+
               {/* Vertical Title shown when inactive */}
               <div className="hl-panel-vert-title">{study.title.toUpperCase()}</div>
             </Link>

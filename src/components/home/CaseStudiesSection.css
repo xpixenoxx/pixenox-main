@@ -14,17 +14,20 @@
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 56px;
-  padding: 0 40px;
-  max-width: 1400px;
+  
+  /* Inherit standard container layout to align perfectly with Header Logo */
+  width: 100%;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 4vw;
 }
 
 .hl-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem); /* Increased for more editorial impact */
+  font-weight: 400; /* Instrument Serif looks best at 400 */
+  letter-spacing: -0.01em;
+  font-family: var(--font-instrument-serif, 'Georgia', serif); /* High contrast serif */
   text-transform: uppercase;
 }
 

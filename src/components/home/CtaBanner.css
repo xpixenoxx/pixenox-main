@@ -9,11 +9,7 @@
   z-index: 10;
 }
 
-/* Override standard container to allow edge-to-edge max width */
-.cta-neb > .container {
-  max-width: 1540px; 
-  padding: 0 clamp(20px, 4vw, 40px);
-}
+/* Inherit global .container (max-width: 1600px, padding: 0 4vw) to perfectly align with Header */
 
 .cta-neb__card {
   position: relative;
@@ -42,12 +38,13 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1219.2px;
+  max-width: 100%; /* Changed from fixed max-width to allow edge-to-edge flex */
   height: 172px; /* Strict height requested */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 0 60px; /* Internal breathing room from the edges of the purple card */
   gap: 40px;
 }
 
