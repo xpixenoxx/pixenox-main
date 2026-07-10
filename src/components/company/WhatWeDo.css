@@ -5,7 +5,7 @@
 
 .what-we-do {
   padding: 120px 0 240px;
-  background-color: #030008; 
+  background-color: var(--color-bg-primary); 
   position: relative;
   z-index: 10;
 }
@@ -16,7 +16,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.05em;
-  color: #fff;
+  color: var(--color-text-primary);
   margin-bottom: 80px;
   text-align: center;
 }
@@ -37,7 +37,7 @@
 .wwd-card {
   position: sticky;
   top: calc(var(--header-height, 80px) + 40px);
-  background: #030008;
+  background: var(--color-bg-primary);
   border-top: 1px solid rgba(161, 120, 255, 0.2);
   padding: 60px;
   border-radius: 24px 24px 0 0;
@@ -91,7 +91,7 @@
   font-family: var(--font-heading), sans-serif;
   font-size: clamp(2rem, 3vw, 3.5rem);
   font-weight: 700;
-  color: #fff;
+  color: var(--color-text-primary);
   line-height: 1.1;
   letter-spacing: -0.03em;
   margin: 0;
@@ -99,7 +99,7 @@
 
 .wwd-card__desc {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(247, 247, 245, 0.5);
   line-height: 1.6;
   max-width: 480px;
 }

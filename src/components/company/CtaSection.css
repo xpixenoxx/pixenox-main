@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #030008;
+  background-color: var(--color-bg-primary);
   overflow: hidden;
   padding: 120px 0;
   text-align: center;
@@ -47,7 +47,7 @@
   width: 40%;
   height: 40%;
   border-radius: 50%;
-  background: #030008;
+  background: var(--color-bg-primary);
   box-shadow: 0 0 100px 30px rgba(0, 0, 0, 1), inset 0 0 50px rgba(161, 120, 255, 0.2);
 }
 
@@ -62,7 +62,7 @@
   font-family: var(--font-heading), sans-serif;
   font-size: clamp(3rem, 6vw, 6rem);
   font-weight: 900;
-  color: #fff;
+  color: var(--color-text-primary);
   line-height: 1;
   letter-spacing: -0.04em;
   margin: 0 0 24px 0;
@@ -72,7 +72,7 @@
 
 .cta-singularity__heading span {
   display: inline-block;
-  background: linear-gradient(180deg, #fff 0%, rgba(161, 120, 255, 0.8) 100%);
+  background: linear-gradient(180deg, var(--color-text-primary) 0%, rgba(161, 120, 255, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -81,7 +81,7 @@
 .cta-singularity__sub {
   font-family: monospace;
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(247, 247, 245, 0.6);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 60px;
@@ -95,7 +95,7 @@
 
 .cta-singularity__btn-primary {
   position: relative;
-  background: #030008;
+  background: var(--color-bg-primary);
   border: 1px solid rgba(161, 120, 255, 0.4);
   padding: 24px 60px;
   border-radius: 100px;
@@ -137,7 +137,7 @@
   font-family: monospace;
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--color-text-primary);
   letter-spacing: 0.3em;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }

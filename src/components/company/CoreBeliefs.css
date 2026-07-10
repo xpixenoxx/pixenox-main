@@ -5,7 +5,7 @@
 
 .core-beliefs {
   padding: 120px 0;
-  background-color: #030008;
+  background-color: var(--color-bg-primary);
   position: relative;
 }
 
@@ -45,7 +45,7 @@
   font-family: var(--font-heading), sans-serif;
   font-size: clamp(2rem, 3.5vw, 3rem);
   font-weight: 700;
-  color: #fff;
+  color: var(--color-text-primary);
   line-height: 1.2;
   margin: 0;
   letter-spacing: -0.02em;
@@ -132,14 +132,14 @@
   font-family: var(--font-heading), sans-serif;
   font-size: 1.8rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--color-text-primary);
   white-space: nowrap;
   letter-spacing: -0.02em;
 }
 
 .core-beliefs__content p {
   font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(247, 247, 245, 0.5);
   line-height: 1.5;
 }
 

@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════ */
 
 body {
-  background-color: #030008;
+  background-color: var(--color-bg-primary);
 }
 
 /* ─── HERO: Kinetic Fluid Engine ─── */
@@ -16,7 +16,7 @@ body {
   align-items: center;
   position: relative;
   overflow: hidden;
-  background: #030008;
+  background: var(--color-bg-primary);
   cursor: crosshair; /* Subtly implies interaction */
 }
 
@@ -24,7 +24,7 @@ body {
 .fluid-bg {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle at center, rgba(74, 14, 143, 0.15) 0%, #030008 70%);
+  background: radial-gradient(circle at center, rgba(74, 14, 143, 0.15) 0%, var(--color-bg-primary) 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -91,11 +91,11 @@ body {
   margin: 0;
   line-height: 1;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--color-text-primary);
   letter-spacing: -0.03em;
   white-space: nowrap;
   
-  background: linear-gradient(180deg, #fff 0%, #e0c8ff 100%);
+  background: linear-gradient(180deg, var(--color-text-primary) 0%, #e0c8ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -123,7 +123,7 @@ body {
 
 /* ─── Story Section Overrides ─── */
 .story-premium-bg {
-  background: #030008 !important;
+  background: var(--color-bg-primary) !important;
 }
 
 .story-label {

@@ -51,9 +51,9 @@ export default function StorySection({ blocks, title }: StorySectionProps) {
       // The scrub animation: as you scroll down, words light up sequentially
       gsapModule.gsap.fromTo(
         spans,
-        { color: 'rgba(255, 255, 255, 0.25)' },
+        { color: 'rgba(247, 247, 245, 0.25)' },
         {
-          color: 'rgba(255, 255, 255, 1)',
+          color: 'rgba(247, 247, 245, 1)',
           stagger: 0.1,
           scrollTrigger: {
             trigger: sectionRef.current,
