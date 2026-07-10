@@ -73,12 +73,15 @@
 }
 
 .am-company-name {
-  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
-  font-size: 1.8rem;
-  font-weight: 400;
+  font-family: var(--font-outfit), 'Inter', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 900;
   letter-spacing: 0.02em;
-  color: #fff;
   text-transform: uppercase;
+  background: linear-gradient(to bottom, #ffffff 0%, #a1a1aa 50%, #3f3f46 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ─── Center Navigation ─── */

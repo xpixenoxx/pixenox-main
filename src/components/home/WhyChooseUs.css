@@ -69,9 +69,7 @@
 .why-choose .container {
   position: relative;
   z-index: 5;
-  max-width: 1400px;
-  width: 100%;
-  padding: 0 20px; /* Mobile safe gutters */
+  /* Inherit global container layout for perfect alignment with header logo and buttons */
 }
 
 /* ── MISSION COMMAND HEADER (100/100 GAMING) ── */
