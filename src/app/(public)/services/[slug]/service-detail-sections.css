@@ -1096,6 +1096,32 @@
   align-items: flex-start;
   padding: 32px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+.wyg-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #8b5cf6 0%, #4c1d95 100%);
+  clip-path: circle(0px at var(--mouse-leave-x, var(--mouse-enter-x, 50%)) var(--mouse-leave-y, var(--mouse-enter-y, 50%)));
+  transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wyg-item:hover::before {
+  clip-path: circle(150% at var(--mouse-enter-x, 50%) var(--mouse-enter-y, 50%));
+}
+
+/* Ensure contents are above the background */
+.wyg-num, .wyg-title-group, .wyg-desc {
+  position: relative;
+  z-index: 1;
 }
 
 .wyg-item:last-child {

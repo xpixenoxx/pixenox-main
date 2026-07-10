@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 import { sanitizeSvg } from '@/lib/sanitize';
 import '@/components/home/HomeFaqsSection.css';
@@ -693,6 +694,16 @@ function WhatYouGetSection({
   description?: string | null;
   items: { title: string; desc: string; icon_svg?: string }[];
 }) {
+  const router = useRouter();
+
+  const getSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  };
+
   return (
     <section className="what-you-get-section">
       <div className="container">
@@ -719,33 +730,69 @@ function WhatYouGetSection({
         </div>
 
         <div className="what-you-get-list">
-          {items.map((item, idx) => (
-            <motion.div 
-              key={idx} 
-              className="wyg-item"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-            >
-              <div className="wyg-num">
-                0{/* */}{idx + 1}
-              </div>
-              <div className="wyg-title-group">
-                {item.icon_svg ? (
-                  <span className="wyg-icon" dangerouslySetInnerHTML={{ __html: sanitizeSvg(item.icon_svg) }} />
-                ) : (
-                  <span className="wyg-icon" style={{ visibility: 'hidden' }} />
-                )}
-                <h3 className="wyg-item-title">{item.title}</h3>
-              </div>
-              <p className="wyg-desc">
-                {item.desc}
-              </p>
-            </motion.div>
-          ))}
+          {items.map((item, idx) => {
+            return (
+              <WygItemCard 
+                key={idx} 
+                item={item} 
+                idx={idx} 
+                onClick={() => router.push(`/work/${getSlug(item.title)}`)}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
+  );
+}
+
+function WygItemCard({ item, idx, onClick }: { item: any, idx: number, onClick: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    ref.current.style.setProperty('--mouse-enter-x', `${x}px`);
+    ref.current.style.setProperty('--mouse-enter-y', `${y}px`);
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    ref.current.style.setProperty('--mouse-leave-x', `${x}px`);
+    ref.current.style.setProperty('--mouse-leave-y', `${y}px`);
+  };
+
+  return (
+    <motion.div 
+      ref={ref}
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="wyg-item"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: idx * 0.1 }}
+    >
+      <div className="wyg-num">
+        0{/* */}{idx + 1}
+      </div>
+      <div className="wyg-title-group">
+        {item.icon_svg ? (
+          <span className="wyg-icon" dangerouslySetInnerHTML={{ __html: sanitizeSvg(item.icon_svg) }} />
+        ) : (
+          <span className="wyg-icon" style={{ visibility: 'hidden' }} />
+        )}
+        <h3 className="wyg-item-title">{item.title}</h3>
+      </div>
+      <p className="wyg-desc">
+        {item.desc}
+      </p>
+    </motion.div>
   );
 }
