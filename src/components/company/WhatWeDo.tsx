@@ -7,6 +7,7 @@ import './WhatWeDo.css';
 
 interface WhatWeDoProps {
   cards: WhatWeDoCard[];
+  title?: string;
 }
 
 function StackCard({ card, index }: { card: WhatWeDoCard, index: number }) {
@@ -28,7 +29,7 @@ function StackCard({ card, index }: { card: WhatWeDoCard, index: number }) {
       <div className="wwd-card__num">{numStr}</div>
       
       <div className="wwd-card__content">
-        <span className="wwd-card__meta">DISCIPLINE // {numStr}</span>
+
         <h3 className="wwd-card__title">
           {card.title}
         </h3>
@@ -47,14 +48,16 @@ function StackCard({ card, index }: { card: WhatWeDoCard, index: number }) {
   );
 }
 
-export default function WhatWeDo({ cards }: WhatWeDoProps) {
+export default function WhatWeDo({ cards, title = 'Our Disciplines' }: WhatWeDoProps) {
   const visible = [...cards].sort((a,b) => (a.priority || 0) - (b.priority || 0)).filter((c) => c.is_visible);
 
   return (
     <section className="what-we-do section" aria-label="Disciplines" id="disciplines">
       <div className="container">
         <h2 className="what-we-do__heading">
-          Our <span>Disciplines</span>
+          {title.split(' ').map((word, i, arr) => 
+            i === arr.length - 1 ? <span key={i}>{word}</span> : word + ' '
+          )}
         </h2>
         <div className="what-we-do__stack">
           {visible.map((card, idx) => (

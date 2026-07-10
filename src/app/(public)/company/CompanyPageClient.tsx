@@ -20,7 +20,9 @@ import './company.css';
 interface CompanyPageClientProps {
   heroConfig: PageHeroConfig | null;
   story: CompanyStory | null;
+  storyConfig: any;
   whatWeDoCards: WhatWeDoCard[];
+  disciplinesConfig: any;
   howConfig: HowWeThinkConfig | null;
   beliefs: CoreBelief[];
   ctaData: CtaSectionType | null;
@@ -32,7 +34,9 @@ const SLICE_COUNT = 24;
 export default function CompanyPageClient({
   heroConfig,
   story,
+  storyConfig,
   whatWeDoCards,
+  disciplinesConfig,
   howConfig,
   beliefs,
   ctaData,
@@ -56,8 +60,8 @@ export default function CompanyPageClient({
   }, [mouseX, mouseY]);
 
   // The base text to render. We'll force it to "PIXENOX" with a subtext.
-  const mainText = heroConfig?.heading ? heroConfig.heading.split('\n')[0] : 'PIXENOX';
-  const subText = heroConfig?.subheading || "THE VOID IS NOT EMPTY. WE ARE ALREADY HERE.";
+  const mainText = heroConfig?.heading ? heroConfig.heading.split('\n')[0] : 'STARTUPS DREAM BIG.';
+  const subText = heroConfig?.subheading || "We're a design-led digital studio turning complex challenges into measurable results.";
 
   // Generate the slices
   const slices = Array.from({ length: SLICE_COUNT }).map((_, i) => {
@@ -141,11 +145,14 @@ export default function CompanyPageClient({
 
       {/* ═══ OUR STORY ═══ */}
       {story?.content_json && (
-        <StorySection blocks={story.content_json as unknown as ContentBlock[]} />
+        <StorySection 
+          blocks={story.content_json as unknown as ContentBlock[]} 
+          title={storyConfig?.heading || 'OUR OVERARCHING MISSION'} 
+        />
       )}
 
       {/* ═══ WHAT WE DO (PARALLAX STACK) ═══ */}
-      {whatWeDoCards.length > 0 && <WhatWeDo cards={whatWeDoCards} />}
+      {whatWeDoCards.length > 0 && <WhatWeDo cards={whatWeDoCards} title={disciplinesConfig?.heading || 'Our Disciplines'} />}
 
       {/* ═══ CORE BELIEFS ═══ */}
       {beliefs.length > 0 && <CoreBeliefs config={howConfig} beliefs={beliefs} />}

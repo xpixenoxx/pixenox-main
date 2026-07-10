@@ -4,8 +4,7 @@
 
 .story-premium-section {
   position: relative;
-  min-height: 150vh; /* Allow plenty of scroll room for the scrub timeline */
-  padding: 200px 0;
+  padding: 80px 0 160px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,19 +45,19 @@
 }
 
 .story-massive-text {
-  font-family: var(--font-heading), sans-serif;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 400;
-  line-height: 1.15;
+  font-family: var(--font-inter, var(--font-body)), sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.6;
   text-align: center;
-  color: rgba(255, 255, 255, 0.1);
-  max-width: 1400px;
+  color: rgba(255, 255, 255, 0.25);
+  max-width: 900px;
   margin: 0 auto;
+  letter-spacing: 0.01em;
 }
 
 .story-word {
   display: inline-block;
-  margin-right: 0.28em;
   transition: text-shadow 0.3s ease;
 }
 
