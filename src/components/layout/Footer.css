@@ -59,9 +59,9 @@
 }
 
 .footer__brand-title {
-  font-family: var(--font-outfit), 'Inter', sans-serif;
+  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   font-size: 1.8rem;
-  font-weight: 900;
+  font-weight: 400;
   letter-spacing: 0.02em;
 }
 
@@ -213,7 +213,7 @@
 /* ── Massive Vector Anchor ── */
 .footer__massive-anchor {
   font-size: 19vw;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 0.75;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.05) 100%);
   -webkit-background-clip: text;
@@ -223,7 +223,7 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  font-family: var(--font-outfit), 'Inter', sans-serif;
+  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   user-select: none;
   pointer-events: none;
   padding-top: 40px;
