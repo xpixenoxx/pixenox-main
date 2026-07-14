@@ -290,11 +290,6 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
       {/* Dynamic 3D Matrix Infinite Floor Grid */}
       <div className="why-choose__tactical-grid" />
       
-      {/* Structural Macro Text */}
-      <div className="why-choose__bg-text" aria-hidden="true">
-        {config?.section_heading || 'WHY\nCHOOSE'}
-      </div>
-
       <div className="container">
         
         {/* Core Settings DB Heading Block with Extreme HUD Execution */}

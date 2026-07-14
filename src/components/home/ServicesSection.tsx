@@ -102,15 +102,15 @@ export default function ServicesSection({
     );
   }
 
-  const headingWords = config?.heading ? config.heading.split(' ') : ['Platform', 'Ecosystem'];
-  const headingWord1 = headingWords[0] || 'Platform';
-  const headingWord2 = headingWords.slice(1).join(' ') || 'Ecosystem';
+  const headingWords = config?.heading ? config.heading.split(' ') : ['Engineering', 'Services'];
+  const headingWord1 = headingWords[0] || 'Engineering';
+  const headingWord2 = headingWords.slice(1).join(' ') || 'Services';
 
   const isHorizontal = layout?.layout_type === 'horizontal';
 
   return (
-    <section className="services section" aria-label="Our Services" id="services">
-      <div className="container" style={{ maxWidth: '1600px', padding: '0 4vw' }}>
+    <section className="services section" aria-label="Our Engineering Services" id="engineering">
+      <div className="container" style={{ maxWidth: '1600px', padding: '0px 51.424px' }}>
 
         {/* Section Heading */}
         <motion.div
@@ -183,7 +183,7 @@ export default function ServicesSection({
                         className={`service-card ${isActive ? 'service-card--active' : ''}`}
                         onMouseEnter={() => setActiveId(card.id)}
                         onMouseLeave={() => setActiveId(null)}
-                        onClick={() => router.push(`/services/${card.page_slug}`)}
+                        onClick={() => router.push(`/engineering/${card.page_slug}`)}
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-5%' }}
@@ -200,10 +200,10 @@ export default function ServicesSection({
                               style={{ objectFit: 'cover' }}
                             />
                           )}
-                          
+
                           {/* Reveal Overlays */}
                           {idx === 0 && (
-                            <motion.div 
+                            <motion.div
                               style={{ position: 'absolute', inset: 0, backgroundColor: '#08080c', originX: 0 }}
                               initial={{ scaleX: 1 }}
                               whileInView={{ scaleX: 0 }}
@@ -212,7 +212,7 @@ export default function ServicesSection({
                             />
                           )}
                           {idx === 2 && (
-                            <motion.div 
+                            <motion.div
                               style={{ position: 'absolute', inset: 0, backgroundColor: '#08080c', originX: 1 }}
                               initial={{ scaleX: 1 }}
                               whileInView={{ scaleX: 0 }}
@@ -222,14 +222,14 @@ export default function ServicesSection({
                           )}
                           {idx === 1 && (
                             <>
-                              <motion.div 
+                              <motion.div
                                 style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: '50%', backgroundColor: '#08080c', originX: 1 }}
                                 initial={{ scaleX: 1 }}
                                 whileInView={{ scaleX: 0 }}
                                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 + (idx * 0.1) }}
                                 viewport={{ once: true, margin: '-10%' }}
                               />
-                              <motion.div 
+                              <motion.div
                                 style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: '50%', backgroundColor: '#08080c', originX: 0 }}
                                 initial={{ scaleX: 1 }}
                                 whileInView={{ scaleX: 0 }}

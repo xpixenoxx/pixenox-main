@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/services`,
+      url: `${baseUrl}/engineering`,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -101,7 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const servicePages: MetadataRoute.Sitemap = (services ?? [])
     .filter((service) => isValidSlug(service.page_slug))
     .map((service): SitemapEntry => ({
-      url: `${baseUrl}/services/${service.page_slug}`,
+      url: `${baseUrl}/engineering/${service.page_slug}`,
       lastModified: toDate(service.updated_at),
       changeFrequency: 'monthly',
       priority: 0.8,

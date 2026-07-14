@@ -1,0 +1,356 @@
+/* ═══════════════════════════════════════════════════
+   PREMIUM ANTIMATTER-STYLE SERVICE SLUG LAYOUT
+   ═══════════════════════════════════════════════════ */
+
+/* Page body padding readjustment */
+.all-srv-page {
+  background-color: #000000;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.all-srv-header-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 0 60px; /* Clean spacing below Header and above sections */
+  background-color: #000000;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+
+.all-srv-header-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  z-index: 100;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* Deep Purple Hero Aurora Gradients */
+.all-srv-header-aurora {
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 40vw; height: 40vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0) 70%);
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+/* Second aurora - bottom left for visual depth */
+.all-srv-header-aurora::after {
+  content: '';
+  position: absolute;
+  bottom: -60%; left: -40%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(88, 28, 135, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: drift 25s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(5%, 5%) scale(1.1); }
+  100% { transform: translate(-5%, -5%) scale(0.95); }
+}
+
+/* 3. Interactive WebGL Particle Canvas */
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+
+
+
+.all-srv-content-wrapper {
+  padding: 80px 4vw 120px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Tactical Back Link */
+.all-srv-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+  color: #52525b;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 80px;
+  transition: color 0.3s ease;
+}
+.all-srv-back:hover {
+  color: #a855f7; /* Matches platform accent */
+}
+
+/* ═══════════════════════════════════════════════════
+   PREMIUM ANTIMATTER EXACT GRID
+   ═══════════════════════════════════════════════════ */
+
+.all-srv-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 1600px; /* Align with Header max-width */
+  margin: 0 auto;
+  padding: 0 51.424px; /* Standard container padding matching other sections */
+  min-height: calc(100vh - 240px);
+}
+
+.all-srv-header-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.all-srv-title {
+  font-family: var(--font-instrument-serif), 'Instrument Serif', serif !important;
+  font-size: 49.152px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  margin: 0px 0px 20px;
+  max-width: 1000px;
+  width: 100%;
+  font-style: normal;
+}
+
+.all-srv-title-accent {
+  font-style: normal !important;
+  font-weight: 400 !important;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #a78bfa; /* fallback */
+}
+
+.all-srv-desc {
+  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  font-size: 30.72px;
+  font-weight: 400;
+  color: #FFFFFF !important;
+  line-height: 1.4;
+  margin: 20px 0 22px auto;
+  max-width: 1000px;
+  width: 100%;
+  align-self: flex-end;
+}
+
+.all-srv-cta-wrapper {
+  margin-top: 0px;
+}
+
+/* CTA Button — Premium pill style */
+.all-srv-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 36px;
+  border: 1px solid rgba(68, 0, 122, 0.35);
+  border-radius: 100px;
+  background: rgba(68, 0, 122, 0.06);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.all-srv-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(68, 0, 122, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.all-srv-cta:hover {
+  border-color: #44007a;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(68, 0, 122, 0.2);
+}
+
+.all-srv-cta:hover::before {
+  opacity: 1;
+}
+
+.all-srv-cta::after {
+  content: '↓';
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.all-srv-cta:hover::after {
+  transform: translateY(3px);
+}
+
+.all-srv-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 0px; /* Zero margin because the rows supply their own padding */
+}
+
+/* The Matrix Focus List */
+.all-srv-stack-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-srv-stack-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a855f7;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.all-srv-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-srv-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 40px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: default;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1; /* Match the bright image state */
+}
+
+/* Add the top line to the first item exactly like the reference image */
+.all-srv-row:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Subtle hover interaction, since image state is purely white */
+.all-srv-row:hover {
+  transform: translateX(12px);
+}
+
+.all-srv-number {
+  font-family: var(--font-body, system-ui, sans-serif); /* Match sans-serif font */
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: inherit;
+  margin-right: 16px;
+  margin-top: 6px; /* align with optical cap-height of the title */
+  opacity: 0.8;
+}
+
+.all-srv-icon {
+  margin-right: 24px;
+  margin-top: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.all-srv-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: currentColor;
+}
+
+.all-srv-name {
+  font-size: clamp(1.5rem, 3vw, 3rem); /* Closer to the 30-45px range of the image */
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Responsive Mapping */
+@media (max-width: 1000px) {
+  .all-srv-header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .all-srv-row {
+    padding: 30px 0;
+  }
+  .all-srv-row:hover {
+    transform: translateX(8px);
+  }
+  .all-srv-number {
+    margin-right: 12px;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .all-srv-header-wrapper {
+    min-height: 100dvh;
+    padding: 130px 0 60px;
+  }
+
+  .all-srv-header {
+    padding: 0 22.56px !important;
+  }
+
+  .all-srv-title {
+    font-size: clamp(2.2rem, 9vw, 3.5rem);
+  }
+
+  .all-srv-desc {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .all-srv-cta {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .all-srv-header-aurora,
+  .all-srv-header-aurora::after {
+    animation: none;
+    filter: blur(50px);
+    opacity: 0.45;
+  }
+}

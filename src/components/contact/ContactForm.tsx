@@ -173,7 +173,7 @@ export default function ContactForm({ initialServices }: ContactFormProps) {
             </motion.div>
 
             <motion.div variants={itemVariants} className="contact-form__field">
-              <label id="services-label">Services Interested In</label>
+              <label id="services-label">Engineering Interested In</label>
               <div className="contact-form__checkboxes" role="group" aria-labelledby="services-label">
                 {services.map((service) => {
                   const isSelected = formData.services_interested.includes(service.title);

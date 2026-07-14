@@ -4,7 +4,7 @@
 
 .premium-service-sections {
   position: relative;
-  background-color: #020104;
+  background-color: #000000;
   color: #fff;
   overflow: clip;
 }
@@ -14,7 +14,7 @@
    ═══════════════════════════════════════════════════ */
 .kinetic-marquee {
   padding-top: 100px;
-  background: #020104;
+  background: #000000;
   overflow: hidden;
   position: relative;
   z-index: 10;
@@ -81,7 +81,7 @@
    ═══════════════════════════════════════════════════ */
 .tech-marquee-section {
   padding: 40px 0 100px 0;
-  background: #020104;
+  background: #000000;
   position: relative;
   z-index: 10;
 }
@@ -107,12 +107,12 @@
 
 .tech-marquee-container::before {
   left: 0;
-  background: linear-gradient(to right, #020104, transparent);
+  background: linear-gradient(to right, #000000, transparent);
 }
 
 .tech-marquee-container::after {
   right: 0;
-  background: linear-gradient(to left, #020104, transparent);
+  background: linear-gradient(to left, #000000, transparent);
 }
 
 .tech-marquee-track {
@@ -266,7 +266,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 1.15rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65) !important;
+  color: #FFFFFF !important;
   margin: 0 0 32px;
 }
 
@@ -377,7 +377,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 1.05rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65) !important;
+  color: #FFFFFF !important;
   margin: 0;
 }
 
@@ -406,7 +406,7 @@
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.4) !important;
+  color: #FFFFFF !important;
   text-transform: uppercase;
 }
 
@@ -430,7 +430,7 @@
    ═══════════════════════════════════════════════════ */
 .matrix-tech {
   position: relative;
-  background-color: #020104;
+  background-color: #000000;
   padding: 160px 5vw;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -501,7 +501,7 @@
 .mt-desc {
   font-family: 'Inter', sans-serif;
   font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #FFFFFF;
   max-width: 600px;
   line-height: 1.6;
   margin: 0;
@@ -526,7 +526,7 @@
 
 /* The actual cell */
 .mt-cell {
-  background: #020104;
+  background: #000000;
   /* Matches body */
   aspect-ratio: 1;
   position: relative;
@@ -550,7 +550,7 @@
   position: absolute;
   inset: 1px;
   /* Expose border */
-  background: #020104;
+  background: #000000;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -646,7 +646,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
   transition: color 0.3s;
 }
 
@@ -666,7 +666,7 @@
   justify-content: center;
   overflow: hidden;
   text-align: center;
-  background: #020104;
+  background: #000000;
 }
 
 .k-cta__canvas {
@@ -680,7 +680,7 @@
 .k-cta__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, #020104 90%);
+  background: radial-gradient(circle at center, transparent 0%, #000000 90%);
   pointer-events: none;
 }
 
@@ -827,7 +827,7 @@
 .k-cta__sub {
   font-family: 'Inter', sans-serif;
   font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #FFFFFF;
   max-width: 550px;
   margin: 0 0 56px;
   line-height: 1.7;
@@ -869,7 +869,7 @@
 .magnetic-btn__glow {
   position: absolute;
   inset: -50%;
-  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.4), transparent, transparent);
+  background: conic-gradient(from 0deg, transparent, #FFFFFF, transparent, transparent);
   animation: btnGlow 4s linear infinite;
   opacity: 0;
   transition: opacity 0.4s;
@@ -891,9 +891,9 @@
 
 /* Light Theme Button */
 .magnetic-btn--light {
-  background: #0A0A0B;
+  background: #000000;
   color: #fff;
-  border: 1px solid #0A0A0B;
+  border: 1px solid #000000;
 }
 
 .magnetic-btn--light:hover {
@@ -1046,7 +1046,7 @@
    ═══════════════════════════════════════════════════ */
 .what-you-get-section {
   position: relative;
-  background-color: #020104;
+  background-color: #000000;
   padding: 120px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 10;
@@ -1079,7 +1079,7 @@
   font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   font-size: 1.5rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.65);
+  color: #FFFFFF;
   margin: 0;
   text-align: right;
 }
@@ -1139,7 +1139,7 @@
 .wyg-num {
   display: none;
   grid-column: span 1;
-  color: rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
   font-size: 1rem;
   font-weight: 300;
 }
@@ -1207,7 +1207,7 @@
   font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   font-size: 1.15rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.8);
+  color: #FFFFFF;
   margin: 0;
 }
 

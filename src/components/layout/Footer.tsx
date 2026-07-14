@@ -121,7 +121,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
   const companyLinks = links.filter((l) => l.section === 'company' || l.section === 'about');
   const fallbackCompany = companyLinks.length ? companyLinks : [
     { id: '1', label: 'About', href: '/company', section: 'company' },
-    { id: '2', label: 'Services', href: '/services', section: 'company' },
+    { id: '2', label: 'Engineering', href: '/engineering', section: 'company' },
     { id: '3', label: 'Careers', href: '/careers', section: 'company' },
     { id: '4', label: 'Contact', href: '/contact', section: 'company' },
   ];
@@ -204,15 +204,15 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
                 {serviceCards.length > 0 ? (
                   serviceCards.map((card) => (
                     <li key={card.id}>
-                      <Link href={`/services/${card.page_slug || card.id}`}>{card.title}</Link>
+                      <Link href={`/engineering/${card.page_slug || card.id}`}>{card.title}</Link>
                     </li>
                   ))
                 ) : (
                   <>
-                    <li><Link href="/services">AI Systems</Link></li>
-                    <li><Link href="/services">Web Architecture</Link></li>
-                    <li><Link href="/services">Optimization Engine</Link></li>
-                    <li><Link href="/services">Custom Software</Link></li>
+                    <li><Link href="/engineering">AI Systems</Link></li>
+                    <li><Link href="/engineering">Web Architecture</Link></li>
+                    <li><Link href="/engineering">Optimization Engine</Link></li>
+                    <li><Link href="/engineering">Custom Software</Link></li>
                   </>
                 )}
               </ul>

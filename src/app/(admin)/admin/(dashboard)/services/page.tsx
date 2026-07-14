@@ -341,7 +341,7 @@ export default function ServicesPage() {
       {/* Cards List */}
       <div className="glass-card">
          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold">Service Cards</h3>
+            <h3 className="text-xl font-bold">Engineering Cards</h3>
             <button onClick={openCreate} className="admin-button flex items-center gap-2 px-4 py-2 text-sm">
                <Plus className="w-4 h-4" /> Add Card
             </button>
@@ -362,7 +362,7 @@ export default function ServicesPage() {
                 ))}
                 {cards.length === 0 && (
                    <div className="p-8 text-center text-white/50 border border-dashed border-white/10 rounded-xl">
-                      No service cards found.
+                      No engineering cards found.
                    </div>
                 )}
              </div>
@@ -383,7 +383,7 @@ export default function ServicesPage() {
          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto pt-20 pb-20">
             <div className="bg-[#0f0f13] border border-white/10 rounded-2xl max-w-2xl w-full shadow-2xl relative my-auto">
                <div className="p-6 border-b border-white/10 flex items-center justify-between sticky top-0 bg-[#0f0f13] z-10 rounded-t-2xl">
-                  <h2 className="text-xl font-bold">{modalMode === 'create' ? 'Create Service Card' : 'Edit Card'}</h2>
+                  <h2 className="text-xl font-bold">{modalMode === 'create' ? 'Create Engineering Card' : 'Edit Card'}</h2>
                   <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
                      <X className="w-5 h-5" />
                   </button>
@@ -401,7 +401,7 @@ export default function ServicesPage() {
                   <div className="flex flex-col gap-1.5">
                      <label className="text-sm font-medium text-white/80">Page Slug</label>
                      <input className="admin-input" value={cardToEdit.page_slug || ''} onChange={e => setCardToEdit({...cardToEdit, page_slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-')})} required />
-                     <p className="text-xs text-white/40 mt-1">Used for the URL: /services/{"{slug}"}</p>
+                     <p className="text-xs text-white/40 mt-1">Used for the URL: /engineering/{"{slug}"}</p>
                   </div>
 
                   {/* Icon SVG */}
@@ -413,7 +413,7 @@ export default function ServicesPage() {
                            <div className="w-12 h-12 flex items-center justify-center bg-white/10 rounded-lg border border-white/10 text-white shrink-0" dangerouslySetInnerHTML={{ __html: cardToEdit.icon_svg }} />
                         )}
                      </div>
-                     <p className="text-xs text-white/40">Paste raw SVG markup. This icon will appear in the Services mega menu.</p>
+                     <p className="text-xs text-white/40">Paste raw SVG markup. This icon will appear in the Engineering mega menu.</p>
                   </div>
 
                   {/* Title Group */}

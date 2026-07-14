@@ -146,17 +146,17 @@ select:focus-visible {
 /* ── High Contrast Mode (WCAG 1.4.11) ── */
 @media (prefers-contrast: more) {
   :root {
-    --color-text-secondary: rgba(255, 255, 255, 0.85);
-    --color-border: rgba(255, 255, 255, 0.3);
+    --color-text-secondary: #FFFFFF;
+    --color-border: #FFFFFF;
   }
 
   .am-nav-text {
-    color: rgba(255, 255, 255, 0.8) !important;
+    color: #FFFFFF !important;
   }
 
   .cs-metric-label,
   .cs-info-label {
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: #FFFFFF !important;
   }
 }
 
@@ -217,11 +217,18 @@ select:focus-visible {
   max-width: 1600px;
   margin: 0 auto;
   padding: 0 4vw;
+  box-sizing: border-box;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .container {
-    padding: 0 6vw;
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
   }
 }
 

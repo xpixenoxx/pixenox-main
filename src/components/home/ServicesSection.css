@@ -1,23 +1,30 @@
 .services {
   position: relative;
   z-index: 10;
-  padding: 120px 0;
-  background-color: #030303;
+  padding: 60px 0px !important;
+  background-color: #000000;
   /* Matches the dark background */
 }
 
+.services .container {
+  padding: 0px 51.424px;
+}
+
 .services__header {
-  margin-bottom: 60px;
+  margin: 0;
+  padding: 0 0 48px 0;
 }
 
 .services__heading {
-  font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
-  font-size: clamp(3.5rem, 6vw, 4.5rem);
-  font-weight: 400;
-  color: var(--color-text-primary);
-  line-height: 1;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 48px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 57.6px;
+  max-width: 830.4px;
   letter-spacing: 0;
-  margin: 0 0 16px 0;
+  margin: 0;
+  width: 100%;
 }
 
 .services__word--serif {
@@ -62,8 +69,7 @@
   display: flex;
   flex-direction: column;
   padding: 32px;
-  border: 1px solid rgba(247, 247, 245, 0.05);
-  /* Subtle border like the image */
+  border: none;
   height: 520px;
   /* Fixed height so it never expands */
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
@@ -73,12 +79,11 @@
 .service-card--active {
   background-color: #08080c;
   /* Keep background dark so the image remains the hero */
-  border-color: rgba(216, 180, 254, 0.5);
-  /* Soft light purple edge */
+  border: none;
   box-shadow:
-    0 24px 48px -12px rgba(46, 16, 101, 0.6),
-    0 0 24px -4px rgba(216, 180, 254, 0.35),
-    inset 0 0 32px rgba(216, 180, 254, 0.15);
+    0 24px 48px -12px rgba(68, 0, 122, 0.6),
+    0 0 24px -4px rgba(68, 0, 122, 0.5),
+    inset 0 0 32px rgba(68, 0, 122, 0.3);
   transform: translateY(-8px);
 }
 
@@ -90,7 +95,7 @@
   opacity: 1;
   transition: opacity 0.4s ease;
   /* Radial dot pattern in bottom right */
-  background-image: radial-gradient(rgba(247, 247, 245, 0.3) 1px, transparent 1px);
+  background-image: radial-gradient(#FFFFFF 1px, transparent 1px);
   background-size: 16px 16px;
   background-position: calc(100% + 8px) calc(100% + 8px);
 }
@@ -109,7 +114,7 @@
 }
 
 .service-card--active .service-card__bg-overlay {
-  background: linear-gradient(180deg, rgba(46, 16, 101, 0.4) 0%, rgba(8, 8, 12, 0.9) 100%);
+  background: linear-gradient(180deg, rgba(68, 0, 122, 0.6) 0%, rgba(8, 8, 12, 0.9) 100%);
   opacity: 1;
 }
 
@@ -167,7 +172,7 @@
   font-family: var(--font-body), sans-serif;
   font-size: 1.15rem;
   line-height: 1.6;
-  color: rgba(247, 247, 245, 0.95);
+  color: #FFFFFF;
   margin: 0;
   max-width: 85%;
   /* Don't stretch full width */
@@ -192,7 +197,7 @@
 .extras-col h4 {
   font-family: var(--font-body), sans-serif;
   font-size: 0.9rem;
-  color: rgba(247, 247, 245, 0.5);
+  color: #FFFFFF;
   margin: 0;
   font-weight: 400;
 }
@@ -234,15 +239,87 @@
   height: 32px !important;
 }
 
-/* Mobile responsive */
+/* Responsive */
+@media (max-width: 1200px) {
+  .services__heading {
+    font-size: 42px;
+    line-height: 1.2;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 1024px) {
+  .services {
+    padding: 48px 0;
+  }
+
   .services__accordion {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .service-card {
+    height: 460px;
+    padding: 28px;
   }
 }
 
 @media (max-width: 768px) {
+  .services {
+    padding: 24px 0px !important;
+  }
+
+  .services .container {
+    padding: 0px 22.56px !important;
+  }
+
+  .services__heading {
+    font-size: 28px !important;
+    margin: 0px 0px 16px !important;
+    line-height: 1.2;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .services__header {
+    padding: 0 0 32px 0;
+  }
+
   .services__accordion {
     grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    height: auto;
+    min-height: 380px;
+    padding: 24px;
+  }
+
+  .service-card__extras {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .services {
+    padding: 24px 0px !important;
+  }
+
+  .services .container {
+    padding: 0px 22.56px !important;
+  }
+
+  .services__heading {
+    font-size: 28px !important;
+    margin: 0px 0px 16px !important;
+  }
+
+  .service-card {
+    min-height: 320px;
+    padding: 20px;
+  }
+
+  .service-card__title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
   }
 }

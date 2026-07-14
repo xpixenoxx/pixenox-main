@@ -21,7 +21,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #020104 20%, transparent 90%);
+  background: linear-gradient(to bottom, #000000 20%, transparent 90%);
   opacity: 1;
   z-index: -1;
   pointer-events: none;
@@ -107,7 +107,7 @@
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
-  color: rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
   /* Muted gray */
   transition: color 0.3s ease;
 }
@@ -329,7 +329,7 @@
   height: 32px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.8);
+  color: #FFFFFF;
   flex-shrink: 0;
 }
 
@@ -351,13 +351,13 @@
 
 .mega-service__item {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
   line-height: 1.4;
   transition: color 0.2s;
 }
 
 .mega-service__item:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: #FFFFFF;
 }
 
 /* Mega Menu Responsive */

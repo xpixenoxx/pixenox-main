@@ -2,14 +2,16 @@
    WHY CHOOSE US - AAA TACTICAL HUD (100/100 Execution)
    ═══════════════════════════════════════════════════ */
 
-.why-choose {
+.why-choose,
+#why-choose-us {
   position: relative;
-  background-color: #030303;
+  background-color: #000000;
   color: var(--color-text-primary);
-  padding: 140px 0;
+  padding: 60px 0px !important;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
-  width: 100%; /* enforce containment */
+  width: 100%;
+  /* enforce containment */
 }
 
 /* ── Cinematic Scanlines & Grain ── */
@@ -17,8 +19,8 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: 
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
     linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
   background-size: 100% 2px, 3px 100%;
   pointer-events: none;
@@ -33,7 +35,7 @@
   left: -50%;
   width: 200%;
   height: 60%;
-  background-image: 
+  background-image:
     linear-gradient(rgba(124, 58, 237, 0.3) 1px, transparent 1px),
     linear-gradient(90deg, rgba(124, 58, 237, 0.3) 1px, transparent 1px);
   background-size: 60px 60px;
@@ -45,25 +47,17 @@
 }
 
 @keyframes gridMove {
-  0% { transform: perspective(600px) rotateX(75deg) translateY(0); }
-  100% { transform: perspective(600px) rotateX(75deg) translateY(60px); }
+  0% {
+    transform: perspective(600px) rotateX(75deg) translateY(0);
+  }
+
+  100% {
+    transform: perspective(600px) rotateX(75deg) translateY(60px);
+  }
 }
 
 .why-choose__bg-text {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: clamp(8rem, 18vw, 22rem);
-  font-weight: 900;
-  line-height: 0.8;
-  color: transparent;
-  /* Premium hollow stroke */
-  -webkit-text-stroke: 1px rgba(247, 247, 245, 0.03);
-  opacity: 0.8;
-  user-select: none;
-  pointer-events: none;
-  z-index: 0;
+  display: none !important;
 }
 
 .why-choose .container {
@@ -101,7 +95,8 @@
 
 .m-cmd-tag::before {
   content: '';
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   background: var(--hud-accent, #00e5ff);
   border-radius: 50%;
   animation: m-blink 1s infinite;
@@ -116,7 +111,7 @@
   margin: 0;
   position: relative;
   /* Text tracking glitch effect */
-  text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
 }
 
 .m-cmd-cursor {
@@ -127,16 +122,25 @@
   vertical-align: bottom;
   margin-left: 12px;
   animation: m-blink 1s step-end infinite;
-  box-shadow: 0 0 20px rgba(247, 247, 245,0.4);
+  box-shadow: 0 0 20px #FFFFFF;
 }
 
-@keyframes m-blink { 50% { opacity: 0; } }
+@keyframes m-blink {
+  50% {
+    opacity: 0;
+  }
+}
 
 /* Subheading relies on pure FlowingBackwards typography without tactical box containment */
 
 @keyframes scan-horizontal {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* ── HUD Layout Grid ── */
@@ -160,24 +164,22 @@
   cursor: crosshair;
 
   /* Perfectly calculated chamfer geometry */
-  clip-path: polygon(
-    0 0, 
-    calc(100% - 40px) 0, 
-    100% 40px, 
-    100% 100%, 
-    40px 100%, 
-    0 calc(100% - 40px)
-  );
+  clip-path: polygon(0 0,
+      calc(100% - 40px) 0,
+      100% 40px,
+      100% 100%,
+      40px 100%,
+      0 calc(100% - 40px));
 
   /* Inner Structural Border */
-  border: 1px solid rgba(247, 247, 245, 0.05);
+  border: none;
 
   transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(0);
 }
 
 .hud-panel:hover {
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-  border-color: rgba(247, 247, 245, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: none;
   /* Transform is handled by JS variables */
 }
 
@@ -187,7 +189,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: 
+  background:
     linear-gradient(45deg, transparent 49%, var(--hud-accent) 49%, var(--hud-accent) 51%, transparent 51%) bottom left / 40px 40px no-repeat,
     linear-gradient(-135deg, transparent 49%, var(--hud-accent) 49%, var(--hud-accent) 51%, transparent 51%) top right / 40px 40px no-repeat;
   z-index: 10;
@@ -203,12 +205,13 @@
 .hud-panel::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(
-    600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(247, 247, 245, 0.08),
-    transparent 40%
-  );
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+      #FFFFFF,
+      transparent 40%);
   pointer-events: none;
   z-index: -1;
   opacity: 0;
@@ -255,9 +258,9 @@
 
 /* Chromatic Aberration on Hover */
 .hud-panel:hover .hud-maintitle {
-  text-shadow: 
-    3px 0px 0px rgba(255,0,0,0.7), 
-    -3px 0px 0px rgba(0,255,255,0.7);
+  text-shadow:
+    3px 0px 0px rgba(255, 0, 0, 0.7),
+    -3px 0px 0px rgba(0, 255, 255, 0.7);
 }
 
 /* ── Tactical Telemetry Bars ── */
@@ -268,7 +271,7 @@
   margin-bottom: 40px;
   padding: 24px;
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(247, 247, 245, 0.05);
+  border: none;
   border-radius: 4px;
 }
 
@@ -282,14 +285,14 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   font-weight: 500;
-  color: rgba(247, 247, 245, 0.6);
+  color: #FFFFFF;
   width: 50px;
 }
 
 .hud-bar-track {
   flex: 1;
   height: 2px;
-  background: rgba(247, 247, 245, 0.1);
+  background: #FFFFFF;
   position: relative;
 }
 
@@ -317,7 +320,7 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9rem;
   line-height: 1.7;
-  color: rgba(247, 247, 245, 0.6);
+  color: #FFFFFF;
   flex-grow: 1;
 }
 
@@ -344,7 +347,7 @@
 .hud-execute-btn:hover {
   background: var(--color-text-primary);
   transform: translateX(8px);
-  box-shadow: 0 0 20px rgba(247, 247, 245,0.4);
+  box-shadow: 0 0 20px #FFFFFF;
 }
 
 /* Crosshairs Decorators */
@@ -354,31 +357,124 @@
   height: 10px;
   pointer-events: none;
 }
-.crosshair::before, .crosshair::after {
+
+.crosshair::before,
+.crosshair::after {
   content: '';
   position: absolute;
-  background: rgba(247, 247, 245,0.4);
+  background: #FFFFFF;
 }
-.crosshair::before { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); }
-.crosshair::after { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); }
 
-.ch-tl { top: 20px; left: 20px; }
-.ch-tr { top: 20px; right: 20px; }
-.ch-bl { bottom: 20px; left: 20px; }
-.ch-br { bottom: 20px; right: 20px; }
+.crosshair::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.crosshair::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.ch-tl {
+  top: 20px;
+  left: 20px;
+}
+
+.ch-tr {
+  top: 20px;
+  right: 20px;
+}
+
+.ch-bl {
+  bottom: 20px;
+  left: 20px;
+}
+
+.ch-br {
+  bottom: 20px;
+  right: 20px;
+}
 
 /* Responsive Constraints */
+@media (max-width: 1200px) {
+  .m-cmd-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+  }
+}
+
 @media (max-width: 1024px) {
+  .why-choose,
+  #why-choose-us {
+    padding: 48px 0px !important;
+  }
+
   .hud-layout {
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .m-cmd-header-wrapper {
+    margin-bottom: 60px;
   }
 }
 
 @media (max-width: 768px) {
+  .why-choose,
+  #why-choose-us {
+    padding: 24px 22.56px !important;
+  }
+
+  .why-choose .container,
+  #why-choose-us .container {
+    padding: 0px !important;
+  }
+
   .hud-layout {
     grid-template-columns: 1fr;
+    margin-top: 40px;
+    gap: 16px;
   }
-  .why-choose__bg-text {
-    font-size: 25vw;
+
+  .m-cmd-title {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+  }
+
+  .m-cmd-header-wrapper {
+    margin-bottom: 40px;
+  }
+
+  .hud-panel {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .why-choose,
+  #why-choose-us {
+    padding: 24px 22.56px !important;
+  }
+
+  .why-choose .container,
+  #why-choose-us .container {
+    padding: 0px !important;
+  }
+
+  .m-cmd-title {
+    font-size: clamp(1.4rem, 8vw, 2rem);
+  }
+
+  .hud-panel {
+    padding: 24px 20px;
+  }
+
+  .hud-maintitle {
+    font-size: 1.8rem;
   }
 }

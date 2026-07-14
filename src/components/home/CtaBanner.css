@@ -4,12 +4,14 @@
 
 .cta-neb {
   position: relative;
-  padding: 60px 0;
+  padding: 60px 51.424px;
   background: var(--color-bg-primary);
   z-index: 10;
 }
 
-/* Inherit global .container (max-width: 1600px, padding: 0 4vw) to perfectly align with Header */
+.cta-neb .container {
+  padding: 0px 0px !important;
+}
 
 .cta-neb__card {
   position: relative;
@@ -38,18 +40,19 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 100%; /* Changed from fixed max-width to allow edge-to-edge flex */
-  height: 172px; /* Strict height requested */
+  max-width: 100%;
+  min-height: 172px;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 60px; /* Internal breathing room from the edges of the purple card */
+  padding: 40px 60px;
   gap: 40px;
 }
 
 .cta-neb__heading {
-  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  font-size: clamp(2.5rem, 4.2vw, 4rem);
   font-weight: 300;
   line-height: 1.15;
   letter-spacing: -0.03em;
@@ -132,29 +135,49 @@
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 1024px) {
   .cta-neb__content {
-    padding: 0 48px;
-  }
-}
-
-@media (max-width: 768px) {
-  .cta-neb__content {
     flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
-    text-align: center;
-    padding: 0 32px;
-    height: auto; /* Remove strict height on mobile to prevent overlap */
+    text-align: left;
+    padding: 48px;
     gap: 32px;
   }
   .cta-neb__card {
     height: auto;
-    min-height: 400px;
-    padding: 40px 0;
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cta-neb {
+    padding: 24px 22.56px !important;
+  }
+  .cta-neb > .container {
+    padding: 0px !important;
+  }
+  .cta-neb__content {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    padding: 40px 32px;
+    gap: 28px;
+  }
+  .cta-neb__card {
+    height: auto;
+    min-height: 360px;
   }
 }
 
 @media (max-width: 480px) {
+  .cta-neb {
+    padding: 24px 22.56px !important;
+  }
+  .cta-neb > .container {
+    padding: 0px !important;
+  }
   .cta-neb__content {
-    padding: 0 24px;
+    padding: 36px 24px;
   }
   .cta-neb__heading {
     font-size: 2rem;

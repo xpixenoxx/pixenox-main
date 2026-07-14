@@ -254,6 +254,74 @@ export interface Database {
           updated_at?: string | null
         }
       }
+      engineering_card_pages: {
+        Row: {
+          id: string
+          service_slug: string
+          card_slug: string
+          hero_title: string | null
+          hero_description: string | null
+          hero_image_url: string | null
+          section2_name: string | null
+          section2_description: string | null
+          section2_cards: { image_url?: string; title: string; description: string }[] | null
+          section3_name: string | null
+          section3_description: string | null
+          section3_cards: { topic: string; description: string; link_url?: string }[] | null
+          section4_name: string | null
+          section4_description: string | null
+          section4_cards: { logo_url?: string; title: string; description: string }[] | null
+          section5_name: string | null
+          section5_description: string | null
+          section5_blog_slugs: string[] | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          service_slug: string
+          card_slug: string
+          hero_title?: string | null
+          hero_description?: string | null
+          hero_image_url?: string | null
+          section2_name?: string | null
+          section2_description?: string | null
+          section2_cards?: { image_url?: string; title: string; description: string }[] | null
+          section3_name?: string | null
+          section3_description?: string | null
+          section3_cards?: { topic: string; description: string; link_url?: string }[] | null
+          section4_name?: string | null
+          section4_description?: string | null
+          section4_cards?: { logo_url?: string; title: string; description: string }[] | null
+          section5_name?: string | null
+          section5_description?: string | null
+          section5_blog_slugs?: string[] | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          service_slug?: string
+          card_slug?: string
+          hero_title?: string | null
+          hero_description?: string | null
+          hero_image_url?: string | null
+          section2_name?: string | null
+          section2_description?: string | null
+          section2_cards?: { image_url?: string; title: string; description: string }[] | null
+          section3_name?: string | null
+          section3_description?: string | null
+          section3_cards?: { topic: string; description: string; link_url?: string }[] | null
+          section4_name?: string | null
+          section4_description?: string | null
+          section4_cards?: { logo_url?: string; title: string; description: string }[] | null
+          section5_name?: string | null
+          section5_description?: string | null
+          section5_blog_slugs?: string[] | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
       card_tools: {
         Row: {
           id: string
@@ -894,6 +962,7 @@ export type BrandSettings = Database['public']['Tables']['brand_settings']['Row'
 export type NavConfig = Database['public']['Tables']['nav_config']['Row']
 export type HeroSettings = Database['public']['Tables']['hero_settings']['Row']
 export type ServiceCard = Database['public']['Tables']['services_cards']['Row']
+export type EngineeringCardPage = Database['public']['Tables']['engineering_card_pages']['Row']
 export type CardTool = Database['public']['Tables']['card_tools']['Row']
 export type ServicesLayout = Database['public']['Tables']['services_layout']['Row']
 export type SectionConfig = Database['public']['Tables']['section_config']['Row']

@@ -4,7 +4,7 @@
 
 /* Page body padding readjustment */
 .all-srv-page {
-  background-color: #030303;
+  background-color: #000000;
   color: #fff;
   min-height: 100vh;
 }
@@ -16,7 +16,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 120px 0 60px; /* Padding moved to inner container */
-  background-color: #030303;
+  background-color: #000000;
   overflow: hidden;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -242,7 +242,7 @@
   font-family: var(--font-instrument-serif), 'Instrument Serif', 'Playfair Display', Georgia, serif;
   font-size: clamp(1.5rem, 2vw, 2rem);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.8);
+  color: #FFFFFF;
   line-height: 1.4;
 }
 

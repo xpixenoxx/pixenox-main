@@ -45,9 +45,17 @@
 }
 
 @keyframes drift {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(5%, 5%) scale(1.1); }
-  100% { transform: translate(-5%, -5%) scale(0.95); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(5%, 5%) scale(1.1);
+  }
+
+  100% {
+    transform: translate(-5%, -5%) scale(0.95);
+  }
 }
 
 /* ── Canvas ── */
@@ -79,7 +87,8 @@
 .hero__orbit-ring {
   position: absolute;
   inset: -15%;
-  border: 1px solid rgba(247, 247, 245, 0.03); /* Minimal architectural border */
+  border: 1px solid rgba(247, 247, 245, 0.03);
+  /* Minimal architectural border */
   border-radius: 50%;
   animation: orbitSpin 30s linear infinite;
   pointer-events: none;
@@ -88,11 +97,14 @@
 .hero__orbit-ring::after {
   content: '';
   position: absolute;
-  top: 5%; right: 10%;
-  width: 4px; height: 4px;
+  top: 5%;
+  right: 10%;
+  width: 4px;
+  height: 4px;
   background: var(--color-text-primary)fff;
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(247, 247, 245, 0.5); /* Crisp white glow */
+  box-shadow: 0 0 10px rgba(247, 247, 245, 0.5);
+  /* Crisp white glow */
 }
 
 .hero__orbit-ring--2 {
@@ -103,15 +115,22 @@
 }
 
 .hero__orbit-ring--2::after {
-  width: 3px; height: 3px;
+  width: 3px;
+  height: 3px;
   background: var(--color-text-primary)fff;
   box-shadow: 0 0 8px rgba(247, 247, 245, 0.4);
-  top: 15%; left: 5%;
+  top: 15%;
+  left: 5%;
 }
 
 @keyframes orbitSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* The Planet */
@@ -119,18 +138,24 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: #2e1065; /* Pure color as requested by user */
-  box-shadow: 
-    inset -30px -30px 60px rgba(10, 10, 12, 0.95), /* Deep charcoal shadow */
-    inset 25px 25px 50px rgba(247, 247, 245, 0.15), /* Subtle light bounce */
-    0 0 80px rgba(46, 16, 101, 0.3); /* Refined outer glow */
+  background: #44007a;
+  /* Pure color as requested by user */
+  box-shadow:
+    inset -30px -30px 60px rgba(10, 10, 12, 0.95),
+    /* Deep charcoal shadow */
+    inset 25px 25px 50px rgba(247, 247, 245, 0.15),
+    /* Subtle light bounce */
+    0 0 80px rgba(68, 0, 122, 0.4);
+  /* Refined outer glow */
   overflow: hidden;
 }
 
 .hero__sphere-highlight {
   position: absolute;
-  top: 12%; left: 18%;
-  width: 35%; height: 35%;
+  top: 12%;
+  left: 18%;
+  width: 35%;
+  height: 35%;
   background: radial-gradient(circle, rgba(247, 247, 245, 0.08) 0%, transparent 70%);
   border-radius: 50%;
   filter: blur(8px);
@@ -138,7 +163,8 @@
 
 .hero__noise-sphere-texture {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 400%;
   height: 100%;
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") repeat;
@@ -159,13 +185,23 @@
 }
 
 @keyframes panNoiseSphere {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-25%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-25%);
+  }
 }
 
 @keyframes floatOrb {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-30px) scale(1.02); }
+  0% {
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    transform: translateY(-30px) scale(1.02);
+  }
 }
 
 /* ── PIXENOX Watermark ── */
@@ -183,7 +219,8 @@
   letter-spacing: -0.02em;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(46, 16, 101, 0.6); /* Use #2e1065 for stroke */
+  -webkit-text-stroke: 2px rgba(68, 0, 122, 0.6);
+  /* Use #44007a for stroke */
   z-index: 3;
   pointer-events: none;
   user-select: none;
@@ -194,12 +231,14 @@
   position: relative;
   z-index: 5;
   width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Aggressive vertical whitespace */
-  padding: calc(var(--header-height, 80px) + 80px) 0 100px;
-  gap: 60px; /* Massive spacing between headline and bottom */
+  justify-content: center;
+  /* Aggressive vertical whitespace */
+  padding: 100px clamp(20px, 5vw, 40px) 100px;
 }
 
 /* ── Status Tag ── */
@@ -207,21 +246,22 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: rgba(124, 58, 237, 0.08);
-  border: 1px solid rgba(124, 58, 237, 0.2);
+  background: rgba(68, 0, 122, 0.15);
+  border: 1px solid rgba(68, 0, 122, 0.4);
   border-radius: 100px;
   padding: 8px 20px 8px 12px;
   font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), monospace;
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #a78bfa;
+  color: #44007a;
   margin-bottom: 32px;
   backdrop-filter: blur(10px);
 }
 
 .hero__tag-dot {
-  width: 8px; height: 8px;
+  width: 8px;
+  height: 8px;
   background: #22c55e;
   border-radius: 50%;
   box-shadow: 0 0 8px #22c55e;
@@ -229,8 +269,17 @@
 }
 
 @keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.7); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
 }
 
 /* ── Typography Engine ── */
@@ -246,11 +295,12 @@
 
 .hero__eyebrow {
   display: block;
-  font-size: 14px;
+  font-size: clamp(14px, 1.5vw, 18px);
   text-transform: uppercase;
   font-weight: 500;
-  letter-spacing: 0.25em; /* Extremely wide tracking for luxury feel */
-  color: rgba(247, 247, 245, 0.7); /* Muted warm white */
+  letter-spacing: 0.3em;
+  /* Extremely wide tracking for luxury feel */
+  color: #FFFFFF;
   margin-bottom: 32px;
   font-family: var(--font-inter, 'Inter'), sans-serif;
   text-align: center;
@@ -259,10 +309,12 @@
 .hero__headline {
   font-family: var(--font-instrument-serif, 'Instrument Serif'), serif;
   font-size: clamp(2.5rem, 7vw, 80px);
-  line-height: 1.05;
+  line-height: 1.08;
   font-weight: 400;
   color: var(--color-text-primary);
-  max-width: 950px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-wrap: balance;
   position: relative;
   letter-spacing: -0.01em;
 }
@@ -292,15 +344,17 @@
   align-items: center;
   text-align: center;
   gap: 32px;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .hero__subheadline {
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: rgba(247, 247, 245, 0.6);
+  font-size: clamp(1.25rem, 3vw, 32px);
+  line-height: 1.5;
+  color: #FFFFFF;
   font-weight: 300;
+  text-wrap: balance;
+  margin-top: 32px;
 }
 
 /* ── CTA Button ── */
@@ -314,8 +368,8 @@
   align-items: center;
   gap: 16px;
   padding: 16px 32px;
-  background: rgba(247, 247, 245, 0.03); /* Frosted architectural glass */
-  border: 1px solid rgba(247, 247, 245, 0.1);
+  background: #44007a;
+  border: 2px solid #44007a;
   border-radius: 100px;
   color: #f7f7f5;
   font-size: 1.05rem;
@@ -329,7 +383,7 @@
   z-index: 1;
 }
 
-.hero__cta > span {
+.hero__cta>span {
   position: relative;
   z-index: 2;
   transition: all 0.3s ease;
@@ -339,30 +393,35 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: 32px; /* Positioned precisely at the arrow icon */
+  right: 32px;
+  /* Positioned precisely at the arrow icon */
   width: 36px;
   height: 36px;
-  background: #4c1d95; /* Lighter version of the globe's #2e1065 */
+  background: #000000;
+  /* Black hover expansion */
   border-radius: 50%;
   transform: translateY(-50%) scale(0);
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
-  z-index: 0; /* Behind the text and icon (z-index: 2) */
+  z-index: 0;
+  /* Behind the text and icon (z-index: 2) */
   opacity: 0;
 }
 
 .hero__cta:hover {
-  border-color: rgba(46, 16, 101, 0.8);
+  border-color: rgba(68, 0, 122, 0.8);
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px -10px rgba(46, 16, 101, 0.5);
+  box-shadow: 0 15px 40px -10px rgba(68, 0, 122, 0.5);
 }
 
 .hero__cta:hover::before {
-  transform: translateY(-50%) scale(30); /* Expands massively to cover the whole button */
+  transform: translateY(-50%) scale(30);
+  /* Expands massively to cover the whole button */
   opacity: 1;
 }
 
 .hero__cta-icon {
-  width: 36px; height: 36px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -372,7 +431,8 @@
 }
 
 .hero__cta:hover .hero__cta-icon {
-  background: transparent; /* Let the purple spread take over */
+  background: transparent;
+  /* Let the black spread take over */
   transform: translateX(4px) rotate(180deg);
 }
 
@@ -393,9 +453,8 @@
 
 @media (max-width: 768px) {
   .hero__layout {
-    padding-top: calc(var(--header-height, 80px) + 20px);
+    padding-top: calc(var(--header-height, 80px) + 100px);
     justify-content: center;
-    gap: 32px;
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -412,18 +471,20 @@
   .hero__eyebrow {
     font-size: 13px;
     letter-spacing: 0.25em;
-    color: rgba(247, 247, 245, 0.7);
-    margin-bottom: 24px;
+    color: #FFFFFF;
+    margin-bottom: 12px;
     text-align: center;
     width: 100%;
   }
-  
+
   .hero__center {
+    flex: none;
     align-items: center;
     text-align: center;
     z-index: 10;
+    margin-bottom: 24px;
   }
-  
+
   .hero__bottom {
     display: flex;
     flex-direction: column;
@@ -461,9 +522,9 @@
     font-size: 1.15rem;
     padding: 18px 24px 18px 32px;
     border-radius: 100px;
-    background: #110626; /* Deep dark purple/charcoal */
-    border: 1px solid rgba(46, 16, 101, 0.8);
-    box-shadow: 0 10px 40px -10px rgba(46, 16, 101, 0.6);
+    background: #44007a;
+    border: 1px solid rgba(68, 0, 122, 0.8);
+    box-shadow: 0 10px 40px -10px rgba(68, 0, 122, 0.6);
     min-width: auto;
     width: 90%;
     max-width: 380px;
@@ -483,8 +544,14 @@
     filter: none;
   }
 
-  .hero__orbit-ring { inset: -15%; }
-  .hero__orbit-ring--2 { display: block; inset: -25%; }
+  .hero__orbit-ring {
+    inset: -15%;
+  }
+
+  .hero__orbit-ring--2 {
+    display: block;
+    inset: -25%;
+  }
 
   .hero__grid-floor {
     display: none;
