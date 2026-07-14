@@ -283,155 +283,47 @@ function KineticMarquee({ serviceTitle }: { serviceTitle: string }) {
 }
 
 /* ─────────────────────────────────────────────────
-   Horizontal Capabilities (Awwwards Style Scroll-jack)
+   Engineered Excellence (Multi-Column Reference Grid)
    ───────────────────────────────────────────────── */
 function HorizontalCapabilities({ serviceTitle, dynamicCapabilities }: { serviceTitle: string; dynamicCapabilities?: any[] }) {
   const capabilities = dynamicCapabilities && dynamicCapabilities.length > 0 ? dynamicCapabilities : getCapabilities(serviceTitle);
-  const targetRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const viewportRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({ target: targetRef });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 20,
-    restDelta: 0.001
-  });
-
-  const [scrollRange, setScrollRange] = useState(0);
-  useEffect(() => {
-    const updateRange = () => {
-      if (trackRef.current && viewportRef.current) {
-        const trackWidth = trackRef.current.scrollWidth;
-        const viewportWidth = viewportRef.current.offsetWidth;
-        setScrollRange(Math.min(0, -(trackWidth - viewportWidth)));
-      }
-    };
-
-    updateRange();
-    const timer = setTimeout(updateRange, 100);
-    window.addEventListener('resize', updateRange);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', updateRange);
-    };
-  }, [capabilities.length]);
-
-  const x = useTransform(smoothProgress, [0, 1], [0, scrollRange]);
-
-  // Evolving background color: Charcoal Black
-  const bgColor = useTransform(smoothProgress, [0, 1], ["#0f0f13", "#08080a"]);
-
-  // Parallax elements
-  const bgY = useTransform(smoothProgress, [0, 1], ["0%", "20%"]);
-  const watermarkX = useTransform(smoothProgress, [0, 1], ["0%", "-10%"]);
-  const watermarkOpacity = useTransform(smoothProgress, [0, 0.2, 1], [0.5, 0.1, 0.05]);
 
   return (
-    <motion.section ref={targetRef} className="horizontal-cap" style={{ backgroundColor: bgColor }}>
-      <div className="horizontal-cap__sticky">
-
-        {/* Massive Animated Background Watermark */}
+    <section className="engineered-excellence-section">
+      <div className="ee-container">
         <motion.div
-          className="horizontal-cap__watermark"
-          style={{ x: watermarkX, opacity: watermarkOpacity }}
+          className="ee-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          CAPABILITIES
+          <h2 className="ee-title">
+            Engineered <span>Excellence</span>
+          </h2>
         </motion.div>
 
-        {/* Ambient grain/mesh overlay */}
-        <motion.div className="horizontal-cap__mesh" style={{ y: bgY }} />
-
-        <div className="horizontal-cap__layout">
-          {/* Left: Fixed Intro Text */}
-          <div className="horizontal-cap__intro">
+        <div className="ee-grid">
+          {capabilities.map((cap, idx) => (
             <motion.div
+              key={idx}
+              className="ee-column"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1 }}
+              transition={{ duration: 0.6, delay: idx * 0.15 }}
             >
-              <h2 className="hc-title">
-                <span className="hc-title-line">Engineered</span>
-                <span className="hc-title-line"><em>Excellence</em></span>
-              </h2>
-              <p className="hc-desc">
-                We merge high-end editorial structures with deep technical implementations.
-                Our modular approach ensures every facet of your platform operates autonomously and flawlessly.
-              </p>
+              <div className="ee-line" />
+              <div className="ee-metric">{cap.metric}</div>
+              <div className="ee-desc">
+                {cap.title && <span className="ee-desc-title">{cap.title} — </span>}
+                {cap.desc}
+              </div>
             </motion.div>
-          </div>
-
-          {/* Right: Scrolling Track */}
-          <div className="horizontal-cap__viewport" ref={viewportRef}>
-            <motion.div className="horizontal-cap__track" style={{ x }} ref={trackRef}>
-              {capabilities.map((cap, idx) => (
-                <CapabilityCard key={idx} cap={cap} idx={idx} />
-              ))}
-            </motion.div>
-          </div>
+          ))}
         </div>
       </div>
-    </motion.section>
-  );
-}
-
-function CapabilityCard({ cap, idx }: { cap: any, idx: number }) {
-  // 3D Parallax Tilt Effect on Hover
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const box = card.getBoundingClientRect();
-    const x = e.clientX - box.left;
-    const y = e.clientY - box.top;
-    const centerX = box.width / 2;
-    const centerY = box.height / 2;
-    const rotateXValue = ((y - centerY) / centerY) * -5; // Max 5 deg tilt
-    const rotateYValue = ((x - centerX) / centerX) * 5;
-    setRotateX(rotateXValue);
-    setRotateY(rotateYValue);
-  };
-
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
-  };
-
-  return (
-    <motion.div
-      className="hc-card"
-      animate={{ rotateX, rotateY }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="hc-card__inner">
-        {/* Subtle glass reflection gradient */}
-        <div className="hc-card__reflection" />
-
-        <div className="hc-card__header">
-          <span className="hc-card__num">{(idx + 1).toString().padStart(2, '0')}</span>
-        </div>
-
-        <div className="hc-card__body">
-          <h3 className="hc-card__title">{cap.title}</h3>
-          <p className="hc-card__desc">{cap.desc}</p>
-        </div>
-
-        <div className="hc-card__footer">
-          <div className="hc-card__metric">
-            <span className="hc-card__metric-val">{cap.metric}</span>
-            <span className="hc-card__metric-label">{cap.metricLabel}</span>
-          </div>
-          <div className="hc-card__progress">
-            <div className="hc-card__progress-fill" style={{ width: `${60 + ((idx * 13) % 40)}%` }} />
-          </div>
-        </div>
-      </div>
-    </motion.div>
+    </section>
   );
 }
 
@@ -470,14 +362,6 @@ function MatrixTechStack({ techStack }: { techStack: TechItem[] }) {
 
         {/* Header */}
         <div className="matrix-tech__header">
-          <motion.span
-            className="mt-label"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            TECHNOLOGY STACK
-          </motion.span>
           <motion.h2
             className="mt-title"
             initial={{ opacity: 0, y: 30 }}
@@ -485,18 +369,8 @@ function MatrixTechStack({ techStack }: { techStack: TechItem[] }) {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            The <em>Arsenal</em>
+            Technology Stack
           </motion.h2>
-          <motion.p
-            className="mt-desc"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            An opinionated, high-performance tooling ecosystem.
-            We architect systems using a deterministic stack ensuring scalable, immutable deployments.
-          </motion.p>
         </div>
 
         {/* Spotlight Grid Container */}
