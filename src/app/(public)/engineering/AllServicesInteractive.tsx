@@ -3,7 +3,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowUpRight, Activity } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowUpRight, Activity, ArrowLeft, ArrowRight } from 'lucide-react';
 import type { ServiceCard } from '@/lib/types/database';
 import { sanitizeSvg } from '@/lib/sanitize';
 import './all-services.css';
@@ -14,6 +15,17 @@ interface AllServicesInteractiveProps {
 }
 
 export default function AllServicesInteractive({ services, heroConfig }: AllServicesInteractiveProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const totalSlides = Math.max(1, services.length);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => Math.min(totalSlides - 1, prev + 1));
+  };
+
   // Canvas particle system
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -129,13 +141,6 @@ export default function AllServicesInteractive({ services, heroConfig }: AllServ
   return (
     <div className="hub-page" ref={containerRef}>
       
-      {/* GL-Powered Manifold Background */}
-      <div className="hub-canvas-wrap">
-        <canvas ref={canvasRef} className="hub-canvas" />
-        <div className="hub-glow-1" />
-        <div className="hub-glow-2" />
-      </div>
-
       {/* Intro Sector */}
       <section className="hub-intro">
         <motion.div 
@@ -168,6 +173,13 @@ export default function AllServicesInteractive({ services, heroConfig }: AllServ
 
       {/* Dark Manifold Grid */}
       <section className="hub-grid-wrapper">
+        <div className="hub-section-header">
+          <h2 className="hub-section-title">Case Studies</h2>
+          <p className="hub-section-desc">
+            We clearly see our clients&apos; unique challenges and goals, and help them accelerate digital transformation efforts across every platform and engineering stack.
+          </p>
+        </div>
+
         <motion.div 
           className="hub-grid"
           variants={containerVariants}
@@ -175,10 +187,37 @@ export default function AllServicesInteractive({ services, heroConfig }: AllServ
           animate="show"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {services.map((service, idx) => (
-            <ServiceCardItem key={service.id} service={service} idx={idx} />
-          ))}
+          <div 
+            className="hub-slider-track"
+            style={{ '--slide-index': currentIndex } as React.CSSProperties}
+          >
+            {services.map((service, idx) => (
+              <ServiceCardItem key={service.id} service={service} idx={idx} />
+            ))}
+          </div>
         </motion.div>
+
+        <div className="hub-slider-nav">
+          <button 
+            onClick={handlePrev} 
+            disabled={currentIndex === 0} 
+            className="hub-nav-btn prev-btn" 
+            aria-label="Previous Slide"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <span className="hub-nav-counter">
+            {currentIndex + 1} / {totalSlides}
+          </span>
+          <button 
+            onClick={handleNext} 
+            disabled={currentIndex >= totalSlides - 1} 
+            className="hub-nav-btn next-btn" 
+            aria-label="Next Slide"
+          >
+            <ArrowRight size={20} />
+          </button>
+        </div>
       </section>
       
     </div>
@@ -207,7 +246,8 @@ function ServiceCardItem({ service, idx }: { service: ServiceCard, idx: number }
 
   return (
     <motion.div 
-      style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      className="hub-slide-item"
+      style={{ width: '496px', maxWidth: '100%', height: 'auto', display: 'flex', flexDirection: 'column' }}
       variants={{
         hidden: { opacity: 0, y: 40 },
         show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -227,36 +267,22 @@ function ServiceCardItem({ service, idx }: { service: ServiceCard, idx: number }
           style={{ left: mousePos.x, top: mousePos.y }}
         />
 
-        <div className="hub-card-content">
-          <div className="hub-card-header">
-            <div className="hub-card-icon">
-              {service.icon_svg ? (
-                 <span dangerouslySetInnerHTML={{ __html: sanitizeSvg(service.icon_svg) }} />
-              ) : (
-                <span>{(idx + 1).toString().padStart(2, '0')}</span>
-              )}
-            </div>
-            <ArrowUpRight size={28} strokeWidth={1.5} className="hub-card-arrow" />
+        {/* Reflect exact images stored in the admin database with exact width 496 and height 300 */}
+        {service.image_url && (
+          <div className="hub-card-img-box">
+            <Image
+              src={service.image_url}
+              alt={service.title || 'Engineering Service'}
+              width={496}
+              height={300}
+              sizes="(max-width: 1024px) 100vw, 496px"
+              style={{ width: '496px', height: '300px', minWidth: '496px', objectFit: 'cover' }}
+              className="hub-card-img"
+            />
           </div>
+        )}
 
-          <h2 
-            className="hub-card-title"
-            style={{ 
-              color: service.title_color || undefined
-            }}
-          >
-            {service.title}
-          </h2>
-          
-          <p 
-            className="hub-card-desc"
-            style={{ 
-              color: service.desc_color || undefined
-            }}
-          >
-            {service.description}
-          </p>
-
+        <div className="hub-card-content">
           <div className="hub-card-stack">
             {techStack ? (
               techStack.slice(0, 4).map((tech, i) => (
@@ -271,6 +297,22 @@ function ServiceCardItem({ service, idx }: { service: ServiceCard, idx: number }
                 <span className="hub-stack-item">Auto-Scaling</span>
               </>
             )}
+          </div>
+
+          <h2 
+            className="hub-card-title"
+            style={{ 
+              color: '#FFFFFF'
+            }}
+          >
+            {service.title}
+          </h2>
+
+          <div className="hub-card-footer">
+            <span className="hub-card-btn">
+              <span>Read More</span>
+              <ArrowUpRight size={18} strokeWidth={2} />
+            </span>
           </div>
         </div>
       </Link>

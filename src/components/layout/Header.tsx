@@ -78,15 +78,25 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
   }, [initialBrand, initialNav]);
 
   useEffect(() => {
-    const hasContactHash = navItems.some((n) => n.href === '/#contact' || (n.label.toLowerCase() === 'contact' && n.href !== '/contact'));
-    if (hasContactHash) {
+    const needsContactRedirect = navItems.some(
+      (n) =>
+        n.href === '/#contact' ||
+        n.href === '#contact' ||
+        ((n.label.toLowerCase() === 'contact' || n.label.toLowerCase() === 'explore the engineering model') && n.href !== '/contact')
+    );
+    if (needsContactRedirect) {
       supabase.from('nav_config').update({ href: '/contact' }).eq('href', '/#contact').then();
+      supabase.from('nav_config').update({ href: '/contact' }).eq('href', '#contact').then();
       supabase.from('nav_config').update({ href: '/contact' }).ilike('label', 'Contact').neq('href', '/contact').then();
+      supabase.from('nav_config').update({ href: '/contact' }).ilike('label', 'Explore the Engineering Model').neq('href', '/contact').then();
     }
   }, [navItems]);
 
   const normalizedNavItems = navItems.map((n) =>
-    n.href === '/#contact' || (n.label.toLowerCase() === 'contact' && n.href !== '/contact')
+    n.href === '/#contact' ||
+    n.href === '#contact' ||
+    n.label.toLowerCase() === 'contact' ||
+    n.label.toLowerCase() === 'explore the engineering model'
       ? { ...n, href: '/contact' }
       : n
   );
@@ -193,7 +203,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
                 <X size={32} aria-hidden="true" />
               </button>
               <nav className="mobile-nav-list">
-                {navItems.map((item, i) => (
+                {normalizedNavItems.map((item, i) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
