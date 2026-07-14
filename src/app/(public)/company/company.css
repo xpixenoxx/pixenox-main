@@ -127,6 +127,7 @@ body {
 }
 
 .story-label {
+  font-size: 48px !important;
   color: #a178ff !important;
   letter-spacing: 0.25em !important;
   text-shadow: 0 0 10px rgba(161, 120, 255, 0.5) !important;

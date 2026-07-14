@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════ */
 
 .core-beliefs {
-  padding: 60px 0 120px;
+  padding: 60px 0px !important;
   background-color: var(--color-bg-primary);
   position: relative;
 }
@@ -33,11 +33,13 @@
 
 .core-beliefs__header h2 {
   font-family: 'Instrument Serif', var(--font-heading), serif;
-  font-size: clamp(4rem, 8vw, 7rem);
+  font-size: 64px !important;
   font-weight: 400;
   text-transform: none;
   letter-spacing: -0.02em;
-  color: var(--color-text-primary);
+  color: #FFFFFF !important;
+  width: 830.6px !important;
+  max-width: 830.6px !important;
   margin: 0 0 0 -0.04em; /* Optical alignment to flush the serif left edge */
   line-height: 1.1;
 }
@@ -46,7 +48,7 @@
   font-family: var(--font-body), sans-serif;
   font-size: clamp(1.125rem, 2vw, 1.25rem);
   font-weight: 400;
-  color: rgba(247, 247, 245, 0.6);
+  color: #FFFFFF !important;
   line-height: 1.6;
   margin: 0;
   max-width: 600px;
@@ -147,7 +149,7 @@
   font-family: 'Instrument Serif', var(--font-heading), serif;
   font-size: clamp(2rem, 3.5vw, 3rem);
   font-weight: 400;
-  color: var(--color-text-primary);
+  color: #FFFFFF !important;
   margin: 0;
   line-height: 1.1;
   letter-spacing: normal;
@@ -155,7 +157,7 @@
 
 .core-beliefs__content p {
   font-size: 1.125rem;
-  color: rgba(247, 247, 245, 0.6);
+  color: #FFFFFF !important;
   line-height: 1.5;
   margin: 0;
 }
@@ -164,5 +166,18 @@
   .core-beliefs__header {
     gap: 16px;
     margin-bottom: 48px;
+  }
+  .core-beliefs__header h2 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .core-beliefs {
+    padding: 24px 22.56px !important;
+  }
+  .core-beliefs .container {
+    padding: 0 !important;
   }
 }

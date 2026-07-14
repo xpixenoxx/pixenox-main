@@ -213,7 +213,7 @@
 
 .bd-faq-item {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: none !important;
   border-radius: 12px;
   overflow: hidden;
   transition: background 0.2s;

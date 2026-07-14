@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: flex-end;
   margin: 0px 0px 48px;
-  padding: 0px 48px;
+  padding: 0px 51.424px;
 }
 
 .hl-title {
@@ -265,7 +265,8 @@
   }
 
   .hl-header {
-    padding: 0 0 28px 0;
+    padding: 0px 22.56px !important;
+    margin: 0px 0px 24px !important;
   }
 
   .hl-accordion {
@@ -312,5 +313,10 @@
 
   .hl-panel-title {
     font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .hl-header {
+    padding: 0px 22.56px !important;
+    margin: 0px 0px 24px !important;
   }
 }

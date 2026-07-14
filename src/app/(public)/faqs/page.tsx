@@ -19,7 +19,7 @@ export default async function FaqsPage() {
     .order('priority', { ascending: true });
 
   return (
-    <main className="home-faqs-section pt-[180px] min-h-screen">
+    <main className="faq-page-main home-faqs-section pt-[180px] min-h-screen">
       <FaqsClient initialFaqs={faqs || []} />
     </main>
   );

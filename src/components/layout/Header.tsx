@@ -73,13 +73,26 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
         const { data } = await supabase.from('nav_config').select('*').order('priority', { ascending: true });
         if (data) setNavItems(data as NavConfig[]);
       }
-
     }
     load();
   }, [initialBrand, initialNav]);
 
-  const coreNavItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() !== 'explore the engineering model');
-  const ctaItems = navItems.filter((n) => n.is_visible && n.label.toLowerCase() === 'explore the engineering model');
+  useEffect(() => {
+    const hasContactHash = navItems.some((n) => n.href === '/#contact' || (n.label.toLowerCase() === 'contact' && n.href !== '/contact'));
+    if (hasContactHash) {
+      supabase.from('nav_config').update({ href: '/contact' }).eq('href', '/#contact').then();
+      supabase.from('nav_config').update({ href: '/contact' }).ilike('label', 'Contact').neq('href', '/contact').then();
+    }
+  }, [navItems]);
+
+  const normalizedNavItems = navItems.map((n) =>
+    n.href === '/#contact' || (n.label.toLowerCase() === 'contact' && n.href !== '/contact')
+      ? { ...n, href: '/contact' }
+      : n
+  );
+
+  const coreNavItems = normalizedNavItems.filter((n) => n.is_visible && n.label.toLowerCase() !== 'explore the engineering model');
+  const ctaItems = normalizedNavItems.filter((n) => n.is_visible && n.label.toLowerCase() === 'explore the engineering model');
 
   return (
     <>
