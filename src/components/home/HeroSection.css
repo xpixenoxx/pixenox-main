@@ -371,7 +371,7 @@
   background: #44007a;
   border: 2px solid #44007a;
   border-radius: 100px;
-  color: #f7f7f5;
+  color: #FFFFFF;
   font-size: 1.05rem;
   font-weight: 500;
   text-decoration: none;
@@ -434,6 +434,20 @@
   background: transparent;
   /* Let the black spread take over */
   transform: translateX(4px) rotate(180deg);
+}
+
+@media (min-width: 769px) {
+  .hero__headline {
+    font-size: 96px !important;
+  }
+  .hero__headline .hero__line:nth-child(3) {
+    width: 951.65px !important;
+    max-width: 951.65px !important;
+    margin: 0 auto !important;
+  }
+  .hero__subheadline {
+    font-size: 20px !important;
+  }
 }
 
 /* ═══ RESPONSIVE ═══ */
@@ -516,7 +530,7 @@
 
   .hero__cta {
     justify-content: space-between;
-    font-size: 1.15rem;
+    font-size: 16px !important;
     padding: 18px 24px 18px 32px;
     border-radius: 100px;
     background: #44007a;
