@@ -247,7 +247,7 @@ function ServiceCardItem({ service, idx }: { service: ServiceCard, idx: number }
   return (
     <motion.div 
       className="hub-slide-item"
-      style={{ width: '496px', maxWidth: '100%', height: 'auto', display: 'flex', flexDirection: 'column' }}
+      style={{ width: '596px', maxWidth: '100%', height: 'auto', display: 'flex', flexDirection: 'column' }}
       variants={{
         hidden: { opacity: 0, y: 40 },
         show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -267,16 +267,16 @@ function ServiceCardItem({ service, idx }: { service: ServiceCard, idx: number }
           style={{ left: mousePos.x, top: mousePos.y }}
         />
 
-        {/* Reflect exact images stored in the admin database with exact width 496 and height 300 */}
+        {/* Reflect exact images stored in the admin database with exact width 596 and height 300 */}
         {service.image_url && (
           <div className="hub-card-img-box">
             <Image
               src={service.image_url}
               alt={service.title || 'Engineering Service'}
-              width={496}
+              width={596}
               height={300}
-              sizes="(max-width: 1024px) 100vw, 496px"
-              style={{ width: '496px', height: '300px', minWidth: '496px', objectFit: 'cover' }}
+              sizes="(max-width: 1024px) 100vw, 596px"
+              style={{ width: '596px', height: '300px', minWidth: '596px', objectFit: 'cover' }}
               className="hub-card-img"
             />
           </div>

@@ -11,6 +11,12 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+@media (min-width: 769px) {
+  .footer {
+    padding: 60px 0px 0px !important;
+  }
+}
+
 /* Base Ambient Orb */
 .footer__glow-orb {
   position: absolute;
@@ -29,6 +35,12 @@
   max-width: 1540px;
   margin: 0 auto;
   padding: 0 4vw;
+}
+
+@media (min-width: 769px) {
+  .footer__container {
+    padding: 0 51.424px !important;
+  }
 }
 
 /* ── Core Macro Grid ── */
@@ -245,7 +257,7 @@
 
 @media (max-width: 768px) {
   .footer {
-    padding-top: 80px;
+    padding: 60px 0px 0px !important;
   }
   
   .footer__nav-groups {
@@ -261,5 +273,19 @@
   
   .footer__massive-anchor {
     font-size: 24vw;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer .footer__container,
+  .footer__container {
+    padding: 0 22.56px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer .footer__container,
+  .footer__container {
+    padding: 0 22.56px !important;
   }
 }

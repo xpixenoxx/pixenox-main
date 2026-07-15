@@ -5,9 +5,19 @@
 
 .what-we-do {
   padding: 60px 0px !important;
-  background-color: var(--color-bg-primary); 
+  background-color: var(--color-bg-primary);
   position: relative;
   z-index: 10;
+}
+
+@media (min-width: 769px) {
+  .what-we-do {
+    padding: 60px 51.424px !important;
+  }
+
+  .what-we-do .container {
+    padding: 0 !important;
+  }
 }
 
 .what-we-do__heading {
@@ -153,8 +163,13 @@
 }
 
 @keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 900px) {
@@ -162,10 +177,12 @@
     grid-template-columns: 1fr;
     padding: 40px;
   }
+
   .wwd-card__graphic,
   .wwd-card__circle {
     display: none !important;
   }
+
   .what-we-do__heading {
     font-size: 28px !important;
     margin: 0px 0px 14px !important;
@@ -176,13 +193,16 @@
   .what-we-do {
     padding: 24px 22.56px !important;
   }
+
   .what-we-do .container {
     padding: 0 !important;
   }
+
   .wwd-card__graphic,
   .wwd-card__circle {
     display: none !important;
   }
+
   .what-we-do__heading {
     font-size: 28px !important;
     margin: 0px 0px 14px !important;

@@ -9,6 +9,15 @@
   position: relative;
 }
 
+@media (min-width: 769px) {
+  .core-beliefs {
+    padding: 60px 51.424px !important;
+  }
+  .core-beliefs .container {
+    padding: 0 !important;
+  }
+}
+
 /* Base Void Ambient */
 .core-beliefs::after {
   content: '';

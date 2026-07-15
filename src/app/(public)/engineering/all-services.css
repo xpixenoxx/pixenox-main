@@ -196,12 +196,12 @@
   gap: 51.424px !important;
   will-change: transform;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: translate3d(calc(var(--slide-index, 0) * -547.424px), 0, 0);
+  transform: translate3d(calc(var(--slide-index, 0) * -647.424px), 0, 0);
 }
 
 .hub-slide-item {
   flex: 0 0 auto;
-  width: 496px !important;
+  width: 596px !important;
   max-width: 100%;
   height: auto !important;
   box-sizing: border-box !important;
@@ -275,7 +275,7 @@
   overflow: hidden;
   transition: all 0.4s ease;
   height: 100%;
-  width: 496px !important;
+  width: 596px !important;
   max-width: 100%;
   box-sizing: border-box;
   border-radius: 12px;
@@ -286,10 +286,10 @@
   border-color: rgba(68, 0, 122, 0.4);
 }
 
-/* Admin Database Card Image Container (Exact 496px width x 300px height) */
+/* Admin Database Card Image Container (Exact 596px width x 300px height) */
 .hub-card-img-box {
-  width: 496px !important;
-  min-width: 496px !important;
+  width: 596px !important;
+  min-width: 596px !important;
   height: 300px !important;
   border-radius: 12px;
   overflow: hidden;
@@ -300,8 +300,8 @@
 }
 
 .hub-card-img {
-  width: 496px !important;
-  min-width: 496px !important;
+  width: 596px !important;
+  min-width: 596px !important;
   height: 300px !important;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -376,7 +376,7 @@
   color: #FFFFFF;
   margin: -20px 0px 0px;
   padding: 30px 22px 24px 22px !important;
-  width: 496px !important;
+  width: 596px !important;
   max-width: 100%;
   box-sizing: border-box;
   border-radius: 12px;

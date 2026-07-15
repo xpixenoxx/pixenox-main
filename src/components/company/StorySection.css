@@ -12,6 +12,15 @@
   overflow: hidden;
 }
 
+@media (min-width: 769px) {
+  .story-premium-section {
+    padding: 60px 51.424px !important;
+  }
+  .story-premium-section .container {
+    padding: 0 !important;
+  }
+}
+
 /* Simulated starfield / neon grid background */
 .story-premium-bg {
   position: absolute;

@@ -40,6 +40,16 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
   const [timeStr, setTimeStr] = useState<string>('');
   const [ampmStr, setAmpmStr] = useState<string>('');
 
+  // Desktop/mobile padding state
+  const [isDesktop, setIsDesktop] = useState(true);
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 769px)');
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsDesktop(e.matches);
+    handler(mql);
+    mql.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
+    return () => mql.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
+  }, []);
+
   useEffect(() => {
     async function load() {
       if (!initialConfig) {
@@ -146,11 +156,11 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
   ) ?? `© ${new Date().getFullYear()} Pixenox Solutions Pvt Ltd. All rights reserved.`;
 
   return (
-    <footer className="footer" role="contentinfo" suppressHydrationWarning>
+    <footer className="footer" role="contentinfo" suppressHydrationWarning style={{ padding: '60px 0px 0px' }}>
       {/* Ambient background artifact */}
       <div className="footer__glow-orb" />
 
-      <div className="footer__container">
+      <div className="footer__container" style={isDesktop ? { padding: '0 51.424px' } : { padding: '0 22.56px' }}>
         <div className="footer__grid">
 
           {/* Left: Brand Identity & Glass Clock Card */}

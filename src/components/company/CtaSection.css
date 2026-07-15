@@ -15,6 +15,15 @@
   text-align: center;
 }
 
+@media (min-width: 769px) {
+  .cta-singularity {
+    padding: 60px 51.424px !important;
+  }
+  .cta-singularity .container {
+    padding: 0 !important;
+  }
+}
+
 /* ─── The Gravitational Core ─── */
 .cta-singularity__blackhole {
   position: absolute;

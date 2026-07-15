@@ -54,7 +54,7 @@
   height: 80px;
   max-width: 1600px;
   margin: 0 auto;
-  padding: 0 4vw;
+  padding: 0 51.424px;
 }
 
 /* ─── Brand ─── */
@@ -253,6 +253,10 @@
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
 
+  .am-header__container {
+    padding: 0 22.56px !important;
+  }
+
   .am-nav,
   .am-cta-btn {
     display: none;
@@ -370,5 +374,19 @@
 @media (max-width: 1200px) {
   .mega-menu__grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .am-header .am-header__container,
+  .am-header__container {
+    padding: 0 22.56px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .am-header .am-header__container,
+  .am-header__container {
+    padding: 0 22.56px !important;
   }
 }

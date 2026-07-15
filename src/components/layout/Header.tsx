@@ -23,6 +23,16 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const pathname = usePathname();
 
+  // Mobile padding state
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1024px)');
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsMobile(e.matches);
+    handler(mql);
+    mql.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
+    return () => mql.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
+  }, []);
+
   // Smart Scroll state
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
@@ -115,7 +125,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="am-header__container">
+        <div className="am-header__container" style={isMobile ? { padding: '0 22.56px' } : { padding: '0 51.424px' }}>
           
           {/* Logo */}
           <Link href="/" className="am-brand">
