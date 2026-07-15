@@ -8,6 +8,12 @@
   min-height: 100vh;
 }
 
+@media (min-width: 769px) {
+  .careers-page .container {
+    padding: 0 51.424px !important;
+  }
+}
+
 /* Hero */
 .careers-hero {
   position: relative;
@@ -103,6 +109,12 @@
 /* Open Roles */
 .careers-roles {
   padding: 80px 0 120px;
+}
+
+@media (min-width: 769px) {
+  .careers-roles {
+    padding: 60px 0px !important;
+  }
 }
 
 .careers-roles__heading {
@@ -459,6 +471,14 @@
   .careers-why__grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .careers-page .container {
+    padding: 0 22.56px !important;
+  }
+
+  .careers-roles {
+    padding: 24px 0px !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -469,6 +489,14 @@
 
   .careers-modal {
     padding: 32px 24px;
+  }
+
+  .careers-page .container {
+    padding: 0 22.56px !important;
+  }
+
+  .careers-roles {
+    padding: 24px 0px !important;
   }
 }
 

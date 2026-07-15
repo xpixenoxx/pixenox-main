@@ -8,7 +8,7 @@
   padding: calc(var(--header-height) + 120px) 0 40px;
   background-color: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  margin-bottom: 40px;
+  margin: 0 !important;
 }
 
 .work-hero-massive .container {
@@ -32,6 +32,16 @@
 
 .work-listing .container {
   /* Inherit global container layout (max-width: 1600px, padding: 0 4vw) for perfect alignment with header */
+}
+
+@media (min-width: 769px) {
+  .work-listing.section {
+    padding: 0px 0px 60px !important;
+  }
+  .work-hero-massive .container,
+  .work-listing .container {
+    padding: 0px 51.424px !important;
+  }
 }
 
 /* ═══ 12-COLUMN ASYMMETRIC GRID ═══ */
@@ -77,6 +87,13 @@
 }
 
 @media (max-width: 768px) {
+  .work-listing.section {
+    padding: 0px 0px 24px !important;
+  }
+  .work-hero-massive .container,
+  .work-listing .container {
+    padding: 0px 22.56px !important;
+  }
   .work-grid > *,
   .work-grid > *:first-child,
   .work-grid > *:nth-child(2) {

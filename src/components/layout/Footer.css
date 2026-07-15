@@ -67,7 +67,13 @@
 }
 
 .footer__logo-img, .footer__logo-fallback {
-  width: 32px; height: 32px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footer__brand-title {
