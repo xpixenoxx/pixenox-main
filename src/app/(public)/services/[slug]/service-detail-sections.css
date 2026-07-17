@@ -1170,8 +1170,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 52.8px;
+  height: 52.8px;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(255, 255, 255, 0.04);
@@ -1180,14 +1180,14 @@
 
 @media (min-width: 768px) {
   .wyg-icon {
-    width: 36px;
-    height: 36px;
+    width: 52.8px;
+    height: 52.8px;
   }
 }
 
 .wyg-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 52.8px;
+  height: 52.8px;
   fill: currentColor;
 }
 

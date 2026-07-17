@@ -228,13 +228,30 @@
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 48px;
   width: 253.6px;
-  height: 57.6px;
+  min-height: 57.6px;
+  height: auto;
   max-width: 100%;
   font-weight: 700;
   color: #FFFFFF !important;
   line-height: 1.2;
   margin: 0px 0px 12px;
   letter-spacing: -0.03em;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ee-metric-val {
+  color: #FFFFFF !important;
+}
+
+.ee-metric-label {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7) !important;
+  letter-spacing: 0em;
 }
 
 .ee-desc {
@@ -292,6 +309,11 @@
     font-size: 28px !important;
     margin: 0px 0px 8px !important;
     line-height: 1.2 !important;
+    gap: 6px !important;
+  }
+
+  .ee-metric-label {
+    font-size: 14px !important;
   }
 
   .ee-desc {
@@ -982,8 +1004,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 52.8px;
+  height: 52.8px;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(255, 255, 255, 0.04);
@@ -992,14 +1014,14 @@
 
 @media (min-width: 768px) {
   .wyg-icon {
-    width: 36px;
-    height: 36px;
+    width: 52.8px;
+    height: 52.8px;
   }
 }
 
 .wyg-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 52.8px;
+  height: 52.8px;
   fill: currentColor;
 }
 

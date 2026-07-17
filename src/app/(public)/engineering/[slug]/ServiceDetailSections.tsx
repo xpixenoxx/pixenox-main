@@ -314,11 +314,11 @@ function HorizontalCapabilities({ serviceTitle, dynamicCapabilities }: { service
               transition={{ duration: 0.6, delay: idx * 0.15 }}
             >
               <div className="ee-line" />
-              <div className="ee-metric">{cap.metric}</div>
-              <div className="ee-desc">
-                {cap.title && <span className="ee-desc-title">{cap.title} — </span>}
-                {cap.desc}
+              <div className="ee-metric">
+                <span className="ee-metric-val">{cap.metric}</span>
+                {cap.metricLabel && <span className="ee-metric-label">{cap.metricLabel}</span>}
               </div>
+              <div className="ee-desc">{cap.desc}</div>
             </motion.div>
           ))}
         </div>

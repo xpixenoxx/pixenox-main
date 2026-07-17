@@ -1,21 +1,10 @@
-import { Metadata } from 'next';
+import ServiceDetailPage, { generateMetadata as generateSlugMetadata } from '../[slug]/page';
+import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Enterprise Intelligence Engineering | Pixenox',
-  description: 'Explore our Enterprise Intelligence Engineering capabilities.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSlugMetadata({ params: Promise.resolve({ slug: 'enterprise-intelligence-engineering' }) });
+}
 
-export default function Page() {
-  return (
-    <main className="pt-[180px] min-h-screen am-container flex flex-col items-center justify-center py-20 px-4">
-      <div className="max-w-4xl text-center">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6" style={{ fontFamily: 'var(--font-serif)' }}>
-          Enterprise Intelligence Engineering
-        </h1>
-        <p className="text-xl text-white/60 font-light">
-          This page is under construction.
-        </p>
-      </div>
-    </main>
-  );
+export default async function Page() {
+  return ServiceDetailPage({ params: Promise.resolve({ slug: 'enterprise-intelligence-engineering' }) });
 }

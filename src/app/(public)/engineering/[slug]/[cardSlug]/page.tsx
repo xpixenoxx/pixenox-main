@@ -44,7 +44,53 @@ export default function EngineeringCardDetailPageClient({ params }: { params: Pr
         .limit(1)
         .single();
 
-      const pageData = data as EngineeringCardPage;
+      let pageData = data as EngineeringCardPage | null;
+
+      if (!pageData) {
+        const { data: serviceData } = await supabase
+          .from('services_cards')
+          .select('what_you_get_items')
+          .eq('page_slug', p.slug)
+          .limit(1)
+          .single();
+
+        if (serviceData && Array.isArray(serviceData.what_you_get_items)) {
+          const getSlug = (title: string) =>
+            title
+              .toLowerCase()
+              .replace(/&/g, 'and')
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/(^-|-$)/g, '');
+
+          const matchedItem = (serviceData.what_you_get_items as any[]).find(
+            (item) => item?.title && getSlug(item.title) === p.cardSlug
+          );
+
+          if (matchedItem) {
+            pageData = {
+              id: 'fallback',
+              service_slug: p.slug,
+              card_slug: p.cardSlug,
+              hero_title: matchedItem.title || 'Service Detail',
+              hero_description: matchedItem.desc || '',
+              hero_image_url: '',
+              section2_name: 'Key Architecture & Capabilities',
+              section2_description: '',
+              section2_cards: [],
+              section3_name: 'Key Functions',
+              section3_description: '',
+              section3_cards: [],
+              section4_name: 'Key Outcomes',
+              section4_description: '',
+              section4_cards: [],
+              section5_name: 'Modernization Trends',
+              section5_description: '',
+              section5_blog_slugs: [],
+            } as any;
+          }
+        }
+      }
+
       setPage(pageData);
 
       if (pageData && pageData.section5_blog_slugs && Array.isArray(pageData.section5_blog_slugs)) {
