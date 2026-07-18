@@ -399,14 +399,14 @@ export default function EngineeringCardDetailPageClient({ params }: { params: Pr
               <motion.div
                 className="flex"
                 style={{ paddingLeft: '0', gap: '0', alignItems: 'flex-start' }}
-                animate={{ x: -(s4ScrollIndex * (isMobile ? 411.2 : 562.8)) }}
+                animate={{ x: -(s4ScrollIndex * (isMobile ? 411.2 : 658.72)) }}
                 transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 {s4Cards.map((card, i) => (
                     <motion.div
                       key={i}
                       className="s4-card-container flex flex-col flex-shrink-0"
-                      style={{ width: '562.8px', height: 'auto', padding: '0px 32.56px 0px 80px' }}
+                      style={{ width: isMobile ? '411.2px' : '658.72px', height: 'auto', padding: isMobile ? '0px 22.56px' : '0px 32.56px 0px 80px' }}
                       initial={{ opacity: 0, y: 50 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
@@ -420,12 +420,12 @@ export default function EngineeringCardDetailPageClient({ params }: { params: Pr
                       )}
   
                       {/* Title */}
-                      <h3 className="s4-card-title font-bold" style={{ color: '#FFFFFF', fontFamily: 'var(--font-inter)', fontSize: '24px', lineHeight: '31.2px', marginBottom: '16px', maxWidth: '450.25px' }}>
+                      <h3 className="s4-card-title font-bold" style={{ color: '#FFFFFF', fontFamily: 'var(--font-inter)', fontSize: isMobile ? '18px' : '24px', lineHeight: '31.2px', marginBottom: isMobile ? '8px' : '16px', width: isMobile ? '379.2px' : '546.16px', maxWidth: isMobile ? '100%' : '546.16px' }}>
                         {card.title}
                       </h3>
   
                       {/* Description */}
-                      <p className="s4-card-desc font-normal" style={{ color: '#FFFFFF', fontFamily: 'var(--font-inter)', fontSize: '16px', lineHeight: '24px', marginBottom: '12px', maxWidth: '450.25px' }}>
+                      <p className="s4-card-desc font-normal" style={{ color: '#FFFFFF', fontFamily: 'var(--font-inter)', fontSize: isMobile ? '14px' : '17.577px', lineHeight: isMobile ? '1.6' : '1.6', marginBottom: isMobile ? '4px' : '12px', width: isMobile ? '379.2px' : '546.16px', maxWidth: isMobile ? '100%' : '546.16px' }}>
                         {card.description}
                       </p>
                   </motion.div>

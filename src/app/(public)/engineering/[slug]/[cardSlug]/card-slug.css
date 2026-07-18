@@ -516,6 +516,19 @@
 }
 
 @media (min-width: 769px) {
+  .s4-card-container {
+    width: 658.72px !important;
+  }
+  .s4-card-title {
+    width: 546.16px !important;
+    max-width: 546.16px !important;
+  }
+  .s4-card-desc {
+    width: 546.16px !important;
+    max-width: 546.16px !important;
+    font-size: 17.577px !important;
+    line-height: 1.6 !important;
+  }
   .blog-card__title a {
     font-size: 22.5623px !important;
   }
