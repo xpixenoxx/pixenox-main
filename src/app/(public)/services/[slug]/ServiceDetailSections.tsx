@@ -251,7 +251,7 @@ export default function ServiceDetailSections({
             <span className="k-cta__title-line"><em>Sequence</em></span>
           </h2>
           <p className="k-cta__sub">Architecting compounding visibility and autonomous systems. Converge your fragmented tools into a singular, high-velocity platform.</p>
-          <MagneticButton href="/contact" theme="dark">Deploy Now</MagneticButton>
+          <MagneticButton href="/contact/pixy" theme="dark">Deploy Now</MagneticButton>
         </motion.div>
       </section>
 

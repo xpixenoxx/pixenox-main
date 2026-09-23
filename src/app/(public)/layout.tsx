@@ -2,6 +2,7 @@ import SupabaseProvider from '@/providers/SupabaseProvider';
 import ThemeProvider from '@/providers/ThemeProvider';
 import FontProvider from '@/providers/FontProvider';
 import Header from '@/components/layout/Header';
+import FloatingNav from '@/components/layout/FloatingNav';
 import Footer from '@/components/layout/Footer';
 import PageTransition from '@/components/layout/PageTransition';
 import { createClient } from '@supabase/supabase-js';
@@ -38,12 +39,14 @@ const getCachedLayoutData = unstable_cache(
       navRes,
       footerRes,
       linksRes,
+      heroRes,
     ] = await Promise.all([
       supabase.from('theme_settings').select('*'),
       supabase.from('brand_settings').select('*').limit(1).maybeSingle(),
       supabase.from('nav_config').select('*').order('priority', { ascending: true }),
       supabase.from('footer_config').select('*').limit(1).maybeSingle(),
       supabase.from('footer_links').select('*').order('priority', { ascending: true }),
+      supabase.from('hero_settings').select('floating_nav_items').limit(1).maybeSingle(),
     ]);
 
     const results = [
@@ -52,6 +55,7 @@ const getCachedLayoutData = unstable_cache(
       { name: 'nav_config', res: navRes },
       { name: 'footer_config', res: footerRes },
       { name: 'footer_links', res: linksRes },
+      { name: 'hero_settings', res: heroRes },
     ];
 
     for (const { name, res } of results) {
@@ -73,6 +77,7 @@ const getCachedLayoutData = unstable_cache(
       navConfig: (navRes.data ?? []) as NavRow[],
       footerConfig: (footerRes.data ?? null) as FooterConfigRow | null,
       footerLinks: (linksRes.data ?? []) as FooterLinkRow[],
+      floatingNavItems: heroRes.data?.floating_nav_items ?? null,
     };
   },
   ['layout-data-v3'],
@@ -91,6 +96,7 @@ export default async function PublicLayout({
     navConfig,
     footerConfig,
     footerLinks,
+    floatingNavItems,
   } = await getCachedLayoutData();
   const dataTime = Date.now() - start;
   console.log(`[Timing] Layout - Data fetch: ${dataTime}ms`);
@@ -104,16 +110,13 @@ export default async function PublicLayout({
             Skip to main content
           </a>
           <Header initialBrand={brandSettings} initialNav={navConfig} />
+          <FloatingNav initialItems={floatingNavItems} />
           <main id="main-content">
             <PageTransition>
               {children}
             </PageTransition>
           </main>
-          <Footer
-            initialConfig={footerConfig}
-            initialLinks={footerLinks}
-            initialBrand={brandSettings}
-          />
+          <Footer initialBrand={brandSettings} initialConfig={footerConfig} initialLinks={footerLinks} />
         </FontProvider>
       </ThemeProvider>
     </SupabaseProvider>

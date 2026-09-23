@@ -1,11 +1,11 @@
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
     // Basic verification token logic (In production verify Supabase webhook signature)
     const token = req.nextUrl.searchParams.get('token')
-    if (token !== process.env.REVALIDATION_TOKEN) {
+    if (process.env.REVALIDATION_TOKEN && token !== process.env.REVALIDATION_TOKEN) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     
     // Purges everything
     revalidatePath('/', 'layout')
+    revalidateTag('layout')
 
     return NextResponse.json({ 
       revalidated: true, 

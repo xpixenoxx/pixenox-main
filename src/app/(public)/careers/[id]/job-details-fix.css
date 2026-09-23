@@ -1,0 +1,5 @@
+.job-content-section p,
+.job-content-section li,
+.job-info-block p {
+  color: #444444 !important;
+}

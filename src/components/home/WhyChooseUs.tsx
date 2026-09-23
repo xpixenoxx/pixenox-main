@@ -404,7 +404,7 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
 
                 {/* Optional Final Execute Trigger */}
                 {idx === items.length - 1 && (
-                  <a href={config?.cta_url || '/contact'} className="hud-execute-btn">
+                  <a href={config?.cta_url || '/contact/pixy'} className="hud-execute-btn">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                       <polygon points="5,3 19,12 5,21" />
                     </svg>

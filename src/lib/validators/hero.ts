@@ -16,4 +16,13 @@ export const heroSchema = z.object({
   bg_gradient_end: z.string().optional(),
   bg_image_url: z.string().url().optional().or(z.literal('')),
   bg_video_url: z.string().url().optional().or(z.literal('')),
+  floating_nav_items: z.array(
+    z.object({
+      id: z.string(),
+      label: z.string(),
+      href: z.string(),
+      icon: z.string(),
+      icon_url: z.string().url().optional().or(z.literal(''))
+    })
+  ).optional()
 })

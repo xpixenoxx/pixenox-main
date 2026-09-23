@@ -38,6 +38,7 @@ const navLinks = [
   { href: '/admin/faqs', label: 'Global FAQs', icon: HelpCircle },
   { href: '/admin/home-faqs', label: 'Home FAQs', icon: HelpCircle },
   { href: '/admin/company', label: 'Company', icon: Building2 },
+  { href: '/admin/careers', label: 'Careers', icon: Briefcase },
   { href: '/admin/footer', label: 'Footer', icon: Footprints },
   { href: '/admin/seo', label: 'SEO Config', icon: Search },
 ]

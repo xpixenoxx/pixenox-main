@@ -92,6 +92,7 @@ export function FileUploadZone({
     if (e.target.files && e.target.files.length > 0) {
       processFile(e.target.files[0])
     }
+    e.target.value = ''
   }
 
   return (
@@ -112,7 +113,7 @@ export function FileUploadZone({
            type="file" 
            accept={accept} 
            onChange={handleChange} 
-           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50"
          />
          
          {isUploading ? (

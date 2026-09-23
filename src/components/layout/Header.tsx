@@ -92,24 +92,29 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
       (n) =>
         n.href === '/#contact' ||
         n.href === '#contact' ||
-        ((n.label.toLowerCase() === 'contact' || n.label.toLowerCase() === 'explore the engineering model') && n.href !== '/contact')
+        ((n.label.toLowerCase() === 'contact' || n.label.toLowerCase() === 'explore the engineering model') && n.href !== '/contact/pixy')
     );
     if (needsContactRedirect) {
-      supabase.from('nav_config').update({ href: '/contact' }).eq('href', '/#contact').then();
-      supabase.from('nav_config').update({ href: '/contact' }).eq('href', '#contact').then();
-      supabase.from('nav_config').update({ href: '/contact' }).ilike('label', 'Contact').neq('href', '/contact').then();
-      supabase.from('nav_config').update({ href: '/contact' }).ilike('label', 'Explore the Engineering Model').neq('href', '/contact').then();
+      supabase.from('nav_config').update({ href: '/contact/pixy' }).eq('href', '/#contact').then();
+      supabase.from('nav_config').update({ href: '/contact/pixy' }).eq('href', '#contact').then();
+      supabase.from('nav_config').update({ href: '/contact/pixy', label: 'Talk to Pixy' }).ilike('label', 'Contact').then();
+      supabase.from('nav_config').update({ href: '/contact/pixy' }).ilike('label', 'Explore the Engineering Model').neq('href', '/contact/pixy').then();
     }
   }, [navItems]);
 
-  const normalizedNavItems = navItems.map((n) =>
-    n.href === '/#contact' ||
-    n.href === '#contact' ||
-    n.label.toLowerCase() === 'contact' ||
-    n.label.toLowerCase() === 'explore the engineering model'
-      ? { ...n, href: '/contact' }
-      : n
-  );
+  const normalizedNavItems = navItems.map((n) => {
+    if (n.label.toLowerCase() === 'contact') {
+      return { ...n, href: '/contact/pixy', label: 'Talk to Pixy' };
+    }
+    if (
+      n.href === '/#contact' ||
+      n.href === '#contact' ||
+      n.label.toLowerCase() === 'explore the engineering model'
+    ) {
+      return { ...n, href: '/contact/pixy' };
+    }
+    return n;
+  });
 
   const coreNavItems = normalizedNavItems.filter((n) => n.is_visible && n.label.toLowerCase() !== 'explore the engineering model');
   const ctaItems = normalizedNavItems.filter((n) => n.is_visible && n.label.toLowerCase() === 'explore the engineering model');

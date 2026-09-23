@@ -70,7 +70,7 @@ export default function CtaSection({ data }: CtaSectionProps) {
             viewport={{ once: true }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
-            <Link href="/contact" className="cta-singularity__btn-primary">
+            <Link href="/contact/pixy" className="cta-singularity__btn-primary">
               <span className="btn-glow"></span>
               <span className="btn-text">{data.btn_text || "INITIATE"}</span>
             </Link>

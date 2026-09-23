@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { ArrowUpRight } from 'lucide-react';
 
@@ -31,6 +32,7 @@ interface FooterProps {
 }
 
 export default function Footer({ initialConfig, initialLinks, initialBrand, initialServices, initialWork }: FooterProps) {
+  const pathname = usePathname();
   const [config, setConfig] = useState<FooterConfig | null>(initialConfig ?? null);
   const [links, setLinks] = useState<FooterLink[]>(initialLinks ?? []);
   const [brand, setBrand] = useState<BrandSettings | null>(initialBrand ?? null);
@@ -133,7 +135,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
     { id: '1', label: 'About', href: '/company', section: 'company' },
     { id: '2', label: 'Engineering', href: '/engineering', section: 'company' },
     { id: '3', label: 'Careers', href: '/careers', section: 'company' },
-    { id: '4', label: 'Contact', href: '/contact', section: 'company' },
+    { id: '4', label: 'Talk to Pixy', href: '/contact/pixy', section: 'company' },
   ];
 
   const resourceLinks = links.filter((l) => l.section === 'resources');
@@ -154,6 +156,8 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
     '{year}',
     String(new Date().getFullYear())
   ) ?? `© ${new Date().getFullYear()} Pixenox Solutions Pvt Ltd. All rights reserved.`;
+
+  if (pathname === '/contact/pixy') return null;
 
   return (
     <footer className="footer" role="contentinfo" suppressHydrationWarning style={{ padding: '60px 0px 0px' }}>

@@ -15,7 +15,7 @@ const DEFAULT_HERO = {
   subheadline: 'We engineer AAA-grade platforms that perform globally.',
   subheadline_color: 'rgba(255,255,255,0.75)',
   cta_text: 'Let\'s Discuss Content',
-  cta_url: '/contact',
+  cta_url: '/contact/pixy',
   cta_bg_color: '#4a0e8f',
   cta_hover_bg_color: '#6b21d4',
   cta_text_color: '#ffffff',
@@ -24,7 +24,13 @@ const DEFAULT_HERO = {
   bg_gradient_start: '#0a0a0f',
   bg_gradient_end: '#1a0533',
   bg_image_url: '',
-  bg_video_url: ''
+  bg_video_url: '',
+  floating_nav_items: [
+    { id: 'home', label: 'Home', href: '/', icon: 'logo' },
+    { id: 'careers', label: 'Careers', href: '/careers', icon: 'Briefcase' },
+    { id: 'work', label: 'Work', href: '#', icon: 'FolderGit2' },
+    { id: 'contact', label: 'Contact', href: '#', icon: 'Mail' }
+  ]
 }
 
 export default function HeroPage() {
@@ -59,6 +65,14 @@ export default function HeroPage() {
       }
 
       if (res.error) throw res.error
+      
+      // Revalidate cache to reflect changes immediately
+      await fetch('/api/revalidate?token=' + (process.env.NEXT_PUBLIC_REVALIDATION_TOKEN || ''), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'hero_settings' })
+      }).catch(console.error);
+
       toast('Hero settings saved successfully!', 'success')
       
       if (!formData.id) {
@@ -166,6 +180,89 @@ export default function HeroPage() {
                    <option value="0px">Sharp</option>
                  </select>
                </div>
+             </div>
+          </div>
+
+          {/* FLOATING NAVIGATION */}
+          <div className="glass-card flex flex-col gap-6">
+             <h3 className="text-xl font-bold border-b border-white/10 pb-4">Floating Navigation</h3>
+             
+             <div className="flex flex-col gap-4">
+               {(formData.floating_nav_items || []).map((item: any, i: number) => (
+                 <div key={i} className="flex flex-col md:flex-row gap-4 p-4 border border-white/10 rounded-xl bg-white/5 relative">
+                   <button 
+                     type="button" 
+                     onClick={() => {
+                       const newItems = [...formData.floating_nav_items];
+                       newItems.splice(i, 1);
+                       handleChange('floating_nav_items', newItems);
+                     }}
+                     className="absolute top-2 right-2 text-white/50 hover:text-red-500"
+                   >×</button>
+                   
+                   <div className="flex flex-col gap-1.5 flex-1">
+                     <label className="text-xs font-medium text-white/60">Label</label>
+                     <input className="admin-input" value={item.label} onChange={(e) => {
+                       const newItems = [...formData.floating_nav_items];
+                       newItems[i].label = e.target.value;
+                       handleChange('floating_nav_items', newItems);
+                     }} />
+                   </div>
+                   
+                   <div className="flex flex-col gap-1.5 flex-1">
+                     <label className="text-xs font-medium text-white/60">URL</label>
+                     <input className="admin-input" value={item.href} onChange={(e) => {
+                       const newItems = [...formData.floating_nav_items];
+                       newItems[i].href = e.target.value;
+                       handleChange('floating_nav_items', newItems);
+                     }} />
+                   </div>
+                   
+                   <div className="flex flex-col gap-3 flex-1">
+                     <div className="flex flex-col gap-1.5">
+                       <label className="text-xs font-medium text-white/60">Icon Image URL</label>
+                       <input 
+                         className="admin-input" 
+                         value={item.icon_url || ''} 
+                         onChange={(e) => {
+                           const newItems = [...formData.floating_nav_items];
+                           newItems[i].icon_url = e.target.value;
+                           newItems[i].icon = 'custom';
+                           handleChange('floating_nav_items', newItems);
+                         }} 
+                         placeholder="https://... or upload below"
+                       />
+                     </div>
+                     <div className="flex flex-col gap-1.5">
+                       <FileUploadZone 
+                          label="Or Upload from Device"
+                          bucket="hero-images"
+                          value={item.icon_url || ''}
+                          onUploadSuccess={(url) => {
+                             const newItems = [...formData.floating_nav_items];
+                             newItems[i].icon_url = url;
+                             newItems[i].icon = 'custom';
+                             handleChange('floating_nav_items', newItems);
+                          }}
+                       />
+                     </div>
+                   </div>
+                 </div>
+               ))}
+               
+               {(formData.floating_nav_items || []).length < 4 && (
+                 <button 
+                   type="button" 
+                   onClick={() => {
+                     const newItems = [...(formData.floating_nav_items || [])];
+                     newItems.push({ id: `item-${Date.now()}`, label: 'New Link', href: '#', icon: 'custom', icon_url: '' });
+                     handleChange('floating_nav_items', newItems);
+                   }}
+                   className="text-sm font-medium text-deep-purple hover:text-white transition-colors self-start"
+                 >
+                   + Add Navigation Item
+                 </button>
+               )}
              </div>
           </div>
 
