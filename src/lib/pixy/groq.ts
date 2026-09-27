@@ -30,7 +30,7 @@ export async function generatePixyMessage(body: ChatRequestBody): Promise<GroqTu
 
   try {
     const completion = await groq.chat.completions.create({
-      model: "qwen/qwen3.8-27b",
+      model: "llama3-8b-8192", // Fixed model for Groq Fast JSON support
       temperature: 0.9,
       presence_penalty: 0.4,
       frequency_penalty: 0.6,
@@ -52,8 +52,9 @@ export async function generatePixyMessage(body: ChatRequestBody): Promise<GroqTu
       messages: parsed.messages.map((m: any) => String(m).trim()).filter(Boolean),
       tone: typeof parsed.tone === "string" ? parsed.tone : "neutral",
     };
-  } catch {
+  } catch (err) {
     // Network error, timeout, malformed JSON, rate limit, etc. — fail closed.
+    console.error("Groq API Error:", err);
     return null;
   }
 }
