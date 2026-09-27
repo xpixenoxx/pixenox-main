@@ -223,3 +223,5 @@ For each page:
 
 The website is visually premium and mostly well-structured for responsive behavior.  
 Main opportunity is not design quality but **performance-safe responsiveness**: tune heavy visual effects for mobile and lower-powered devices so smoothness remains consistent across the full audience.
+#   t e s t - p i x e n o x  
+ 

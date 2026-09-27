@@ -1,3 +1,6 @@
+@import url('https://db.onlinewebfonts.com/c/5ac3fe7c6abd2f62067f266d89671492?family=HelveticaNowDisplay-Medium');
+@import url('https://db.onlinewebfonts.com/c/1aa3377e489837a26d019bba501e779d?family=HelveticaNowDisplayW01-Rg');
+
 @theme inline {
   --color-bg-deep: var(--bg-deep);
   --color-bg-mid: var(--bg-mid);
@@ -134,3 +137,80 @@
 .pixy-btn-pill:active {
   transform: scale(0.95);
 }
+
+:root {
+  --font-heading: 'HelveticaNowDisplay-Medium', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'HelveticaNowDisplayW01-Rg', 'Helvetica Neue', Arial, sans-serif;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.custom-blinking-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #000;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+.pill-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  font-size: 13px;
+  padding: 0.3em 1rem;
+  margin: 0 0.2em 0.4em 0.2em;
+  white-space: nowrap;
+  transition: background-color 200ms, color 200ms;
+}
+
+@media (min-width: 640px) {
+  .pill-action {
+    font-size: 15px;
+    padding: 0.3em 1.25rem;
+  }
+}
+
+.pill-action:hover {
+  background: black;
+  color: white;
+}
+
+.pill-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 9999px;
+  font-size: 13px;
+  padding: 0.3em 1rem;
+  margin: 0 0.2em 0.4em 0.2em;
+  white-space: nowrap;
+  gap: 0.5rem;
+  transition: background-color 200ms, color 200ms;
+}
+
+@media (min-width: 640px) {
+  .pill-contact {
+    font-size: 15px;
+    padding: 0.3em 1.25rem;
+    gap: 0.75rem;
+  }
+}
+
+.pill-contact:hover {
+  background: white;
+  color: black;
+}
+

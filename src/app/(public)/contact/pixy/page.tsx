@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { PixyExperience } from "@/components/pixy/PixyExperience";
+import { PixenoxHero } from "@/components/pixy/PixenoxHero";
 
 export const dynamic = 'force-dynamic';
 import "@/components/pixy/pixy.css";
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function PixyPage() {
   return (
     <div className={`pixy-scope ${nunito.variable} ${sora.variable}`}>
-      <PixyExperience />
+      <PixenoxHero />
     </div>
   );
 }
