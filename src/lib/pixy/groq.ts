@@ -30,7 +30,7 @@ export async function generatePixyMessage(body: ChatRequestBody): Promise<GroqTu
 
   try {
     const completion = await groq.chat.completions.create({
-      model: "llama3-8b-8192", // Fixed model for Groq Fast JSON support
+      model: "qwen/qwen3.8-27b",
       temperature: 0.9,
       presence_penalty: 0.4,
       frequency_penalty: 0.6,

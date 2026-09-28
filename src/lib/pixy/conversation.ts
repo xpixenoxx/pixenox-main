@@ -83,8 +83,8 @@ export const STEP_CONFIG: Record<StepId, StepConfig> = {
     id: "name",
     component: "text",
     fallback: () => [
-      "Oh, we're starting a project? I like where this is going already.",
-      "But first, I should know who's behind all this ambition."
+      "Oh, we're starting a project? I love that energy.",
+      "But first, what should I call you?"
     ],
   },
   company: {
@@ -105,7 +105,12 @@ export const STEP_CONFIG: Record<StepId, StepConfig> = {
   services: {
     id: "services",
     component: "buttons",
-    fallback: () => ["What can we help you with?"],
+    fallback: (formData) => {
+      const name = formData.name.trim().split(/\s+/)[0];
+      return name 
+        ? [`Pleasure to meet you, ${name}.`, "Now tell me, what kind of ambitious system are we building today?"]
+        : ["Pleasure to meet you.", "Now tell me, what kind of ambitious system are we building today?"];
+    },
   },
   budget: {
     id: "budget",
@@ -218,8 +223,8 @@ export const STEP_INTENT: Record<StepId, string> = {
   voice_selection: "Not used — voice selection happens before Pixy speaks.",
   intro: "Greet the visitor playfully and warmly for the first time. You are PIXY. Keep it extremely crisp and brief (exactly 2 short sentences). CRITICAL: You MUST generate a completely unique, never-before-seen greeting. Make it crisp, confident, and highly flirty so the user gets immediately interested. Split your response exactly into 2 messages in the array. The first message should be an alluring opening line. The second message should tease them or confidently invite them to talk about their project.",
   careers: "React to the visitor wanting to join the team and let them know you're pointing them to careers.",
-  name: "Acknowledge their choice to start a project, and ask for their name.",
-  services: "Acknowledge their name, and ask 'What can we help you with?' so they can choose a service.",
+  name: "You must acknowledge they want to start a project. Make a clever, rapid observation about starting something new, then smoothly ask them what you should call them. Be strictly conversational—ban all generic 'how can I help you' formatting.",
+  services: "Acknowledge their name with extreme conversational charm. Drop a witty, spontaneous one-liner weaving their name in naturally. Then, in a completely fresh way, ask them what kind of ambitious system or service they want to build. Ban the phrase 'What can we help you with?'. It must feel like an exclusive 1-on-1 text message from Pixenox, totally dynamic every time.",
   company: "Acknowledge their service choice, and ask for their company name and job title.",
   budget: "Acknowledge their company/role, and ask about their budget.",
   launch: "Acknowledge their budget (or service), then include a crisp, flirty, and encouraging short story about how Pixenox builds unbelievable production-grade AI systems that completely transform companies. Make the user feel incredibly excited to be conversing with us. After the brief hype, ask them what their timeline is.",
@@ -233,14 +238,14 @@ export const STEP_INTENT: Record<StepId, string> = {
 
 export const GROQ_FAILURE_FALLBACKS: Partial<Record<StepId, string[]>> = {
   intro: undefined, // Uses the random INTRO_POOL via STEP_CONFIG fallback
-  services: ["What can we help you with?"],
-  name: ["Let's keep going.", "What should I call you?"],
-  company: ["Mind telling me your company and role?"],
-  budget: ["What kind of budget are we working with?"],
-  launch: ["When are you hoping to launch this?"],
-  project: ["Tell us a little about your project.", "Share your idea, requirements, goals, or challenges."],
-  email: ["Where can we reach you?"],
-  complete: ["Thanks! I've got the details.", "Our team will review your project and get back to you soon."],
+  services: ["I like a person who knows what they want.", "Tell me, what kind of ambitious system are we building?"],
+  name: ["Let's skip the formalities and get straight to it.", "What should I call you?"],
+  company: ["Mind telling me the name of your company before we dive too deep?"],
+  budget: ["Now for the slightly less romantic part.", "What kind of budget are we working with?"],
+  launch: ["Everything beautiful takes time.", "When are you hoping to launch this?"],
+  project: ["I'm listening.", "Give me the full breakdown of your idea."],
+  email: ["Where can we reach you when things get serious?"],
+  complete: ["Thanks! I've got the details safely locked away.", "Our team will review your project and get back to you soon."],
   culture: ["We're all about world-class engineering, deep care for our people, and zero bureaucracy.", "It's a place where you can actually build amazing AI systems while still having a life."],
   careers_redirect: ["Oh! You want to join the team? Love that energy.", "We're always on the lookout for brilliant minds who want to build something extraordinary.", "Let me take you to where the magic happens…"],
   explore: ["Pixenox is an AI engineering company that builds production-grade, autonomous AI systems.", "We blend cinematic design with deep engineering to solve real-world problems.", "Our systems deliver 99.9% uptime and massive results across fintech, healthcare, and logistics.", "Let me take you to the homepage to see for yourself."],

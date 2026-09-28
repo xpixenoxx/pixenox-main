@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 
 export function PixenoxHero() {
   const [phase, setPhase] = useState<'intro' | 'wait' | 'main' | 'done'>('intro');
@@ -14,6 +15,8 @@ export function PixenoxHero() {
   const [inputValue, setInputValue] = useState("");
   const [formData, setFormData] = useState({ name: '', services: '', launchTimeline: '' });
   
+  const [isMuted, setIsMuted] = useState(true);
+
   const typeMainTextRef = useRef<number>(0);
 
   const typeMainText = async (text: string, speed = 38) => {
@@ -253,7 +256,7 @@ export function PixenoxHero() {
       <video
         ref={videoRef}
         src="https://res.cloudinary.com/hnmtoo7q/video/upload/v1790290112/Creature_rotating_head_naturally_20260925041737.mp4"
-        muted
+        muted={isMuted}
         playsInline
         preload="auto"
         onSeeked={handleSeeked}
@@ -273,7 +276,7 @@ export function PixenoxHero() {
         ref={pitchVideoRef}
         src="https://res.cloudinary.com/hnmtoo7q/video/upload/v1790524428/Creature_interacting_with_hologr__20260927192643.mp4"
         loop
-        muted
+        muted={isMuted}
         playsInline
         style={{
           position: "fixed",
@@ -355,11 +358,12 @@ export function PixenoxHero() {
           </div>
 
           <div
-            className="flex flex-wrap pointer-events-auto items-center mt-2"
+            className="flex flex-wrap pointer-events-auto items-center"
             style={{
               opacity: showPills ? 1 : 0,
               transform: showPills ? 'translateY(0)' : 'translateY(8px)',
-              transition: 'opacity 0.4s ease, transform 0.4s ease'
+              transition: 'opacity 0.4s ease, transform 0.4s ease',
+              margin: '20px 0px 0px'
             }}
           >
             {interactionType === 'buttons' && currentOptions.map((text) => (
@@ -418,6 +422,60 @@ export function PixenoxHero() {
               </button>
             )}
           </div>
+        </div>
+      </div>
+
+      <div style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 50,
+        pointerEvents: "none",
+        overflow: "hidden",
+      }}>
+        {/* Tracking wrapper that simulates object-fit: cover for a 16:9 video with object-position: 70% center */}
+        <div style={{
+          position: "absolute",
+          left: "70%",
+          top: "50%",
+          transform: "translate(-70%, -50%)",
+          width: "max(100vw, 177.777vh)",
+          height: "max(100vh, 56.25vw)",
+          pointerEvents: "none",
+        }}>
+          <button
+            onClick={() => setIsMuted(!isMuted)}
+            style={{
+              position: "absolute",
+              right: "7.5%", 
+              bottom: "12.5%", 
+              zIndex: 50,
+              background: "rgba(0, 0, 0, 0.5)",
+              backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "50%",
+              width: "64px", 
+              height: "64px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+              cursor: "pointer",
+              pointerEvents: "auto",
+              transition: "all 0.3s ease",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = "rgba(0, 0, 0, 0.8)";
+              e.currentTarget.style.transform = "scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = "rgba(0, 0, 0, 0.5)";
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+            aria-label={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? <VolumeX size={26} opacity={0.8} /> : <Volume2 size={26} opacity={0.8} />}
+          </button>
         </div>
       </div>
     </div>
