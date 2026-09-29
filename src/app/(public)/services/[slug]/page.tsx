@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import type { ServiceCard, CaseStudy } from '@/lib/types/database';
 import ServiceAnimatedHeader from './ServiceAnimatedHeader';
 import ServiceDetailSections from './ServiceDetailSections';
+import BlogExplainerPopup from '@/components/blog/BlogExplainerPopup';
+import BlogFaqBot from '@/components/blog/BlogFaqBot';
 import './services-slug.css';
 import './service-detail-sections.css';
 
@@ -22,13 +24,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .single();
   const service = data as Pick<ServiceCard, 'title' | 'description' | 'image_url'> | null;
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+
   return {
-    title: service?.title ? `${service.title} — Pixenox` : 'Service — Pixenox',
+    title: service?.title ?? 'Service',
     description: service?.description ?? '',
     openGraph: {
       title: service?.title ?? '',
       description: service?.description ?? '',
       images: service?.image_url ? [service.image_url] : [],
+    },
+    alternates: {
+      canonical: `${baseUrl}/services/${slug}`,
     },
   };
 }
@@ -103,6 +110,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           description={service.description}
           titleColor={service.subheading_color || service.title_color}
           descColor={service.desc_color}
+          botComponent={<BlogExplainerPopup slug={slug} source="service" />}
         />
       </div>
 
@@ -117,6 +125,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         whatYouGetHeading={service.what_you_get_heading}
         whatYouGetDescription={service.what_you_get_description}
         whatYouGetItems={service.what_you_get_items}
+        faqBotComponent={
+          <div style={{ maxWidth: '1200px', margin: '4rem auto 2rem', padding: '0 2rem' }}>
+            <BlogFaqBot slug={slug} source="service" />
+          </div>
+        }
       />
     </article>
   );

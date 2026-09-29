@@ -1,9 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
+import type { Metadata } from 'next';
 import './blog.css';
 
-export const revalidate = 0; // Force dynamic to ensure new posts reflect instantly
+export const metadata: Metadata = {
+  title: 'Blog — Latest Insights',
+  description: 'Explore our latest thinking on AI systems, enterprise engineering, web architecture, and growth intelligence. Deep insights from the Pixenox engineering team.',
+  alternates: { canonical: '/blog' },
+  openGraph: {
+    title: 'Blog — Latest Insights | Pixenox',
+    description: 'Explore our latest thinking on AI systems, enterprise engineering, web architecture, and growth intelligence.',
+  },
+};
+
+export const revalidate = 3600; // ISR: regenerate every hour
 
 const POSTS_PER_PAGE = 8;
 
@@ -52,8 +64,15 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
           {currentPosts.map((post) => (
             <article key={post.id} className="blog-card">
               <div className="blog-card__image-wrapper">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={post.image_url} alt={post.title} className="blog-card__image" />
+                <Image
+                  src={post.image_url}
+                  alt={post.title}
+                  width={600}
+                  height={340}
+                  className="blog-card__image"
+                  loading={startIndex === 0 && currentPosts.indexOf(post) < 2 ? undefined : 'lazy'}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                />
               </div>
 
               <div className="blog-card__content">

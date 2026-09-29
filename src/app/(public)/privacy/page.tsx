@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — Pixenox Solutions Pvt Ltd',
+  title: 'Privacy Policy',
   description: 'Learn how Pixenox Solutions Pvt Ltd handles your data. We do not use tracking cookies or analytics cookies. Privacy-first approach.',
   alternates: { canonical: '/privacy' },
 };

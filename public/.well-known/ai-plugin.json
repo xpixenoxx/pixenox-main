@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Pixenox",
+  "name_for_model": "pixenox",
+  "description_for_human": "Pixenox Solutions Pvt Ltd — AI Systems Engineering, Enterprise Intelligence Engineering, and AI Visibility (GEO/AEO).",
+  "description_for_model": "Pixenox is an AI engineering company with three core disciplines: (1) AI Systems Engineering — designing autonomous multi-agent systems, decision intelligence engines, and AI infrastructure for production enterprise workflows; (2) Enterprise Intelligence Engineering — integrating ERP, CRM, cloud, and document systems into unified governed data layers with business intelligence and workflow automation; (3) AI Visibility — Generative Engine Optimization (GEO) and Answer Engine Optimization (AEO), structuring entity signals, structured data, and content so AI answer engines (ChatGPT, Gemini, Perplexity) can identify and cite a brand in generated answers. Contact: connect@pixenox.com.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.pixenox.com/llms.txt"
+  },
+  "logo_url": "https://www.pixenox.com/logo.jpg",
+  "contact_email": "connect@pixenox.com",
+  "legal_info_url": "https://www.pixenox.com/terms"
+}

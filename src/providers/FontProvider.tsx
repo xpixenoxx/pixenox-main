@@ -5,19 +5,7 @@ import { getBrowserClient } from '@/lib/supabase/client';
 const supabase = getBrowserClient();
 import {
   buildGoogleFontsUrl,
-  extractFontFamilies,
-  extractFontFamiliesFromArray,
 } from '@/lib/fonts';
-
-const FONT_TABLES = [
-  'theme_settings',
-  'hero_settings',
-  'section_config',
-  'brand_settings',
-  'services_cards',
-  'cta_sections',
-  'page_hero_config',
-] as const;
 
 export default function FontProvider({ children }: { children: ReactNode }) {
   const linkRef = useRef<HTMLLinkElement | null>(null);
@@ -25,27 +13,7 @@ export default function FontProvider({ children }: { children: ReactNode }) {
   const loadFonts = useCallback(async () => {
     const allFonts: string[] = [];
 
-    // Fetch font families from all relevant tables
-    for (const table of FONT_TABLES) {
-      try {
-        const { data } = await supabase.from(table).select('*');
-        if (data && Array.isArray(data)) {
-          allFonts.push(
-            ...extractFontFamiliesFromArray(
-              data as Record<string, unknown>[]
-            )
-          );
-        } else if (data && typeof data === 'object') {
-          allFonts.push(
-            ...extractFontFamilies(data as Record<string, unknown>)
-          );
-        }
-      } catch {
-        // Silently continue if table doesn't exist
-      }
-    }
-
-    // Also extract from theme_settings values that are font families
+    // Single efficient query: only fetch font-related settings
     try {
       const { data: themeData } = await supabase
         .from('theme_settings')
@@ -59,7 +27,7 @@ export default function FontProvider({ children }: { children: ReactNode }) {
         }
       }
     } catch {
-      // Ignore
+      // Silently continue
     }
 
     const url = buildGoogleFontsUrl(allFonts);
@@ -82,23 +50,20 @@ export default function FontProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     loadFonts();
 
-    // Subscribe to changes on all font-related tables
-    const channels = FONT_TABLES.map((table) =>
-      supabase
-        .channel(`font_${table}_changes`)
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table },
-          () => {
-            // Debounce reload
-            setTimeout(() => loadFonts(), 300);
-          }
-        )
-        .subscribe()
-    );
+    // Subscribe to theme_settings changes only (the source of font config)
+    const channel = supabase
+      .channel('font_theme_changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'theme_settings' },
+        () => {
+          setTimeout(() => loadFonts(), 300);
+        }
+      )
+      .subscribe();
 
     return () => {
-      channels.forEach((ch) => supabase.removeChannel(ch));
+      supabase.removeChannel(channel);
       if (linkRef.current) {
         linkRef.current.remove();
       }

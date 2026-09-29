@@ -8,6 +8,8 @@ import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 import type { EngineeringCardPage } from '@/lib/types/database';
 import './card-slug.css';
 import '../../../blog/blog.css';
+import BlogExplainerPopup from '@/components/blog/BlogExplainerPopup';
+import BlogFaqBot from '@/components/blog/BlogFaqBot';
 
 // Client-side fetcher component to allow framer-motion and canvas hooks
 export default function EngineeringCardDetailPageClient({ params }: { params: Promise<{ slug: string; cardSlug: string }> }) {
@@ -171,8 +173,11 @@ export default function EngineeringCardDetailPageClient({ params }: { params: Pr
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="cp-title" style={{ fontSize: '40px' }}>
+            <h1 className="cp-title" style={{ fontSize: '40px', margin: 0 }}>
               {page.hero_title}
+              <span style={{ display: 'inline-block', marginLeft: '48px', verticalAlign: 'middle', marginTop: '-8px' }}>
+                <BlogExplainerPopup slug={`${slugs.slug}/${slugs.cardSlug}`} source="engineering" />
+              </span>
             </h1>
             <p className="cp-desc" style={{ color: '#FFFFFF', fontSize: '18px', lineHeight: '24px', maxWidth: '652.59px', margin: '17.0577px 0px 0px' }}>
               {page.hero_description}
@@ -457,6 +462,11 @@ export default function EngineeringCardDetailPageClient({ params }: { params: Pr
           </section>
         );
       })()}
+
+      {/* FAQ Bot */}
+      <div style={{ maxWidth: '1200px', margin: '4rem auto 2rem', padding: '0 2rem' }}>
+        <BlogFaqBot slug={`${slugs.slug}/${slugs.cardSlug}`} source="engineering" />
+      </div>
 
       {/* 5. SECTION 5: TRENDS */}
       <section className="cp-section mb-32" style={{ paddingTop: '60px', paddingBottom: '60px' }}>

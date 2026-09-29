@@ -16,13 +16,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await supabase.from('case_studies').select('title, short_description, cover_image_url').eq('slug', slug).limit(1).single();
   const study = data as Pick<CaseStudy, 'title' | 'short_description' | 'cover_image_url'> | null;
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+
   return {
-    title: study?.title ? `${study.title} — Pixenox` : 'Case Study — Pixenox',
+    title: study?.title ?? 'Case Study',
     description: study?.short_description ?? '',
     openGraph: {
       title: study?.title ?? '',
       description: study?.short_description ?? '',
       images: study?.cover_image_url ? [study.cover_image_url] : [],
+    },
+    alternates: {
+      canonical: `${baseUrl}/work/${slug}`,
     },
   };
 }

@@ -1,8 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import './blog-detail.css';
+import BlogExplainerPopup from '@/components/blog/BlogExplainerPopup';
+import BlogFaqBot from '@/components/blog/BlogFaqBot';
+import type { Metadata } from 'next';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -20,7 +24,65 @@ interface BlogPost {
   faqs?: { question: string; answer: string }[];
 }
 
-export const revalidate = 0; // Force dynamic to ensure new posts reflect instantly
+// ISR: regenerate every hour instead of hitting Supabase on every request
+export const revalidate = 3600;
+
+// Pre-render published blog posts at build time
+// Uses public client because generateStaticParams runs without HTTP context (no cookies)
+export async function generateStaticParams() {
+  const { createClient: createPublicClient } = await import('@supabase/supabase-js');
+  const supabase = createPublicClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const { data } = await supabase
+    .from('blog_posts')
+    .select('slug')
+    .eq('is_visible', true);
+
+  return (data ?? []).map((post) => ({ slug: post.slug }));
+}
+
+// Individual SEO metadata per blog post
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createClient();
+  const { data: post } = await supabase
+    .from('blog_posts')
+    .select('title, excerpt, image_url, category, date')
+    .eq('slug', slug)
+    .eq('is_visible', true)
+    .limit(1)
+    .single();
+
+  if (!post) {
+    return { title: 'Post Not Found' };
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+
+  return {
+    title: post.title,
+    description: post.excerpt?.slice(0, 160) || `Read ${post.title} on the Pixenox blog.`,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt?.slice(0, 160) || '',
+      type: 'article',
+      publishedTime: post.date || undefined,
+      authors: ['Pixenox'],
+      images: post.image_url ? [{ url: post.image_url, width: 1200, height: 630, alt: post.title }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt?.slice(0, 160) || '',
+      images: post.image_url ? [post.image_url] : [],
+    },
+    alternates: {
+      canonical: `${baseUrl}/blog/${slug}`,
+    },
+  };
+}
 
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
@@ -55,13 +117,86 @@ export default async function BlogDetailPage({ params }: Props) {
   const tags = ['AI', 'Web Dev', 'Growth', 'Data', 'SEO', 'India', 'Startups', 'Next.js', 'Automation', 'CSR'];
   const categories = ['AI & Technology', 'Web Development', 'Growth', 'Case Studies', 'Industry'];
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+
+  // Article JSON-LD for Google rich results
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image_url || undefined,
+    datePublished: post.date || undefined,
+    dateModified: post.date || undefined,
+    author: {
+      '@type': 'Organization',
+      name: 'Pixenox',
+      url: baseUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Pixenox Solutions Pvt Ltd',
+      url: baseUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/logo.jpg`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/blog/${slug}`,
+    },
+  };
+
+  // FAQPage JSON-LD for FAQ rich snippets
+  const faqJsonLd = post.faqs && post.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: post.faqs.map((faq: { question: string; answer: string }) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null;
+
   return (
     <div className="blog-detail">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      {/* BreadcrumbList for AEO navigation */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+            { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/blog` },
+            { '@type': 'ListItem', position: 3, name: post.title, item: `${baseUrl}/blog/${slug}` },
+          ],
+        }) }}
+      />
+
       <div className="bd-layout">
         <article className="bd-main">
           
-          {/* Title */}
-          <h1 className="bd-title">{post.title}</h1>
+          {/* Title + Explainer inline */}
+          <div className="bd-title-row">
+            <h1 className="bd-title">{post.title}</h1>
+            <BlogExplainerPopup slug={slug} />
+          </div>
 
           {/* Category + Date */}
           <div className="bd-article-meta">
@@ -70,10 +205,17 @@ export default async function BlogDetailPage({ params }: Props) {
             <span className="bd-meta-date">{post.date}</span>
           </div>
 
-          {/* Hero image */}
+          {/* Hero image — optimized with Next.js Image */}
           <div className="bd-hero">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={post.image_url} alt={post.title} className="bd-hero__img" />
+            <Image
+              src={post.image_url}
+              alt={post.title}
+              width={1200}
+              height={630}
+              className="bd-hero__img"
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+            />
           </div>
 
           {/* Sections */}
@@ -144,14 +286,24 @@ export default async function BlogDetailPage({ params }: Props) {
 
                 {sec.image_url && (
                   <div className="bd-section__media">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={sec.image_url} alt={sec.question} className="w-full h-auto object-cover rounded-xl shadow-2xl border border-white/10" />
+                    <Image
+                      src={sec.image_url}
+                      alt={sec.question}
+                      width={800}
+                      height={450}
+                      className="w-full h-auto object-cover rounded-xl shadow-2xl border border-white/10"
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                    />
                   </div>
                 )}
                 
               </div>
             ))}
           </div>
+
+          {/* Blog FAQ Bot — before FAQs, for all blogs */}
+          <BlogFaqBot slug={slug} />
 
           {/* FAQs */}
           {post.faqs && post.faqs.length > 0 && (
@@ -191,8 +343,14 @@ export default async function BlogDetailPage({ params }: Props) {
               {recentPosts.slice(0, 3).map((p: any) => (
                 <Link href={`/blog/${p.slug}`} key={p.id} className="bd-next-card">
                   <div className="bd-next-card__img">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.image_url || 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&auto=format&fit=crop'} alt={p.title} />
+                    <Image
+                      src={p.image_url || '/og-image.jpg'}
+                      alt={p.title}
+                      width={400}
+                      height={225}
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
                   </div>
                   <span className="bd-next-card__cat">{p.category || 'Article'}</span>
                   <h4 className="bd-next-card__title">{p.title}</h4>

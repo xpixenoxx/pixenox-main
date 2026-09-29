@@ -9,13 +9,16 @@ interface ServiceAnimatedHeaderProps {
   description: string | null;
   titleColor: string | null;
   descColor: string | null;
+  botNode?: React.ReactNode;
 }
 
 export default function ServiceAnimatedHeader({
+
   title,
   description,
   titleColor,
   descColor,
+  botNode,
 }: ServiceAnimatedHeaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -180,13 +183,15 @@ export default function ServiceAnimatedHeader({
 
       <div className="all-srv-header" ref={containerRef}>
         <div className="all-srv-header-content">
-          <motion.h1 
-            className="all-srv-title"
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-          >
-            {titleWords.map((word, i) => {
+          <div className="all-srv-title-row" style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
+            <motion.h1 
+              className="all-srv-title"
+              variants={containerVariants}
+              initial="hidden"
+              animate={controls}
+              style={{ margin: 0, flex: 1 }}
+            >
+              {titleWords.map((word, i) => {
               const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
               const isAccent = accentKeywords.includes(cleanWord);
 
@@ -201,7 +206,13 @@ export default function ServiceAnimatedHeader({
                 </span>
               );
             })}
-          </motion.h1>
+            </motion.h1>
+            {botNode && (
+              <div style={{ marginTop: '12px' }}>
+                {botNode}
+              </div>
+            )}
+          </div>
 
           <motion.div 
             className="all-srv-cta-wrapper"

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { PixenoxHero } from "@/components/pixy/PixenoxHero";
 
-export const dynamic = 'force-dynamic';
+// ISR: page shell is static, chat is client-side
+export const revalidate = 86400;
 import "@/components/pixy/pixy.css";
 
 import { Nunito } from "next/font/google";
@@ -19,8 +20,9 @@ const sora = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Pixy | Pixenox",
-  description: "A conversation with Pixy, Pixenox's AI guide.",
+  title: "Talk to Pixy — AI Assistant",
+  description: "A conversation with Pixy, Pixenox's AI guide. Get instant answers about our AI systems, engineering services, and platform capabilities.",
+  alternates: { canonical: '/contact/pixy' },
 };
 
 export default function PixyPage() {

@@ -1,20 +1,30 @@
 # Pixenox
 
-> Pixenox Solutions Pvt Ltd is an AI engineering company headquartered in India, operating three service lines: AI Systems Engineering, Enterprise Intelligence Engineering, and AI Visibility (Generative Engine Optimization). This file follows the llms.txt convention for AI- and LLM-readable site navigation. See llms-full.txt for expanded facts, definitions, and FAQs.
+> Pixenox Solutions Pvt Ltd is an AI engineering company headquartered in India. We operate three engineering disciplines: **AI Systems Engineering** (autonomous multi-agent systems, decision intelligence, AI infrastructure), **Enterprise Intelligence Engineering** (unified data platforms, systems integration, cloud infrastructure), and **AI Visibility** (Generative Engine Optimization / GEO, Answer Engine Optimization / AEO, structured data engineering, AI citation monitoring). See llms-full.txt for expanded definitions, case studies, FAQs, and technical context.
 
-## Services
-- [AI Systems Engineering](https://www.pixenox.com/engineering/ai-systems): Autonomous multi-agent systems, decision intelligence, and AI infrastructure engineering.
-- [Enterprise Intelligence Engineering](https://www.pixenox.com/engineering/enterprise-intelligence-engineering): Enterprise data platform, systems integration, and cloud infrastructure engineering.
-- [AI Visibility](https://www.pixenox.com/engineering/ai-visibility): Generative Engine Optimization — structured data, entity engineering, and AI citation monitoring.
+## Core Engineering Disciplines
+
+- [AI Systems Engineering](https://www.pixenox.com/engineering/ai-systems): Design, build, and operate autonomous AI infrastructure — multi-agent orchestration, decision intelligence engines, and execution systems that run enterprise workflows in production.
+- [Enterprise Intelligence Engineering](https://www.pixenox.com/engineering/enterprise-intelligence-engineering): Integrate ERP, CRM, cloud, and document systems into one governed data layer with business intelligence, workflow automation, and data infrastructure engineering.
+- [AI Visibility — Generative Engine Optimization](https://www.pixenox.com/engineering/ai-visibility): Structure a brand's data, entity signals, and content so AI answer engines (ChatGPT, Gemini, Perplexity) can identify and cite it. GEO/AEO strategy, structured data engineering, knowledge graph engineering, and AI citation monitoring.
+
+## Key Definitions
+
+- **AI Systems Engineering**: The discipline of designing autonomous AI infrastructure — multi-agent orchestration, decision intelligence, and execution systems — that runs enterprise workflows with reduced manual intervention.
+- **Enterprise Intelligence Engineering**: The discipline of integrating an organization's ERP, CRM, cloud, and document systems into one governed data layer, without replacing the underlying software.
+- **AI Visibility**: The discipline of structuring a brand's data, entity signals, and content so that AI answer engines can identify and cite it in generated answers.
+- **Generative Engine Optimization (GEO)**: Optimizing content and entity data to be extracted and cited inside AI-generated answers, as distinct from SEO which optimizes to rank a clickable link.
+- **Answer Engine Optimization (AEO)**: Structuring content to be selected as the direct answer in AI-powered search and voice interfaces.
 
 ## Company
+
 - [About](https://www.pixenox.com/company)
 - [Case Studies](https://www.pixenox.com/work)
 - [Engineering Overview](https://www.pixenox.com/engineering)
 - [Contact](https://www.pixenox.com/contact): connect@pixenox.com — response within 48 hours, Monday-Saturday.
 
 ## Extended Reference
-- [llms-full.txt](https://www.pixenox.com/llms-full.txt): Expanded entity facts, canonical definitions, glossary, and FAQs.
+- [llms-full.txt](https://www.pixenox.com/llms-full.txt): Expanded entity facts, canonical definitions, glossary, case studies, and FAQs.
 
 ## Additional Resources
 - [Blog](https://www.pixenox.com/blog)

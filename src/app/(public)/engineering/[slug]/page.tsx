@@ -4,11 +4,28 @@ import type { Metadata } from 'next';
 import type { ServiceCard, CaseStudy } from '@/lib/types/database';
 import ServiceAnimatedHeader from './ServiceAnimatedHeader';
 import ServiceDetailSections from './ServiceDetailSections';
+import BlogExplainerPopup from '@/components/blog/BlogExplainerPopup';
+import BlogFaqBot from '@/components/blog/BlogFaqBot';
 import './services-slug.css';
 import './service-detail-sections.css';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  const { createClient } = await import('@supabase/supabase-js');
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const { data } = await supabase
+    .from('services_cards')
+    .select('page_slug')
+    .eq('is_visible', true)
+    .not('page_slug', 'is', null);
+
+  return (data ?? []).map((s) => ({ slug: s.page_slug! }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -22,13 +39,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .single();
   const service = data as Pick<ServiceCard, 'title' | 'description' | 'image_url'> | null;
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+
   return {
-    title: service?.title ? `${service.title} — Pixenox` : 'Service — Pixenox',
+    title: service?.title ? `${service.title}` : 'Service',
     description: service?.description ?? '',
     openGraph: {
       title: service?.title ?? '',
       description: service?.description ?? '',
       images: service?.image_url ? [service.image_url] : [],
+    },
+    alternates: {
+      canonical: `${baseUrl}/engineering/${slug}`,
     },
   };
 }
@@ -91,9 +113,63 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const normalizedTech = (techStack as any[]).map((item) =>
     typeof item === 'string' ? { name: item } : { name: item?.name || '', svg: item?.svg || undefined }
   );
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+
+  // Service JSON-LD for Google rich results
+  const serviceJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.description,
+    provider: {
+      '@type': 'Organization',
+      name: 'Pixenox Solutions Pvt Ltd',
+      url: baseUrl,
+    },
+    url: `${baseUrl}/engineering/${slug}`,
+    image: service.image_url || undefined,
+  };
+
+  // FAQPage JSON-LD if FAQs exist
+  const faqJsonLd = service.faqs && Array.isArray(service.faqs) && service.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: (service.faqs as { question: string; answer: string }[]).map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null;
 
   return (
     <article className="all-srv-page">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      {/* BreadcrumbList for AEO navigation */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+            { '@type': 'ListItem', position: 2, name: 'Engineering', item: `${baseUrl}/engineering` },
+            { '@type': 'ListItem', position: 3, name: service.title, item: `${baseUrl}/engineering/${slug}` },
+          ],
+        }) }}
+      />
       {/* 100vh Premium Hero Banner Area */}
       <div className="all-srv-header-wrapper">
         <div className="all-srv-header-aurora" />
@@ -103,6 +179,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           description={service.description}
           titleColor={service.subheading_color || service.title_color}
           descColor={service.desc_color}
+          botNode={<BlogExplainerPopup slug={slug} source="service" />}
         />
       </div>
 
@@ -118,6 +195,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         whatYouGetHeading={service.what_you_get_heading}
         whatYouGetDescription={service.what_you_get_description}
         whatYouGetItems={service.what_you_get_items}
+        faqBotNode={<BlogFaqBot slug={slug} source="service" />}
       />
     </article>
   );

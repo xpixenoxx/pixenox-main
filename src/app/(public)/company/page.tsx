@@ -2,8 +2,8 @@ import { createClient as createServerClient } from '@/lib/supabase/server';
 import CompanyPageClient from './CompanyPageClient';
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// ISR: revalidate every hour for fresh content with cached performance
+export const revalidate = 3600;
 import type {
   PageHeroConfig,
   CompanyStory,
@@ -20,11 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = data as SeoConfig | null;
 
   return {
-    title: seo?.title ?? 'About Us — Pixenox',
+    title: seo?.title ?? 'About Us',
     description: seo?.description ?? 'Learn about our mission, story, and values.',
     keywords: seo?.keywords ?? [],
     openGraph: {
-      title: seo?.title ?? 'About Us — Pixenox',
+      title: seo?.title ?? 'About Us',
       description: seo?.description ?? '',
       images: seo?.og_image ? [seo.og_image] : [],
     },

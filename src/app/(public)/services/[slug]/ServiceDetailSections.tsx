@@ -32,6 +32,7 @@ interface ServiceDetailSectionsProps {
   whatYouGetHeading?: string | null;
   whatYouGetDescription?: string | null;
   whatYouGetItems?: { title: string; desc: string; icon_svg?: string }[] | null;
+  faqBotComponent?: React.ReactNode;
 }
 
 /* ─────────────────────────────────────────────────
@@ -84,6 +85,7 @@ export default function ServiceDetailSections({
   whatYouGetHeading,
   whatYouGetDescription,
   whatYouGetItems,
+  faqBotComponent,
 }: ServiceDetailSectionsProps) {
 
   // CTA Canvas
@@ -219,6 +221,9 @@ export default function ServiceDetailSections({
 
       {/* 3. DARK THEME RETURN: The Spotlight Matrix */}
       <MatrixTechStack techStack={techStack} />
+
+      {/* FAQ Bot */}
+      {faqBotComponent}
 
       {/* FAQs Section */}
       {faqs && faqs.length > 0 && (

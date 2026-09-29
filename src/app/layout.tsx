@@ -37,20 +37,31 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pixenox",
-    template: "Pixenox",
+    default: "Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering",
+    template: "%s | Pixenox",
   },
   description:
-    "We architect converged platforms where AI, data infrastructure, and growth systems operate as a single intelligent layer. Enterprise engineering for companies that refuse fragmented toolchains.",
+    "Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (GEO/AEO) solutions. We build production-grade AI infrastructure, unified data layers, and generative engine optimization systems for enterprises.",
   keywords: [
-    "unified intelligent systems",
     "AI systems engineering",
-    "web architecture",
-    "SEO AEO GEO optimization",
-    "enterprise software",
-    "bio intelligence",
-    "growth intelligence",
-    "data analytics platform",
+    "autonomous AI systems",
+    "multi-agent orchestration",
+    "enterprise intelligence engineering",
+    "enterprise data platform",
+    "data infrastructure engineering",
+    "AI visibility",
+    "generative engine optimization",
+    "GEO optimization",
+    "AEO optimization",
+    "answer engine optimization",
+    "AI citation optimization",
+    "structured data engineering",
+    "knowledge graph engineering",
+    "pixenox",
+    "AI company India",
+    "enterprise AI solutions",
+    "LLM integration",
+    "decision intelligence",
   ],
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"
@@ -63,10 +74,15 @@ export const metadata: Metadata = {
       {
         url: "/og-image.jpg",
         width: 1200,
-        height: 1200,
-        alt: "Pixenox — Unified Intelligent Systems",
+        height: 630,
+        alt: "Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@pixenox",
+    creator: "@pixenox",
   },
   icons: {
     icon: "/icon.jpg",
@@ -82,6 +98,12 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  alternates: {
+    canonical: "/",
+  },
+  other: {
+    "ai-content-declarations": "structured-data, llms-txt, faq-schema",
   },
 };
 
@@ -110,19 +132,21 @@ export default function RootLayout({
         <link rel="preconnect" href="https://hylycwrnfqghmewamqzu.supabase.co" />
         <link rel="dns-prefetch" href="https://hylycwrnfqghmewamqzu.supabase.co" />
 
-        {/* JSON-LD Structured Data: Organization */}
+        {/* JSON-LD: Organization with Service Offerings (GEO/AEO Entity Signal) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
+              "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/#organization`,
               name: "Pixenox",
+              legalName: "Pixenox Solutions Pvt Ltd",
               url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com",
-              description: "Unified intelligent systems engineering. We architect converged platforms where AI, data infrastructure, and growth systems operate as a single intelligent layer.",
+              description: "Pixenox is an AI engineering company that designs and operates autonomous AI systems, enterprise intelligence platforms, and AI visibility (Generative Engine Optimization) solutions for enterprises.",
               contactPoint: {
                 "@type": "ContactPoint",
-                email: "xpixenox@gmail.com",
+                email: "connect@pixenox.com",
                 contactType: "sales",
                 availableLanguage: ["English"],
               },
@@ -131,19 +155,72 @@ export default function RootLayout({
                 "https://github.com/pixenox",
                 "https://x.com/pixenox",
               ],
-              founder: {
-                "@type": "Person",
-                name: "Pixenox Team",
-              },
               knowsAbout: [
+                "AI Systems Engineering",
                 "Autonomous AI Systems",
-                "Web Architecture",
-                "Unified Optimization (SEO/AEO/GEO)",
-                "Insight Engine & Analytics",
-                "Bio Intelligence",
-                "Growth Intelligence",
-                "Custom Software Engineering",
+                "Multi-Agent Orchestration",
+                "Enterprise Intelligence Engineering",
+                "Enterprise Data Platform Engineering",
+                "AI Visibility",
+                "Generative Engine Optimization (GEO)",
+                "Answer Engine Optimization (AEO)",
+                "Structured Data Engineering",
+                "Knowledge Graph Engineering",
+                "Decision Intelligence",
+                "LLM Integration",
               ],
+              hasOfferingCatalog: {
+                "@type": "OfferCatalog",
+                name: "Pixenox Engineering Services",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "AI Systems Engineering",
+                      description: "Design, build, and operate autonomous AI infrastructure — multi-agent orchestration, decision intelligence, and execution systems that run enterprise workflows in production.",
+                      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/engineering/ai-systems`,
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Enterprise Intelligence Engineering",
+                      description: "Integrate ERP, CRM, cloud, and document systems into one governed data layer with business intelligence, workflow automation, and cloud infrastructure engineering.",
+                      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/engineering/enterprise-intelligence-engineering`,
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "AI Visibility — Generative Engine Optimization",
+                      description: "Structure a brand's data, entity signals, and content so AI answer engines (ChatGPT, Gemini, Perplexity) can identify and cite it in generated answers. Includes GEO, AEO, structured data engineering, and AI citation monitoring.",
+                      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/engineering/ai-visibility`,
+                    },
+                  },
+                ],
+              },
+            }),
+          }}
+        />
+
+        {/* JSON-LD: WebSite with SearchAction (Sitelinks Search Box + AEO) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/#website`,
+              name: "Pixenox",
+              url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com",
+              description: "AI Systems Engineering, Enterprise Intelligence Engineering, and AI Visibility (GEO/AEO) — Pixenox engineers production-grade AI infrastructure for enterprises.",
+              publisher: {
+                "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/#organization`,
+              },
+              inLanguage: "en-US",
             }),
           }}
         />

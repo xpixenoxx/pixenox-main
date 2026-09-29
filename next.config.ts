@@ -11,16 +11,15 @@ const nextConfig: NextConfig = {
   
   allowedDevOrigins: ['127.0.0.1', 'localhost'],
   
-  // Optimize images for LCP
+  // Optimize images for LCP (unoptimized in local dev to bypass Next.js NAT64 SSRF block)
   images: {
-    qualities: [75, 100],
+    unoptimized: process.env.NODE_ENV === 'development',
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000, // 1 year cache for optimized images
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'hylycwrnfqghmewamqzu.supabase.co',
-        port: '',
         pathname: '/storage/v1/object/public/**',
       },
     ],
@@ -51,16 +50,6 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Cache optimized images
-      {
-        source: '/_next/image(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400, stale-while-revalidate=604800',
-          },
-        ],
-      },
       // Cache fonts
       {
         source: '/fonts/(.*)',
@@ -68,6 +57,36 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Cache static images and assets in /public
+      {
+        source: '/images/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      // Cache SVGs, logos, and other static files
+      {
+        source: '/:path*.(svg|jpg|jpeg|png|webp|avif|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      // Cache llms.txt files for AI crawlers
+      {
+        source: '/:path*.(txt)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=3600',
           },
         ],
       },

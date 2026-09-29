@@ -33,6 +33,7 @@ interface ServiceDetailSectionsProps {
   whatYouGetHeading?: string | null;
   whatYouGetDescription?: string | null;
   whatYouGetItems?: { title: string; desc: string; icon_svg?: string }[] | null;
+  faqBotNode?: React.ReactNode;
 }
 
 /* ─────────────────────────────────────────────────
@@ -86,6 +87,7 @@ export default function ServiceDetailSections({
   whatYouGetHeading,
   whatYouGetDescription,
   whatYouGetItems,
+  faqBotNode,
 }: ServiceDetailSectionsProps) {
 
   // CTA Canvas
@@ -225,7 +227,14 @@ export default function ServiceDetailSections({
 
       {/* FAQs Section */}
       {faqs && faqs.length > 0 && (
-        <ServiceFaqs faqs={faqs} />
+        <div style={{ position: 'relative' }}>
+          {faqBotNode && (
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 2rem 0' }}>
+              {faqBotNode}
+            </div>
+          )}
+          <ServiceFaqs faqs={faqs} />
+        </div>
       )}
 
       {/* 4. DARK THEME: Immersive CTA */}

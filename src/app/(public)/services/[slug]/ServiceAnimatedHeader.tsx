@@ -9,6 +9,7 @@ interface ServiceAnimatedHeaderProps {
   description: string | null;
   titleColor: string | null;
   descColor: string | null;
+  botComponent?: React.ReactNode;
 }
 
 export default function ServiceAnimatedHeader({
@@ -16,6 +17,7 @@ export default function ServiceAnimatedHeader({
   description,
   titleColor,
   descColor,
+  botComponent,
 }: ServiceAnimatedHeaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -183,13 +185,14 @@ export default function ServiceAnimatedHeader({
       <div className="all-srv-header" ref={containerRef}>
         
         <div className="all-srv-header-topleft">
-          <motion.h1 
-            className="all-srv-title"
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-            style={{ marginBottom: '20px' }}
-          >
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '20px', flexWrap: 'wrap' }}>
+            <motion.h1 
+              className="all-srv-title"
+              variants={containerVariants}
+              initial="hidden"
+              animate={controls}
+              style={{ margin: 0 }}
+            >
             {titleWords.map((word, i) => {
               const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
               const isAccent = accentKeywords.includes(cleanWord);
@@ -206,6 +209,8 @@ export default function ServiceAnimatedHeader({
               );
             })}
           </motion.h1>
+          {botComponent}
+        </div>
 
           <motion.a 
             href="#details"

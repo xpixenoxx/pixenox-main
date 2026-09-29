@@ -9,11 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = data as SeoConfig | null;
 
   return {
-    title: seo?.title ?? 'Our Work — Pixenox',
+    title: seo?.title ?? 'Our Work',
     description: seo?.description ?? 'Explore our portfolio of digital projects.',
     keywords: seo?.keywords ?? [],
     openGraph: {
-      title: seo?.title ?? 'Our Work — Pixenox',
+      title: seo?.title ?? 'Our Work',
       description: seo?.description ?? '',
       images: seo?.og_image ? [seo.og_image] : [],
     },

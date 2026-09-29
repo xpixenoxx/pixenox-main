@@ -64,12 +64,21 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = await getCachedSeo();
 
   return {
-    title: seo?.title ?? 'Pixenox — Unified Intelligent Systems',
-    description: seo?.description ?? 'We architect converged platforms where AI, data, and growth systems operate as one intelligent layer.',
-    keywords: seo?.keywords ?? [],
+    title: seo?.title ?? 'Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering',
+    description: seo?.description ?? 'Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (GEO/AEO) solutions. Production-grade AI infrastructure for enterprises.',
+    keywords: seo?.keywords ?? [
+      'AI systems engineering',
+      'enterprise intelligence engineering',
+      'AI visibility',
+      'generative engine optimization',
+      'GEO',
+      'AEO',
+      'autonomous AI',
+      'pixenox',
+    ],
     openGraph: {
-      title: seo?.title ?? 'Pixenox — Unified Intelligent Systems',
-      description: seo?.description ?? 'We architect converged platforms where AI, data, and growth systems operate as one intelligent layer.',
+      title: seo?.title ?? 'Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering',
+      description: seo?.description ?? 'Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (GEO/AEO) solutions.',
       images: seo?.og_image ? [seo.og_image] : [],
     },
     alternates: {
@@ -165,9 +174,75 @@ export default async function HomePage() {
   const dataTime = Date.now() - start;
   console.log(`[Timing] / (Home) - Data fetch: ${dataTime}ms`);
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+
+  // ProfessionalService JSON-LD for homepage (GEO/AEO entity signal)
+  const professionalServiceJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${baseUrl}/#professional-service`,
+    name: 'Pixenox',
+    description: 'Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (Generative Engine Optimization) solutions for enterprises.',
+    url: baseUrl,
+    priceRange: '$$$$',
+    areaServed: 'Worldwide',
+    serviceType: [
+      'AI Systems Engineering',
+      'Enterprise Intelligence Engineering',
+      'AI Visibility — Generative Engine Optimization',
+    ],
+    hasOfferingCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Engineering Disciplines',
+      itemListElement: [
+        {
+          '@type': 'OfferCatalog',
+          name: 'AI Systems Engineering',
+          description: 'Autonomous multi-agent systems, decision intelligence engines, and AI infrastructure engineering.',
+          url: `${baseUrl}/engineering/ai-systems`,
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'Enterprise Intelligence Engineering',
+          description: 'Unified data platforms, systems integration, cloud infrastructure, and business intelligence engineering.',
+          url: `${baseUrl}/engineering/enterprise-intelligence-engineering`,
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'AI Visibility (GEO/AEO)',
+          description: 'Generative Engine Optimization, Answer Engine Optimization, structured data engineering, knowledge graph engineering, and AI citation monitoring.',
+          url: `${baseUrl}/engineering/ai-visibility`,
+        },
+      ],
+    },
+  };
+
+  // BreadcrumbList for homepage (AEO navigation signal)
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+    ],
+  };
 
   return (
     <>
+      {/* GEO/AEO Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <HeroSection initialData={data.hero} />
       <ServicesSection
         initialCards={data.servicesCards}

@@ -41,6 +41,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 1.0,
     },
+    // The 3 Core Niche Services get highest priority after homepage
+    {
+      url: `${baseUrl}/engineering/ai-systems`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/engineering/ai-visibility`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/engineering/enterprise-intelligence-engineering`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
     {
       url: `${baseUrl}/engineering`,
       lastModified: now,

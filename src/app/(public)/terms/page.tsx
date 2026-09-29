@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — Pixenox Solutions Pvt Ltd',
+  title: 'Terms of Service',
   description: 'Terms and conditions governing the use of Pixenox Solutions Pvt Ltd services and website.',
   alternates: { canonical: '/terms' },
 };

@@ -6,8 +6,9 @@ import type { ServiceCard } from '@/lib/types/database';
 import AllServicesInteractive from './AllServicesInteractive';
 
 export const metadata: Metadata = {
-  title: 'Platform Capabilities — Pixenox',
+  title: 'Platform Capabilities',
   description: 'Explore our high-velocity engineering, unified optimization engines, and autonomous AI systems deployed at scale.',
+  alternates: { canonical: '/services' },
 };
 
 const getPublicClient = () =>
@@ -16,7 +17,8 @@ const getPublicClient = () =>
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  async function getServicesData() {
+const getCachedServicesData = unstable_cache(
+  async () => {
     const supabase = getPublicClient();
     const [{ data: servicesData }, { data: heroData }] = await Promise.all([
       supabase
@@ -40,13 +42,17 @@ const getPublicClient = () =>
       services: servicesData as ServiceCard[],
       heroConfig: heroData
     };
-  }
+  },
+  ['services-data'],
+  { revalidate: 3600, tags: ['services'] }
+);
 
-export const dynamic = 'force-dynamic';
+// ISR: revalidate every hour
+export const revalidate = 3600;
 
 export default async function ServicesHubPage() {
   const start = Date.now();
-  const { services, heroConfig } = await getServicesData();
+  const { services, heroConfig } = await getCachedServicesData();
   const dataTime = Date.now() - start;
   console.log(`[Timing] /services - Data fetch: ${dataTime}ms`);
 

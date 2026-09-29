@@ -1,0 +1,634 @@
+/* ═══════════════════════════════════════
+   PIXENOX — Blog Bot Shared Styles
+   Typewriter + Explainer Popup + FAQ Bot
+   ═══════════════════════════════════════ */
+
+/* ────────────────────────────
+   TYPEWRITER ANIMATION
+   ──────────────────────────── */
+.tw-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  line-height: 1.7;
+}
+
+.tw-word {
+  display: inline-block;
+  transition: opacity 0.5s ease;
+}
+
+.tw-word--done {
+  opacity: 0.7;
+  transition: opacity 0.5s ease;
+}
+
+.tw-word--typing {
+  filter: none;
+  opacity: 1;
+  color: #fff;
+}
+
+.tw-word--pending {
+  opacity: 0;
+  filter: none;
+}
+
+/* When typing is complete, full opacity */
+.tw-complete .tw-word--done {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+/* Blinking cursor after the current word */
+.tw-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #c084fc;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: tw-blink 0.7s step-end infinite;
+}
+
+@keyframes tw-blink {
+  50% { opacity: 0; }
+}
+
+/* ────────────────────────────
+   PAGED TYPEWRITER (3-line chunks)
+   ──────────────────────────── */
+.paged-tw {
+  position: relative;
+}
+
+.paged-tw__content {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.paged-tw__content--fade {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.paged-tw__content--done {
+  /* Final page stays visible */
+}
+
+/* ────────────────────────────
+   BOT 1: EXPLAINER (INLINE with title)
+   ──────────────────────────── */
+
+/* Wrapper — sits inline to the right of the title */
+.blog-explainer-inline {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+  margin-left: 20px;
+}
+
+/* Title row — flex container for h1 + button */
+.bd-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 24px;
+}
+
+.bd-title-row .bd-title {
+  margin: 0;
+  flex: 1;
+}
+
+/* Trigger button */
+.blog-explainer-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 10px;
+  color: #c084fc;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.25s, border-color 0.25s, transform 0.2s;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  height: fit-content;
+  margin-top: 8px;
+}
+
+.blog-explainer-trigger:hover {
+  background: rgba(124, 58, 237, 0.25);
+  border-color: rgba(124, 58, 237, 0.6);
+  transform: translateY(-1px);
+}
+
+.blog-explainer-trigger--active {
+  background: rgba(124, 58, 237, 0.3);
+  border-color: #c084fc;
+}
+
+.blog-explainer-trigger__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.blog-explainer-inline {
+  position: relative;
+}
+
+/* Popup Panel — drops down from trigger */
+.blog-explainer-popup {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: -20px;
+  right: auto;
+  z-index: 100;
+  width: 320px;
+  background: rgba(12, 10, 22, 0.95);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(124, 58, 237, 0.08);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.blog-explainer-popup--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* On service pages, move the popup to the right of the button so it doesn't overlap content */
+.blog-explainer-popup--service {
+  top: auto;
+  bottom: -20px;
+  left: calc(100% + 16px);
+  transform: translateX(-8px) scale(0.96);
+}
+
+.blog-explainer-popup--service.blog-explainer-popup--open {
+  transform: translateX(0) scale(1);
+}
+
+/* On engineering pages, the button is inline with the title. 
+   We pop it to the right so it goes into the empty space and doesn't overlap the text below. */
+.blog-explainer-popup--engineering {
+  top: auto;
+  bottom: -20px;
+  left: calc(100% + 16px);
+  transform: translateX(-8px) scale(0.96);
+}
+
+.blog-explainer-popup--engineering.blog-explainer-popup--open {
+  transform: translateX(0) scale(1);
+}
+
+.blog-explainer-popup__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.blog-explainer-popup__terminate {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.blog-explainer-popup__terminate:hover {
+  background: rgba(255, 100, 100, 0.15);
+  color: #ff8a8a;
+}
+
+.blog-explainer-popup__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c084fc;
+}
+
+.blog-explainer-popup__title {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Fixed 3-line height for paged content */
+.blog-explainer-popup__body {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  min-height: calc(0.92rem * 1.7 * 3);
+}
+
+.blog-explainer-popup__loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.blog-explainer-popup__spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(124, 58, 237, 0.2);
+  border-top-color: #c084fc;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Stop button & Paused styles */
+.blog-bot-stop-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(255, 100, 100, 0.1);
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  border-radius: 6px;
+  color: #ff8a8a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.blog-bot-stop-btn:hover {
+  background: rgba(255, 100, 100, 0.2);
+  border-color: #ff8a8a;
+}
+
+.faq-stop-btn {
+  margin-top: 8px;
+}
+
+.tw-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.tw-controls .faq-stop-btn {
+  margin-top: 0;
+}
+
+.blog-bot-terminate-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(255, 60, 60, 0.08);
+  border: 1px solid rgba(255, 60, 60, 0.25);
+  border-radius: 6px;
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.blog-bot-terminate-btn:hover {
+  background: rgba(255, 60, 60, 0.18);
+  border-color: #ff6b6b;
+}
+
+.paged-tw__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.paged-tw__progress {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(192, 132, 252, 0.5);
+  letter-spacing: 0.05em;
+  margin-top: 0;
+}
+
+.blog-explainer-popup__paused {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #ffbc57;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(255, 188, 87, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ────────────────────────────
+   BOT 2: FAQ QUESTION BOT
+   ──────────────────────────── */
+.blog-faq-bot {
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+.blog-faq-bot__prompt {
+  background: rgba(124, 58, 237, 0.06);
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.blog-faq-bot__prompt-text {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 20px;
+}
+
+.blog-faq-bot__prompt-icon {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
+.blog-faq-bot__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.blog-faq-bot__btn {
+  padding: 10px 32px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  border: none;
+}
+
+.blog-faq-bot__btn--yes {
+  background: rgba(124, 58, 237, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(124, 58, 237, 0.4);
+}
+
+.blog-faq-bot__btn--yes:hover {
+  background: rgba(124, 58, 237, 0.35);
+  border-color: #c084fc;
+  transform: translateY(-1px);
+}
+
+.blog-faq-bot__btn--no {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.blog-faq-bot__btn--no:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Chat area */
+.blog-faq-bot__chat {
+  background: rgba(124, 58, 237, 0.04);
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  animation: faqBotSlideIn 0.35s ease;
+}
+
+.blog-faq-bot__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.blog-faq-bot__title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c084fc;
+}
+
+@keyframes faqBotSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.blog-faq-bot__messages {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.blog-faq-bot__messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.blog-faq-bot__messages::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.3);
+  border-radius: 4px;
+}
+
+.blog-faq-bot__msg {
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 85%;
+}
+
+.blog-faq-bot__msg--user {
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  color: #e0d0ff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.blog-faq-bot__msg--bot {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+/* Input area */
+.blog-faq-bot__input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.blog-faq-bot__input {
+  flex: 1;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.blog-faq-bot__input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.blog-faq-bot__input:focus {
+  border-color: rgba(124, 58, 237, 0.5);
+}
+
+.blog-faq-bot__send {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  color: #c084fc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+
+.blog-faq-bot__send:hover:not(:disabled) {
+  background: rgba(124, 58, 237, 0.35);
+  border-color: #c084fc;
+  transform: translateY(-1px);
+}
+
+.blog-faq-bot__send:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.blog-faq-bot__send svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ────────────────────────────
+   RESPONSIVE
+   ──────────────────────────── */
+@media (max-width: 768px) {
+  .bd-title-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .blog-explainer-inline {
+    margin-left: 0;
+  }
+
+  .blog-explainer-trigger {
+    margin-top: 0;
+  }
+
+  .blog-explainer-popup {
+    width: 300px;
+    right: 0;
+  }
+
+  .blog-explainer-popup--service,
+  .blog-explainer-popup--engineering {
+    top: calc(100% + 12px);
+    left: auto;
+    right: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+
+  .blog-explainer-popup--service.blog-explainer-popup--open,
+  .blog-explainer-popup--engineering.blog-explainer-popup--open {
+    transform: translateY(0) scale(1);
+  }
+
+  .blog-faq-bot__prompt {
+    padding: 24px 20px;
+  }
+
+  .blog-faq-bot__prompt-text {
+    font-size: 1.15rem;
+  }
+
+  .blog-faq-bot__chat {
+    padding: 18px;
+  }
+
+  .blog-faq-bot__msg {
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-explainer-popup {
+    width: calc(100vw - 32px);
+    right: -16px;
+  }
+
+  .blog-explainer-popup--service,
+  .blog-explainer-popup--engineering {
+    top: calc(100% + 12px);
+    left: 0;
+    right: auto;
+    transform: translateY(-8px) scale(0.96);
+  }
+
+  .blog-explainer-popup--service.blog-explainer-popup--open,
+  .blog-explainer-popup--engineering.blog-explainer-popup--open {
+    transform: translateY(0) scale(1);
+  }
+}
