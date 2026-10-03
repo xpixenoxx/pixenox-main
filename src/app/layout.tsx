@@ -37,7 +37,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering",
+    default: "Pixenox - AI Systems, AI Visibility & Enterprise Intelligence Engineering",
     template: "%s | Pixenox",
   },
   description:
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering",
+        alt: "Pixenox - AI Systems, AI Visibility & Enterprise Intelligence Engineering",
       },
     ],
   },
