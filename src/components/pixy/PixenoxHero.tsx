@@ -33,16 +33,17 @@ export function PixenoxHero() {
     for (let i = 1; i <= text.length; i++) {
       if (typeMainTextRef.current !== runId) return;
 
-      for (let j = 0; j < 2; j++) {
-        if (typeMainTextRef.current !== runId) return;
-        const randomChar = chars[Math.floor(Math.random() * chars.length)];
-        setMainDisplayed(text.substring(0, i - 1) + randomChar);
-        await wait(15);
-      }
+      // Single quick scramble instead of two slow ones
+      const randomChar = chars[Math.floor(Math.random() * chars.length)];
+      setMainDisplayed(text.substring(0, i - 1) + randomChar);
+      await wait(8);
 
       if (typeMainTextRef.current !== runId) return;
       setMainDisplayed(text.substring(0, i));
-      await wait(speed);
+      
+      // Dynamic speed scaling: extremely long texts type faster automatically
+      const currentSpeed = text.length > 50 ? Math.min(speed, 5) : speed;
+      await wait(currentSpeed);
     }
 
     if (typeMainTextRef.current !== runId) return;
@@ -92,20 +93,20 @@ export function PixenoxHero() {
       for (let i = 1; i <= m0.length; i++) {
         if (!isActive) return;
         setIntroDisplayed(m0.substring(0, i));
-        await wait(38);
+        await wait(15); // Faster intro
       }
 
       if (!isActive) return;
       setPhase('wait');
-      await wait(500);
+      await wait(300);
 
       if (!isActive) return;
 
       const m1 = dynamicMessages.slice(1).join(" ") || "Welcome to Pixenox. So, what are we building?";
 
-      await typeMainText(m1, 38);
+      await typeMainText(m1, 15);
 
-      await wait(400);
+      await wait(200);
       if (!isActive) return;
       setShowPills(true);
     };
