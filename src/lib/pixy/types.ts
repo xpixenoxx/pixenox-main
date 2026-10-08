@@ -15,6 +15,7 @@ export type StepId =
   | "budget"
   | "launch"
   | "email"
+  | "contact"
   | "complete"
   | "culture"
   | "careers_redirect"
@@ -35,6 +36,7 @@ export const ALLOWED_COMPONENTS = [
   "final-actions",
   "voice_selector",
   "project_description",
+  "contact",
 ] as const;
 
 export type ComponentKind = (typeof ALLOWED_COMPONENTS)[number];
@@ -49,6 +51,7 @@ export interface FormData {
   budget: string;
   launchTimeline: string;
   email: string;
+  phone: string;
 }
 
 export const EMPTY_FORM_DATA: FormData = {
@@ -61,6 +64,7 @@ export const EMPTY_FORM_DATA: FormData = {
   budget: "",
   launchTimeline: "",
   email: "",
+  phone: "",
 };
 
 export interface ConversationState {

@@ -102,6 +102,11 @@ export const STEP_CONFIG: Record<StepId, StepConfig> = {
     component: "project_description",
     fallback: () => ["Tell us a little about your project.", "Share your idea, requirements, goals, or challenges. You can also attach a file if you have one."],
   },
+  contact: {
+    id: "contact",
+    component: "contact",
+    fallback: () => ["I’m going to need a way to reach you.", "What’s the best email and phone number to send the details to?"]
+  },
   services: {
     id: "services",
     component: "buttons",
@@ -224,7 +229,8 @@ export const STEP_INTENT: Record<StepId, string> = {
   intro: "Greet the visitor playfully and warmly for the first time. You are PIXY. Keep it extremely crisp and brief (exactly 2 short sentences). CRITICAL: You MUST generate a completely unique, never-before-seen greeting. Make it crisp, confident, and highly flirty so the user gets immediately interested. Split your response exactly into 2 messages in the array. The first message should be an alluring opening line. The second message should tease them or confidently invite them to talk about their project.",
   careers: "React to the visitor wanting to join the team and let them know you're pointing them to careers.",
   name: "You must acknowledge they want to start a project. Make a clever, rapid observation about starting something new, then smoothly ask them what you should call them. Be strictly conversational—ban all generic 'how can I help you' formatting.",
-  services: "Acknowledge their name with extreme conversational charm. Drop a witty, spontaneous one-liner weaving their name in naturally. Then, in a completely fresh way, ask them what kind of ambitious system or service they want to build. Ban the phrase 'What can we help you with?'. It must feel like an exclusive 1-on-1 text message from Pixenox, totally dynamic every time.",
+  contact: "Acknowledge their name gracefully. Then smoothly ask them for their email and phone number, emphasizing that you need it so the team can reach out about the details.",
+  services: "Acknowledge handing over their contact details. Drop a witty, spontaneous one-liner. Then, in a completely fresh way, ask them what kind of ambitious system or service they want to build. Ban the phrase 'What can we help you with?'. It must feel like an exclusive 1-on-1 text message from Pixenox, totally dynamic every time.",
   company: "Acknowledge their service choice, and ask for their company name and job title.",
   budget: "Acknowledge their company/role, and ask about their budget.",
   launch: "Acknowledge their budget (or service), then include a crisp, flirty, and encouraging short story about how Pixenox builds unbelievable production-grade AI systems that completely transform companies. Make the user feel incredibly excited to be conversing with us. After the brief hype, ask them what their timeline is.",
@@ -238,6 +244,7 @@ export const STEP_INTENT: Record<StepId, string> = {
 
 export const GROQ_FAILURE_FALLBACKS: Partial<Record<StepId, string[]>> = {
   intro: undefined, // Uses the random INTRO_POOL via STEP_CONFIG fallback
+  contact: ["Perfect.", "Before we get distracted mapping out the future, what’s your email and phone number?"],
   services: ["I like a person who knows what they want.", "Tell me, what kind of ambitious system are we building?"],
   name: ["Let's skip the formalities and get straight to it.", "What should I call you?"],
   company: ["Mind telling me the name of your company before we dive too deep?"],

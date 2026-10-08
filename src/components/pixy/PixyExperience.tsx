@@ -532,10 +532,40 @@ export function PixyExperience() {
     advance("email", next, projectDescription || (uploadedFile ? `Attached: ${uploadedFile.name}` : ""));
   };
 
-  const handleEmail = (email: string) => {
+  const handleEmail = async (email: string) => {
     const next = updateForm({ email });
-    // Prototype: no production backend yet — log safely for development.
-    console.info("[Pixy prototype] lead captured", { ...next });
+    showToast("Submitting your lead to Pixenox...");
+    
+    try {
+      const messageBody = `Company: ${next.company}\nJob Title: ${next.jobTitle}\nBudget: ${next.budget}\nTimeline: ${next.launchTimeline}\nProject: ${next.projectDescription}${next.uploadedFile ? `\nFile: ${next.uploadedFile.name} (${next.uploadedFile.url || 'No URL'})` : ''}`;
+
+      const payload = {
+        name: next.name || 'Anonymous',
+        email: next.email,
+        services_interested: next.services ? [next.services] : [],
+        message: messageBody.trim(),
+      };
+
+      console.info("[Pixy prototype] Sending to backend /api/contact:", payload);
+
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        showToast("Error saving lead: " + (errData.error || res.statusText));
+        console.error("API Error Response:", errData);
+      } else {
+        showToast("Lead submitted successfully!");
+      }
+    } catch (err: any) {
+      console.error("[Pixy experience] Failed to submit lead:", err);
+      showToast("Network error submitting lead: " + err.message);
+    }
+
     advance("complete", next, email);
   };
 
