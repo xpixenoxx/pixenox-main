@@ -220,10 +220,24 @@ export function PixenoxHero() {
           setCurrentOptions(["Within 3 months", "3-6 months", "No rush"]);
         } else if (nextStep === 'complete') {
           setCurrentOptions(["Explore Pixenox"]);
+        } else if (nextStep === 'careers_redirect') {
+          setCurrentOptions([]);
+        } else if (nextStep === 'explore') {
+          setCurrentOptions([]);
         }
 
         await typeMainText(data.messages.join(' '), 10);
         setShowPills(true);
+
+        if (nextStep === 'careers_redirect' || nextStep === 'careers') {
+          setTimeout(() => {
+            window.location.href = '/careers';
+          }, 1200);
+        } else if (nextStep === 'explore') {
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1200);
+        }
       }
     } catch (err) {
       console.error(err);
@@ -505,12 +519,24 @@ export function PixenoxHero() {
                 key={text}
                 className="pill-action mr-3 mb-3"
                 onClick={() => {
-                  if (conversationStep === 'intro' && text === "Start a project") {
-                    advanceConversation('name', text);
+                  if (conversationStep === 'intro') {
+                    if (text === "Start a project") {
+                      advanceConversation('name', text);
+                    } else if (text === "Come work here") {
+                      advanceConversation('careers_redirect', text);
+                    } else if (text === "Send a brief hello") {
+                      advanceConversation('contact', text);
+                    } else if (text === "See how we operate") {
+                      advanceConversation('explore', text);
+                    } else {
+                      advanceConversation('name', text);
+                    }
                   } else if (conversationStep === 'services') {
                     advanceConversation('launch', text);
                   } else if (conversationStep === 'launch') {
                     advanceConversation('complete', text);
+                  } else if (conversationStep === 'complete' && text === "Explore Pixenox") {
+                    advanceConversation('explore', text);
                   }
                 }}
               >
