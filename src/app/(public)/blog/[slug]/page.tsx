@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { sortBlogPostsByDate } from '@/lib/blog-utils';
 import './blog-detail.css';
 import BlogExplainerPopup from '@/components/blog/BlogExplainerPopup';
 import BlogFaqBot from '@/components/blog/BlogFaqBot';
@@ -97,14 +98,13 @@ export default async function BlogDetailPage({ params }: Props) {
 
   if (!post) notFound();
 
-  // Adjacent posts for prev/next nav and recent posts
+  // Adjacent posts for prev/next nav and recent posts (sorted by latest date)
   const { data: allPosts } = await supabase
     .from('blog_posts')
-    .select('id, slug, title, priority, image_url, category')
-    .eq('is_visible', true)
-    .order('priority', { ascending: true });
+    .select('id, slug, title, priority, image_url, category, date, created_at')
+    .eq('is_visible', true);
 
-  const allList = allPosts ?? [];
+  const allList = sortBlogPostsByDate((allPosts as any[]) ?? []);
   const currentIdx = allList.findIndex((p: any) => p.slug === slug);
   const prevPost = currentIdx > 0 ? allList[currentIdx - 1] : null;
   const nextPost = currentIdx < allList.length - 1 ? allList[currentIdx + 1] : null;

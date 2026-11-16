@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
+import { sortBlogPostsByDate } from '@/lib/blog-utils';
 import type { Metadata } from 'next';
 import './blog.css';
 
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 3600; // ISR: regenerate every hour
+export const revalidate = 0; // Always serve fresh, real-time blog order
 
 const POSTS_PER_PAGE = 8;
 
@@ -28,6 +29,7 @@ interface BlogPost {
   image_url: string;
   excerpt: string;
   priority: number;
+  created_at?: string;
 }
 
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
@@ -37,14 +39,15 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
 
   const supabase = await createClient();
 
-  // Fetch all visible posts ordered by priority
+  // Fetch all visible posts
   const { data } = await supabase
     .from('blog_posts')
-    .select('id, slug, title, date, category, image_url, excerpt, priority')
-    .eq('is_visible', true)
-    .order('priority', { ascending: true });
+    .select('id, slug, title, date, category, image_url, excerpt, priority, created_at')
+    .eq('is_visible', true);
 
-  const posts = (data as BlogPost[]) ?? [];
+  const rawPosts = (data as BlogPost[]) ?? [];
+  // Sort posts by date (latest date first). Tie breaks by created_at then priority.
+  const posts = sortBlogPostsByDate(rawPosts);
 
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;

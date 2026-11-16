@@ -17,6 +17,7 @@ import {
   verticalListSortingStrategy, useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { sortBlogPostsByDate } from '@/lib/blog-utils'
 
 // ── Types ─────────────────────────────────────────────────────
 interface Section {
@@ -416,9 +417,9 @@ export default function BlogAdminPage() {
     const { data, error } = await supabase
       .from('blog_posts')
       .select('*')
-      .order('priority', { ascending: true })
     if (error) { toast(error.message, 'error'); return }
-    setPosts(data ?? [])
+    const sorted = sortBlogPostsByDate(data ?? [])
+    setPosts(sorted)
     setLoaded(true)
   }
 
@@ -460,7 +461,7 @@ export default function BlogAdminPage() {
 
   // ── Open modals ─────────────────────────────────────────────
   const openCreate = () => {
-    setDraft({ ...emptyPost(), priority: posts.length })
+    setDraft({ ...emptyPost(), priority: 0 })
     setMode('create')
     setModalOpen(true)
   }
@@ -482,7 +483,13 @@ export default function BlogAdminPage() {
 
       let res
       if (mode === 'create') {
-        res = await supabase.from('blog_posts').insert([payload]).select().single()
+        const newPost = { ...payload, priority: 0 }
+        res = await supabase.from('blog_posts').insert([newPost]).select().single()
+        if (res.error) throw res.error
+        if (posts.length > 0) {
+          const shifted = posts.map((p, idx) => ({ id: p.id, priority: idx + 1 }))
+          await supabase.from('blog_posts').upsert(shifted)
+        }
       } else {
         res = await supabase.from('blog_posts').update(payload).eq('id', draft.id).select().single()
       }
