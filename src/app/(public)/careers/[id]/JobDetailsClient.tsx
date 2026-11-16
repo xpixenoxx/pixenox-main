@@ -55,14 +55,6 @@ export default function JobDetailsClient({ id }: { id: string }) {
 
   return (
     <div className="job-details-page">
-      {/* Header section matches design reference (black logo area and light bg content) */}
-      <div className="job-header-top">
-        <div className="container">
-          {/* Logo or brand icon could go here if needed, keeping it simple as per reference */}
-          <div className="brand-logo-placeholder">a</div>
-        </div>
-      </div>
-      
       <div className="job-header-content">
         <div className="container">
           <div className="job-header-inner">

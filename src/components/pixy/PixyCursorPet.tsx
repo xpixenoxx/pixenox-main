@@ -1,200 +1,171 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-/**
- * PixyCursorPet — fixed-position avatar companion.
- *
- * The body stays anchored in the bottom-right corner of the viewport.
- * Only the head (upper ~55% of the image) subtly rotates toward the
- * cursor, giving a natural "looking at you" effect.
- *
- * Implementation: two stacked copies of the same image —
- *   1. Body layer (static, bottom portion visible)
- *   2. Head layer (top portion visible, rotates toward cursor)
- */
 export function PixyCursorPet() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
+  const pathname = usePathname();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Head rotation values (updated via RAF, not React state, for performance)
-  const headRotateX = useRef(0); // pitch (up/down)
-  const headRotateY = useRef(0); // yaw (left/right)
-  const headTilt = useRef(0);    // slight z-tilt
-  const headRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const rafId = useRef<number>(0);
 
-  // Smoothed cursor position for interpolation
-  const targetX = useRef(0);
-  const targetY = useRef(0);
-  const smoothX = useRef(0);
-  const smoothY = useRef(0);
-
-  // The percentage of the image height that is considered the "head"
-  // The head takes roughly the top 55% of the pixy-avatar image
-  const HEAD_SPLIT = 55; // %
+  const targetRotateX = useRef(0);
+  const targetRotateY = useRef(0);
+  const currentRotateX = useRef(0);
+  const currentRotateY = useRef(0);
 
   useEffect(() => {
-    const mql = window.matchMedia("(pointer: coarse)");
-    setIsMobile(mql.matches);
-
-    const handleMediaChange = (e: MediaQueryListEvent) => {
-      setIsMobile(e.matches);
-    };
-
-    mql.addEventListener("change", handleMediaChange);
-    return () => mql.removeEventListener("change", handleMediaChange);
+    setIsMounted(true);
   }, []);
 
-  // Animation loop: smoothly interpolate head rotation toward cursor
   const animate = useCallback(() => {
-    const lerpFactor = 0.1;
-    smoothX.current += (targetX.current - smoothX.current) * lerpFactor;
-    smoothY.current += (targetY.current - smoothY.current) * lerpFactor;
+    // Smooth lerp
+    currentRotateX.current += (targetRotateX.current - currentRotateX.current) * 0.1;
+    currentRotateY.current += (targetRotateY.current - currentRotateY.current) * 0.1;
 
-    // Convert normalized [-1,1] coords to rotation angles
-    // Yaw: left/right, max ±18°
-    headRotateY.current = smoothX.current * 18;
-    // Pitch: up/down, max ±12° (negative because CSS rotateX is inverted)
-    headRotateX.current = -smoothY.current * 12;
-    // Tilt: subtle z-axis roll based on horizontal position, max ±6°
-    headTilt.current = -smoothX.current * 6;
-
-    if (headRef.current) {
-      headRef.current.style.transform =
-        `rotateY(${headRotateY.current}deg) rotateX(${headRotateX.current}deg) rotateZ(${headTilt.current}deg)`;
+    if (cardRef.current) {
+      cardRef.current.style.transform = `perspective(600px) rotateX(${currentRotateX.current.toFixed(2)}deg) rotateY(${currentRotateY.current.toFixed(2)}deg)`;
     }
 
     rafId.current = requestAnimationFrame(animate);
   }, []);
 
   useEffect(() => {
-    if (isMobile) return;
-
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize cursor position to [-1, 1]
-      targetX.current = (e.clientX / window.innerWidth) * 2 - 1;
-      targetY.current = (e.clientY / window.innerHeight) * 2 - 1;
-    };
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
-    const handleMouseDown = () => setIsClicking(true);
-    const handleMouseUp = () => setIsClicking(false);
+      const deltaX = (e.clientX - centerX) / (window.innerWidth || 1);
+      const deltaY = (e.clientY - centerY) / (window.innerHeight || 1);
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target.tagName.toLowerCase() === "a" ||
-        target.tagName.toLowerCase() === "button" ||
-        target.tagName.toLowerCase() === "input" ||
-        target.closest("a") ||
-        target.closest("button")
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+      // Smooth subtle 3D tilt: Y (left/right) max ±18deg, X (up/down) max ±14deg
+      targetRotateY.current = Math.max(-18, Math.min(18, deltaX * 40));
+      targetRotateX.current = Math.max(-14, Math.min(14, -deltaY * 30));
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    window.addEventListener("mousedown", handleMouseDown, { passive: true });
-    window.addEventListener("mouseup", handleMouseUp, { passive: true });
-    window.addEventListener("mouseover", handleMouseOver, { passive: true });
-
-    // Start animation loop
     rafId.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("mouseover", handleMouseOver);
       cancelAnimationFrame(rafId.current);
     };
-  }, [isMobile, animate]);
+  }, [animate]);
 
-  if (isMobile) return null;
+  if (!isMounted) return null;
+  // Don't show on the full-screen Pixy experience page
+  if (pathname === "/contact/pixy") return null;
 
   return (
-    <div
-      className="pointer-events-none fixed bottom-6 right-6 z-[9999] hidden sm:block"
+    <aside
+      ref={containerRef}
+      aria-label="Pixy AI Companion"
+      className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 pointer-events-auto select-none"
+      style={{
+        position: "fixed",
+        bottom: "24px",
+        right: "24px",
+        zIndex: 9999,
+      }}
     >
-      <motion.div
-        animate={{
-          // Gentle breathing float on the whole container
-          y: [0, -6, 0],
-          scale: isClicking ? 0.9 : isHovering ? 1.08 : 1,
-          filter: isHovering
-            ? "brightness(1.2) drop-shadow(0 0 12px rgba(200, 100, 255, 0.4))"
-            : "brightness(1) drop-shadow(0 0 8px rgba(200, 100, 255, 0.2))",
-        }}
-        transition={{
-          y: {
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          },
-          scale: {
-            duration: 0.15,
-            ease: "easeOut",
-          },
-        }}
-        className="relative"
-        style={{ width: 56 }} /* w-14 equivalent for the avatar size */
+      <Link
+        href="/contact/pixy"
+        className="group relative block focus:outline-none"
+        aria-label="Talk to Pixy AI"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* ---- Body layer (static, shows only the bottom portion) ---- */}
-        <div
-          className="absolute bottom-0 left-0 w-full overflow-hidden"
-          style={{ height: `${100 - HEAD_SPLIT}%` }}
-        >
-          <img
-            src="/pixy-avatar.png"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-auto max-w-none opacity-90"
-            style={{
-              /* Shift image up so only the body portion is visible */
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-            }}
-          />
-        </div>
+        {/* Tooltip on hover */}
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0, x: 8, scale: 0.92 }}
+              animate={{ opacity: 1, x: -12, scale: 1 }}
+              exit={{ opacity: 0, x: 8, scale: 0.92 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                right: "100%",
+                top: "50%",
+                transform: "translateY(-50%)",
+                whiteSpace: "nowrap",
+                borderRadius: "12px",
+                border: "1px solid rgba(244, 63, 94, 0.4)",
+                background: "rgba(15, 8, 18, 0.94)",
+                padding: "8px 14px",
+                fontSize: "13px",
+                fontWeight: 600,
+                color: "#fbcfe8",
+                boxShadow: "0 8px 24px rgba(244, 63, 94, 0.3)",
+                backdropFilter: "blur(12px)",
+                pointerEvents: "none",
+              }}
+            >
+              Talk to Pixy
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* ---- Head layer (rotates toward cursor, shows only the top portion) ---- */}
+        {/* Ambient Radial Backlight Portal */}
         <div
-          ref={headRef}
-          className="relative w-full overflow-hidden"
           style={{
-            height: `${HEAD_SPLIT}%`,
-            /* Pivot at the neck (bottom-center of the head portion) */
-            transformOrigin: "50% 100%",
-            /* perspective for subtle 3D depth */
-            perspective: 400,
+            position: "absolute",
+            inset: "-28px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle at 50% 45%, rgba(168, 85, 247, 0.52) 0%, rgba(244, 63, 94, 0.35) 40%, rgba(124, 58, 237, 0.16) 65%, transparent 75%)",
+            filter: "blur(20px)",
+            opacity: isHovered ? 1 : 0.78,
+            transition: "opacity 0.3s ease",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Floating Animated Avatar with Crisp Edge Contour */}
+        <motion.div
+          ref={cardRef}
+          animate={{
+            y: [0, -8, 0],
+            scale: isHovered ? 1.08 : 1,
+            filter: isHovered
+              ? "drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 3px rgba(244, 63, 94, 0.95)) drop-shadow(0 0 16px rgba(168, 85, 247, 0.8)) drop-shadow(0 0 28px rgba(244, 63, 94, 0.5))"
+              : "drop-shadow(0 0 1px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 2px rgba(244, 63, 94, 0.85)) drop-shadow(0 0 12px rgba(168, 85, 247, 0.55)) drop-shadow(0 0 20px rgba(244, 63, 94, 0.3))",
+          }}
+          transition={{
+            y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+            scale: { duration: 0.2, ease: "easeOut" },
+            filter: { duration: 0.25 },
+          }}
+          style={{
+            position: "relative",
+            width: "58px",
+            cursor: "pointer",
+            transformOrigin: "center center",
             willChange: "transform",
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/pixy-avatar.png"
-            alt="Pixy Cursor Companion"
-            className="w-full h-auto max-w-none opacity-90"
+            src="/pixy.png"
+            alt="Pixy AI Companion"
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
+              width: "100%",
+              height: "auto",
+              display: "block",
+              userSelect: "none",
+              pointerEvents: "none",
             }}
+            draggable={false}
           />
-        </div>
-
-        {/* Invisible full-size image to establish container's natural aspect ratio */}
-        <img
-          src="/pixy-avatar.png"
-          alt=""
-          aria-hidden="true"
-          className="w-full h-auto invisible"
-        />
-      </motion.div>
-    </div>
+        </motion.div>
+      </Link>
+    </aside>
   );
 }

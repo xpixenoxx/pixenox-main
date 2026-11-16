@@ -75,58 +75,33 @@ export default function ApplicationFormClient({ id }: { id: string }) {
     }
 
     try {
-      const supabase = getBrowserClient();
-      let resumeUrl = '';
-      
-      // Upload resume to Supabase storage
-      const fileExt = resumeFile.name.split('.').pop();
-      const fileName = `${appName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}-${Date.now()}.${fileExt}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('resumes')
-        .upload(fileName, resumeFile);
-        
-      if (uploadError) {
-        throw new Error('Failed to upload resume. ' + uploadError.message);
-      }
-      
-      const { data: { publicUrl } } = supabase.storage
-        .from('resumes')
-        .getPublicUrl(fileName);
-        
-      resumeUrl = publicUrl;
-      const msg = [
-        `[Career Application]`,
-        `Role: ${role?.title}`,
-        `Department: ${role?.department}`,
-        `Resume URL: ${resumeUrl}`,
-        appPhone.trim() ? `Phone: ${appPhone.trim()}` : '',
-        appLocation.trim() ? `Location: ${appLocation.trim()}` : '',
-        appCompany.trim() ? `Current Company: ${appCompany.trim()}` : '',
-        appLinkedin.trim() ? `LinkedIn: ${appLinkedin.trim()}` : '',
-        appPortfolio.trim() ? `Portfolio: ${appPortfolio.trim()}` : '',
-        appOtherUrl.trim() ? `Other URL: ${appOtherUrl.trim()}` : '',
-      ].filter(Boolean).join('\n\n');
+      const formData = new FormData();
+      formData.append('name', appName.trim());
+      formData.append('email', appEmail.trim());
+      formData.append('phone', appPhone.trim());
+      formData.append('location', appLocation.trim());
+      formData.append('company', appCompany.trim());
+      formData.append('linkedin', appLinkedin.trim());
+      formData.append('portfolio', appPortfolio.trim());
+      formData.append('otherUrl', appOtherUrl.trim());
+      formData.append('jobTitle', role?.title || 'Position');
+      formData.append('department', role?.department || 'Engineering');
+      formData.append('resume', resumeFile);
 
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/api/careers/apply', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: appName.trim(),
-          email: appEmail.trim(),
-          mobile: appPhone.trim(),
-          message: msg
-        }),
+        body: formData,
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || 'Failed');
+        throw new Error(data.error || 'Failed to submit application.');
       }
 
       setAppStatus('success');
-    } catch {
-      setAppError('Something went wrong. Please try again.');
+    } catch (err: any) {
+      setAppError(err?.message || 'Something went wrong. Please try again.');
       setAppStatus('error');
     }
   };
@@ -145,12 +120,6 @@ export default function ApplicationFormClient({ id }: { id: string }) {
 
   return (
     <div className="job-details-page">
-      <div className="job-header-top">
-        <div className="container">
-          <div className="brand-logo-placeholder">a</div>
-        </div>
-      </div>
-      
       <div className="job-header-content">
         <div className="container">
           <div className="job-header-inner">

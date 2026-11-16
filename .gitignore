@@ -43,3 +43,7 @@ next-env.d.ts
 *.log
 errors.log
 tsc-errors.txt
+
+# uploads
+/public/uploads/*
+!/public/uploads/resumes/.gitkeep

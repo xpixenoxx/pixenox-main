@@ -11,7 +11,7 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: 1,
-    date: 'April 22, 2026',
+    date: 'September 09, 2026',
     category: 'Industry',
     title: 'Environmental CSR in India: How a Supreme Court Judgment Is Redefining Corporate Responsibility',
     excerpt: 'Environmental CSR in India is shifting from compliance to accountability. Explore trends, funding gaps, and why this matters for businesses.',
@@ -41,7 +41,7 @@ The era of CSR as reputation management is over. The Supreme Court has made that
   },
   {
     id: 2,
-    date: 'April 15, 2026',
+    date: 'August 29, 2026',
     category: 'Industry',
     title: '5 Best NGOs for Disability Support in India',
     excerpt: 'Discover trusted NGOs in India working in the disability sector, focused on inclusive education, rehabilitation & livelihoods.',
@@ -71,7 +71,7 @@ When directing CSR funds toward disability support, look for NGOs with audited f
   },
   {
     id: 3,
-    date: 'April 08, 2026',
+    date: 'August 18, 2026',
     category: 'AI & Technology',
     title: 'Can AI Help You Choose the Right NGO to Donate To? (2026 Guide for Smart Giving)',
     excerpt: 'In this guide, we break down how Artificial Intelligence is transforming philanthropy in India and what it can do for smart donors.',
@@ -103,7 +103,7 @@ The best approach combines AI-generated insights with on-ground verification and
   },
   {
     id: 4,
-    date: 'April 01, 2026',
+    date: 'August 06, 2026',
     category: 'Web Development',
     title: "How Web Architecture Shapes Your Brand's Digital Presence in 2026",
     excerpt: "A well-architected web presence is no longer optional. Here's how companies are leveraging modern web stacks to dominate their market.",
@@ -132,7 +132,7 @@ If your web architecture cannot support personalisation at scale, real-time data
   },
   {
     id: 5,
-    date: 'March 25, 2026',
+    date: 'July 26, 2026',
     category: 'AI & Technology',
     title: 'The Rise of Autonomous AI Systems: What Enterprises Need to Know',
     excerpt: 'Autonomous AI is no longer science fiction. We explore real-world deployments, risks, and the engineering required to make it work reliably.',
@@ -162,7 +162,7 @@ The risks of autonomous AI are real: compounding errors, adversarial inputs, une
   },
   {
     id: 6,
-    date: 'March 18, 2026',
+    date: 'July 14, 2026',
     category: 'Growth',
     title: 'SEO in the Age of Generative AI: Why GEO Is the New Frontier',
     excerpt: "Generative Engine Optimization (GEO) is changing how brands appear in AI-powered search results. Here's how to prepare your content strategy.",
@@ -192,7 +192,7 @@ Brands that invest in GEO now are positioning themselves to capture traffic from
   },
   {
     id: 7,
-    date: 'March 10, 2026',
+    date: 'July 03, 2026',
     category: 'Web Development',
     title: "Building a Data Infrastructure That Doesn't Break at Scale",
     excerpt: 'Most data pipelines are built for today, not for tomorrow. Learn how to architect a system that grows without becoming a liability.',
@@ -221,7 +221,7 @@ Off-the-shelf solutions cover 80% of use cases. The remaining 20% — real-time 
   },
   {
     id: 8,
-    date: 'March 03, 2026',
+    date: 'June 21, 2026',
     category: 'Growth',
     title: 'From Fragmented Tools to Unified Platforms: The Case for Convergence',
     excerpt: "Enterprises running 40+ disconnected tools are losing competitive edge. Here's why converged platforms are the future of enterprise software.",
@@ -252,7 +252,7 @@ The future is not one tool to rule them all. It is a smaller, more intentional s
   },
   {
     id: 9,
-    date: 'February 24, 2026',
+    date: 'June 10, 2026',
     category: 'Growth',
     title: 'Growth Intelligence: The Framework Behind 10x Campaigns',
     excerpt: "Growth hacking is dead. Growth intelligence — combining data, AI, and human creativity — is what's actually driving results in 2026.",
@@ -284,7 +284,7 @@ This is not growth hacking. It is growth engineering.`,
   },
   {
     id: 10,
-    date: 'February 17, 2026',
+    date: 'May 29, 2026',
     category: 'Industry',
     title: 'What Indian Startups Get Wrong About Custom Software Development',
     excerpt: "Off-the-shelf solutions seem cheaper until they aren't. A practical breakdown of when custom software is the right investment.",
@@ -313,7 +313,7 @@ Before committing to custom development, answer three questions: Can an existing
   },
   {
     id: 11,
-    date: 'February 10, 2026',
+    date: 'May 18, 2026',
     category: 'AI & Technology',
     title: 'Understanding Bio Intelligence: The Next Layer of Human Performance Data',
     excerpt: "Bio intelligence is the convergence of biometric data, AI analysis, and behavioral science. Here's what it means for health tech.",
@@ -340,7 +340,7 @@ The companies that solve these infrastructure challenges — not just the consum
   },
   {
     id: 12,
-    date: 'February 03, 2026',
+    date: 'May 06, 2026',
     category: 'Web Development',
     title: 'Next.js 16 vs Remix: Which Framework Wins for Enterprise in 2026?',
     excerpt: 'A deep technical comparison of the two leading React meta-frameworks — performance benchmarks, DX, and production readiness.',
@@ -375,7 +375,7 @@ For most enterprise teams — particularly those building content-rich applicati
   },
   {
     id: 13,
-    date: 'January 27, 2026',
+    date: 'April 25, 2026',
     category: 'Case Studies',
     title: 'How Pixenox Reduced Client Churn by 60% With a Single Platform Decision',
     excerpt: 'A case study in how converging analytics, CRM, and content into one intelligent layer dramatically improved retention rates.',
@@ -408,7 +408,7 @@ The lesson is not that any particular platform is magic. It is that coherent dat
   },
   {
     id: 14,
-    date: 'January 20, 2026',
+    date: 'April 13, 2026',
     category: 'Industry',
     title: "The Founder's Guide to Hiring Your First AI Engineer",
     excerpt: 'What to look for, what to avoid, and how to structure a hiring process that surfaces genuine AI engineering talent.',
@@ -441,7 +441,7 @@ Ask candidates to describe an AI project that did not work and what they learned
   },
   {
     id: 15,
-    date: 'January 13, 2026',
+    date: 'April 02, 2026',
     category: 'Web Development',
     title: "Why Your Website's Core Web Vitals Are Killing Your Conversion Rate",
     excerpt: "A 1-second delay in page load costs you 7% conversions. Here's a practical, engineering-level guide to diagnosing and fixing Core Web Vitals.",
