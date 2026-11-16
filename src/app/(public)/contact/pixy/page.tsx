@@ -11,7 +11,7 @@ import { Nunito } from "next/font/google";
 const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-speech",
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const sora = localFont({
