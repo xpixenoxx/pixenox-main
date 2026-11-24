@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import DOMPurify from 'isomorphic-dompurify';
 import { createPublicSupabaseClient, getCanonicalSiteUrl } from '@/lib/supabase/public';
 import { sortBlogPostsByDate } from '@/lib/blog-utils';
 import './blog-detail.css';
@@ -65,7 +64,9 @@ function renderInlineMarkdown(text: string): string {
   const escaped = text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
   const withLinks = escaped.replace(
     /\[([^\]]+)\]\(([^)\s]+)\)/g,
@@ -87,10 +88,7 @@ function renderInlineMarkdown(text: string): string {
     .replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>')
     .replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-size:0.9em;">$1</code>');
 
-  return DOMPurify.sanitize(formatted, {
-    ALLOWED_TAGS: ['a', 'strong', 'em', 'code', 'br'],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'style'],
-  });
+  return formatted;
 }
 
 /**
