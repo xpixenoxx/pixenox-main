@@ -21,6 +21,7 @@ function LinkedinIcon({ size = 20 }: { size?: number }) {
 import { getBrowserClient } from '@/lib/supabase/client';
 const supabase = getBrowserClient();
 import type { FooterConfig, FooterLink, BrandSettings, ServiceCard, CaseStudy } from '@/lib/types/database';
+import { PreferredSourceButton } from '@/components/seo/PreferredSourceButton';
 import './Footer.css';
 
 interface FooterProps {
@@ -244,6 +245,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
         {/* Bottom Utility Bar */}
         <div className="footer__bottom">
           <div className="footer__copyright">{copyrightText}</div>
+          <PreferredSourceButton variant="link" />
           <div className="footer__bottom-links">
             <Link href="/company">Company</Link>
             <Link href="/blog">Blog</Link>

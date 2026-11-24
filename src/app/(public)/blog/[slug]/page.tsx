@@ -8,6 +8,7 @@ import { sortBlogPostsByDate } from '@/lib/blog-utils';
 import './blog-detail.css';
 import BlogExplainerPopup from '@/components/blog/BlogExplainerPopup';
 import BlogFaqBot from '@/components/blog/BlogFaqBot';
+import { PreferredSourceButton } from '@/components/seo/PreferredSourceButton';
 import type { Metadata } from 'next';
 
 interface Props {
@@ -354,6 +355,10 @@ export default async function BlogDetailPage({ params }: Props) {
             <span className="bd-meta-date">
               Reviewed by <Link href="/company" style={{ color: '#c4b5fd', textDecoration: 'underline' }}>Pixenox Founding Engineering Team</Link>
             </span>
+          </div>
+
+          <div style={{ margin: '12px 0 20px' }}>
+            <PreferredSourceButton />
           </div>
 
           <div className="bd-hero">
