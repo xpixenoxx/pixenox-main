@@ -1,0 +1,51 @@
+domain,cohort,finalUrl,status,wafBlocked,ttfbMs,ssrWords,hasJsonLd,hasWikidataSameAs,hasSpeakable,hasRobots,oaiSearchBot,perplexityBot,claudeSearchBot,hasLlmsTxt,hasLlmsMdLinks,supportsAcceptMarkdown,hasContentSignal,hasAgentCard,hasSpeculationRules,hasRssFeed
+openai.com,AI & Frontier Labs,https://openai.com/,200,false,293,506,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,false,false,false,false
+anthropic.com,AI & Frontier Labs,https://www.anthropic.com/,200,false,483,320,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,false,false,false,false
+perplexity.ai,AI & Frontier Labs,https://www.perplexity.ai/,200,false,421,1,false,false,false,true,blocked,blocked,blocked,false,false,false,false,false,false,false
+huggingface.co,AI & Frontier Labs,https://huggingface.co/,200,false,192,676,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,false,false,false,true
+mistral.ai,AI & Frontier Labs,https://mistral.ai/,200,false,518,818,true,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,false,false,false,false,false,true
+cohere.com,AI & Frontier Labs,https://cohere.com/,200,false,606,3016,true,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,false,false,false,false,false,false
+deepmind.google,AI & Frontier Labs,https://deepmind.google/,200,false,1792,1332,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,false,false,false,false,false,false
+groq.com,AI & Frontier Labs,https://groq.com/,200,false,420,144,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,false,false,false,false
+scale.com,AI & Frontier Labs,https://scale.com/,200,false,219,930,true,false,false,true,blocked,blocked,blocked,false,false,false,false,false,false,false
+langchain.com,AI & Frontier Labs,https://www.langchain.com/,200,false,1098,842,false,false,false,false,unknown,unknown,unknown,false,false,false,false,false,false,false
+stripe.com,Developer & Cloud Infrastructure,https://stripe.com/in,200,false,712,3687,true,true,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,false,false,false,false,false
+vercel.com,Developer & Cloud Infrastructure,https://vercel.com/,200,false,187,578,true,true,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,true,false,false,false,false
+cloudflare.com,Developer & Cloud Infrastructure,https://www.cloudflare.com/,200,false,516,584,true,false,false,true,allowed_wildcard,allowed_explicit,allowed_wildcard,true,true,true,true,false,false,false
+supabase.com,Developer & Cloud Infrastructure,https://supabase.com/,200,false,213,1250,true,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,true,true,false,false,false
+github.com,Developer & Cloud Infrastructure,https://github.com/,200,false,147,1232,false,false,false,true,allowed_explicit,allowed_explicit,allowed_explicit,true,false,false,false,false,false,false
+linear.app,Developer & Cloud Infrastructure,https://linear.app/,200,false,592,478,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,true,false,false,false,false
+datadoghq.com,Developer & Cloud Infrastructure,https://www.datadoghq.com/,200,false,250,1950,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,false,false,false,false,true
+mongodb.com,Developer & Cloud Infrastructure,https://www.mongodb.com/,503,false,4811,0,false,false,false,true,blocked,blocked,blocked,true,true,false,false,false,false,false
+snowflake.com,Developer & Cloud Infrastructure,https://www.snowflake.com/en/,403,true,3681,0,false,false,false,true,blocked,blocked,blocked,false,false,false,false,false,false,false
+postman.com,Developer & Cloud Infrastructure,https://www.postman.com/,200,false,806,1282,true,true,false,true,blocked,blocked,blocked,true,true,true,false,false,false,false
+hubspot.com,B2B SaaS & Search Leaders,https://www.hubspot.com/,200,false,1298,1925,true,true,false,true,blocked,blocked,blocked,true,false,false,false,false,false,false
+semrush.com,B2B SaaS & Search Leaders,https://www.semrush.com/,200,false,3039,1124,true,false,false,true,blocked,blocked,blocked,true,false,false,false,false,true,false
+ahrefs.com,B2B SaaS & Search Leaders,https://ahrefs.com/,200,false,637,834,true,true,false,true,blocked,blocked,blocked,false,false,false,false,false,false,false
+shopify.com,B2B SaaS & Search Leaders,https://www.shopify.com/,200,false,1547,1137,false,false,false,true,blocked,blocked,blocked,true,true,false,false,false,false,false
+notion.so,B2B SaaS & Search Leaders,https://www.notion.com/,200,false,1667,423,true,false,false,true,blocked,blocked,blocked,true,false,false,false,false,false,false
+figma.com,B2B SaaS & Search Leaders,https://www.figma.com/,200,false,1509,1036,true,false,false,true,blocked,blocked,blocked,false,false,false,false,false,false,false
+slack.com,B2B SaaS & Search Leaders,https://slack.com/intl/en-in/,200,false,1350,1954,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,false,false,false,false,false,false
+atlassian.com,B2B SaaS & Search Leaders,https://www.atlassian.com/,200,false,1575,53571,false,false,false,true,blocked,blocked,blocked,true,false,false,false,false,false,false
+salesforce.com,B2B SaaS & Search Leaders,https://www.salesforce.com/in/?ir=1&bc=DB,200,false,787,2505,true,false,false,true,blocked,blocked,blocked,true,false,false,false,false,false,false
+webflow.com,B2B SaaS & Search Leaders,https://webflow.com/,200,false,1774,2892,true,false,false,false,unknown,unknown,unknown,false,false,false,false,false,false,false
+razorpay.com,India Enterprise & SaaS Leaders,https://razorpay.com/,200,false,123,6119,true,false,true,true,allowed_explicit,allowed_explicit,allowed_wildcard,true,false,true,true,true,false,false
+zoho.com,India Enterprise & SaaS Leaders,https://www.zoho.com/,200,false,1149,608,true,false,false,true,blocked,blocked,blocked,true,true,false,false,false,false,false
+freshworks.com,India Enterprise & SaaS Leaders,https://www.freshworks.com/,403,true,406,0,false,false,false,true,blocked,blocked,blocked,true,false,false,true,false,false,false
+zerodha.com,India Enterprise & SaaS Leaders,https://zerodha.com/,200,false,216,940,true,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,false,false,false,false,false,false
+browserstack.com,India Enterprise & SaaS Leaders,https://www.browserstack.com/,200,false,1845,1816,true,true,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,false,false,false,false
+chargebee.com,India Enterprise & SaaS Leaders,https://www.chargebee.com/,200,false,1815,1214,true,false,false,true,allowed_explicit,allowed_explicit,allowed_explicit,true,false,false,false,false,false,false
+infosys.com,India Enterprise & SaaS Leaders,https://www.infosys.com/,403,true,441,0,false,false,false,false,unknown,unknown,unknown,false,false,false,false,false,false,false
+tcs.com,India Enterprise & SaaS Leaders,https://www.tcs.com/,403,true,450,0,false,false,false,false,unknown,unknown,unknown,false,false,false,false,false,false,false
+wipro.com,India Enterprise & SaaS Leaders,https://www.wipro.com/,200,false,2184,725,true,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,false,false,false,false
+www.pixenox.com,India Enterprise & SaaS Leaders,https://www.pixenox.com/,200,false,214,1165,true,true,false,true,allowed_explicit,allowed_explicit,allowed_explicit,true,true,true,true,true,true,false
+databricks.com,Enterprise AI & Data Platforms,https://www.databricks.com/,200,false,372,1222,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,false,false,false,false,false,false
+palantir.com,Enterprise AI & Data Platforms,https://www.palantir.com/,200,false,447,4,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,false,false,false,false
+elastic.co,Enterprise AI & Data Platforms,https://www.elastic.co/,200,false,799,1359,true,false,false,true,blocked,blocked,blocked,true,false,false,false,false,false,false
+confluent.io,Enterprise AI & Data Platforms,https://www.confluent.io/,200,false,383,3194,true,true,false,true,blocked,blocked,blocked,false,false,false,false,false,false,true
+pinecone.io,Enterprise AI & Data Platforms,https://www.pinecone.io/,200,false,599,803,true,true,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,true,false,true,false,false
+wandb.ai,Enterprise AI & Data Platforms,https://wandb.ai/site,200,false,1051,464,true,true,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,false,false,false,true,false,false,false
+together.ai,Enterprise AI & Data Platforms,https://www.together.ai/,200,false,748,2156,true,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,true,false,false,false,true
+replicate.com,Enterprise AI & Data Platforms,https://replicate.com/,200,false,1175,2056,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,false,true,true,false,false,false
+modal.com,Enterprise AI & Data Platforms,https://modal.com/,200,false,1164,1327,true,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,false,false,false,false,false
+getdbt.com,Enterprise AI & Data Platforms,https://www.getdbt.com/,200,false,238,922,false,false,false,true,allowed_wildcard,allowed_wildcard,allowed_wildcard,true,true,true,false,false,false,false

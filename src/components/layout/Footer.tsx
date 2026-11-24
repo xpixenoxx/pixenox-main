@@ -248,6 +248,8 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
           <PreferredSourceButton variant="link" />
           <div className="footer__bottom-links">
             <Link href="/tools/ai-visibility-checker">AI Visibility Checker</Link>
+            <Link href="/research/ai-visibility-benchmark-2026">2026 GEO Benchmark</Link>
+            <Link href="/compare/ai-visibility-platforms">Compare GEO Platforms</Link>
             <Link href="/glossary">Glossary</Link>
             <Link href="/company">Company</Link>
             <Link href="/blog">Blog</Link>

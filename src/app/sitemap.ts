@@ -90,6 +90,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.85,
     },
     {
+      url: `${baseUrl}/research/ai-visibility-benchmark-2026`,
+      lastModified: STATIC_CONTENT_DATE,
+      changeFrequency: 'monthly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/compare/ai-visibility-platforms`,
+      lastModified: STATIC_CONTENT_DATE,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/work`,
       lastModified: STATIC_CONTENT_DATE,
       changeFrequency: 'weekly',

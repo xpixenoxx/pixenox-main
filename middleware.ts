@@ -10,6 +10,8 @@ const EXACT_ELIGIBLE_PATHS = new Set([
   '/glossary',
   '/products/engenox',
   '/tools/ai-visibility-checker',
+  '/research/ai-visibility-benchmark-2026',
+  '/compare/ai-visibility-platforms',
   '/engineering',
   '/work',
   '/blog',

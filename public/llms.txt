@@ -27,6 +27,10 @@ Every HTML page listed below also serves a clean Markdown twin via `.md` suffix 
 - [Enterprise AI, GEO & AEO Glossary](https://www.pixenox.com/glossary.md): Canonical engineering definitions for 20 core AI systems, GEO, AEO, and data infrastructure concepts. ([HTML](https://www.pixenox.com/glossary))
 - [Unool](https://unool.co): One Link + One Click social publishing and creator distribution platform built by Pixenox Solutions.
 
+## Original Research & Buyer Comparisons
+- [2026 Enterprise AI Visibility Benchmark — 50 Domains](https://www.pixenox.com/research/ai-visibility-benchmark-2026.md): Empirical HTTP study measuring SSR depth, OAI-SearchBot rules, JSON-LD, `/llms.txt`, `Accept: text/markdown`, `Content-Signal`, and A2A Agent Cards across 50 leading tech sites. ([HTML](https://www.pixenox.com/research/ai-visibility-benchmark-2026) | [CSV](https://www.pixenox.com/research/ai-visibility-benchmark-2026.csv) | [JSON](https://www.pixenox.com/research/ai-visibility-benchmark-2026.json))
+- [AI Visibility Platforms Compared (2026)](https://www.pixenox.com/compare/ai-visibility-platforms.md): Architectural comparison of traditional SEO suites, point AI prompt trackers, manual agencies, and unified GEO/AEO operating systems. ([HTML](https://www.pixenox.com/compare/ai-visibility-platforms))
+
 ## Reference Architectures, Research & Company
 - [Reference Architectures](https://www.pixenox.com/work.md): System design blueprints across autonomous AI, real-time streaming analytics, and AI visibility platforms. ([HTML](https://www.pixenox.com/work))
 - [Engineering Insights & Blog](https://www.pixenox.com/blog.md): Technical articles on production AI systems, enterprise data convergence, and AI search engineering. ([HTML](https://www.pixenox.com/blog) | [RSS 2.0](https://www.pixenox.com/blog/feed.xml))

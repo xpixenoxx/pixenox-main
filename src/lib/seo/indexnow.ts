@@ -11,6 +11,8 @@ export const CORE_INDEXNOW_URLS = [
   `${CANONICAL_BASE}/engineering/enterprise-intelligence-engineering`,
   `${CANONICAL_BASE}/products/engenox`,
   `${CANONICAL_BASE}/tools/ai-visibility-checker`,
+  `${CANONICAL_BASE}/research/ai-visibility-benchmark-2026`,
+  `${CANONICAL_BASE}/compare/ai-visibility-platforms`,
   `${CANONICAL_BASE}/glossary`,
   `${CANONICAL_BASE}/work`,
   `${CANONICAL_BASE}/blog`,

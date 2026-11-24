@@ -263,6 +263,8 @@ const speculationRules = {
               { href_matches: "/blog/*" },
               { href_matches: "/work/*" },
               { href_matches: "/tools/*" },
+              { href_matches: "/research/*" },
+              { href_matches: "/compare/*" },
               { href_matches: "/glossary" },
               { href_matches: "/company" },
               { href_matches: "/faqs" },

@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createPublicSupabaseClient, getCanonicalSiteUrl } from '@/lib/supabase/public';
 import { sortBlogPostsByDate } from '@/lib/blog-utils';
 import { GLOSSARY_TERMS } from '@/lib/seo/glossary-terms';
+import {
+  BENCHMARK_2026_COHORTS,
+  BENCHMARK_2026_METADATA,
+  BENCHMARK_2026_SUMMARY,
+} from '@/lib/seo/benchmark-2026-data';
 
 export const revalidate = 3600;
 
@@ -528,6 +533,78 @@ export async function GET(
       '5. **Discovery & Speed (10 pts):** Edge TTFB latency and RSS/Atom feed autodiscovery.',
       '',
       `Run live in browser: ${canonical}`,
+    ].join('\n');
+    return mdResponse(md, canonical);
+  }
+
+  // 13. 2026 AI Visibility Benchmark (/research/ai-visibility-benchmark-2026)
+  if (slug.length === 2 && slug[0] === 'research' && slug[1] === 'ai-visibility-benchmark-2026') {
+    const canonical = `${baseUrl}/research/ai-visibility-benchmark-2026`;
+    const s = BENCHMARK_2026_SUMMARY;
+    const cohortLines = BENCHMARK_2026_COHORTS.map(
+      (c) => `| ${c.cohort} | ${c.wafBlocked}/10 | ${c.oaiBlocked}/10 | ${c.jsonLd}/10 | ${c.llmsTxt}/10 | ${c.acceptMarkdown}/10 | ${c.contentSignal}/10 | ${c.agentCard}/10 |`
+    );
+    const md = [
+      '---',
+      `title: "${BENCHMARK_2026_METADATA.title}"`,
+      `canonical: ${canonical}`,
+      `measured_at: ${BENCHMARK_2026_METADATA.measuredAt}`,
+      `license: ${BENCHMARK_2026_METADATA.license}`,
+      '---',
+      '',
+      `# ${BENCHMARK_2026_METADATA.title}`,
+      '',
+      BENCHMARK_2026_METADATA.methodology,
+      '',
+      '## Key Empirical Findings (N = 50 Public Domains)',
+      '',
+      `- **/llms.txt adoption:** ${s.llmsTxtPct}% (${s.llmsTxtCount}/50, with ${s.llmsMdLinksCount} v2 .md links)`,
+      `- **OAI-SearchBot blocked in robots.txt:** ${s.oaiBlockedPct}% (${s.oaiBlockedCount}/50 block ChatGPT Search)`,
+      `- **WAF 403 challenge blocks:** ${s.wafBlockedPct}% (${s.wafBlockedCount}/50)`,
+      `- **HTTP Accept: text/markdown:** ${s.acceptMarkdownPct}% (${s.acceptMarkdownCount}/50)`,
+      `- **Content-Signal usage policy:** ${s.contentSignalPct}% (${s.contentSignalCount}/50)`,
+      `- **A2A /.well-known/agent-card.json:** ${s.agentCardPct}% (${s.agentCardCount}/50)`,
+      `- **Wikidata QID entity links:** ${s.wikidataPct}% (${s.wikidataCount}/50)`,
+      `- **SpeakableSpecification JSON-LD:** ${s.speakablePct}% (${s.speakableCount}/50)`,
+      `- **Median reachable SSR words:** ${s.medianSsrWords} words | **Median TTFB:** ${s.medianTtfbMs}ms`,
+      '',
+      '## Cohort Summary (10 Domains Per Cohort)',
+      '',
+      '| Cohort | WAF Blocked | OAI Blocked | JSON-LD | llms.txt | Markdown | Content-Signal | A2A Card |',
+      '| --- | --- | --- | --- | --- | --- | --- | --- |',
+      ...cohortLines,
+      '',
+      '## Open Dataset Downloads',
+      `- Raw CSV: ${baseUrl}/research/ai-visibility-benchmark-2026.csv`,
+      `- Raw JSON: ${baseUrl}/research/ai-visibility-benchmark-2026.json`,
+      `- Interactive Live Checker: ${baseUrl}/tools/ai-visibility-checker`,
+    ].join('\n');
+    return mdResponse(md, canonical);
+  }
+
+  // 14. AI Visibility Platforms Comparison (/compare/ai-visibility-platforms)
+  if (slug.length === 2 && slug[0] === 'compare' && slug[1] === 'ai-visibility-platforms') {
+    const canonical = `${baseUrl}/compare/ai-visibility-platforms`;
+    const md = [
+      '---',
+      'title: "AI Visibility Platforms Compared: SEO Suites vs. Unified GEO/AEO OS (2026)"',
+      `canonical: ${canonical}`,
+      '---',
+      '',
+      '# AI Visibility Platforms Compared: SEO Suites vs. Unified GEO/AEO OS',
+      '',
+      '> **Direct Answer:** Traditional SEO suites track SERP blue links, and standalone AI citation dashboards only report missed mentions after the fact. A unified operating system like **Engenox by Pixenox** pairs multi-engine citation telemetry with SSR crawl verification, Wikidata entity graphs, Markdown content negotiation, and IndexNow synchronization.',
+      '',
+      '## Architectural Capabilities Matrix',
+      '',
+      '| Evaluation Dimension | Traditional SEO Suites | Point AI Trackers | Manual Agencies | Engenox by Pixenox |',
+      '| --- | --- | --- | --- | --- |',
+      '| SSR & AI Crawler Audits | JS-heavy HTML checks | Prompt-output only | Manual spreadsheets | Automated SSR, RFC 9309, IndexNow & TTFB parity |',
+      '| 2026 Agent Protocols | None | Checklist flags only | Dev sprint tickets | Native Accept: text/markdown, Content-Signal, A2A Card, llms.txt v2 |',
+      '| Entity & Schema @graph | Page-level syntax checks | None | Static snippets | Persistent @id graphs with Wikidata QIDs |',
+      '| ChatGPT & Perplexity Telemetry | SERP ranks only | Prompt snapshots | Ad-hoc manual checks | Correlates fan-out citations with live crawl state |',
+      '',
+      `Explore Engenox OS: ${baseUrl}/products/engenox | Test your domain free: ${baseUrl}/tools/ai-visibility-checker`,
     ].join('\n');
     return mdResponse(md, canonical);
   }
