@@ -1,0 +1,70 @@
+{
+  "name": "Pixenox AI Engineering & Visibility Agent",
+  "description": "Official A2A discovery card for PIXENOX SOLUTIONS PRIVATE LIMITED (CIN: U62091AP2026PTC125091) — architecture scoping via Pixy, live AI Visibility & GEO readiness audits, and clean Markdown knowledge endpoints.",
+  "url": "https://www.pixenox.com/contact/pixy",
+  "version": "1.0.0",
+  "provider": {
+    "organization": "PIXENOX SOLUTIONS PRIVATE LIMITED",
+    "url": "https://www.pixenox.com"
+  },
+  "documentationUrl": "https://www.pixenox.com/llms.txt",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "text/markdown",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "pixy-architecture-scoping",
+      "name": "Pixy Architecture & Systems Scoping",
+      "description": "Conversational enterprise architecture scoping across Production AI Systems, AI Visibility (GEO/AEO), and Enterprise Intelligence Engineering.",
+      "tags": [
+        "ai-systems",
+        "enterprise-intelligence",
+        "geo",
+        "aeo"
+      ],
+      "examples": [
+        "Scope an enterprise ERP and CRM data unification layer without rip-and-replace.",
+        "Evaluate Engenox by Pixenox for autonomous AI citation monitoring and Schema.org @graph engineering."
+      ]
+    },
+    {
+      "id": "ai-visibility-readiness-audit",
+      "name": "Live AI Visibility & GEO Readiness Checker",
+      "description": "Programmatic diagnostic endpoint (POST https://www.pixenox.com/api/tools/visibility-check) scoring any public domain across SSR text availability, robots.txt AI bots, Schema.org @graph, llms.txt, Content-Signal, and Accept: text/markdown negotiation.",
+      "tags": [
+        "geo-audit",
+        "aeo",
+        "llms-txt",
+        "markdown-negotiation"
+      ],
+      "examples": [
+        "Run a live GEO readiness audit against https://www.pixenox.com"
+      ]
+    },
+    {
+      "id": "markdown-knowledge-retrieval",
+      "name": "Markdown-for-Agents Knowledge Retrieval",
+      "description": "Supports HTTP Accept: text/markdown content negotiation and direct .md twin URLs across engineering pillars, Engenox docs, glossary definitions, and technical blog guides.",
+      "tags": [
+        "text/markdown",
+        "llms-txt",
+        "rag"
+      ],
+      "examples": [
+        "Fetch https://www.pixenox.com/products/engenox.md",
+        "Fetch https://www.pixenox.com/glossary.md"
+      ]
+    }
+  ]
+}

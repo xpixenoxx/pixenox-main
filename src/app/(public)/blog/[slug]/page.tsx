@@ -8,6 +8,7 @@ import { sortBlogPostsByDate } from '@/lib/blog-utils';
 import './blog-detail.css';
 import BlogExplainerPopup from '@/components/blog/BlogExplainerPopup';
 import BlogFaqBot from '@/components/blog/BlogFaqBot';
+import { CopyMarkdownButton } from '@/components/blog/CopyMarkdownButton';
 import { PreferredSourceButton } from '@/components/seo/PreferredSourceButton';
 import type { Metadata } from 'next';
 
@@ -214,6 +215,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `${baseUrl}/blog/${slug}`,
+      types: {
+        'text/markdown': `${baseUrl}/blog/${slug}.md`,
+      },
     },
   };
 }
@@ -264,6 +268,36 @@ export default async function BlogDetailPage({ params }: Props) {
     return { id: `${slugId}-${idx + 1}`, title: sec.question };
   });
 
+  const externalCitationSet = new Set<string>();
+  const urlRe = /https:\/\/[^\s)\]"'<>]+/g;
+  for (const sec of visibleSections) {
+    const textChunk = `${sec.answer || ''} ${sec.table_explanation || ''}`;
+    for (const match of textChunk.match(urlRe) ?? []) {
+      const cleaned = match.replace(/[.,;:]+$/, '');
+      if (!cleaned.includes('pixenox.com')) externalCitationSet.add(cleaned);
+    }
+  }
+  const externalCitations = Array.from(externalCitationSet);
+
+  const wikidataTagMap: Record<string, string> = {
+    'AI Visibility': 'https://www.wikidata.org/wiki/Q180711',
+    'GEO & AEO': 'https://www.wikidata.org/wiki/Q180711',
+    'Entity Architecture': 'https://www.wikidata.org/wiki/Q33002955',
+    'AI Systems': 'https://www.wikidata.org/wiki/Q11660',
+    'Multi-Agent Architecture': 'https://www.wikidata.org/wiki/Q529909',
+    'Production LLMOps': 'https://www.wikidata.org/wiki/Q115305900',
+    'Decision Intelligence': 'https://www.wikidata.org/wiki/Q185698',
+    'Enterprise Intelligence': 'https://www.wikidata.org/wiki/Q185698',
+    'Data Platforms': 'https://www.wikidata.org/wiki/Q1172480',
+    'Systems Integration': 'https://www.wikidata.org/wiki/Q1172480',
+  };
+
+  const articleAbout = pillar.tags.map((tag) =>
+    wikidataTagMap[tag]
+      ? { '@type': 'Thing', name: tag, sameAs: wikidataTagMap[tag] }
+      : { '@type': 'Thing', name: tag }
+  );
+
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
@@ -274,6 +308,12 @@ export default async function BlogDetailPage({ params }: Props) {
     dateModified: isoPublished,
     wordCount,
     timeRequired: `PT${readingMinutes}M`,
+    isPartOf: { '@id': `${baseUrl}/#website` },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.bd-title', '.aeo-answer-capsule', '.bd-content__lead'],
+    },
+    ...(externalCitations.length > 0 ? { citation: externalCitations } : {}),
     author: [
       { '@id': `${baseUrl}/#founder-sai-charan` },
       { '@id': `${baseUrl}/#founder-hemanth-sairam` },
@@ -285,7 +325,7 @@ export default async function BlogDetailPage({ params }: Props) {
       '@type': 'WebPage',
       '@id': `${baseUrl}/blog/${slug}`,
     },
-    about: pillar.tags,
+    about: articleAbout,
   };
 
   const faqJsonLd =
@@ -357,8 +397,9 @@ export default async function BlogDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <div style={{ margin: '12px 0 20px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px', margin: '12px 0 20px' }}>
             <PreferredSourceButton />
+            <CopyMarkdownButton slug={slug} />
           </div>
 
           <div className="bd-hero">
@@ -374,7 +415,33 @@ export default async function BlogDetailPage({ params }: Props) {
           </div>
 
           <div className="bd-content">
-            <p className="bd-content__lead">{post.excerpt}</p>
+            <aside
+              className="aeo-answer-capsule"
+              aria-label="Key Engineering Takeaway"
+              style={{
+                maxWidth: '800px',
+                margin: '0 auto 32px',
+                padding: '20px 24px',
+                borderRadius: '14px',
+                background: 'linear-gradient(135deg, rgba(168,85,247,0.09), rgba(255,255,255,0.02))',
+                border: '1px solid rgba(196,181,253,0.28)',
+              }}
+            >
+              <div style={{ fontSize: '0.75rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#c4b5fd', fontWeight: 600, marginBottom: '8px' }}>
+                Direct Answer / Key Engineering Takeaway
+              </div>
+              <p className="bd-content__lead" style={{ margin: '0 0 14px' }}>{post.excerpt}</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', fontSize: '0.84rem', color: 'rgba(255,255,255,0.75)' }}>
+                <span>
+                  Pillar:{' '}
+                  <Link href={pillar.pillarHref} style={{ color: '#c4b5fd', textDecoration: 'underline' }}>
+                    {pillar.pillarName}
+                  </Link>
+                </span>
+                <span>• {readingMinutes} min read ({wordCount} words)</span>
+                <span>• {externalCitations.length} primary external citations</span>
+              </div>
+            </aside>
 
             {tocItems.length >= 2 && (
               <nav

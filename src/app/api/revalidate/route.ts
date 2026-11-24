@@ -1,5 +1,6 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
+import { CORE_INDEXNOW_URLS, submitIndexNow } from '@/lib/seo/indexnow'
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,12 +21,25 @@ export async function POST(req: NextRequest) {
       revalidateTag(tag, 'max')
     }
 
+    let indexNowResult = null;
+    try {
+      const slug = payload?.record?.slug;
+      const urlsToPing =
+        table === 'blog_posts' && typeof slug === 'string' && slug
+          ? ['https://www.pixenox.com/blog', `https://www.pixenox.com/blog/${slug}`]
+          : CORE_INDEXNOW_URLS;
+      indexNowResult = await submitIndexNow(urlsToPing);
+    } catch {
+      indexNowResult = { ok: false };
+    }
+
     return NextResponse.json({ 
       revalidated: true, 
       table, 
+      indexNow: indexNowResult,
       now: Date.now() 
     })
-  } catch (err: any) {
+  } catch {
     return NextResponse.json({ error: 'Failed to revalidate' }, { status: 500 })
   }
 }

@@ -247,6 +247,8 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
           <div className="footer__copyright">{copyrightText}</div>
           <PreferredSourceButton variant="link" />
           <div className="footer__bottom-links">
+            <Link href="/tools/ai-visibility-checker">AI Visibility Checker</Link>
+            <Link href="/glossary">Glossary</Link>
             <Link href="/company">Company</Link>
             <Link href="/blog">Blog</Link>
             <Link href="/faqs">FAQs</Link>

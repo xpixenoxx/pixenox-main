@@ -93,6 +93,20 @@ export default async function CompanyPage() {
     ],
   };
 
+  const profilePageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': `${baseUrl}/company#leadership`,
+    url: `${baseUrl}/company`,
+    name: 'Pixenox Solutions Founding Directors — Muchakarla Sai Charan & Jagatha Hemanth Sai Ram',
+    mainEntity: { '@id': `${baseUrl}/#founder-sai-charan` },
+    hasPart: [
+      { '@id': `${baseUrl}/#founder-sai-charan` },
+      { '@id': `${baseUrl}/#founder-hemanth-sairam` },
+    ],
+    about: { '@id': `${baseUrl}/#organization` },
+  };
+
   return (
     <>
       <script
@@ -102,6 +116,10 @@ export default async function CompanyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
       />
       <CompanyPageClient
         heroConfig={(heroConfig ?? null) as PageHeroConfig | null}

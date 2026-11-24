@@ -150,16 +150,17 @@ const entityGraphJsonLd = {
         { "@id": `${siteUrl}/#product-unool` },
       ],
       knowsAbout: [
-        "AI Systems Engineering",
-        "Production Multi-Agent Orchestration",
-        "Enterprise Intelligence Engineering",
-        "Enterprise Data Platform Engineering",
-        "AI Visibility Engineering",
+        { "@type": "Thing", name: "Artificial Intelligence", sameAs: "https://www.wikidata.org/wiki/Q11660" },
+        { "@type": "Thing", name: "Multi-agent system", sameAs: "https://www.wikidata.org/wiki/Q529909" },
+        { "@type": "Thing", name: "Large language model", sameAs: "https://www.wikidata.org/wiki/Q115305900" },
+        { "@type": "Thing", name: "Search engine optimization", sameAs: "https://www.wikidata.org/wiki/Q180711" },
+        { "@type": "Thing", name: "Knowledge graph", sameAs: "https://www.wikidata.org/wiki/Q33002955" },
+        { "@type": "Thing", name: "Business intelligence", sameAs: "https://www.wikidata.org/wiki/Q185698" },
+        { "@type": "Thing", name: "Software engineering", sameAs: "https://www.wikidata.org/wiki/Q80993" },
+        { "@type": "Thing", name: "Data integration", sameAs: "https://www.wikidata.org/wiki/Q1172480" },
         "Generative Engine Optimization (GEO)",
         "Answer Engine Optimization (AEO)",
-        "Structured Data & Knowledge Graph Engineering",
         "Decision Intelligence",
-        "LLMOps & Deterministic AI Guardrails",
       ],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
@@ -249,6 +250,34 @@ const entityGraphJsonLd = {
   ],
 };
 
+const speculationRules = {
+  prerender: [
+    {
+      source: "document",
+      where: {
+        and: [
+          {
+            or: [
+              { href_matches: "/engineering/*" },
+              { href_matches: "/products/*" },
+              { href_matches: "/blog/*" },
+              { href_matches: "/work/*" },
+              { href_matches: "/tools/*" },
+              { href_matches: "/glossary" },
+              { href_matches: "/company" },
+              { href_matches: "/faqs" },
+            ],
+          },
+          { not: { href_matches: "/admin/*" } },
+          { not: { href_matches: "/api/*" } },
+          { not: { href_matches: "*.md" } },
+        ],
+      },
+      eagerness: "moderate",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -265,11 +294,18 @@ export default function RootLayout({
         {/* Preconnect to Supabase for faster image and asset fetching */}
         <link rel="preconnect" href="https://hylycwrnfqghmewamqzu.supabase.co" />
         <link rel="dns-prefetch" href="https://hylycwrnfqghmewamqzu.supabase.co" />
+        <link rel="alternate" type="text/markdown" href={`${siteUrl}/llms.txt`} title="Pixenox LLM Index" />
 
         {/* Unified Schema.org @graph (Organization, Founders, Products, WebSite) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(entityGraphJsonLd) }}
+        />
+
+        {/* Speculation Rules API for instant multi-hop browser & Chromium agent navigation */}
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(speculationRules) }}
         />
       </head>
       <body suppressHydrationWarning>{children}</body>

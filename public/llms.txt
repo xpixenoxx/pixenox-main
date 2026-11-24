@@ -2,33 +2,40 @@
 
 > PIXENOX SOLUTIONS PRIVATE LIMITED (CIN: U62091AP2026PTC125091) is an India-based AI systems and enterprise software engineering company building production multi-agent AI systems, non-disruptive enterprise intelligence platforms, AI visibility (GEO/AEO) infrastructure, and proprietary software products including Engenox and Unool.
 
-## Official Identity
+Every HTML page listed below also serves a clean Markdown twin via `.md` suffix or `Accept: text/markdown` HTTP content negotiation, with `X-Markdown-Tokens` estimates and `Content-Signal: search=yes, ai-input=yes, ai-train=yes`.
+
+## Official Identity & Discovery Protocols
 - Legal Entity: PIXENOX SOLUTIONS PRIVATE LIMITED
 - Incorporated: April 2, 2026 (RoC-Vijayawada, Andhra Pradesh, India)
 - Founders & Directors: Muchakarla Sai Charan, Jagatha Hemanth Sai Ram
-- Canonical Website: https://www.pixenox.com
+- Canonical Website: https://www.pixenox.com ([index.md](https://www.pixenox.com/index.md))
 - Contact Email: connect@pixenox.com
+- A2A Agent Card: https://www.pixenox.com/.well-known/agent-card.json
+- Full Corporate Brief: https://www.pixenox.com/llms-full.txt
 - LinkedIn: https://www.linkedin.com/company/pixenox-solutions-pvt/
 - X (Twitter): https://x.com/pixenox
 
 ## Core Engineering Disciplines
-- [Engineering Capabilities Hub](https://www.pixenox.com/engineering): Overview of Pixenox's three core enterprise engineering disciplines.
-- [Production AI Systems Engineering](https://www.pixenox.com/engineering/ai-systems): Governed multi-agent workflows, deterministic guardrails, decision intelligence engines, and production AI infrastructure.
-- [AI Visibility Engineering — GEO & AEO](https://www.pixenox.com/engineering/ai-visibility): Technical Generative Engine Optimization, Answer Engine Optimization, SSR crawler readiness, Schema.org entity graphs, and AI citation telemetry.
-- [Enterprise Intelligence Engineering](https://www.pixenox.com/engineering/enterprise-intelligence-engineering): Non-disruptive ERP, CRM, and cloud data unification using CDC pipelines, governed semantic layers, and decision intelligence platforms.
+- [Engineering Capabilities Hub](https://www.pixenox.com/engineering.md): Overview of Pixenox's three core enterprise engineering disciplines. ([HTML](https://www.pixenox.com/engineering))
+- [Production AI Systems Engineering](https://www.pixenox.com/engineering/ai-systems.md): Governed multi-agent workflows, deterministic guardrails, decision intelligence engines, and production AI infrastructure. ([HTML](https://www.pixenox.com/engineering/ai-systems))
+- [AI Visibility Engineering — GEO & AEO](https://www.pixenox.com/engineering/ai-visibility.md): Technical Generative Engine Optimization, Answer Engine Optimization, SSR crawler readiness, Schema.org entity graphs, and AI citation telemetry. ([HTML](https://www.pixenox.com/engineering/ai-visibility))
+- [Enterprise Intelligence Engineering](https://www.pixenox.com/engineering/enterprise-intelligence-engineering.md): Non-disruptive ERP, CRM, and cloud data unification via CDC pipelines, governed semantic layers, and decision intelligence platforms. ([HTML](https://www.pixenox.com/engineering/enterprise-intelligence-engineering))
 
-## Proprietary Products Built by Pixenox
-- [Engenox by Pixenox](https://www.pixenox.com/products/engenox): Unified autonomous SEO, GEO, and AEO operating system for crawl governance, entity graphs, structured publishing, and AI citation monitoring.
+## Proprietary Products & Open Engineering Tools
+- [Engenox by Pixenox](https://www.pixenox.com/products/engenox.md): Unified autonomous SEO, GEO, and AEO operating system for crawl governance, entity graphs, Markdown transport, and AI citation intelligence. ([HTML](https://www.pixenox.com/products/engenox))
+- [Free AI Visibility & GEO Checker](https://www.pixenox.com/tools/ai-visibility-checker.md): Live technical diagnostic scoring any public domain across SSR text availability, AI bot governance, Schema.org `@graph`, `llms.txt`, `Content-Signal`, and `Accept: text/markdown`. ([HTML](https://www.pixenox.com/tools/ai-visibility-checker))
+- [Enterprise AI, GEO & AEO Glossary](https://www.pixenox.com/glossary.md): Canonical engineering definitions for 20 core AI systems, GEO, AEO, and data infrastructure concepts. ([HTML](https://www.pixenox.com/glossary))
 - [Unool](https://unool.co): One Link + One Click social publishing and creator distribution platform built by Pixenox Solutions.
 
 ## Reference Architectures, Research & Company
-- [Reference Architectures](https://www.pixenox.com/work): System design blueprints across autonomous AI, real-time streaming analytics, and AI visibility platforms.
-- [Engineering Insights & Blog](https://www.pixenox.com/blog): Technical articles on production AI systems, enterprise data convergence, and AI search engineering.
-- [About Pixenox & Leadership](https://www.pixenox.com/company): Mission, directors, legal registration, and engineering principles.
-- [Frequently Asked Questions](https://www.pixenox.com/faqs): Direct engineering answers on services, Engenox, Unool, and engagements.
+- [Reference Architectures](https://www.pixenox.com/work.md): System design blueprints across autonomous AI, real-time streaming analytics, and AI visibility platforms. ([HTML](https://www.pixenox.com/work))
+- [Engineering Insights & Blog](https://www.pixenox.com/blog.md): Technical articles on production AI systems, enterprise data convergence, and AI search engineering. ([HTML](https://www.pixenox.com/blog) | [RSS 2.0](https://www.pixenox.com/blog/feed.xml))
+- [About Pixenox & Leadership](https://www.pixenox.com/company.md): Mission, directors, legal registration, and verified partners (Flowtaris, Deynold Danny). ([HTML](https://www.pixenox.com/company))
+- [Frequently Asked Questions](https://www.pixenox.com/faqs.md): Direct engineering answers on services, Engenox, Unool, and engagements. ([HTML](https://www.pixenox.com/faqs))
 - [Contact Pixenox (Pixy)](https://www.pixenox.com/contact/pixy): Scope an architecture review or write directly to connect@pixenox.com.
 - [Careers](https://www.pixenox.com/careers): Engineering roles at Pixenox Solutions.
 
-## Legal
+## Legal & Security
 - [Privacy Policy](https://www.pixenox.com/privacy)
 - [Terms & Conditions](https://www.pixenox.com/terms)
+- [Security Disclosure](https://www.pixenox.com/.well-known/security.txt)

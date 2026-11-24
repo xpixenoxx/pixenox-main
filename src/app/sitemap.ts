@@ -78,6 +78,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/tools/ai-visibility-checker`,
+      lastModified: STATIC_CONTENT_DATE,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/glossary`,
+      lastModified: STATIC_CONTENT_DATE,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/work`,
       lastModified: STATIC_CONTENT_DATE,
       changeFrequency: 'weekly',
