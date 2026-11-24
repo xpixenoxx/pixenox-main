@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getCanonicalSiteUrl } from '@/lib/supabase/public';
 import VisibilityCheckerClient from './VisibilityCheckerClient';
+import './visibility-checker.css';
 
 export const revalidate = 3600;
 
@@ -9,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getCanonicalSiteUrl();
   const title = 'Free AI Visibility & GEO Readiness Checker';
   const description =
-    'Run a live technical audit across SSR extractability, AI crawler governance, Schema.org @graph, llms.txt, Content-Signal, and Accept: text/markdown.';
+    'Run a live 20-signal technical audit across SSR extractability, RFC 9309 AI bot matrix, Schema.org @graph, llms.txt, Content-Signal, and Accept: text/markdown.';
 
   return {
     title,
@@ -45,7 +46,7 @@ export default function AiVisibilityCheckerPage() {
       priceCurrency: 'USD',
     },
     description:
-      'Live diagnostic tool scoring websites on SSR crawlability, AI search bot governance, Schema.org entity graphs, llms.txt, Content-Signal directives, A2A Agent Cards, and Markdown content negotiation.',
+      'Live diagnostic tool auditing websites across SSR extractability, RFC 9309 AI crawler matrix, Schema.org entity graphs, llms.txt, Content-Signal directives, A2A Agent Cards, and Markdown content negotiation.',
     creator: { '@id': `${baseUrl}/#organization` },
   };
 
@@ -58,15 +59,15 @@ export default function AiVisibilityCheckerPage() {
         name: 'What does the AI Visibility & GEO Readiness Checker inspect?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'It inspects live HTTP responses across five weighted pillars: Crawl & Bot Governance (robots.txt and AI search bots), SSR & Extractability, Schema & Entity Graph (including Wikidata sameAs and SpeakableSpecification), 2026 AI-Native Protocols (llms.txt, Accept: text/markdown, Content-Signal, A2A Agent Card, Speculation Rules), and Discovery & Speed (TTFB and RSS autodiscovery).',
+          text: 'It inspects live HTTP responses across 20 deterministic checks grouped into 5 pillars: Crawl & Bot Governance (RFC 9309 evaluation + live sitemap verification), SSR & AI Extractability, Schema & Knowledge Graph (including Wikidata sameAs and Speakable/FAQ schema), 2026 AI-Native Protocols (llms.txt, Accept: text/markdown, Content-Signal, A2A Agent Card, Speculation Rules), and Discovery, Trust & Speed.',
         },
       },
       {
         '@type': 'Question',
-        name: 'How does Accept: text/markdown negotiation improve GEO?',
+        name: 'How does the tool handle parked domains, 404 pages, or WAF-blocked hosts?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'When AI retrieval agents and coding assistants send Accept: text/markdown, supporting origins return clean structured Markdown instead of HTML boilerplate, lowering token consumption by up to 85% and increasing passage extraction fidelity.',
+          text: 'Before running any scoring logic, the diagnostic classifies DNS errors (NXDOMAIN), HTTP 4xx/5xx dead pages, anti-bot WAF interstitials, non-HTML assets, and registrar parked-domain placeholders, surfacing an exact forensic alert instead of reporting a misleading score.',
         },
       },
     ],
@@ -82,29 +83,30 @@ export default function AiVisibilityCheckerPage() {
   };
 
   return (
-    <main style={{ minHeight: '100vh', background: '#06060a', color: '#ffffff', padding: '140px 24px 96px' }}>
+    <main className="avc-page">
+      <div className="avc-bg-grid" aria-hidden="true" />
+      <div className="avc-aura" aria-hidden="true" />
+
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'grid', gap: '40px' }}>
-        <header style={{ display: 'grid', gap: '16px' }}>
-          <nav aria-label="Breadcrumb" style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.6)' }}>
-            <Link href="/" style={{ color: '#c4b5fd', textDecoration: 'none' }}>Home</Link>
-            <span aria-hidden="true"> / </span>
+      <div className="avc-container">
+        <header className="avc-hero">
+          <nav aria-label="Breadcrumb" className="avc-breadcrumb">
+            <Link href="/">Home</Link>
+            <span aria-hidden="true">/</span>
             <span style={{ color: '#ffffff' }}>AI Visibility Checker</span>
           </nav>
 
-          <span style={{ fontSize: '0.78rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#c4b5fd', fontWeight: 600 }}>
-            Engenox Open Diagnostic • Live HTTP Audit
-          </span>
-          <h1 style={{ margin: 0, fontSize: 'clamp(2.1rem, 4vw, 3.2rem)', fontWeight: 700, lineHeight: 1.15 }}>
-            AI Visibility &amp; GEO Readiness Checker
-          </h1>
-          <p style={{ margin: 0, fontSize: '1.1rem', lineHeight: 1.65, color: 'rgba(255,255,255,0.78)', maxWidth: '780px' }}>
-            Test any public website in real time across the technical stack that powers ChatGPT Search, Perplexity,
-            Claude, and Google AI Overviews: SSR text extraction, RFC 9309 bot rules, Wikidata-linked JSON-LD,{' '}
-            <code>llms.txt</code>, <code>Content-Signal</code>, <code>Accept: text/markdown</code>, and Speculation Rules.
+          <span className="avc-eyebrow">Engenox Open Diagnostic • Live 20-Signal Telemetry</span>
+
+          <h1 className="avc-title">AI Visibility &amp; GEO Readiness Checker</h1>
+
+          <p className="avc-subtitle">
+            Inspect any public website in real time across the exact machine stack powering ChatGPT Search, Perplexity,
+            Claude, and Google AI Overviews: parked-domain &amp; WAF pre-screening, RFC 9309 bot rules, Wikidata-linked
+            JSON-LD, <code>llms.txt</code>, <code>Content-Signal</code>, <code>Accept: text/markdown</code>, and Speculation Rules.
           </p>
         </header>
 
@@ -112,20 +114,14 @@ export default function AiVisibilityCheckerPage() {
 
         <section
           aria-label="Scoring Methodology"
-          style={{
-            padding: '28px',
-            borderRadius: '18px',
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            display: 'grid',
-            gap: '14px',
-          }}
+          className="avc-card"
         >
-          <h2 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 600 }}>5-Pillar 100-Point Scoring Model</h2>
+          <h2 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 600 }}>20-Signal 5-Pillar Diagnostic Architecture</h2>
           <p style={{ margin: 0, color: 'rgba(255,255,255,0.75)', lineHeight: 1.65 }}>
-            Unlike shallow SEO checklist widgets, this diagnostic inspects raw server HTML without JavaScript execution—exactly
-            how AI retrieval bots and search fetchers parse your domain—and awards deterministic points across Crawl Governance (25),
-            SSR Extractability (25), Schema &amp; Entity Graph (20), 2026 AI-Native Protocols (20), and Discovery &amp; Speed (10).
+            Unlike generic SEO checklist widgets, this diagnostic parses raw server HTML without JavaScript execution—just like
+            AI citation fetchers—verifies live XML sitemaps and RFC 9309 longest-path precedence, automatically flags parked or
+            WAF-blocked origins, and scores production domains across Crawl Governance (25), SSR Extractability (25),
+            Schema &amp; Knowledge Graph (20), 2026 AI-Native Protocols (20), and Discovery, Trust &amp; Speed (10).
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px', fontSize: '0.92rem' }}>
             <Link href="/engineering/ai-visibility" style={{ color: '#c4b5fd', textDecoration: 'underline' }}>
