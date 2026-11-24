@@ -340,7 +340,7 @@ export async function GET(
     if (slug.length === 1) {
       const { data: studies } = await supabase
         .from('case_studies')
-        .select('slug, title, short_description, client_industry')
+        .select('slug, title, short_description, tags')
         .order('priority', { ascending: true });
 
       const lines = [
@@ -353,7 +353,7 @@ export async function GET(
         '',
         ...(studies ?? []).flatMap((st: any) => [
           `## ${st.title}`,
-          `- Industry: ${st.client_industry || 'Enterprise'} | URL: ${baseUrl}/work/${st.slug}`,
+          `- Tags: ${Array.isArray(st.tags) && st.tags.length ? st.tags.join(', ') : 'Enterprise'} | URL: ${baseUrl}/work/${st.slug}`,
           '',
           st.short_description || '',
           '',
@@ -377,7 +377,7 @@ export async function GET(
       '---',
       `title: "${String(st.title).replace(/"/g, '\\"')}"`,
       `canonical: ${canonical}`,
-      `industry: ${st.client_industry || 'Enterprise'}`,
+      `tags: ${Array.isArray(st.tags) && st.tags.length ? st.tags.join(', ') : 'Enterprise'}`,
       '---',
       '',
       `# ${st.title}`,
@@ -462,7 +462,7 @@ export async function GET(
   if (slug.length === 1 && slug[0] === 'faqs') {
     const { data: faqs } = await supabase
       .from('faqs')
-      .select('question, answer, category')
+      .select('question, answer')
       .eq('is_visible', true)
       .order('priority', { ascending: true });
 
