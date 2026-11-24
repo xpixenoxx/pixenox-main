@@ -1,10 +1,10 @@
 import { ComponentKind, FormData, StepId } from "./types";
 
-/** Prototype services — replace with the real Pixenox service list at integration time. */
+/** Official Pixenox service pillars & proprietary platforms. */
 export const SERVICE_OPTIONS = [
-  "AI Engineering",
-  "AI Visibility",
-  "Web & Platform Engineering",
+  "AI Systems Engineering",
+  "AI Visibility (GEO/AEO) & Engenox",
+  "Enterprise Intelligence Engineering",
   "Something Else",
 ];
 
@@ -239,7 +239,7 @@ export const STEP_INTENT: Record<StepId, string> = {
   complete: "Give a warm, personalized confirmation that our team will review their project and get back to them soon.",
   culture: "The user wants to know about Pixenox culture. Summarize this briefly in your character's voice (flirty, crispy, friendly, max 2 sentences): 'Pixenox culture = World-class engineering standards + deep care for people + high-intensity innovation + complete fairness. We build AI systems, but treat people as whole persons with trust, flexibility, recognition, and no bureaucracy. We prioritize psychological safety, growth, and work-life integrity.' Do NOT mention other companies or sound corporate. After explaining, ask them what they'd like to do next.",
   careers_redirect: "The user clicked 'Join the Team'. React with excitement and warmth — they want to work at Pixenox! Give 2-3 short, flirty, welcoming sentences expressing genuine excitement about them joining. End with something like 'Let me take you there' since they'll be auto-redirected to the careers page. Do NOT ask questions.",
-  explore: "The user clicked 'Explore Pixenox'. Break your response into exactly 4 short, distinct sentences/thoughts (they will become 4 animated slides). Talk about Pixenox based on this info: 1) Pixenox is an AI engineering company that builds production-grade, autonomous AI systems (like self-governing agents and decision engines) that actually work in the real world with 99.9% uptime. 2) They have massive real-world results: 12x faster decisions in fintech, sub-100ms healthcare platforms, and 340% SEO/GEO growth. 3) They blend cinematic design with deep engineering. 4) They focus on systems-over-features for enterprises. Your response must be conversational, flirty, friendly, and naturally spoken. End the 4th sentence by saying you're taking them to the homepage.",
+  explore: "The user clicked 'Explore Pixenox'. Break your response into exactly 4 short, distinct sentences/thoughts (they will become 4 animated slides). Talk about Pixenox based on these verified facts ONLY (never invent stats or client metrics): 1) Pixenox Solutions is an AI and enterprise systems engineering company building governed multi-agent AI systems and non-disruptive enterprise data platforms. 2) We engineer AI Visibility (GEO & AEO) infrastructure and built Engenox — our unified SEO, GEO, and AEO operating system — alongside our live product Unool. 3) We blend high-craft interface engineering with deterministic production reliability. 4) We focus on compounding systems-over-features for ambitious enterprises. End the 4th sentence by saying you're taking them to the homepage.",
 };
 
 export const GROQ_FAILURE_FALLBACKS: Partial<Record<StepId, string[]>> = {
@@ -255,5 +255,5 @@ export const GROQ_FAILURE_FALLBACKS: Partial<Record<StepId, string[]>> = {
   complete: ["Thanks! I've got the details safely locked away.", "Our team will review your project and get back to you soon."],
   culture: ["We're all about world-class engineering, deep care for our people, and zero bureaucracy.", "It's a place where you can actually build amazing AI systems while still having a life."],
   careers_redirect: ["Oh! You want to join the team? Love that energy.", "We're always on the lookout for brilliant minds who want to build something extraordinary.", "Let me take you to where the magic happens…"],
-  explore: ["Pixenox is an AI engineering company that builds production-grade, autonomous AI systems.", "We blend cinematic design with deep engineering to solve real-world problems.", "Our systems deliver 99.9% uptime and massive results across fintech, healthcare, and logistics.", "Let me take you to the homepage to see for yourself."],
+  explore: ["Pixenox Solutions engineers production-grade autonomous AI systems and unified enterprise intelligence platforms.", "We also build proprietary software — including Engenox, our unified SEO, GEO & AEO operating system, and Unool.", "We blend high-craft interface design with deterministic engineering built to last in production.", "Let me take you to the homepage to see it in action."],
 };

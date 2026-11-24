@@ -47,3 +47,8 @@ tsc-errors.txt
 # uploads
 /public/uploads/*
 !/public/uploads/resumes/.gitkeep
+
+# audits and local reports
+audit-reports/
+queris-seo
+PIXENOX_MASTER_SEO_GEO_AEO_FORENSIC_AUDIT.md

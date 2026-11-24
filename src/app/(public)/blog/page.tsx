@@ -1,22 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { createClient } from '@/lib/supabase/server';
+import { permanentRedirect } from 'next/navigation';
+import { createPublicSupabaseClient, getCanonicalSiteUrl } from '@/lib/supabase/public';
 import { sortBlogPostsByDate } from '@/lib/blog-utils';
 import type { Metadata } from 'next';
 import './blog.css';
 
-export const metadata: Metadata = {
-  title: 'Blog — Latest Insights',
-  description: 'Explore our latest thinking on AI systems, enterprise engineering, web architecture, and growth intelligence. Deep insights from the Pixenox engineering team.',
-  alternates: { canonical: '/blog' },
-  openGraph: {
-    title: 'Blog — Latest Insights | Pixenox',
-    description: 'Explore our latest thinking on AI systems, enterprise engineering, web architecture, and growth intelligence.',
-  },
-};
-
-export const revalidate = 0; // Always serve fresh, real-time blog order
+export const revalidate = 300;
 
 const POSTS_PER_PAGE = 8;
 
@@ -32,39 +23,106 @@ interface BlogPost {
   created_at?: string;
 }
 
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}): Promise<Metadata> {
+  const resolved = await searchParams;
+  const pageNum = Math.max(1, parseInt(resolved.page || '1', 10) || 1);
+  const baseUrl = getCanonicalSiteUrl();
+  const isPaginated = pageNum > 1;
+
+  const title = isPaginated
+    ? `Engineering Insights & Research — Page ${pageNum}`
+    : 'Engineering Insights — AI Systems, GEO & Enterprise Architecture';
+  const description =
+    'Technical guides and architecture research from the Pixenox engineering team on production AI systems, enterprise data convergence, and AI visibility (GEO/AEO).';
+  const canonical = isPaginated ? `${baseUrl}/blog?page=${pageNum}` : `${baseUrl}/blog`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title: `${title} | Pixenox`,
+      description,
+      url: canonical,
+    },
+  };
+}
+
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
-  // Await searchParams as required in Next.js 15
   const resolvedParams = await searchParams;
-  const currentPage = parseInt(resolvedParams.page || '1', 10);
+  if (resolvedParams.page === '1') {
+    permanentRedirect('/blog');
+  }
 
-  const supabase = await createClient();
+  const parsedPage = parseInt(resolvedParams.page || '1', 10);
+  const currentPage = Number.isNaN(parsedPage) || parsedPage < 1 ? 1 : parsedPage;
 
-  // Fetch all visible posts
+  const supabase = createPublicSupabaseClient();
+
   const { data } = await supabase
     .from('blog_posts')
     .select('id, slug, title, date, category, image_url, excerpt, priority, created_at')
     .eq('is_visible', true);
 
   const rawPosts = (data as BlogPost[]) ?? [];
-  // Sort posts by date (latest date first). Tie breaks by created_at then priority.
   const posts = sortBlogPostsByDate(rawPosts);
 
-  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
+  if (currentPage > totalPages) {
+    permanentRedirect(totalPages === 1 ? '/blog' : `/blog?page=${totalPages}`);
+  }
+  const safePage = currentPage;
+  const startIndex = (safePage - 1) * POSTS_PER_PAGE;
   const currentPosts = posts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+  const baseUrl = getCanonicalSiteUrl();
+  const blogCollectionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${baseUrl}/blog#blog`,
+    url: safePage > 1 ? `${baseUrl}/blog?page=${safePage}` : `${baseUrl}/blog`,
+    name: 'Pixenox Engineering Insights & Research',
+    publisher: { '@id': `${baseUrl}/#organization` },
+  };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/blog` },
+    ],
+  };
 
   return (
     <div className="blog-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogCollectionJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="blog-page__hero">
-        <h1>Latest Insights</h1>
-        <p>Explore our latest thinking, research, and analysis.</p>
+        <nav aria-label="Breadcrumb" style={{ marginBottom: '16px', fontSize: '0.88rem', color: 'rgba(255,255,255,0.6)' }}>
+          <Link href="/" style={{ color: '#c4b5fd', textDecoration: 'none' }}>Home</Link>
+          <span aria-hidden="true"> / </span>
+          <span style={{ color: '#ffffff' }}>Blog</span>
+        </nav>
+        <h1>Engineering Insights &amp; Research</h1>
+        <p>
+          Production AI systems architecture, enterprise data platforms, and AI visibility (GEO/AEO) research from the Pixenox team.{' '}
+          <a href="/blog/feed.xml" style={{ color: '#c4b5fd', textDecoration: 'underline', marginLeft: '6px' }}>RSS Feed</a>
+        </p>
       </div>
 
       <div className="blog-page__container">
-
-        {/* Posts grid */}
         <div className="blog-page__grid row">
-          {currentPosts.map((post) => (
+          {currentPosts.map((post, idx) => (
             <article key={post.id} className="blog-card">
               <div className="blog-card__image-wrapper">
                 <Image
@@ -73,23 +131,25 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
                   width={600}
                   height={340}
                   className="blog-card__image"
-                  loading={startIndex === 0 && currentPosts.indexOf(post) < 2 ? undefined : 'lazy'}
+                  priority={startIndex === 0 && idx < 2}
+                  loading={startIndex === 0 && idx < 2 ? 'eager' : 'lazy'}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                 />
               </div>
 
               <div className="blog-card__content">
                 <div className="blog-card__date">
+                  {post.category ? <span style={{ color: '#c4b5fd', fontWeight: 600, marginRight: '8px' }}>{post.category}</span> : null}
                   {post.date}
                 </div>
 
-                <h3 className="blog-card__title">
+                <h2 className="blog-card__title">
                   <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                </h3>
+                </h2>
 
                 <Link href={`/blog/${post.slug}`} className="blog-card__read-more">
-                  READ MORE
-                  <svg className="blog-card__read-more-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  READ ARTICLE
+                  <svg className="blog-card__read-more-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 8 16 12 12 16" />
                     <line x1="8" y1="12" x2="16" y2="12" />
@@ -106,19 +166,21 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
           )}
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <nav className="blog-pagination" aria-label="Blog pagination">
-            {currentPage > 1 ? (
-              <Link href={`/blog?page=${currentPage - 1}`} className="blog-pagination__btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {safePage > 1 ? (
+              <Link
+                href={safePage === 2 ? '/blog' : `/blog?page=${safePage - 1}`}
+                className="blog-pagination__btn"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <polyline points="15 18 9 12 15 6" />
                 </svg>
                 Prev
               </Link>
             ) : (
-              <button className="blog-pagination__btn" disabled>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <button type="button" className="blog-pagination__btn" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <polyline points="15 18 9 12 15 6" />
                 </svg>
                 Prev
@@ -129,26 +191,26 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <Link
                   key={page}
-                  href={`/blog?page=${page}`}
-                  className={`blog-pagination__page ${currentPage === page ? 'is-active' : ''}`}
-                  aria-current={currentPage === page ? 'page' : undefined}
+                  href={page === 1 ? '/blog' : `/blog?page=${page}`}
+                  className={`blog-pagination__page ${safePage === page ? 'is-active' : ''}`}
+                  aria-current={safePage === page ? 'page' : undefined}
                 >
                   {page}
                 </Link>
               ))}
             </div>
 
-            {currentPage < totalPages ? (
-              <Link href={`/blog?page=${currentPage + 1}`} className="blog-pagination__btn">
+            {safePage < totalPages ? (
+              <Link href={`/blog?page=${safePage + 1}`} className="blog-pagination__btn">
                 Next
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
               </Link>
             ) : (
-              <button className="blog-pagination__btn" disabled>
+              <button type="button" className="blog-pagination__btn" disabled>
                 Next
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
               </button>
@@ -157,9 +219,7 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
         )}
 
         <p className="blog-pagination__info">
-          {posts.length > 0
-            ? `Page ${currentPage} of ${totalPages} — ${posts.length} articles`
-            : ''}
+          {posts.length > 0 ? `Page ${safePage} of ${totalPages} — ${posts.length} articles` : ''}
         </p>
       </div>
     </div>

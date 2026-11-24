@@ -14,7 +14,7 @@ export default function StorySection({ blocks, title }: StorySectionProps) {
   const textRef = useRef<HTMLDivElement>(null);
 
   // Fallback text if DB is empty
-  let rawText = "Pixenox operates at the intersection of cutting-edge technology and transformative design. Founded by engineers and strategists, we set out to make technology accessible, human, and visually inspiring.";
+  let rawText = "Pixenox engineers deterministic infrastructure for the autonomous enterprise. Founded in India to replace fragile AI prototypes, fragmented legacy data silos, and invisible CSR web shells, we build governed multi-agent systems, real-time semantic data backbones, and proprietary software platforms including Engenox and Unool.";
   
   if (blocks && typeof blocks === 'object' && !Array.isArray(blocks) && blocks.type === 'doc') {
     const extractText = (node: any): string => {

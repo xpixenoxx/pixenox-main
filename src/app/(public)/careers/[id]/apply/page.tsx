@@ -13,6 +13,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const role = FALLBACK_ROLES.find(r => r.id === id);
   return {
     title: role ? `Apply: ${role.title} — Careers` : 'Apply for Job',
+    robots: {
+      index: false,
+      follow: true,
+    },
+    alternates: {
+      canonical: `/careers/${id}`,
+    },
   };
 }
 

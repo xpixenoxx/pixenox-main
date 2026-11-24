@@ -1,5 +1,5 @@
-import { createClient as createServerClient } from '@/lib/supabase/server';
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { createPublicSupabaseClient, getCanonicalSiteUrl } from '@/lib/supabase/public';
 import type { Metadata } from 'next';
 import type { ServiceCard, CaseStudy } from '@/lib/types/database';
 import ServiceAnimatedHeader from './ServiceAnimatedHeader';
@@ -9,16 +9,35 @@ import BlogFaqBot from '@/components/blog/BlogFaqBot';
 import './services-slug.css';
 import './service-detail-sections.css';
 
+export const revalidate = 3600;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+const PILLAR_SEO_OVERRIDES: Record<string, { title: string; description: string }> = {
+  'ai-systems': {
+    title: 'Production AI Systems & Multi-Agent Engineering',
+    description:
+      'Pixenox engineers governed multi-agent workflows, deterministic guardrails, decision intelligence, and production AI infrastructure built for enterprise reliability.',
+  },
+  'ai-visibility': {
+    title: 'AI Visibility Engineering (GEO & AEO) for Enterprise',
+    description:
+      'Engineering-led Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), SSR crawler readiness, entity graphs, and AI citation monitoring — powered by Engenox.',
+  },
+  'enterprise-intelligence-engineering': {
+    title: 'Enterprise Intelligence & Data Platform Engineering',
+    description:
+      'Unify fragmented ERP, CRM, cloud, and document systems without rip-and-replace. Pixenox builds CDC pipelines, governed semantic layers, and decision intelligence platforms.',
+  },
+};
+
 export async function generateStaticParams() {
-  const { createClient } = await import('@supabase/supabase-js');
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return [];
+  }
+  const supabase = createPublicSupabaseClient();
   const { data } = await supabase
     .from('services_cards')
     .select('page_slug')
@@ -30,24 +49,36 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = await createServerClient();
+  const supabase = createPublicSupabaseClient();
   const { data } = await supabase
     .from('services_cards')
     .select('title, description, image_url')
     .eq('page_slug', slug)
+    .eq('is_visible', true)
     .limit(1)
-    .single();
-  const service = data as Pick<ServiceCard, 'title' | 'description' | 'image_url'> | null;
+    .maybeSingle();
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+  const service = data as Pick<ServiceCard, 'title' | 'description' | 'image_url'> | null;
+  if (!service) {
+    return {
+      title: 'Service Not Found',
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const baseUrl = getCanonicalSiteUrl();
+  const override = PILLAR_SEO_OVERRIDES[slug];
+  const resolvedTitle = override?.title ?? service.title;
+  const resolvedDesc = (override?.description ?? service.description ?? '').slice(0, 160);
 
   return {
-    title: service?.title ? `${service.title}` : 'Service',
-    description: service?.description ?? '',
+    title: resolvedTitle,
+    description: resolvedDesc,
     openGraph: {
-      title: service?.title ?? '',
-      description: service?.description ?? '',
-      images: service?.image_url ? [service.image_url] : [],
+      title: `${resolvedTitle} | Pixenox`,
+      description: resolvedDesc,
+      images: service.image_url ? [service.image_url] : [],
+      url: `${baseUrl}/engineering/${slug}`,
     },
     alternates: {
       canonical: `${baseUrl}/engineering/${slug}`,
@@ -57,96 +88,85 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ServiceDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const supabase = await createServerClient();
+  const supabase = createPublicSupabaseClient();
 
-  // Fetch the service details first
   const { data: serviceData } = await supabase
     .from('services_cards')
     .select('*')
     .eq('page_slug', slug)
+    .eq('is_visible', true)
     .limit(1)
-    .single();
+    .maybeSingle();
 
   const service = serviceData as ServiceCard | null;
 
-  // Then fetch strictly matching related projects that contain the exact service title as a tag
-  let relatedStudies: CaseStudy[] = [];
-  if (service) {
-    const { data: caseStudiesData } = await supabase
-      .from('case_studies')
-      .select('title, slug, cover_image_url, short_description, tags')
-      .eq('status', 'published')
-      .contains('tags', [service.title])
-      .order('priority', { ascending: true })
-      .limit(3);
-    
-    if (caseStudiesData) {
-      relatedStudies = caseStudiesData as CaseStudy[];
-    }
+  if (!service) {
+    notFound();
   }
 
-  if (!service) {
-    return (
-      <div className="all-srv-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '20px' }}>404 MATRIX</h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', marginBottom: '40px' }}>Sector not found.</p>
-          <Link href="/" className="all-srv-back">GO BACK</Link>
-        </div>
-      </div>
-    );
+  let relatedStudies: CaseStudy[] = [];
+  const { data: caseStudiesData } = await supabase
+    .from('case_studies')
+    .select('title, slug, cover_image_url, short_description, tags')
+    .in('status', ['published', 'DEPLOYED', 'BLUEPRINT'])
+    .contains('tags', [service.title])
+    .order('priority', { ascending: true })
+    .limit(3);
+
+  if (caseStudiesData) {
+    relatedStudies = caseStudiesData as CaseStudy[];
   }
 
   let techStack = service.technology_stack || [];
-
-  // Provide fallback AAA presentation mapping if no items are linked yet
   if (techStack.length === 0) {
     techStack = [
       'FRONTEND PLATFORMS (REACT / NEXT)',
       'BACKEND APIS & MICROSERVICES (NODE)',
-      'MOBILE & CROSS-PLATFORM (FLUTTER)',
-      'CI/CD & CLOUD OPS (DOCKER)'
+      'DATA & STREAMING (KAFKA / SNOWFLAKE)',
+      'CI/CD & CLOUD OPS (DOCKER / K8S)',
     ] as any;
   }
 
-  // Normalize tech items
   const normalizedTech = (techStack as any[]).map((item) =>
-    typeof item === 'string' ? { name: item } : { name: item?.name || '', svg: item?.svg || undefined }
+    typeof item === 'string'
+      ? { name: item }
+      : { name: item?.name || '', svg: item?.svg || undefined, image_url: item?.image_url || undefined }
   );
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
 
-  // Service JSON-LD for Google rich results
+  const baseUrl = getCanonicalSiteUrl();
+  const override = PILLAR_SEO_OVERRIDES[slug];
+
   const serviceJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: service.title,
-    description: service.description,
+    name: override?.title ?? service.title,
+    description: override?.description ?? service.description,
     provider: {
-      '@type': 'Organization',
-      name: 'Pixenox Solutions Pvt Ltd',
-      url: baseUrl,
+      '@id': `${baseUrl}/#organization`,
     },
     url: `${baseUrl}/engineering/${slug}`,
     image: service.image_url || undefined,
+    areaServed: ['IN', 'US', 'GB', 'AE', 'SG'],
   };
 
-  // FAQPage JSON-LD if FAQs exist
-  const faqJsonLd = service.faqs && Array.isArray(service.faqs) && service.faqs.length > 0 ? {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: (service.faqs as { question: string; answer: string }[]).map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
-  } : null;
+  const faqJsonLd =
+    service.faqs && Array.isArray(service.faqs) && service.faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: (service.faqs as { question: string; answer: string }[]).map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
 
   return (
     <article className="all-srv-page">
-      {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
@@ -157,24 +177,30 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
-      {/* BreadcrumbList for AEO navigation */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'BreadcrumbList',
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-            { '@type': 'ListItem', position: 2, name: 'Engineering', item: `${baseUrl}/engineering` },
-            { '@type': 'ListItem', position: 3, name: service.title, item: `${baseUrl}/engineering/${slug}` },
-          ],
-        }) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+              { '@type': 'ListItem', position: 2, name: 'Engineering', item: `${baseUrl}/engineering` },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: override?.title ?? service.title,
+                item: `${baseUrl}/engineering/${slug}`,
+              },
+            ],
+          }),
+        }}
       />
-      {/* 100vh Premium Hero Banner Area */}
+
       <div className="all-srv-header-wrapper">
         <div className="all-srv-header-aurora" />
 
-        <ServiceAnimatedHeader 
+        <ServiceAnimatedHeader
           title={service.subheading || service.title}
           description={service.description}
           titleColor={service.subheading_color || service.title_color}
@@ -183,7 +209,6 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         />
       </div>
 
-      {/* Premium Content Sections */}
       <ServiceDetailSections
         serviceTitle={service.title}
         serviceSlug={slug}

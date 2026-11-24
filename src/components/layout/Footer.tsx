@@ -77,26 +77,6 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
     }
     load();
 
-    const ch = supabase
-      .channel('footer_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'footer_config' }, async () => {
-        const { data } = await supabase.from('footer_config').select('*').limit(1).single();
-        if (data) setConfig(data as FooterConfig);
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'footer_links' }, async () => {
-        const { data } = await supabase.from('footer_links').select('*').order('priority', { ascending: true });
-        if (data) setLinks(data as FooterLink[]);
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'services_cards' }, async () => {
-        const { data } = await supabase.from('services_cards').select('*').eq('is_visible', true).order('priority', { ascending: true });
-        if (data) setServiceCards(data as ServiceCard[]);
-      })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'case_studies' }, async () => {
-        const { data } = await supabase.from('case_studies').select('*').order('priority', { ascending: true }).limit(5);
-        if (data) setWorkItems(data as CaseStudy[]);
-      })
-      .subscribe();
-
     const timer = setInterval(() => {
       const formatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'Asia/Kolkata',
@@ -124,38 +104,26 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
     setAmpmStr(initParts[1] || '');
 
     return () => {
-      supabase.removeChannel(ch);
       clearInterval(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const companyLinks = links.filter((l) => l.section === 'company' || l.section === 'about');
-  const fallbackCompany = companyLinks.length ? companyLinks : [
-    { id: '1', label: 'About', href: '/company', section: 'company' },
-    { id: '2', label: 'Engineering', href: '/engineering', section: 'company' },
-    { id: '3', label: 'Careers', href: '/careers', section: 'company' },
-    { id: '4', label: 'Talk to Pixy', href: '/contact/pixy', section: 'company' },
-  ];
-
-  const resourceLinks = links.filter((l) => l.section === 'resources');
-  const fallbackResources = resourceLinks.length ? resourceLinks : [
-    { id: '5', label: 'Documentation', href: '#', section: 'resources' },
-    { id: '6', label: 'Changelog', href: '#', section: 'resources' },
-    { id: '7', label: 'Privacy', href: '/privacy', section: 'resources' },
-    { id: '8', label: 'Terms', href: '/terms', section: 'resources' },
-  ];
-
   const socialLinks = links.filter((l) => l.section === 'social' && l.label?.toLowerCase() !== 'github');
-  const fallbackSocials = socialLinks.length ? socialLinks : [
+  const normalizedSocials = (socialLinks.length ? socialLinks : [
     { id: '9', label: 'X', href: config?.reddit_url || 'https://x.com/pixenox', section: 'social' },
-    { id: '10', label: 'LinkedIn', href: config?.linkedin_url || 'https://linkedin.com/company/pixenox', section: 'social' },
-  ];
+    { id: '10', label: 'LinkedIn', href: config?.linkedin_url || 'https://www.linkedin.com/company/pixenox-solutions-pvt/', section: 'social' },
+  ]).map((s) =>
+    s.href === 'https://linkedin.com/company/pixenox' || s.href === 'https://www.linkedin.com/company/pixenox'
+      ? { ...s, href: 'https://www.linkedin.com/company/pixenox-solutions-pvt/' }
+      : s
+  );
+  const fallbackSocials = normalizedSocials;
 
   const copyrightText = config?.copyright_text?.replace(
     '{year}',
     String(new Date().getFullYear())
-  ) ?? `© ${new Date().getFullYear()} Pixenox Solutions Pvt Ltd. All rights reserved.`;
+  ) ?? `© ${new Date().getFullYear()} Pixenox Solutions Private Limited. All rights reserved.`;
 
   if (pathname === '/contact/pixy') return null;
 
@@ -211,9 +179,9 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
           </div>
 
           {/* Right: Navigational Architecture */}
-          <div className="footer__nav-groups" role="navigation" aria-label="Footer navigation">
+          <nav className="footer__nav-groups" aria-label="Footer">
             <div className="footer__nav-col">
-              <h4>Platform</h4>
+              <h4>Engineering</h4>
               <ul>
                 {serviceCards.length > 0 ? (
                   serviceCards.map((card) => (
@@ -223,17 +191,23 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
                   ))
                 ) : (
                   <>
-                    <li><Link href="/engineering">AI Systems</Link></li>
-                    <li><Link href="/engineering">Web Architecture</Link></li>
-                    <li><Link href="/engineering">Optimization Engine</Link></li>
-                    <li><Link href="/engineering">Custom Software</Link></li>
+                    <li><Link href="/engineering/ai-systems">AI Systems</Link></li>
+                    <li><Link href="/engineering/ai-visibility">AI Visibility (GEO &amp; AEO)</Link></li>
+                    <li><Link href="/engineering/enterprise-intelligence-engineering">Enterprise Intelligence</Link></li>
                   </>
                 )}
+                <li><Link href="/products/engenox">Engenox OS</Link></li>
+                <li>
+                  <a href="https://unool.co" target="_blank" rel="noopener noreferrer" aria-label="Unool (opens in new tab)">
+                    Unool
+                    <ArrowUpRight className="external-icon" size={12} strokeWidth={2} />
+                  </a>
+                </li>
               </ul>
             </div>
 
             <div className="footer__nav-col">
-              <h4>Case Studies</h4>
+              <h4>Reference Architectures</h4>
               <ul>
                 {workItems.length > 0 ? (
                   workItems.map((study) => (
@@ -242,7 +216,7 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
                     </li>
                   ))
                 ) : (
-                  <li><Link href="/work">View All Work</Link></li>
+                  <li><Link href="/work">View All Architectures</Link></li>
                 )}
               </ul>
             </div>
@@ -264,17 +238,19 @@ export default function Footer({ initialConfig, initialLinks, initialBrand, init
                 ))}
               </ul>
             </div>
-          </div>
+          </nav>
         </div>
 
         {/* Bottom Utility Bar */}
         <div className="footer__bottom">
           <div className="footer__copyright">{copyrightText}</div>
           <div className="footer__bottom-links">
+            <Link href="/company">Company</Link>
             <Link href="/blog">Blog</Link>
+            <Link href="/faqs">FAQs</Link>
+            <Link href="/careers">Careers</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/careers">Careers</Link>
           </div>
         </div>
       </div>

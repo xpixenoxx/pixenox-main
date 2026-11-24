@@ -5,15 +5,16 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PageTransition from '@/components/layout/PageTransition';
 import { PixyCursorPet } from '@/components/pixy/PixyCursorPet';
-import { createClient } from '@supabase/supabase-js';
+import { createPublicSupabaseClient } from '@/lib/supabase/public';
 import { unstable_cache } from 'next/cache';
-import type { Database } from '@/lib/types/database';
-import type { 
-  BrandSettings, 
-  NavConfig, 
-  FooterConfig, 
-  FooterLink, 
-  ThemeSetting 
+import type {
+  BrandSettings,
+  NavConfig,
+  FooterConfig,
+  FooterLink,
+  ThemeSetting,
+  ServiceCard,
+  CaseStudy,
 } from '@/lib/types/database';
 
 /* ── Convenience row types extracted from Database ── */
@@ -23,15 +24,9 @@ type FooterConfigRow = FooterConfig;
 type FooterLinkRow = FooterLink;
 type ThemeRow = ThemeSetting;
 
-const getPublicClient = () =>
-  createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
 const getCachedLayoutData = unstable_cache(
   async () => {
-    const supabase = getPublicClient();
+    const supabase = createPublicSupabaseClient();
 
     const [
       themeRes,
@@ -39,12 +34,16 @@ const getCachedLayoutData = unstable_cache(
       navRes,
       footerRes,
       linksRes,
+      servicesRes,
+      workRes,
     ] = await Promise.all([
       supabase.from('theme_settings').select('*'),
       supabase.from('brand_settings').select('*').limit(1).maybeSingle(),
       supabase.from('nav_config').select('*').order('priority', { ascending: true }),
       supabase.from('footer_config').select('*').limit(1).maybeSingle(),
       supabase.from('footer_links').select('*').order('priority', { ascending: true }),
+      supabase.from('services_cards').select('id, title, page_slug, is_visible, priority').eq('is_visible', true).order('priority', { ascending: true }),
+      supabase.from('case_studies').select('id, title, slug, priority').order('priority', { ascending: true }).limit(5),
     ]);
 
     const results = [
@@ -74,9 +73,11 @@ const getCachedLayoutData = unstable_cache(
       navConfig: (navRes.data ?? []) as NavRow[],
       footerConfig: (footerRes.data ?? null) as FooterConfigRow | null,
       footerLinks: (linksRes.data ?? []) as FooterLinkRow[],
+      footerServices: (servicesRes.data ?? []) as ServiceCard[],
+      footerWork: (workRes.data ?? []) as CaseStudy[],
     };
   },
-  ['layout-data-v3'],
+  ['layout-data-v4'],
   { revalidate: 3600, tags: ['layout'] }
 );
 
@@ -85,17 +86,15 @@ export default async function PublicLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const start = Date.now();
   const {
     themeSettings,
     brandSettings,
     navConfig,
     footerConfig,
     footerLinks,
+    footerServices,
+    footerWork,
   } = await getCachedLayoutData();
-  const dataTime = Date.now() - start;
-  console.log(`[Timing] Layout - Data fetch: ${dataTime}ms`);
-
 
   return (
     <SupabaseProvider>
@@ -110,7 +109,13 @@ export default async function PublicLayout({
               {children}
             </PageTransition>
           </main>
-          <Footer initialBrand={brandSettings} initialConfig={footerConfig} initialLinks={footerLinks} />
+          <Footer
+            initialBrand={brandSettings}
+            initialConfig={footerConfig}
+            initialLinks={footerLinks}
+            initialServices={footerServices}
+            initialWork={footerWork}
+          />
           <PixyCursorPet />
         </FontProvider>
       </ThemeProvider>

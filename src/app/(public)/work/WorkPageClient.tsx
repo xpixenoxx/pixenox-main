@@ -45,7 +45,6 @@ export default function WorkPageClient({ studies, tags, heroConfig }: WorkPageCl
         <div className="container">
           <h1
             className="work-massive-title overflow-hidden py-3"
-            aria-hidden="true"
             style={{
               color: heroConfig?.heading_color || undefined,
               position: 'relative',
@@ -53,8 +52,9 @@ export default function WorkPageClient({ studies, tags, heroConfig }: WorkPageCl
               textAlign: 'start',
             }}
           >
+            <span className="sr-only">{word} — Pixenox Engineering Reference Architectures</span>
             {word.split('').map((char, index) => (
-              <motion.div
+              <motion.span
                 key={index}
                 custom={index}
                 variants={textRevealVariants}
@@ -67,9 +67,12 @@ export default function WorkPageClient({ studies, tags, heroConfig }: WorkPageCl
                 }}
               >
                 {char === ' ' ? '\u00A0' : char}
-              </motion.div>
+              </motion.span>
             ))}
           </h1>
+          <p style={{ color: 'rgba(255,255,255,0.68)', maxWidth: '680px', fontSize: '1.05rem', lineHeight: 1.6, marginTop: '12px' }}>
+            Production-grade engineering reference architectures and system blueprints across autonomous AI, real-time data platforms, and AI visibility (GEO/AEO).
+          </p>
         </div>
       </section>
 

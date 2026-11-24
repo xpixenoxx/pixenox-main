@@ -1,6 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
+import { createPublicSupabaseClient, getCanonicalSiteUrl } from '@/lib/supabase/public';
 import { unstable_cache } from 'next/cache';
 import HeroSection from '@/components/home/HeroSection';
+import ProductsSection from '@/components/home/ProductsSection';
 import dynamic from 'next/dynamic';
 
 const ServicesSection = dynamic(() => import('@/components/home/ServicesSection'));
@@ -11,7 +12,6 @@ const FeedbackSection = dynamic(() => import('@/components/home/FeedbackSection'
 const HomeFaqsSection = dynamic(() => import('@/components/home/HomeFaqsSection'));
 
 import type { Metadata } from 'next';
-import type { Database } from '@/lib/types/database';
 import type {
   HeroSettings,
   ServiceCard,
@@ -27,15 +27,9 @@ import type {
   HomeFaq,
 } from '@/lib/types/database';
 
-const getPublicClient = () =>
-  createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
 const getCachedSeo = unstable_cache(
   async () => {
-    const supabase = getPublicClient();
+    const supabase = createPublicSupabaseClient();
     const res = await supabase
       .from('seo_config')
       .select('*')
@@ -56,40 +50,53 @@ const getCachedSeo = unstable_cache(
 
     return (res.data ?? null) as SeoConfig | null;
   },
-  ['home-seo'],
+  ['home-seo-v2'],
   { revalidate: 60, tags: ['seo'] }
 );
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getCachedSeo();
+  const baseUrl = getCanonicalSiteUrl();
+
+  const rawTitle =
+    seo?.title?.replace(/\s*\|\s*Pixenox\s*$/i, '').trim() ||
+    'Pixenox — AI Systems, AI Visibility (GEO/AEO) & Enterprise Intelligence';
+  const absoluteTitle = rawTitle.toLowerCase().includes('pixenox') ? rawTitle : `${rawTitle} | Pixenox`;
+  const description =
+    seo?.description ||
+    'Pixenox Solutions engineers production AI systems, unified enterprise intelligence platforms, and AI visibility (GEO/AEO) infrastructure — makers of Engenox and Unool.';
 
   return {
-    title: seo?.title ?? 'Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering',
-    description: seo?.description ?? 'Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (GEO/AEO) solutions. Production-grade AI infrastructure for enterprises.',
+    title: {
+      absolute: absoluteTitle,
+    },
+    description,
     keywords: seo?.keywords ?? [
       'AI systems engineering',
+      'production grade AI systems',
       'enterprise intelligence engineering',
-      'AI visibility',
+      'AI visibility engineering',
       'generative engine optimization',
-      'GEO',
-      'AEO',
-      'autonomous AI',
-      'pixenox',
+      'answer engine optimization',
+      'Engenox',
+      'Unool',
+      'Pixenox',
     ],
     openGraph: {
-      title: seo?.title ?? 'Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering',
-      description: seo?.description ?? 'Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (GEO/AEO) solutions.',
-      images: seo?.og_image ? [seo.og_image] : [],
+      title: absoluteTitle,
+      description,
+      url: baseUrl,
+      images: seo?.og_image_url ? [seo.og_image_url] : ['/og-image.jpg'],
     },
     alternates: {
-      canonical: seo?.canonical ?? '/',
+      canonical: seo?.canonical_url || baseUrl,
     },
   };
 }
 
 const getCachedHomeData = unstable_cache(
   async () => {
-    const supabase = getPublicClient();
+    const supabase = createPublicSupabaseClient();
 
     const [
       heroRes,
@@ -169,55 +176,9 @@ const getCachedHomeData = unstable_cache(
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const start = Date.now();
   const data = await getCachedHomeData();
-  const dataTime = Date.now() - start;
-  console.log(`[Timing] / (Home) - Data fetch: ${dataTime}ms`);
+  const baseUrl = getCanonicalSiteUrl();
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
-
-  // ProfessionalService JSON-LD for homepage (GEO/AEO entity signal)
-  const professionalServiceJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': `${baseUrl}/#professional-service`,
-    name: 'Pixenox',
-    description: 'Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (Generative Engine Optimization) solutions for enterprises.',
-    url: baseUrl,
-    priceRange: '$$$$',
-    areaServed: 'Worldwide',
-    serviceType: [
-      'AI Systems Engineering',
-      'Enterprise Intelligence Engineering',
-      'AI Visibility — Generative Engine Optimization',
-    ],
-    hasOfferingCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Engineering Disciplines',
-      itemListElement: [
-        {
-          '@type': 'OfferCatalog',
-          name: 'AI Systems Engineering',
-          description: 'Autonomous multi-agent systems, decision intelligence engines, and AI infrastructure engineering.',
-          url: `${baseUrl}/engineering/ai-systems`,
-        },
-        {
-          '@type': 'OfferCatalog',
-          name: 'Enterprise Intelligence Engineering',
-          description: 'Unified data platforms, systems integration, cloud infrastructure, and business intelligence engineering.',
-          url: `${baseUrl}/engineering/enterprise-intelligence-engineering`,
-        },
-        {
-          '@type': 'OfferCatalog',
-          name: 'AI Visibility (GEO/AEO)',
-          description: 'Generative Engine Optimization, Answer Engine Optimization, structured data engineering, knowledge graph engineering, and AI citation monitoring.',
-          url: `${baseUrl}/engineering/ai-visibility`,
-        },
-      ],
-    },
-  };
-
-  // BreadcrumbList for homepage (AEO navigation signal)
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -231,17 +192,34 @@ export default async function HomePage() {
     ],
   };
 
+  const faqJsonLd =
+    data.homeFaqs && data.homeFaqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: data.homeFaqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
+
   return (
     <>
-      {/* GEO/AEO Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <HeroSection initialData={data.hero} />
       <ServicesSection
@@ -250,16 +228,16 @@ export default async function HomePage() {
         initialTools={data.cardTools}
         initialConfig={data.servicesConfig}
       />
+      <ProductsSection />
       <CtaBanner
         heading="Your Systems Should Work as One"
-        subheading="AI, data, infrastructure, and growth — converged into unified platforms that compound in value. Stop integrating. Start converging."
-        ctaText="Architect Your System"
-        ctaHref="#free-audit"
+        subheading="Production AI, enterprise data platforms, and AI visibility (GEO/AEO) — engineered to compound together."
+        ctaText="Scope Your Architecture"
+        ctaHref="/contact/pixy"
       />
       <CaseStudiesSection
         initialStudies={data.caseStudies}
         initialConfig={data.caseStudiesConfig}
-        initialTags={data.workTags}
       />
       <WhyChooseUs
         initialConfig={data.whyConfig}

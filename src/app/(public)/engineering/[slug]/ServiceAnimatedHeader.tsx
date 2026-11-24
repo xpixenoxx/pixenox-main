@@ -154,13 +154,13 @@ export default function ServiceAnimatedHeader({
   };
 
   const wordWrapVariants = {
-    hidden: { y: '120%', rotateZ: 3, opacity: 0 },
-    visible: { y: '0%', rotateZ: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+    hidden: { y: '0%', rotateZ: 0, opacity: 1 },
+    visible: { y: '0%', rotateZ: 0, opacity: 1, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
   };
 
   const descVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" as const, delay: 0.4 } }
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } }
   };
 
   const titleWords = title.split(' ');

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -112,6 +113,26 @@ export default function CaseStudyClient({ caseStudy, workTags }: { caseStudy: an
           animate="visible" 
           variants={stagger}
         >
+          <nav aria-label="Breadcrumb" style={{ marginBottom: '20px', fontSize: '0.88rem', color: 'rgba(255,255,255,0.6)' }}>
+            <Link href="/" style={{ color: '#c4b5fd', textDecoration: 'none' }}>Home</Link>
+            <span aria-hidden="true"> / </span>
+            <Link href="/work" style={{ color: '#c4b5fd', textDecoration: 'none' }}>Reference Architectures</Link>
+            <span aria-hidden="true"> / </span>
+            <span style={{ color: '#ffffff' }}>{caseStudy.title}</span>
+          </nav>
+          <span
+            style={{
+              display: 'inline-block',
+              fontSize: '0.75rem',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: '#c4b5fd',
+              fontWeight: 600,
+              marginBottom: '14px',
+            }}
+          >
+            ENGINEERING REFERENCE ARCHITECTURE · ILLUSTRATIVE SYSTEM BLUEPRINT
+          </span>
           <motion.h1 className="cs-title" variants={fadeUp}>
             {caseStudy.title}.
           </motion.h1>
@@ -154,8 +175,8 @@ export default function CaseStudyClient({ caseStudy, workTags }: { caseStudy: an
         >
           <div className="cs-container">
             <motion.div className="cs-metrics-header" variants={fadeUp}>
-              <span className="cs-metrics-label">KEY METRICS</span>
-              <h2 className="cs-metrics-heading">Measured <em>Impact</em></h2>
+              <span className="cs-metrics-label">ARCHITECTURE DESIGN TARGETS</span>
+              <h2 className="cs-metrics-heading">Target System <em>Objectives</em></h2>
             </motion.div>
             <div className="cs-metrics-grid">
               {caseStudy.metrics.map((metric: any, idx: number) => (
@@ -278,6 +299,64 @@ export default function CaseStudyClient({ caseStudy, workTags }: { caseStudy: an
           </Swiper>
         </motion.section>
       )}
+
+      {/* 7. CONVERSION BRIDGE CTA */}
+      <section style={{ maxWidth: '1100px', margin: '80px auto 40px', padding: '0 24px' }}>
+        <div
+          style={{
+            background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.16) 0%, rgba(12, 10, 24, 0.94) 100%)',
+            border: '1px solid rgba(168, 85, 247, 0.35)',
+            borderRadius: '24px',
+            padding: '40px 36px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '24px',
+          }}
+        >
+          <div style={{ maxWidth: '640px' }}>
+            <span style={{ display: 'inline-block', fontSize: '0.74rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#c4b5fd', fontWeight: 600, marginBottom: '8px' }}>
+              BUILD THIS ARCHITECTURE
+            </span>
+            <h2 style={{ margin: '0 0 10px', fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#ffffff' }}>
+              Want to adapt this blueprint for your enterprise stack?
+            </h2>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.72)', lineHeight: 1.6 }}>
+              Talk directly with Pixenox engineers to scope integration requirements, security boundaries, and phased delivery timelines.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            <Link
+              href="/contact/pixy"
+              style={{
+                padding: '13px 24px',
+                borderRadius: '999px',
+                background: '#ffffff',
+                color: '#09090b',
+                fontWeight: 700,
+                textDecoration: 'none',
+              }}
+            >
+              Scope Your Architecture
+            </Link>
+            <Link
+              href="/engineering"
+              style={{
+                padding: '13px 22px',
+                borderRadius: '999px',
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                color: '#ffffff',
+                fontWeight: 500,
+                textDecoration: 'none',
+              }}
+            >
+              View Engineering Pillars
+            </Link>
+          </div>
+        </div>
+      </section>
 
     </div>
   );

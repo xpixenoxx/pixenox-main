@@ -14,9 +14,11 @@ export async function POST(req: NextRequest) {
     // Fast heuristic based on table to clear layout cache / root cache
     const table = payload.table
     
-    // Purges everything
+    // Purges all public ISR routes & cache tags cleanly
     revalidatePath('/', 'layout')
-    revalidateTag('layout')
+    for (const tag of ['layout', 'home', 'seo', 'engineering', 'blog', 'work', 'company', 'faqs', 'careers']) {
+      revalidateTag(tag, 'max')
+    }
 
     return NextResponse.json({ 
       revalidated: true, 

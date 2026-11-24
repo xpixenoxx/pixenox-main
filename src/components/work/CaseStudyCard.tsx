@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, MouseEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useRef, MouseEvent } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useSpring } from 'framer-motion';
 import type { CaseStudy, WorkTag } from '@/lib/types/database';
@@ -12,20 +12,15 @@ interface CaseStudyCardProps {
 }
 
 export default function CaseStudyCard({ study, tags, index }: CaseStudyCardProps) {
-  const router = useRouter();
-  
-  // Custom cursor state Tracking
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Smooth spring physics for cursor follow
+
   const cursorX = useSpring(0, { stiffness: 300, damping: 28, mass: 0.5 });
   const cursorY = useSpring(0, { stiffness: 300, damping: 28, mass: 0.5 });
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    // Offset by 60px (half of the 120px cursor) to perfectly center the mouse
     cursorX.set(e.clientX - rect.left - 60);
     cursorY.set(e.clientY - rect.top - 60);
   };
@@ -38,25 +33,22 @@ export default function CaseStudyCard({ study, tags, index }: CaseStudyCardProps
   const formattedIndex = (index + 1).toString().padStart(2, '0');
 
   return (
-    <div
+    <Link
+      href={`/work/${study.slug}`}
       className="case-study-card"
-      onClick={() => router.push(`/work/${study.slug}`)}
-      aria-label={study.title}
-      role="article"
-      tabIndex={0}
+      style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
     >
       <div className="case-study-card__header">
         <span className="case-study-card__index">{formattedIndex}</span>
       </div>
 
-      <div 
+      <div
         className="case-study-card__image-container"
         ref={containerRef}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onMouseMove={handleMouseMove}
       >
-        {/* Custom Inverse Cursor */}
         {isHovered && (
           <motion.div
             className="case-study-card__custom-cursor"
@@ -64,8 +56,9 @@ export default function CaseStudyCard({ study, tags, index }: CaseStudyCardProps
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
+            aria-hidden="true"
           >
-            <span>View Work</span>
+            <span>Explore</span>
           </motion.div>
         )}
 
@@ -84,9 +77,7 @@ export default function CaseStudyCard({ study, tags, index }: CaseStudyCardProps
       </div>
 
       <div className="case-study-card__footer">
-        <h3 className="case-study-card__title">
-          {study.title}
-        </h3>
+        <h2 className="case-study-card__title">{study.title}</h2>
         <div className="case-study-card__tags">
           {study.tags?.map((tag) => (
             <span
@@ -102,6 +93,6 @@ export default function CaseStudyCard({ study, tags, index }: CaseStudyCardProps
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getCanonicalSiteUrl } from '@/lib/supabase/public';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
@@ -8,12 +9,37 @@ export const metadata: Metadata = {
 };
 
 export default function TermsOfServicePage() {
+  const baseUrl = getCanonicalSiteUrl();
+  const webPageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${baseUrl}/terms#webpage`,
+    url: `${baseUrl}/terms`,
+    name: 'Terms & Conditions — Pixenox Solutions Private Limited',
+    publisher: { '@id': `${baseUrl}/#organization` },
+  };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+      { '@type': 'ListItem', position: 2, name: 'Terms & Conditions', item: `${baseUrl}/terms` },
+    ],
+  };
+
   return (
     <article className="legal-page section">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="container legal-container">
         <header className="legal-header">
+          <nav aria-label="Breadcrumb" style={{ marginBottom: '16px', fontSize: '0.88rem', color: 'rgba(255,255,255,0.6)' }}>
+            <Link href="/" style={{ color: '#c4b5fd', textDecoration: 'none' }}>Home</Link>
+            <span aria-hidden="true"> / </span>
+            <span style={{ color: '#ffffff' }}>Terms &amp; Conditions</span>
+          </nav>
           <h1 className="legal-title">Terms &amp; Conditions</h1>
-          <p className="legal-updated">Last Updated: May 2026</p>
+          <p className="legal-updated">Last Updated: November 2026</p>
         </header>
 
         <div className="legal-content">
@@ -34,17 +60,17 @@ export default function TermsOfServicePage() {
           <section className="legal-section">
             <h2>1. About Pixenox</h2>
             <p>
-              Pixenox Solutions Pvt Ltd is a technology and business growth solutions company based in India.
+              PIXENOX SOLUTIONS PRIVATE LIMITED is an AI systems and enterprise software engineering company registered in India (CIN: U62091AP2026PTC125091).
             </p>
             <ul>
-              <li><strong>Company Name:</strong> Pixenox Solutions Pvt Ltd</li>
+              <li><strong>Company Name:</strong> PIXENOX SOLUTIONS PRIVATE LIMITED (Pixenox)</li>
               <li><strong>Website:</strong> <a href="https://www.pixenox.com" className="legal-link" target="_blank" rel="noopener noreferrer">www.pixenox.com</a></li>
               <li><strong>Email:</strong> <a href="mailto:connect@pixenox.com" className="legal-link">connect@pixenox.com</a></li>
-              <li><strong>Registered Office:</strong> H NO 1 1,SREENU RAJA, MAIN ROAD PRATHIPADU, Siripuram, Prathipadu, East Godavari- 533432, Andhra Pradesh</li>
+              <li><strong>Registered Office:</strong> H NO 1 1, SREENU RAJA, MAIN ROAD PRATHIPADU, Siripuram, Prathipadu, East Godavari - 533432, Andhra Pradesh, India</li>
               <li><strong>CIN:</strong> U62091AP2026PTC125091</li>
             </ul>
             <p>
-              Pixenox provides technology, design, development, consulting, automation, cloud, AI, analytics, optimization, and business growth-related services.
+              Pixenox engineers production autonomous AI systems, enterprise intelligence and data platforms, AI visibility (GEO/AEO) systems, and proprietary software products including Engenox and Unool.
             </p>
           </section>
 
@@ -64,25 +90,15 @@ export default function TermsOfServicePage() {
 
           {/* 3. Services Provided by Pixenox */}
           <section className="legal-section">
-            <h2>3. Services Provided by Pixenox</h2>
-            <p>Pixenox may provide services including, but not limited to:</p>
+            <h2>3. Engineering Disciplines &amp; Products</h2>
+            <p>Pixenox Solutions provides enterprise engineering services and software platforms including:</p>
             <ul>
-              <li>Website design and development</li>
-              <li>SaaS product development</li>
-              <li>Custom software development</li>
-              <li>Cloud infrastructure setup</li>
-              <li>AI systems and automation</li>
-              <li>CRM and business workflow solutions</li>
-              <li>Data analytics and dashboards</li>
-              <li>SEO, AEO, GEO, and digital optimization</li>
-              <li>UI/UX design</li>
-              <li>Branding and digital identity support</li>
-              <li>Business growth technology consulting</li>
-              <li>API integrations</li>
-              <li>Internal tools and admin panels</li>
-              <li>Digital transformation consulting</li>
-              <li>Maintenance and technical support</li>
-              <li>Strategic technology consulting</li>
+              <li>Production AI Systems &amp; Multi-Agent Orchestration Engineering</li>
+              <li>AI Visibility Engineering — Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), SSR Crawler Readiness &amp; Entity Graph Architecture</li>
+              <li>Enterprise Intelligence Engineering — Non-Disruptive ERP, CRM &amp; Cloud Data Unification, CDC Pipelines &amp; Governed Semantic Layers</li>
+              <li>Cloud Infrastructure, API Integrations &amp; Custom Enterprise Platform Engineering</li>
+              <li>Proprietary Software Platforms — Engenox (Unified SEO/GEO/AEO Operating System) and Unool</li>
+              <li>Technical Architecture Audits, LLMOps Observability &amp; Ongoing Engineering Support</li>
             </ul>
             <p>
               The exact services, deliverables, timelines, pricing, responsibilities, and support terms for each project will be defined in a separate proposal, invoice, service agreement, statement of work, or written contract.

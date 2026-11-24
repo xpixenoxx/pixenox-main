@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { getBrowserClient } from '@/lib/supabase/client';
@@ -11,6 +11,8 @@ import Image from 'next/image';
 import type { ServiceCard, CardTool, SectionConfig, ServicesLayout } from '@/lib/types/database';
 import { sanitizeSvg } from '@/lib/sanitize';
 import './ServicesSection.css';
+
+const MotionLink = motion.create(Link);
 
 interface ServicesSectionProps {
   initialCards?: ServiceCard[];
@@ -25,7 +27,6 @@ export default function ServicesSection({
   initialConfig,
   initialLayout,
 }: ServicesSectionProps) {
-  const router = useRouter();
   const [cards, setCards] = useState<ServiceCard[]>(initialCards ?? []);
   const [tools, setTools] = useState<CardTool[]>(initialTools ?? []);
   const [config, setConfig] = useState<SectionConfig | null>(initialConfig ?? null);
@@ -123,7 +124,7 @@ export default function ServicesSection({
           <h2
             className="services__heading"
             style={{
-              color: config?.heading_color,
+              color: config?.heading_color ?? undefined,
             }}
           >
             {headingWord1}{' '}
@@ -133,7 +134,7 @@ export default function ServicesSection({
             <p
               className="services__subheading"
               style={{
-                color: config.subheading_color,
+                color: config.subheading_color ?? undefined,
               }}
             >
               {config.subheading}
@@ -177,13 +178,16 @@ export default function ServicesSection({
                     features = features.slice(0, 4); // Limit to top 4 services
 
                     return (
-                      <motion.div
+                      <MotionLink
                         key={card.id}
+                        href={`/engineering/${card.page_slug}`}
                         layout="position"
                         className={`service-card ${isActive ? 'service-card--active' : ''}`}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
                         onMouseEnter={() => setActiveId(card.id)}
                         onMouseLeave={() => setActiveId(null)}
-                        onClick={() => router.push(`/engineering/${card.page_slug}`)}
+                        onFocus={() => setActiveId(card.id)}
+                        onBlur={() => setActiveId(null)}
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-5%' }}
@@ -316,7 +320,7 @@ export default function ServicesSection({
                             </motion.h3>
                           )}
                         </div>
-                      </motion.div>
+                      </MotionLink>
                     );
                   })}
                 </AnimatePresence>

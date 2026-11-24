@@ -174,9 +174,9 @@ export default function AllServicesInteractive({ services, heroConfig }: AllServ
       {/* Dark Manifold Grid */}
       <section className="hub-grid-wrapper">
         <div className="hub-section-header">
-          <h2 className="hub-section-title">Case Studies</h2>
+          <h2 className="hub-section-title">Core Engineering Disciplines</h2>
           <p className="hub-section-desc">
-            We clearly see our clients&apos; unique challenges and goals, and help them accelerate digital transformation efforts across every platform and engineering stack.
+            Three focused engineering practices — production AI systems, enterprise intelligence platforms, and AI visibility (GEO &amp; AEO) infrastructure.
           </p>
         </div>
 

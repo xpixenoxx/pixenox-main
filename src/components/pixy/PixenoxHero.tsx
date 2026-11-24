@@ -331,8 +331,12 @@ export function PixenoxHero() {
     }
   };
 
+  const [emailCopied, setEmailCopied] = useState(false);
+
   const copyEmail = () => {
-    navigator.clipboard.writeText("hello@pixenox.com");
+    navigator.clipboard?.writeText("connect@pixenox.com");
+    setEmailCopied(true);
+    setTimeout(() => setEmailCopied(false), 2500);
   };
 
   return (
@@ -604,14 +608,17 @@ export function PixenoxHero() {
             )}
 
             {conversationStep === 'intro' && (
-              <button onClick={copyEmail} className="pill-contact group ml-auto mb-3">
-                <span>Contact</span>
-                <span className="underline">hello@pixenox.com</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
+              <div className="ml-auto mb-3 flex items-center gap-3">
+                <span className="text-xs text-white/60 hidden sm:inline">Response in 24–48h IST</span>
+                <button type="button" onClick={copyEmail} className="pill-contact group" aria-live="polite">
+                  <span>{emailCopied ? 'Copied!' : 'Contact'}</span>
+                  <span className="underline">connect@pixenox.com</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </button>
+              </div>
             )}
           </div>
         </div>

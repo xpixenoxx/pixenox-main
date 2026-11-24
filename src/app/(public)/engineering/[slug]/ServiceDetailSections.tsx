@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowUpRight } from 'lucide-react';
 import { sanitizeSvg } from '@/lib/sanitize';
 import '@/components/home/HomeFaqsSection.css';
+
+const MotionLink = motion.create(Link);
 
 interface TechItem {
   name: string;
@@ -219,6 +220,82 @@ export default function ServiceDetailSections({
         />
       )}
 
+      {/* Proprietary Product Proof on AI Visibility Pillar */}
+      {serviceSlug === 'ai-visibility' && (
+        <section
+          aria-labelledby="engenox-pillar-callout"
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto 48px',
+            padding: '0 24px',
+          }}
+        >
+          <div
+            style={{
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.14) 0%, rgba(15, 10, 30, 0.92) 60%, rgba(244, 63, 94, 0.08) 100%)',
+              border: '1px solid rgba(168, 85, 247, 0.35)',
+              borderRadius: '24px',
+              padding: '36px 40px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '24px',
+            }}
+          >
+            <div style={{ maxWidth: '680px' }}>
+              <span
+                style={{
+                  display: 'inline-block',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: '#c4b5fd',
+                  marginBottom: '10px',
+                }}
+              >
+                PROPRIETARY PLATFORM · BUILT BY PIXENOX
+              </span>
+              <h2
+                id="engenox-pillar-callout"
+                style={{
+                  fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)',
+                  fontWeight: 700,
+                  color: '#ffffff',
+                  margin: '0 0 12px',
+                  lineHeight: 1.2,
+                }}
+              >
+                Powered by Engenox — Unified SEO, GEO &amp; AEO Operating System
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.75)', margin: 0, lineHeight: 1.65 }}>
+                We don&apos;t only consult on AI search visibility — we engineered Engenox by Pixenox to automate technical crawl readiness, Knowledge Graph entity governance, answer-first publishing, and multi-engine AI citation monitoring from a single operating workspace.
+              </p>
+            </div>
+            <Link
+              href="/products/engenox"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '14px 24px',
+                borderRadius: '999px',
+                background: '#ffffff',
+                color: '#09090b',
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Explore Engenox OS
+              <ArrowUpRight size={18} aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* 2. THE EDITORIAL SHIFT: Cinematic Horizontal Scroll */}
       <HorizontalCapabilities serviceTitle={serviceTitle} dynamicCapabilities={capabilities || []} />
 
@@ -257,13 +334,13 @@ export default function ServiceDetailSections({
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="k-cta__eyebrow">FINAL DIRECTIVE</span>
+          <span className="k-cta__eyebrow">ARCHITECTURE SCOPING</span>
           <h2 className="k-cta__title">
-            <span className="k-cta__title-line">Initiate</span>
-            <span className="k-cta__title-line"><em>Sequence</em></span>
+            <span className="k-cta__title-line">Build Systems</span>
+            <span className="k-cta__title-line"><em>That Compound</em></span>
           </h2>
-          <p className="k-cta__sub">Architecting compounding visibility and autonomous systems. Converge your fragmented tools into a singular, high-velocity platform.</p>
-          <MagneticButton href="/contact/pixy" theme="dark">Deploy Now</MagneticButton>
+          <p className="k-cta__sub">Schedule a technical architecture review with Pixenox engineers. Direct response within 24–48 business hours.</p>
+          <MagneticButton href="/contact/pixy" theme="dark">Scope Your Architecture</MagneticButton>
         </motion.div>
       </section>
 
@@ -468,98 +545,105 @@ function TechMarquee({ techStack }: { techStack: TechItem[] }) {
 }
 
 /* ─────────────────────────────────────────────────
-   Capability Data Generator
+   Capability Data Generator (Honest Engineering Design Objectives)
    ───────────────────────────────────────────────── */
 function getCapabilities(serviceTitle: string) {
   const titleLower = serviceTitle.toLowerCase();
-  if (titleLower.includes('growth') || titleLower.includes('intelligence')) {
+  if (titleLower.includes('visibility') || titleLower.includes('geo')) {
     return [
-      { title: 'Predictive Analytics Engine', desc: 'Deploy machine learning models that forecast user behavior, churn risk, and revenue opportunities before they materialize.', metric: '340%', metricLabel: 'AVG ROI' },
-      { title: 'Autonomous SEO Architecture', desc: 'Self-optimizing content systems that continuously adapt to algorithm shifts and competitive landscape changes.', metric: '12x', metricLabel: 'ORGANIC LIFT' },
-      { title: 'Conversion Rate Optimization', desc: 'Multi-variant testing frameworks that systematically identify and eliminate friction across every user touchpoint.', metric: '89%', metricLabel: 'IMPROVEMENT' },
-      { title: 'Real-Time Attribution', desc: 'End-to-end visibility across every channel, touchpoint, and conversion event with zero data loss.', metric: '100%', metricLabel: 'VISIBILITY' },
+      { title: 'SSR & AI Crawler Eligibility', desc: 'Server-rendered semantic HTML, verified RFC 9309 crawler access, and zero Soft 404 or canonical leaks across Google, Bing, OpenAI, Anthropic, and Perplexity.', metric: 'SSR', metricLabel: 'CRAWL READY' },
+      { title: 'Entity & Knowledge Graph Engineering', desc: 'Unified Schema.org @graph architecture connecting legal entity, founders, services, and proprietary products across verified third-party corroboration.', metric: '@graph', metricLabel: 'ENTITY CLARITY' },
+      { title: 'Answer-First AEO Architecture', desc: 'Structured HTML definitions, decision tables, and primary-source references formatted for clean extraction in AI Overviews and LLM retrieval.', metric: 'AEO', metricLabel: 'EXTRACTABLE' },
+      { title: 'Multi-Engine Citation Telemetry', desc: 'Disaggregated tracking of brand mentions, accurate descriptions, clickable citations, and referral visits powered by Engenox.', metric: 'GEO', metricLabel: 'MEASURED' },
     ];
   }
-  // Default fallback capabilities...
   return [
-    { title: 'Strategic Architecture', desc: 'Purpose-built systems designed to scale with your business objectives and technical requirements.', metric: '10x', metricLabel: 'SCALABILITY' },
-    { title: 'Precision Engineering', desc: 'Every line of code is optimized for performance, maintainability, and long-term evolution.', metric: '99.9%', metricLabel: 'RELIABILITY' },
-    { title: 'Rapid Deployment', desc: 'From concept to production in record time with our battle-tested deployment pipelines.', metric: '2x', metricLabel: 'FASTER' },
-    { title: 'Continuous Monitoring', desc: 'Systems that learn, adapt, and improve through data-driven iteration and feedback loops.', metric: '24/7', metricLabel: 'MONITORING' },
+    { title: 'Governed Production Architecture', desc: 'Deterministic validation membranes, explicit audit logs, and human-in-the-loop checkpoints engineered for mission-critical enterprise workloads.', metric: 'HITL', metricLabel: 'GOVERNED' },
+    { title: 'Non-Disruptive Integration', desc: 'Event-driven CDC pipelines and clean API overlays that unify legacy ERPs, CRMs, and cloud data without rip-and-replace downtime.', metric: 'ZERO', metricLabel: 'RIP & REPLACE' },
+    { title: 'Observable Infrastructure', desc: 'End-to-end latency, cost-per-task FinOps telemetry, evaluation harnesses, and fallback routing baked into every deployment.', metric: 'DAY-2', metricLabel: 'OBSERVABILITY' },
+    { title: 'Maintainable Ownership', desc: 'Clean TypeScript and Python codebases with automated test suites, full documentation, and seamless handoff to internal engineering teams.', metric: '100%', metricLabel: 'CODE OWNERSHIP' },
   ];
 }
 
 /* ─────────────────────────────────────────────────
-   Service FAQs Section
+   Service FAQs Section (SSR-Always-Present with hidden="until-found")
    ───────────────────────────────────────────────── */
 function ServiceFaqs({ faqs }: { faqs: { question: string; answer: string }[] }) {
-  const [openId, setOpenId] = useState<number | null>(null);
+  const [openId, setOpenId] = useState<number | null>(0);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const listEl = listRef.current;
+    if (!listEl) return;
+
+    const handleBeforeMatch = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      const idxStr = target?.getAttribute('data-faq-idx');
+      if (idxStr !== null && idxStr !== undefined) {
+        const parsed = parseInt(idxStr, 10);
+        if (!Number.isNaN(parsed)) setOpenId(parsed);
+      }
+    };
+
+    listEl.addEventListener('beforematch', handleBeforeMatch);
+    return () => listEl.removeEventListener('beforematch', handleBeforeMatch);
+  }, []);
 
   const toggleFaq = (index: number) => {
     setOpenId(openId === index ? null : index);
   };
 
   return (
-    <section className="home-faqs-section">
-      <div className="home-faqs-glow" />
+    <section className="home-faqs-section" aria-labelledby="service-faqs-heading">
+      <div className="home-faqs-glow" aria-hidden="true" />
 
       <div className="home-faqs-container">
-        <motion.div 
-          className="home-faqs-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <h2 className="home-faqs-title">
+        <div className="home-faqs-header">
+          <h2 id="service-faqs-heading" className="home-faqs-title">
             Common <span>Questions</span>
           </h2>
-          <p className="home-faqs-subtitle">Everything you need to know about this service.</p>
-        </motion.div>
+          <p className="home-faqs-subtitle">Technical and operational answers about this engineering discipline.</p>
+        </div>
 
-        <div className="home-faqs-list">
+        <div className="home-faqs-list" ref={listRef}>
           {faqs.map((faq, index) => {
             const isOpen = openId === index;
+            const panelId = `srv-faq-panel-${index}`;
             return (
-              <motion.div 
-                key={index} 
+              <div
+                key={index}
                 className={`home-faq-item ${isOpen ? 'is-open' : ''}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: 0.1 * Math.min(index, 5) }}
               >
-                <button 
-                  className="home-faq-question"
-                  onClick={() => toggleFaq(index)}
-                  aria-expanded={isOpen}
+                <h3 style={{ margin: 0, fontSize: 'inherit', fontWeight: 'inherit' }}>
+                  <button
+                    type="button"
+                    className="home-faq-question"
+                    onClick={() => toggleFaq(index)}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                  >
+                    <span>{faq.question}</span>
+                    <div className="home-faq-icon" aria-hidden="true">
+                      <ChevronDown size={18} strokeWidth={2.5} />
+                    </div>
+                  </button>
+                </h3>
+                <div
+                  id={panelId}
+                  data-faq-idx={index}
+                  {...(!isOpen ? { hidden: 'until-found' as unknown as boolean } : {})}
                 >
-                  <span>{faq.question}</span>
-                  <div className="home-faq-icon">
-                    <ChevronDown size={18} strokeWidth={2.5} />
+                  <div className="home-faq-answer-wrapper">
+                    <div className="home-faq-answer-content">
+                      {faq.answer.split('\n').filter(Boolean).map((paragraph, i) => (
+                        <p key={i} className="mb-4 last:mb-0">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div className="home-faq-answer-wrapper">
-                        <div className="home-faq-answer-content">
-                          {faq.answer.split('\n').map((paragraph, i) => (
-                            <p key={i} className="mb-4 last:mb-0">
-                              {paragraph}
-                            </p>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                </div>
+              </div>
             );
           })}
         </div>
@@ -569,7 +653,7 @@ function ServiceFaqs({ faqs }: { faqs: { question: string; answer: string }[] })
 }
 
 /* ─────────────────────────────────────────────────
-   What You Get Section
+   What You Get Section (Semantic <Link> cards)
    ───────────────────────────────────────────────── */
 function WhatYouGetSection({
   serviceSlug,
@@ -582,8 +666,6 @@ function WhatYouGetSection({
   description?: string | null;
   items: { title: string; desc: string; icon_svg?: string }[];
 }) {
-  const router = useRouter();
-
   const getSlug = (title: string) => {
     return title
       .toLowerCase()
@@ -596,7 +678,7 @@ function WhatYouGetSection({
     <section className="what-you-get-section">
       <div className="container">
         <div className="what-you-get-header">
-          <motion.h2 
+          <motion.h2
             className="wyg-title"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -605,7 +687,7 @@ function WhatYouGetSection({
             {heading || "What you get"}
           </motion.h2>
           {description && (
-            <motion.p 
+            <motion.p
               className="wyg-header-desc"
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -620,11 +702,11 @@ function WhatYouGetSection({
         <div className="what-you-get-list">
           {items.map((item, idx) => {
             return (
-              <WygItemCard 
-                key={idx} 
-                item={item} 
-                idx={idx} 
-                onClick={() => router.push(`/engineering/${serviceSlug}/${getSlug(item.title)}`)}
+              <WygItemCard
+                key={idx}
+                item={item}
+                idx={idx}
+                href={`/engineering/${serviceSlug}/${getSlug(item.title)}`}
               />
             );
           })}
@@ -634,10 +716,10 @@ function WhatYouGetSection({
   );
 }
 
-function WygItemCard({ item, idx, onClick }: { item: any, idx: number, onClick: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
+function WygItemCard({ item, idx, href }: { item: any; idx: number; href: string }) {
+  const ref = useRef<HTMLAnchorElement>(null);
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -646,7 +728,7 @@ function WygItemCard({ item, idx, onClick }: { item: any, idx: number, onClick: 
     ref.current.style.setProperty('--mouse-enter-y', `${y}px`);
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -656,12 +738,13 @@ function WygItemCard({ item, idx, onClick }: { item: any, idx: number, onClick: 
   };
 
   return (
-    <motion.div 
+    <MotionLink
+      href={href}
       ref={ref}
-      onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="wyg-item"
+      style={{ textDecoration: 'none', color: 'inherit' }}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -681,6 +764,6 @@ function WygItemCard({ item, idx, onClick }: { item: any, idx: number, onClick: 
       <p className="wyg-desc">
         {item.desc}
       </p>
-    </motion.div>
+    </MotionLink>
   );
 }

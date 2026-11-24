@@ -5,9 +5,23 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import './CtaBanner.css';
 
-export default function CtaBanner() {
+interface CtaBannerProps {
+  heading?: string;
+  subheading?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+export default function CtaBanner({
+  heading,
+  subheading,
+  ctaText = "Let's work together",
+  ctaHref = '/contact/pixy',
+}: CtaBannerProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const safeHref = !ctaHref || ctaHref === '#free-audit' ? '/contact/pixy' : ctaHref;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -235,20 +249,32 @@ export default function CtaBanner() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              We turn bold ideas into<br />
-              <strong>powerful digital realities.</strong>
+              {heading ? (
+                <strong>{heading}</strong>
+              ) : (
+                <>
+                  We turn bold ideas into<br />
+                  <strong>powerful digital realities.</strong>
+                </>
+              )}
             </motion.h2>
 
+            {subheading && (
+              <p style={{ color: 'rgba(255,255,255,0.75)', maxWidth: '640px', margin: '0 auto 28px', fontSize: '1.05rem', lineHeight: 1.6 }}>
+                {subheading}
+              </p>
+            )}
+
             <motion.a
-              href="/contact/pixy"
+              href={safeHref}
               className="cta-neb__btn"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span>Let&apos;s work together</span>
-              <span className="cta-neb__arrow">
+              <span>{ctaText}</span>
+              <span className="cta-neb__arrow" aria-hidden="true">
                 <ArrowRight size={16} strokeWidth={2.5} />
               </span>
             </motion.a>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-// Trigger CSS reload
 import { Inter, Outfit, Instrument_Serif, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { getCanonicalSiteUrl } from "@/lib/supabase/public";
 import "./globals.css";
 
 const inter = Inter({
@@ -35,47 +35,45 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+const siteUrl = getCanonicalSiteUrl();
+
 export const metadata: Metadata = {
   title: {
-    default: "Pixenox - AI Systems, AI Visibility & Enterprise Intelligence Engineering",
+    default: "Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering",
     template: "%s | Pixenox",
   },
   description:
-    "Pixenox engineers autonomous AI systems, enterprise intelligence platforms, and AI visibility (GEO/AEO) solutions. We build production-grade AI infrastructure, unified data layers, and generative engine optimization systems for enterprises.",
+    "Pixenox Solutions engineers production-grade autonomous AI systems, unified enterprise intelligence platforms, and AI visibility (GEO/AEO) infrastructure — makers of Engenox and Unool.",
   keywords: [
     "AI systems engineering",
-    "autonomous AI systems",
+    "production grade AI systems",
     "multi-agent orchestration",
     "enterprise intelligence engineering",
     "enterprise data platform",
-    "data infrastructure engineering",
-    "AI visibility",
+    "AI visibility engineering",
     "generative engine optimization",
-    "GEO optimization",
-    "AEO optimization",
     "answer engine optimization",
-    "AI citation optimization",
-    "structured data engineering",
-    "knowledge graph engineering",
-    "pixenox",
-    "AI company India",
-    "enterprise AI solutions",
-    "LLM integration",
-    "decision intelligence",
+    "Engenox",
+    "Unool",
+    "Pixenox Solutions Private Limited",
+    "AI engineering company India",
   ],
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"
-  ),
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    types: {
+      'application/rss+xml': `${siteUrl}/blog/feed.xml`,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Pixenox Solutions Pvt Ltd",
+    siteName: "Pixenox",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Pixenox - AI Systems, AI Visibility & Enterprise Intelligence Engineering",
+        alt: "Pixenox — AI Systems, AI Visibility & Enterprise Intelligence Engineering",
       },
     ],
   },
@@ -99,12 +97,156 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  alternates: {
-    canonical: "/",
-  },
-  other: {
-    "ai-content-declarations": "structured-data, llms-txt, faq-schema",
-  },
+};
+
+const entityGraphJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Pixenox",
+      legalName: "PIXENOX SOLUTIONS PRIVATE LIMITED",
+      alternateName: ["Pixenox Solutions", "Pixenox Solutions Pvt Ltd"],
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        "@id": `${siteUrl}/#logo`,
+        url: `${siteUrl}/icon.jpg`,
+      },
+      image: `${siteUrl}/og-image.jpg`,
+      foundingDate: "2026-04-02",
+      identifier: {
+        "@type": "PropertyValue",
+        propertyID: "CIN",
+        value: "U62091AP2026PTC125091",
+      },
+      description:
+        "PIXENOX SOLUTIONS PRIVATE LIMITED is an India-based AI and software systems engineering company building production multi-agent AI systems, non-disruptive enterprise intelligence platforms, AI visibility (GEO/AEO) infrastructure, and proprietary software products including Engenox and Unool.",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "H No. 1-1, Sreenu Raja, Main Road Prathipadu, Siripuram",
+        addressLocality: "East Godavari",
+        addressRegion: "Andhra Pradesh",
+        postalCode: "533432",
+        addressCountry: "IN",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        email: "connect@pixenox.com",
+        contactType: "sales",
+        availableLanguage: ["English"],
+      },
+      founder: [
+        { "@id": `${siteUrl}/#founder-sai-charan` },
+        { "@id": `${siteUrl}/#founder-hemanth-sairam` },
+      ],
+      sameAs: [
+        "https://www.linkedin.com/company/pixenox-solutions-pvt/",
+        "https://x.com/pixenox",
+      ],
+      owns: [
+        { "@id": `${siteUrl}/#product-engenox` },
+        { "@id": `${siteUrl}/#product-unool` },
+      ],
+      knowsAbout: [
+        "AI Systems Engineering",
+        "Production Multi-Agent Orchestration",
+        "Enterprise Intelligence Engineering",
+        "Enterprise Data Platform Engineering",
+        "AI Visibility Engineering",
+        "Generative Engine Optimization (GEO)",
+        "Answer Engine Optimization (AEO)",
+        "Structured Data & Knowledge Graph Engineering",
+        "Decision Intelligence",
+        "LLMOps & Deterministic AI Guardrails",
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Pixenox Engineering Disciplines",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Production AI Systems Engineering",
+              description:
+                "Design, build, and operate governed multi-agent workflows, deterministic guardrails, decision intelligence engines, and production AI infrastructure.",
+              url: `${siteUrl}/engineering/ai-systems`,
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "AI Visibility Engineering (GEO & AEO)",
+              description:
+                "Engineering-led Generative Engine Optimization, Answer Engine Optimization, SSR crawler readiness, entity disambiguation, and AI citation telemetry.",
+              url: `${siteUrl}/engineering/ai-visibility`,
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Enterprise Intelligence Engineering",
+              description:
+                "Non-disruptive ERP, CRM, cloud, and document unification via CDC pipelines, governed semantic layers, and scalable data infrastructure.",
+              url: `${siteUrl}/engineering/enterprise-intelligence-engineering`,
+            },
+          },
+        ],
+      },
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#founder-sai-charan`,
+      name: "Muchakarla Sai Charan",
+      jobTitle: "Co-Founder & Director",
+      worksFor: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#founder-hemanth-sairam`,
+      name: "Jagatha Hemanth Sai Ram",
+      jobTitle: "Co-Founder & Director",
+      worksFor: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${siteUrl}/#product-engenox`,
+      name: "Engenox by Pixenox",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: `${siteUrl}/products/engenox`,
+      description:
+        "Unified autonomous SEO, GEO, and AEO operating system engineered by Pixenox Solutions for technical crawler readiness, entity graph orchestration, and AI citation intelligence.",
+      creator: { "@id": `${siteUrl}/#organization` },
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${siteUrl}/#product-unool`,
+      name: "Unool",
+      applicationCategory: "SocialNetworkingApplication",
+      operatingSystem: "Web",
+      url: "https://unool.co",
+      description:
+        "One Link + One Click social publishing and creator distribution platform built by Pixenox Solutions.",
+      creator: { "@id": `${siteUrl}/#organization` },
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: "Pixenox",
+      url: siteUrl,
+      description:
+        "Production AI Systems Engineering, Enterprise Intelligence Engineering, and AI Visibility (GEO/AEO) — plus Engenox and Unool by Pixenox Solutions.",
+      publisher: { "@id": `${siteUrl}/#organization` },
+      inLanguage: "en-US",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -120,109 +262,14 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <head>
-        {/* DNS prefetch + preconnect for external resources */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        {/* Preconnect to Supabase for faster data + image fetching */}
+        {/* Preconnect to Supabase for faster image and asset fetching */}
         <link rel="preconnect" href="https://hylycwrnfqghmewamqzu.supabase.co" />
         <link rel="dns-prefetch" href="https://hylycwrnfqghmewamqzu.supabase.co" />
 
-        {/* JSON-LD: Organization with Service Offerings (GEO/AEO Entity Signal) */}
+        {/* Unified Schema.org @graph (Organization, Founders, Products, WebSite) */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/#organization`,
-              name: "Pixenox",
-              legalName: "Pixenox Solutions Pvt Ltd",
-              url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com",
-              description: "Pixenox is an AI engineering company that designs and operates autonomous AI systems, enterprise intelligence platforms, and AI visibility (Generative Engine Optimization) solutions for enterprises.",
-              contactPoint: {
-                "@type": "ContactPoint",
-                email: "connect@pixenox.com",
-                contactType: "sales",
-                availableLanguage: ["English"],
-              },
-              sameAs: [
-                "https://linkedin.com/company/pixenox",
-                "https://github.com/pixenox",
-                "https://x.com/pixenox",
-              ],
-              knowsAbout: [
-                "AI Systems Engineering",
-                "Autonomous AI Systems",
-                "Multi-Agent Orchestration",
-                "Enterprise Intelligence Engineering",
-                "Enterprise Data Platform Engineering",
-                "AI Visibility",
-                "Generative Engine Optimization (GEO)",
-                "Answer Engine Optimization (AEO)",
-                "Structured Data Engineering",
-                "Knowledge Graph Engineering",
-                "Decision Intelligence",
-                "LLM Integration",
-              ],
-              hasOfferingCatalog: {
-                "@type": "OfferCatalog",
-                name: "Pixenox Engineering Services",
-                itemListElement: [
-                  {
-                    "@type": "Offer",
-                    itemOffered: {
-                      "@type": "Service",
-                      name: "AI Systems Engineering",
-                      description: "Design, build, and operate autonomous AI infrastructure — multi-agent orchestration, decision intelligence, and execution systems that run enterprise workflows in production.",
-                      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/engineering/ai-systems`,
-                    },
-                  },
-                  {
-                    "@type": "Offer",
-                    itemOffered: {
-                      "@type": "Service",
-                      name: "Enterprise Intelligence Engineering",
-                      description: "Integrate ERP, CRM, cloud, and document systems into one governed data layer with business intelligence, workflow automation, and cloud infrastructure engineering.",
-                      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/engineering/enterprise-intelligence-engineering`,
-                    },
-                  },
-                  {
-                    "@type": "Offer",
-                    itemOffered: {
-                      "@type": "Service",
-                      name: "AI Visibility — Generative Engine Optimization",
-                      description: "Structure a brand's data, entity signals, and content so AI answer engines (ChatGPT, Gemini, Perplexity) can identify and cite it in generated answers. Includes GEO, AEO, structured data engineering, and AI citation monitoring.",
-                      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/engineering/ai-visibility`,
-                    },
-                  },
-                ],
-              },
-            }),
-          }}
-        />
-
-        {/* JSON-LD: WebSite with SearchAction (Sitelinks Search Box + AEO) */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/#website`,
-              name: "Pixenox",
-              url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com",
-              description: "AI Systems Engineering, Enterprise Intelligence Engineering, and AI Visibility (GEO/AEO) — Pixenox engineers production-grade AI infrastructure for enterprises.",
-              publisher: {
-                "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pixenox.com"}/#organization`,
-              },
-              inLanguage: "en-US",
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(entityGraphJsonLd) }}
         />
       </head>
       <body suppressHydrationWarning>{children}</body>

@@ -117,6 +117,7 @@
   border: none;
   color: #FFFFFF;
   cursor: pointer;
+  list-style: none;
   text-align: left;
   font-family: var(--font-instrument-serif), 'Instrument Serif', serif;
   font-style: normal;
@@ -125,6 +126,10 @@
   letter-spacing: 0.02em;
   line-height: 1.4;
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.home-faq-question::-webkit-details-marker {
+  display: none;
 }
 
 .home-faq-item.is-open .home-faq-question {

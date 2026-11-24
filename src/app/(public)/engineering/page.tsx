@@ -1,25 +1,44 @@
-import { createClient } from '@supabase/supabase-js';
+import { createPublicSupabaseClient, getCanonicalSiteUrl } from '@/lib/supabase/public';
 import { unstable_cache } from 'next/cache';
 import type { Metadata } from 'next';
-import type { Database } from '@/lib/types/database';
-import type { ServiceCard } from '@/lib/types/database';
+import type { ServiceCard, SeoConfig } from '@/lib/types/database';
 import AllServicesInteractive from './AllServicesInteractive';
 
-export const metadata: Metadata = {
-  title: 'Engineering Capabilities — AI Systems & Enterprise Intelligence',
-  description: 'Pixenox engineering disciplines: AI Systems Engineering, Enterprise Intelligence Engineering, and AI Visibility (Generative Engine Optimization/GEO).',
-  alternates: { canonical: '/engineering' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const supabase = createPublicSupabaseClient();
+  const { data } = await supabase.from('seo_config').select('*').eq('page', 'engineering').limit(1).maybeSingle();
+  const seo = data as SeoConfig | null;
+  const baseUrl = getCanonicalSiteUrl();
 
-const getPublicClient = () =>
-  createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const title =
+    seo?.title?.replace(/\s*\|\s*Pixenox\s*$/i, '').trim() ||
+    'Engineering Capabilities — AI Systems, GEO & Data Platforms';
+  const description =
+    seo?.description ||
+    'Three specialized engineering pillars: Production AI Systems, AI Visibility (GEO/AEO) powered by Engenox, and Enterprise Intelligence data unification.';
+
+  return {
+    title,
+    description,
+    keywords: seo?.keywords ?? [
+      'AI systems engineering',
+      'AI visibility engineering',
+      'enterprise intelligence engineering',
+      'Engenox',
+    ],
+    openGraph: {
+      title: `${title} | Pixenox`,
+      description,
+      url: `${baseUrl}/engineering`,
+      images: seo?.og_image_url ? [seo.og_image_url] : [],
+    },
+    alternates: { canonical: seo?.canonical_url || `${baseUrl}/engineering` },
+  };
+}
 
 const getCachedServicesData = unstable_cache(
   async () => {
-    const supabase = getPublicClient();
+    const supabase = createPublicSupabaseClient();
     const [{ data: servicesData }, { data: heroData }] = await Promise.all([
       supabase
         .from('services_cards')
@@ -31,19 +50,19 @@ const getCachedServicesData = unstable_cache(
         .select('*')
         .eq('page', 'services')
         .limit(1)
-        .single()
+        .maybeSingle(),
     ]);
 
     if (!servicesData) {
-      throw new Error("Failed to fetch services_cards");
+      throw new Error('Failed to fetch services_cards');
     }
 
     return {
       services: servicesData as ServiceCard[],
-      heroConfig: heroData
+      heroConfig: heroData,
     };
   },
-  ['engineering-data'],
+  ['engineering-data-v2'],
   { revalidate: 3600, tags: ['engineering'] }
 );
 
@@ -56,5 +75,44 @@ export default async function ServicesHubPage() {
   const dataTime = Date.now() - start;
   console.log(`[Timing] /engineering - Data fetch: ${dataTime}ms`);
 
-  return <AllServicesInteractive services={services} heroConfig={heroConfig} />;
+  const baseUrl = getCanonicalSiteUrl();
+
+  const collectionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${baseUrl}/engineering#collection`,
+    url: `${baseUrl}/engineering`,
+    name: 'Pixenox Engineering Capabilities',
+    description:
+      'Pixenox enterprise engineering disciplines: Production AI Systems, AI Visibility Engineering (GEO & AEO), and Enterprise Intelligence Engineering.',
+    publisher: { '@id': `${baseUrl}/#organization` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: services
+        .filter((s) => Boolean(s.page_slug))
+        .map((s, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: s.title,
+          url: `${baseUrl}/engineering/${s.page_slug}`,
+        })),
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+      { '@type': 'ListItem', position: 2, name: 'Engineering', item: `${baseUrl}/engineering` },
+    ],
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <AllServicesInteractive services={services} heroConfig={heroConfig} />
+    </>
+  );
 }

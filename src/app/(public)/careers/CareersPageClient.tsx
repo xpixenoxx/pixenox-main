@@ -9,12 +9,13 @@ import { JobRole, FALLBACK_ROLES } from './fallback-jobs';
 import './careers.css';
 
 
-export default function CareersPageClient() {
-  const [roles, setRoles] = useState<JobRole[]>(FALLBACK_ROLES);
+export default function CareersPageClient({ initialRoles }: { initialRoles?: JobRole[] }) {
+  const [roles, setRoles] = useState<JobRole[]>(initialRoles?.length ? initialRoles : FALLBACK_ROLES);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterDept, setFilterDept] = useState('All');
 
   useEffect(() => {
+    if (initialRoles?.length) return;
     async function load() {
       try {
         const supabase = getBrowserClient();
@@ -25,7 +26,7 @@ export default function CareersPageClient() {
       }
     }
     load();
-  }, []);
+  }, [initialRoles]);
 
   const departments = ['All', ...Array.from(new Set(roles.map((r) => r.department)))];
 
@@ -44,8 +45,8 @@ export default function CareersPageClient() {
         <div className="careers-hero__bg" aria-hidden="true" />
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="careers-title">Build the Future<br /><span className="careers-title--accent">With Us</span></h1>
-            <p className="careers-subtitle">We&apos;re a global team of engineers, designers, and strategists building next-generation digital products. Remote-first, impact-driven, no bureaucracy.</p>
+            <h1 className="careers-title">Engineer Production AI<br /><span className="careers-title--accent">&amp; Enterprise Systems</span></h1>
+            <p className="careers-subtitle">Join PIXENOX SOLUTIONS PRIVATE LIMITED to architect governed multi-agent workflows, non-disruptive CDC data platforms, and flagship software products including Engenox and Unool.</p>
           </motion.div>
         </div>
       </section>

@@ -138,6 +138,7 @@
   color: #fff;
   letter-spacing: -0.02em;
   margin: 48px 0 20px;
+  scroll-margin-top: 110px;
 }
 
 .bd-content__list {

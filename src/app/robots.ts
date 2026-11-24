@@ -1,54 +1,50 @@
 import type { MetadataRoute } from 'next';
+import { getCanonicalSiteUrl } from '@/lib/supabase/public';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pixenox.com';
+  const baseUrl = getCanonicalSiteUrl();
+  const protectedPaths = ['/admin/', '/api/'];
 
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/'],
+        disallow: protectedPaths,
       },
       {
-        // Explicitly allow ALL known AI and Search bots for maximum GEO/AEO coverage
+        // RFC 9309: named user-agent blocks completely override '*', so
+        // protectedPaths MUST be repeated here to prevent admin/API crawling.
         userAgent: [
-          // OpenAI
-          'GPTBot',
+          // OpenAI (Search/Citation + Live Fetch + Training)
           'OAI-SearchBot',
           'ChatGPT-User',
-          // Anthropic
-          'ClaudeBot',
-          'Claude-User',
+          'GPTBot',
+          // Anthropic (Search + Live Fetch + Training)
           'Claude-SearchBot',
-          'ClaudeWeb',
+          'Claude-User',
+          'ClaudeBot',
           'anthropic-ai',
           // Perplexity
           'PerplexityBot',
           'Perplexity-User',
-          // Google
-          'Google-Extended',
+          // Google & Bing
           'Googlebot',
           'GoogleOther',
-          // Meta
-          'FacebookBot',
-          'Meta-ExternalAgent',
-          'meta-externalagent',
-          // Microsoft / Bing
+          'Google-Extended',
           'Bingbot',
           'BingPreview',
-          // Cohere
-          'cohere-ai',
-          // Apple
+          // Apple, Meta, Cohere & others
           'Applebot',
           'Applebot-Extended',
-          // Others
+          'Meta-ExternalAgent',
+          'FacebookBot',
+          'cohere-ai',
           'YouBot',
-          'Bytespider',
           'CCBot',
-          'iaskspider',
         ],
         allow: '/',
+        disallow: protectedPaths,
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

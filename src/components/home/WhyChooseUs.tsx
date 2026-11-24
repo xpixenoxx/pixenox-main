@@ -285,10 +285,10 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
   ];
 
   return (
-    <section ref={sectionRef} className="why-choose" aria-label="Tactical HUD Layout" id="why-choose-us">
+    <section ref={sectionRef} className="why-choose" aria-labelledby="why-choose-heading" id="why-choose-us">
       
       {/* Dynamic 3D Matrix Infinite Floor Grid */}
-      <div className="why-choose__tactical-grid" />
+      <div className="why-choose__tactical-grid" aria-hidden="true" />
       
       <div className="container">
         
@@ -303,14 +303,14 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
               visible: { transition: { staggerChildren: 0.15 } }
             }}
           >
-
+            <h2 id="why-choose-heading" className="sr-only">{config.section_heading}</h2>
 
             {/* Intense Particle Dots Assembling Title */}
-            <div style={{ width: '100%', height: '160px', position: 'relative' }}>
+            <div style={{ width: '100%', height: '160px', position: 'relative' }} aria-hidden="true">
               <ParticleHeading 
                 text={config.section_heading} 
                 trigger={inView}
-                color={config.heading_color}
+                color={config.heading_color ?? '#ffffff'}
               />
             </div>
             
@@ -322,7 +322,7 @@ export default function WhyChooseUs({ initialConfig, initialItems }: WhyChooseUs
                   visible: { opacity: 1, transition: { duration: 0.6, delay: 0.8 } }
                 }}
                 style={{
-                  color: config.sub_color,
+                  color: config.sub_color ?? undefined,
                   fontSize: '1.05rem',
                   lineHeight: '1.7',
                   maxWidth: '700px',

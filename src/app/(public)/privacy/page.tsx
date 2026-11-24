@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getCanonicalSiteUrl } from '@/lib/supabase/public';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -8,12 +9,37 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPolicyPage() {
+  const baseUrl = getCanonicalSiteUrl();
+  const webPageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${baseUrl}/privacy#webpage`,
+    url: `${baseUrl}/privacy`,
+    name: 'Privacy Policy — Pixenox Solutions Private Limited',
+    publisher: { '@id': `${baseUrl}/#organization` },
+  };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+      { '@type': 'ListItem', position: 2, name: 'Privacy Policy', item: `${baseUrl}/privacy` },
+    ],
+  };
+
   return (
     <article className="legal-page section">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="container legal-container">
         <header className="legal-header">
+          <nav aria-label="Breadcrumb" style={{ marginBottom: '16px', fontSize: '0.88rem', color: 'rgba(255,255,255,0.6)' }}>
+            <Link href="/" style={{ color: '#c4b5fd', textDecoration: 'none' }}>Home</Link>
+            <span aria-hidden="true"> / </span>
+            <span style={{ color: '#ffffff' }}>Privacy Policy</span>
+          </nav>
           <h1 className="legal-title">Privacy Policy</h1>
-          <p className="legal-updated">Last Updated: May 2026</p>
+          <p className="legal-updated">Last Updated: November 2026</p>
         </header>
 
         <div className="legal-content">
@@ -34,7 +60,7 @@ export default function PrivacyPolicyPage() {
           <section className="legal-section">
             <h2>1. About Pixenox</h2>
             <p>
-              Pixenox Solutions Pvt Ltd is a technology and business growth solutions company based in India. We provide services such as website development, SaaS development, cloud infrastructure, AI systems, automation, analytics, CRM solutions, digital transformation, optimization systems, and custom software development.
+              PIXENOX SOLUTIONS PRIVATE LIMITED (&ldquo;Pixenox&rdquo;) is an AI and enterprise software systems engineering company based in Andhra Pradesh, India. We engineer production AI systems, enterprise intelligence and data unification platforms, AI visibility (GEO/AEO) infrastructure, and proprietary software products including Engenox and Unool.
             </p>
             <ul>
               <li><strong>Company Name:</strong> Pixenox Solutions Pvt Ltd</li>
@@ -203,15 +229,11 @@ export default function PrivacyPolicyPage() {
             <p>We do not allow third-party providers to use your personal information for their independent marketing or advertising purposes.</p>
           </section>
 
-          {/* 10. Google Fonts and External Resources */}
+          {/* 10. Typography and External Resources */}
           <section className="legal-section">
-            <h2>10. Google Fonts and External Resources</h2>
+            <h2>10. Typography and External Resources</h2>
             <p>
-              Our website may use Google Fonts or similar typography services. If fonts are loaded directly from external servers, your browser may send limited technical information such as IP address, browser details, and request metadata to that provider.
-            </p>
-            <p>Where possible, Pixenox aims to serve fonts and static assets in a privacy-conscious manner.</p>
-            <p style={{ fontStyle: 'italic', opacity: 0.6, fontSize: '0.9rem', marginTop: '12px' }}>
-              *Recommended improvement: Pixenox should self-host fonts to reduce third-party browser requests and improve privacy control.
+              Pixenox serves primary typography via Next.js build-time self-hosted font optimization to minimize third-party browser requests and maintain strong visitor privacy. Where external media or infrastructure assets are loaded, your browser may transmit standard technical request metadata to the hosting provider.
             </p>
           </section>
 

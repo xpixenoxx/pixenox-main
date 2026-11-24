@@ -43,21 +43,6 @@ export default function CaseStudiesSection({
       }
     }
     load();
-
-    const ch = supabase
-      .channel('case_studies_realtime')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'case_studies' }, async () => {
-        const { data } = await supabase
-          .from('case_studies')
-          .select('*')
-          .eq('is_featured', true)
-          .order('priority', { ascending: true })
-          .limit(4);
-        if (data) setStudies(data as CaseStudy[]);
-      })
-      .subscribe();
-
-    return () => { supabase.removeChannel(ch); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -77,14 +62,14 @@ export default function CaseStudiesSection({
   }
 
   // Fallback map for custom title handling
-  const title = config?.heading || 'RECENT WORKS';
+  const title = config?.heading || 'REFERENCE ARCHITECTURES';
 
   return (
     <section className="highlights" id="highlights">
       <div className="hl-header">
         <h2
           className="hl-title"
-          style={{ color: config?.heading_color }}
+          style={{ color: config?.heading_color ?? undefined }}
         >
           {title}
         </h2>
@@ -95,9 +80,8 @@ export default function CaseStudiesSection({
           // Formatting dynamic data to match the UI spec
           const prjId = `#PRJ_0${idx + 1}`;
 
-          // Fallback logic to show IN_SYNC error state for demo if needed
-          const isRed = idx === 1; // Exactly matching the HTML reference where Panel 2 is IN_SYNC
-          const statusRaw = isRed ? 'IN_SYNC' : 'DEPLOYED';
+          const isHighlight = study.slug === 'unified-optimization-engine' || idx === 1;
+          const statusRaw = study.slug === 'unified-optimization-engine' ? 'ENGENOX_OS' : 'BLUEPRINT';
 
           // Ensure Supabase URLs map cleanly into `url()`
           const bgUrl = study.cover_image_url || '';
@@ -126,7 +110,7 @@ export default function CaseStudiesSection({
               <div className="hl-panel-content">
                 <div className="hl-panel-top">
                   <span className="hl-panel-id">{prjId}</span>
-                  <span className={`hl-panel-status ${isRed ? 'hl-status-red' : ''}`}>
+                  <span className={`hl-panel-status ${isHighlight ? 'hl-status-red' : ''}`}>
                     {statusRaw}
                   </span>
                 </div>
@@ -136,7 +120,7 @@ export default function CaseStudiesSection({
                     <h3
                       className="hl-panel-title"
                       style={{
-                        color: study.title_color
+                        color: (study as any).title_color ?? undefined
                       }}
                     >
                       {study.title}
