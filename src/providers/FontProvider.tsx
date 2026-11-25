@@ -63,7 +63,7 @@ export default function FontProvider({ children }: { children: ReactNode }) {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      void supabase.removeChannel(channel).catch(() => {});
       if (linkRef.current) {
         linkRef.current.remove();
       }

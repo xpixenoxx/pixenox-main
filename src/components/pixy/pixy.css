@@ -12,202 +12,291 @@
   --font-interface: var(--font-interface);
 }
 
-.pixy-scope {
-  --bg-deep: #120b22;
-  --bg-mid: #1f1440;
-  --bg-glow-coral: #ff7a8a;
-  --bg-glow-violet: #8b5cf6;
-  --bg-glow-gold: #f2c879;
-
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-border: rgba(255, 255, 255, 0.12);
-  --surface-strong: rgba(255, 255, 255, 0.1);
-
-  --text-primary: #f5eff8;
-  --text-muted: #b4a8cf;
-  --text-faint: #8577a8;
-
-  --accent: #ff7a8a;
-  --accent-soft: #f2a5ad;
-  --accent-gold: #f2c879;
-
-  --focus-ring: #f2c879;
-
-  color: var(--text-primary);
-  font-family: var(--font-interface), system-ui, sans-serif;
-  overflow-x: hidden;
-  height: 100%;
-  min-height: 100vh;
-}
-
-.pixy-scope ::selection {
-  background: var(--accent);
-  color: #1a0f2e;
-}
-
-.pixy-scope :focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
-
-.pixy-scope .font-speech {
-  font-family: var(--font-speech), Georgia, serif;
-}
-
-/* Ambient aurora canvas */
-@keyframes drift-a {
-  0% { transform: translate(-10%, -8%) scale(1); }
-  50% { transform: translate(6%, 4%) scale(1.12); }
-  100% { transform: translate(-10%, -8%) scale(1); }
-}
-@keyframes drift-b {
-  0% { transform: translate(8%, 6%) scale(1); }
-  50% { transform: translate(-6%, -10%) scale(1.08); }
-  100% { transform: translate(8%, 6%) scale(1); }
-}
-@keyframes drift-c {
-  0% { transform: translate(0%, 10%) scale(1); }
-  50% { transform: translate(4%, -6%) scale(1.15); }
-  100% { transform: translate(0%, 10%) scale(1); }
-}
-
-.pixy-scope .aurora-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(80px);
-  opacity: 0.45;
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pixy-scope .aurora-blob {
-    animation: none !important;
-  }
-  .pixy-scope * {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Scrollbar kept quiet on the glass surfaces */
-.pixy-scope .glass-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-.pixy-scope .glass-scroll::-webkit-scrollbar-thumb {
-  background: var(--surface-border);
-  border-radius: 999px;
-}
-
-.pixy-btn-large {
-  border-radius: 9999px;
-  background-color: #ffffff;
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #1A1A24;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-}
-.pixy-btn-large:hover {
-  transform: scale(1.05);
-}
-.pixy-btn-large:active {
-  transform: scale(0.95);
-}
-
-.pixy-btn-pill {
-  border-radius: 9999px;
-  background-color: #ffffff;
-  padding: 0.625rem 1.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #1A1A24;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-}
-.pixy-btn-pill:hover {
-  transform: scale(1.05);
-}
-.pixy-btn-pill:active {
-  transform: scale(0.95);
-}
-
 :root {
   --font-heading: 'HelveticaNowDisplay-Medium', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'HelveticaNowDisplayW01-Rg', 'Helvetica Neue', Arial, sans-serif;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+.pixy-scope {
+  --bg-deep: #0c0a14;
+  --bg-mid: #1e1930;
+  --bg-glow-coral: #7c3aed;
+  --bg-glow-violet: #6366f1;
+  --bg-glow-gold: #cbd5e1;
+  --surface: rgba(255, 255, 255, 0.08);
+  --surface-border: rgba(255, 255, 255, 0.16);
+  --text-primary: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.65);
+  --text-faint: rgba(255, 255, 255, 0.42);
+  --accent: #a855f7;
+  --focus-ring: #ffffff;
+
+  color: var(--text-primary);
+  font-family: var(--font-body), var(--font-interface), system-ui, sans-serif;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
 }
 
-.custom-blinking-cursor {
+.pixy-scope ::selection {
+  background: #9333ea;
+  color: #ffffff;
+}
+
+.pixy-scope :focus-visible {
+  outline: 1.5px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Architectural Mist-Lavender & Smoked-Slate Studio Stage           */
+/*  Designed specifically so Glossy Jet-Black Pixy pops 100% cleanly  */
+/*  while White Typography on the Left retains AAA Contrast!          */
+/* ------------------------------------------------------------------ */
+
+.pixy-studio-root {
+  background-color: #07050c;
+}
+
+.pixy-studio-backdrop {
+  background:
+    /* Seamless luxury Pixenox Deep-Space Nocturne -> Imperial Velvet Plum cyclorama (no harsh split line, zero muddy slate!) */
+    radial-gradient(ellipse 62% 76% at 73% 47%,
+      #2d1747 0%,
+      #1e1033 36%,
+      #110a1f 66%,
+      #06050b 100%),
+    linear-gradient(105deg,
+      #050409 0%,
+      #090711 40%,
+      #150d26 72%,
+      #1c1132 100%);
+}
+
+/* Soft Champagne-Lilac & Royal-Amethyst Architectural Backlight Halo framing Pixy's dark silhouette */
+.pixy-studio-portal {
+  background:
+    radial-gradient(ellipse 38% 54% at 72% 46%,
+      rgba(216, 180, 254, 0.22) 0%,
+      rgba(147, 51, 234, 0.16) 36%,
+      rgba(59, 21, 122, 0.08) 64%,
+      rgba(7, 5, 12, 0) 82%);
+}
+
+@media (max-width: 1023px) {
+  .pixy-studio-backdrop {
+    background:
+      radial-gradient(circle at 50% 30%,
+        #2d1747 0%,
+        #190e2b 45%,
+        #07050c 100%);
+  }
+
+  .pixy-studio-portal {
+    background:
+      radial-gradient(circle at 50% 30%,
+        rgba(216, 180, 254, 0.22) 0%,
+        rgba(147, 51, 234, 0.14) 40%,
+        rgba(7, 5, 12, 0) 70%);
+  }
+}
+
+.pixy-studio-spotlight {
+  --spot-r: 168;
+  --spot-g: 85;
+  --spot-b: 247;
+  --spot-2-r: 109;
+  --spot-2-g: 40;
+  --spot-2-b: 217;
+
+  background:
+    radial-gradient(circle at 50% 32%,
+      rgba(var(--spot-r), var(--spot-g), var(--spot-b), calc(0.14 + var(--pixy-energy, 0) * 0.26)) 0%,
+      rgba(var(--spot-2-r), var(--spot-2-g), var(--spot-2-b), calc(0.10 + var(--pixy-energy, 0) * 0.14)) 36%,
+      rgba(7, 5, 12, 0) 68%);
+  transition: background 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .pixy-studio-spotlight {
+    background:
+      /* Audio-reactive Royal Amethyst & Orchid aura behind Pixy */
+      radial-gradient(ellipse 34% 48% at 72% 47%,
+        rgba(var(--spot-r), var(--spot-g), var(--spot-b), calc(0.16 + var(--pixy-energy, 0) * 0.28)) 0%,
+        rgba(var(--spot-2-r), var(--spot-2-g), var(--spot-2-b), calc(0.10 + var(--pixy-energy, 0) * 0.16)) 44%,
+        rgba(7, 5, 12, 0) 74%),
+      /* Deep obsidian editorial vignette behind left dialogue typography */
+      radial-gradient(ellipse 50% 74% at 18% 52%,
+        rgba(5, 4, 9, 0.88) 0%,
+        rgba(5, 4, 9, 0) 72%);
+  }
+}
+
+.pixy-studio-root[data-mood="thinking"] .pixy-studio-spotlight {
+  --spot-r: 192;
+  --spot-g: 132;
+  --spot-b: 252;
+}
+
+.pixy-studio-root[data-mood="error"] .pixy-studio-spotlight {
+  --spot-r: 239;
+  --spot-g: 68;
+  --spot-b: 68;
+  --spot-2-r: 185;
+  --spot-2-g: 28;
+  --spot-2-b: 28;
+}
+
+.pixy-studio-root[data-mood="delighted"] .pixy-studio-spotlight {
+  --spot-r: 216;
+  --spot-g: 110;
+  --spot-b: 250;
+  --spot-2-r: 147;
+  --spot-2-g: 51;
+  --spot-2-b: 234;
+}
+
+.pixy-studio-root[data-mood="budget"] .pixy-studio-spotlight {
+  --spot-r: 147;
+  --spot-g: 51;
+  --spot-b: 234;
+}
+
+/* Grounded luxury dark obsidian-glass studio horizon floor */
+.pixy-studio-floor {
+  background:
+    linear-gradient(180deg,
+      rgba(38, 22, 62, 0.34) 0%,
+      rgba(16, 10, 28, 0.84) 46%,
+      rgba(6, 5, 11, 0.98) 100%);
+  border-top: 1px solid rgba(216, 180, 254, 0.11);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Two-Slot Dialogue Typography & Solid Blinking Cursor Block (█)    */
+/* ------------------------------------------------------------------ */
+
+.pixy-dialogue-prev {
+  font-family: var(--font-heading), var(--font-interface), sans-serif;
+}
+
+.pixy-dialogue-active {
+  font-family: var(--font-body), var(--font-interface), sans-serif;
+}
+
+@keyframes pixy-block-blink {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.pixy-cursor-block {
   display: inline-block;
-  width: 2px;
-  height: 1.1em;
-  background: #000;
-  vertical-align: middle;
-  margin-left: 2px;
-  animation: blink 1s step-end infinite;
+  width: 0.48em;
+  height: 0.96em;
+  margin-left: 0.16em;
+  vertical-align: -0.1em;
+  background-color: #ffffff;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.55);
+  animation: pixy-block-blink 0.92s step-end infinite;
 }
 
-.pill-action {
+.pixy-cursor-block.is-typing {
+  animation: none;
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Sharp High-Contrast Studio Pills (Instant B/W Hover Inversion)    */
+/* ------------------------------------------------------------------ */
+
+.pixy-studio-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  color: black;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 9999px;
-  font-size: 13px;
-  padding: 0.3em 1rem;
-  margin: 0 0.2em 0.4em 0.2em;
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  color: #0b0912;
+  font-family: var(--font-body), var(--font-interface), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  padding: 0.72rem 1.35rem;
   white-space: nowrap;
-  transition: background-color 200ms, color 200ms;
+  cursor: pointer;
+  transition: background-color 75ms linear, color 75ms linear, transform 120ms ease;
 }
 
 @media (min-width: 640px) {
-  .pill-action {
+  .pixy-studio-pill {
     font-size: 15px;
-    padding: 0.3em 1.25rem;
+    padding: 0.78rem 1.5rem;
   }
 }
 
-.pill-action:hover {
-  background: black;
-  color: white;
+.pixy-studio-pill:hover {
+  background-color: #0b0912;
+  color: #ffffff;
 }
 
-.pill-contact {
+.pixy-studio-pill:active {
+  transform: scale(0.97);
+}
+
+.pixy-ghost-email-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  background: transparent;
-  border: 1px solid white;
+  gap: 0.55rem;
   border-radius: 9999px;
-  font-size: 13px;
-  padding: 0.3em 1rem;
-  margin: 0 0.2em 0.4em 0.2em;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  background-color: rgba(16, 13, 25, 0.50);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  font-family: var(--font-body), var(--font-interface), sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0.72rem 1.3rem;
   white-space: nowrap;
-  gap: 0.5rem;
-  transition: background-color 200ms, color 200ms;
+  cursor: pointer;
+  transition: background-color 75ms linear, color 75ms linear, border-color 75ms linear;
 }
 
 @media (min-width: 640px) {
-  .pill-contact {
+  .pixy-ghost-email-pill {
     font-size: 15px;
-    padding: 0.3em 1.25rem;
-    gap: 0.75rem;
+    padding: 0.78rem 1.45rem;
   }
 }
 
-.pill-contact:hover {
-  background: white;
-  color: black;
+.pixy-ghost-email-pill:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #0b0912;
 }
 
+.pixy-scope .glass-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pixy-scope .glass-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixy-scope * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

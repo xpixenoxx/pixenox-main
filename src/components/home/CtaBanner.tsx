@@ -227,7 +227,7 @@ export default function CtaBanner({
   }, []);
 
   return (
-    <section className="cta-neb" ref={sectionRef} aria-label="Call to action">
+    <section className="cta-neb" ref={sectionRef} style={{ position: 'relative' }} aria-label="Call to action">
       <div className="container">
         <motion.div
           className="cta-neb__card"

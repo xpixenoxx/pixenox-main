@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Nunito } from "next/font/google";
-import { PixenoxHero } from "@/components/pixy/PixenoxHero";
+import { PixyStudioExperience } from "@/components/pixy/PixyStudioExperience";
 import { getCanonicalSiteUrl } from "@/lib/supabase/public";
 import "@/components/pixy/pixy.css";
 
-// ISR: page shell is static, chat is client-side
+// ISR: page shell is static, studio stage + Groq/Kokoro conversation + SEO JSON-LD are server/client-integrated
 export const revalidate = 86400;
 
 const nunito = Nunito({
@@ -65,7 +65,7 @@ export default function PixyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <h1 className="sr-only">Contact Pixenox Solutions — Talk to Pixy or Email connect@pixenox.com</h1>
-      <PixenoxHero />
+      <PixyStudioExperience />
     </div>
   );
 }

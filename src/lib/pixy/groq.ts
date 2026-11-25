@@ -31,10 +31,11 @@ export async function generatePixyMessage(body: ChatRequestBody): Promise<GroqTu
   try {
     const completion = await groq.chat.completions.create({
       model: "qwen/qwen3.8-27b",
-      temperature: 0.9,
+      reasoning_effort: "none",
+      temperature: 0.78,
       presence_penalty: 0.4,
       frequency_penalty: 0.6,
-      max_tokens: 600,
+      max_completion_tokens: 900,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: buildSystemPrompt(body.language, body.step) },

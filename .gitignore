@@ -52,3 +52,8 @@ tsc-errors.txt
 audit-reports/
 queris-seo
 PIXENOX_MASTER_SEO_GEO_AEO_FORENSIC_AUDIT.md
+
+# local Kokoro TTS model weights
+/scripts/*.onnx
+/scripts/*.bin
+/scripts/*.part

@@ -66,7 +66,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
             }}
             style={{ transformOrigin: 'top' }}
           >
-            <motion.div 
+            <motion.div
               className="page-wipe__logo"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -83,9 +83,15 @@ export default function PageTransition({ children }: PageTransitionProps) {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={pathname}
-          initial={isFirstRender.current ? false : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
+          initial={
+            isFirstRender.current
+              ? false
+              : pathname === '/contact/pixy'
+                ? { opacity: 0 }
+                : { opacity: 0, y: 12 }
+          }
+          animate={pathname === '/contact/pixy' ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          exit={pathname === '/contact/pixy' ? { opacity: 0 } : { opacity: 0, y: -8 }}
           transition={{
             duration: prefersReducedMotion || isCoarsePointer ? 0.2 : 0.4,
             ease: [0.16, 1, 0.3, 1],

@@ -87,6 +87,7 @@ export default function Header({ initialBrand, initialNav }: HeaderProps) {
     load();
   }, [initialBrand, initialNav]);
 
+  // Nav items are normalized client-side below (anonymous visitors cannot mutate nav_config via RLS)
   const normalizedNavItems = navItems.map((n) => {
     if (n.label.toLowerCase() === 'contact') {
       return { ...n, href: '/contact/pixy', label: 'Talk to Pixy' };

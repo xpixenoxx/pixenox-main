@@ -259,7 +259,7 @@ export default function FeedbackSection({ initialTestimonials }: FeedbackSection
 
   // Fix: Framer Motion throws if a target ref isn't attached to a DOM node during render.
   if (!testimonials.length) {
-    return <div ref={containerRef} style={{ display: 'none' }} />;
+    return <div ref={containerRef} style={{ display: 'none', position: 'relative' }} />;
   }
   const current = testimonials[activeIndex];
 
@@ -279,7 +279,7 @@ export default function FeedbackSection({ initialTestimonials }: FeedbackSection
 
   return (
     // Increased sensitivity: requires far less scroll distance to cycle through testimonials
-    <div ref={containerRef} className="client-scroll-track" style={{ height: `${testimonials.length * 60}vh` }}>
+    <div ref={containerRef} className="client-scroll-track" style={{ position: 'relative', height: `${testimonials.length * 60}vh` }}>
       
       {/* Locked / Sticky Viewport */}
       <section className="client-sec" aria-label="What Our Clients Say" id="clients">
